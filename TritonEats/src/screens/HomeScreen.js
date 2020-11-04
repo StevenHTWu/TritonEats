@@ -4,7 +4,7 @@ import { Text, View, StyleSheet } from "react-native";
 const HomeScreen = () => {
   return (
     <View>
-      <Text style={styles.text}>This is the home page</Text>
+      <Text style={styles.text}>This is the home page text change page</Text>
       <Text>Test</Text>
     </View>
   );
