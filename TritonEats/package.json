@@ -10,11 +10,7 @@
   "dependencies": {
     "@expo-google-fonts/inter": "^0.1.0",
     "@expo-google-fonts/unica-one": "^0.1.0",
-<<<<<<< HEAD
-    "@react-native-community/masked-view": "0.1.5",
-=======
     "@react-native-community/masked-view": "^0.1.5",
->>>>>>> 574e4ef074b0ee6cc3590fb8f25aec9c235fc90c
     "@react-navigation/stack": "^5.12.3",
     "expo": "~36.0.0",
     "expo-font": "~8.0.0",
