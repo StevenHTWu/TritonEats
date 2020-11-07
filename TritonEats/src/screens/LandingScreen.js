@@ -17,14 +17,14 @@ const LandingScreen = ({ navigation }) => {
           onPress={() => navigation.navigate("SignUpScreen")}
           style={styles.SignUpBtn}
         >
-          <Text style={styles.appButtonText}>Sign Up</Text>
+          <Text style={styles.ButtonText}>Sign Up</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
           onPress={() => navigation.navigate("SignInScreen")}
           style={styles.SignInBtn}
         >
-          <Text style={styles.appButtonText}>Sign In</Text>
+          <Text style={styles.ButtonText}>Sign In</Text>
         </TouchableOpacity>
       </View>
     </>
@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
     marginTop: 23,
     marginLeft: "23.5%",
   },
-  appButtonText: {
+  ButtonText: {
     fontSize: 23,
     color: "#FFD700",
     fontWeight: "bold",

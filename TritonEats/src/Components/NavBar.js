@@ -4,7 +4,7 @@ import { Feather, Entypo, AntDesign } from "@expo/vector-icons";
 
 const NavBar = ({ size, margintop }) => {
   return (
-    <View style={styles.navbar}>
+    <View style={styles.NavBar}>
       <Feather name="home" size={24} color="white" style={{ marginLeft: 15 }} />
       <Entypo name="menu" size={24} color="white" />
       <AntDesign name="shoppingcart" size={24} color="white" />
@@ -19,7 +19,7 @@ const NavBar = ({ size, margintop }) => {
 };
 
 const styles = StyleSheet.create({
-  navbar: {
+  NavBar: {
     flexDirection: "row",
     justifyContent: "space-between",
     width: "93%",
