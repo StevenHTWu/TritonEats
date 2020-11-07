@@ -15,14 +15,14 @@ const LandingScreen = ({ navigation }) => {
 
         <TouchableOpacity
           onPress={() => navigation.navigate("SignUpScreen")}
-          style={styles.appButtonContainerSignUp}
+          style={styles.SignUpBtn}
         >
           <Text style={styles.appButtonText}>Sign Up</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
           onPress={() => navigation.navigate("SignInScreen")}
-          style={styles.appButtonContainerSignIn}
+          style={styles.SignInBtn}
         >
           <Text style={styles.appButtonText}>Sign In</Text>
         </TouchableOpacity>
@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
   },
-  appButtonContainerSignUp: {
+  SignUpBtn: {
     elevation: 8,
     backgroundColor: "#0a2657",
     borderRadius: 600,
@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
     marginTop: 300,
     marginLeft: "23.5%",
   },
-  appButtonContainerSignIn: {
+  SignInBtn: {
     elevation: 8,
     backgroundColor: "#0a2657",
     borderRadius: 600,

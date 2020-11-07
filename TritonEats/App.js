@@ -1,14 +1,10 @@
 import React, { useState } from "react";
 import { AppLoading } from "expo";
-import { useFonts, UnicaOne_400Regular } from "@expo-google-fonts/unica-one";
 import * as Font from "expo-font";
 
 import { createAppContainer, createSwitchNavigator } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
 import { createBottomTabNavigator } from "react-navigation-tabs";
-
-// import { createAppContainer } from "react-navigation";
-// import { createStackNavigator } from "react-navigation-stack";
 
 import HomeScreen from "./src/screens/HomeScreen";
 import LandingScreen from "./src/screens/LandingScreen";
