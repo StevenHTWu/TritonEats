@@ -13,8 +13,9 @@ const LandingScreen = ({ navigation }) => {
           <Text style={styles.LogoFont}>Triton Eats</Text>
         </View>
 
-        <Button
+        <Button 
           title="Go to SignUp"
+          color="#000000"
           onPress={() => navigation.navigate("SignUpScreen")}
         />
         <Button
