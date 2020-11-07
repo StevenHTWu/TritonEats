@@ -20,6 +20,7 @@ const LandingScreen = ({ navigation }) => {
         />
         <Button
           title="Go to SignIn"
+          color="#000000"
           onPress={() => navigation.navigate("SignInScreen")}
         />
       </View>
