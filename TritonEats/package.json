@@ -5,15 +5,21 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "eject": "expo eject"
+    "eject": "expo eject",
+    "dev": "nodemon src/index.js"
   },
   "dependencies": {
     "@expo-google-fonts/inter": "^0.1.0",
     "@expo-google-fonts/unica-one": "^0.1.0",
     "@react-native-community/masked-view": "^0.1.5",
     "@react-navigation/stack": "^5.12.3",
+    "bcrypt": "^5.0.0",
     "expo": "~36.0.0",
     "expo-font": "~8.0.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.10.13",
+    "nodemon": "^2.0.6",
     "react": "~16.9.0",
     "react-dom": "~16.9.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-36.0.0.tar.gz",

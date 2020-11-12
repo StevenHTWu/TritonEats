@@ -1,11 +1,15 @@
 import React from "react";
-import { Text, View, StyleSheet } from "react-native";
+import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
 import { Feather, Entypo, AntDesign } from "@expo/vector-icons";
 
-const NavBar = ({ size, margintop }) => {
+const NavBar = ({ navigation }) => {
   return (
     <View style={styles.navbar}>
-      <Feather name="home" size={24} color="white" style={{ marginLeft: 15 }} />
+
+      <TouchableOpacity onPress={()=>navigation.navigate("SignUpScreen")}>
+        <Feather name="home" size={24} color="white" style={{ marginLeft: 15 }} />
+      </TouchableOpacity>
+      
       <Entypo name="menu" size={24} color="white" />
       <AntDesign name="shoppingcart" size={24} color="white" />
       <Feather
@@ -28,6 +32,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 15,
     marginBottom: 50,
+    paddingLeft: 10,
+    paddingRight: 10
   },
 });
 

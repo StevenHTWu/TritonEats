@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, Text, Button, Image } from "react-native";
+import { View, StyleSheet, Text, Image, TouchableOpacity} from "react-native";
 
 const LandingScreen = ({ navigation }) => {
   return (
@@ -13,16 +13,14 @@ const LandingScreen = ({ navigation }) => {
           <Text style={styles.LogoFont}>Triton Eats</Text>
         </View>
 
-        <Button 
-          title="Go to SignUp"
-          color="#000000"
-          onPress={() => navigation.navigate("SignUpScreen")}
-        />
-        <Button
-          title="Go to SignIn"
-          color="#000000"
-          onPress={() => navigation.navigate("SignInScreen")}
-        />
+        <TouchableOpacity onPress={()=>navigation.navigate("SignUpScreen")} style={styles.appButtonContainerSignUp}>
+          <Text style={styles.appButtonText}>Sign Up</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={()=>navigation.navigate("SignInScreen")} style={styles.appButtonContainerSignIn}>
+          <Text style={styles.appButtonText}>Sign In</Text>
+        </TouchableOpacity>
+        
       </View>
     </>
   );
@@ -44,6 +42,34 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
   },
+  appButtonContainerSignUp: {
+    elevation: 8,
+    backgroundColor: "#0a2657",
+    borderRadius: 600,
+    paddingVertical: 17,
+    width: 200,
+    height: 60,
+    marginTop: 300,
+    marginLeft: "23.5%"
+  },
+  appButtonContainerSignIn: {
+    elevation: 8,
+    backgroundColor: "#0a2657",
+    borderRadius: 600,
+    paddingVertical: 17,
+    width: 200,
+    height: 60,
+    marginTop: 23,
+    marginLeft: "23.5%"
+  },
+  appButtonText: {
+    fontSize: 23,
+    color: "#FFD700",
+    fontWeight: "bold",
+    alignSelf: "center",
+    textTransform: "uppercase",
+    fontFamily: "Unica One"
+  }
 });
 
 export default LandingScreen;
