@@ -4,7 +4,7 @@ node_js: node
 install:
   cd TritonEats
 
-  yarn add --dev jest
+  npm run test
 
 script:
-  yarn test
+  npm test
