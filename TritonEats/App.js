@@ -13,6 +13,7 @@ import SettingsScreen from "./src/screens/SettingsScreen";
 import SignInScreen from "./src/screens/SignInScreen";
 import SignUpScreen from "./src/screens/SignUpScreen";
 import ShoppingCartScreen from "./src/screens/ShoppingCartScreen";
+import { Provider as AuthProvider } from "./src/context/AuthContext";
 
 const switchNavigator = createSwitchNavigator({
   loginFlow: createStackNavigator({
@@ -38,7 +39,11 @@ const App = createAppContainer(switchNavigator);
 export default () => {
   const [fontsLoaded, setFontsLoaded] = useState(false);
   if (fontsLoaded) {
-    return <App />;
+    return (
+      <AuthProvider>
+        <App />
+      </AuthProvider>
+    );
   } else {
     return (
       <AppLoading startAsync={getFonts} onFinish={() => setFontsLoaded(true)} />
