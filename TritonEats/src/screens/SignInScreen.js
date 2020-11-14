@@ -8,13 +8,13 @@ const SignInScreen = ({ navigation }) => {
   return (
     <>
     <View style={styles.Container}>
-      <Text style={styles.LogoFont}>Sign In</Text>
+      <Text style={styles.TitleFont}>Sign In</Text>
 
     <View style={styles.LogoRow}>
       <TextInput
       style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
       onChangeText={text => onChangeText1(text)}
-      value={value1}
+      placeholder={value1}
       />
     </View>
 
@@ -22,7 +22,8 @@ const SignInScreen = ({ navigation }) => {
       <TextInput
       style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
       onChangeText={text => onChangeText2(text)}
-      value={value2}
+      secureTextEntry={true}
+      placeholder={value2}
       />
     </View>
 
@@ -39,7 +40,7 @@ const SignInScreen = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  LogoFont: {
+  TitleFont: {
     fontSize: 45,
     fontFamily: "Unica One",
     paddingLeft: 120,
@@ -47,7 +48,6 @@ const styles = StyleSheet.create({
   },
   Container: {},
   LogoRow: {
-    //flexDirection: "row",
     marginTop: "5%",
     marginLeft: "10%",
     marginRight: "10%",

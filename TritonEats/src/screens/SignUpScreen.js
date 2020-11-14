@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, Text, Button, TextInput, TouchableOpacity } from "react-native";
+import { View, StyleSheet, Text, Button, TextInput, TouchableOpacity, } from "react-native";
 
 const SignInScreen = ({ navigation }) => {
   const [value1, onChangeText1] = React.useState(' Email');
@@ -15,7 +15,7 @@ const SignInScreen = ({ navigation }) => {
       <TextInput
       style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
       onChangeText={text => onChangeText1(text)}
-      value={value1}
+      placeholder={value1}
       />
     </View>
 
@@ -23,7 +23,8 @@ const SignInScreen = ({ navigation }) => {
       <TextInput
       style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
       onChangeText={text => onChangeText2(text)}
-      value={value2}
+      placeholder={value2}
+      secureTextEntry={true}
       />
     </View>
 
@@ -31,7 +32,8 @@ const SignInScreen = ({ navigation }) => {
       <TextInput
       style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
       onChangeText={text => onChangeText3(text)}
-      value={value3}
+      placeholder={value3}
+      secureTextEntry={true}
       />
     </View>
 
