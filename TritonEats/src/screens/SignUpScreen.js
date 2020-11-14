@@ -1,9 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { View, StyleSheet, Text, Button, TextInput } from "react-native";
+import { Context as AuthContext } from "../context/AuthContext";
 
 const SignUpScreen = ({ navigation }) => {
+  const { state, signup } = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [is_deliverer, setIsDeliverer] = useState("");
+
   return (
     <>
       <View style={styles.container}>
@@ -23,7 +27,17 @@ const SignUpScreen = ({ navigation }) => {
           autoCapitalize="none"
           autoCorrect={false}
         />
-        <Button title="Sign Up" />
+        <TextInput
+          label="Is Deliverer"
+          value={is_deliverer}
+          onChangeText={setIsDeliverer}
+          autoCapitalize="none"
+          autoCorrect={false}
+        />
+        <Button
+          title="Sign Up"
+          onPress={() => signup({ email, password, is_deliverer })}
+        />
       </View>
     </>
   );
