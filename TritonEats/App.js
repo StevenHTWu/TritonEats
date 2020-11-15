@@ -14,6 +14,7 @@ import SignInScreen from "./src/screens/SignInScreen";
 import SignUpScreen from "./src/screens/SignUpScreen";
 import ShoppingCartScreen from "./src/screens/ShoppingCartScreen";
 import { Provider as AuthProvider } from "./src/context/AuthContext";
+import { setNavigator } from "./src/navigationRef";
 
 const switchNavigator = createSwitchNavigator({
   loginFlow: createStackNavigator({
@@ -41,7 +42,11 @@ export default () => {
   if (fontsLoaded) {
     return (
       <AuthProvider>
-        <App />
+        <App
+          ref={(navigator) => {
+            setNavigator(navigator);
+          }}
+        />
       </AuthProvider>
     );
   } else {
