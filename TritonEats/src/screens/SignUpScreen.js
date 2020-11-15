@@ -1,45 +1,27 @@
-import React, { useState, useContext } from "react";
-import { View, StyleSheet, Text, Button, TextInput } from "react-native";
+import React, { useContext } from "react";
+import { View, StyleSheet } from "react-native";
+import { NavigationEvents } from "react-navigation";
 import { Context as AuthContext } from "../context/AuthContext";
+import AuthForm from "../Components/AuthForm";
+import NavLink from "../Components/NavLink";
 
 const SignUpScreen = ({ navigation }) => {
-  const { state, signup } = useContext(AuthContext);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [is_deliverer, setIsDeliverer] = useState("");
+  const { state, signup, clearErrorMessage } = useContext(AuthContext);
 
   return (
     <>
       <View style={styles.container}>
-        <Text>Sign Up Screen</Text>
-        <TextInput
-          label="Email"
-          value={email}
-          onChangeText={setEmail}
-          autoCapitalize="none"
-          autoCorrect={false}
+        <NavigationEvents onWillFocus={clearErrorMessage} />
+        <AuthForm
+          headerText="Sign Up for TritonEats"
+          errorMessage={state.errorMessage}
+          submitButtonText="Sign Up"
+          deliverCheck="true"
+          onSubmit={signup}
         />
-        <TextInput
-          secureTextEntry
-          label="Password"
-          value={password}
-          onChangeText={setPassword}
-          autoCapitalize="none"
-          autoCorrect={false}
-        />
-        <TextInput
-          label="Is Deliverer"
-          value={is_deliverer}
-          onChangeText={setIsDeliverer}
-          autoCapitalize="none"
-          autoCorrect={false}
-        />
-        {state.errorMessage ? (
-          <Text style={styles.errorMessage}>{state.errorMessage}</Text>
-        ) : null}
-        <Button
-          title="Sign Up"
-          onPress={() => signup({ email, password, is_deliverer })}
+        <NavLink
+          routeName="SignInScreen"
+          text="Already have an account? Sign in instead!"
         />
       </View>
     </>
@@ -57,10 +39,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     marginBottom: 250,
-  },
-  errorMessage: {
-    fontSize: 16,
-    color: "red",
   },
 });
 

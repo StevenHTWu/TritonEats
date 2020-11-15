@@ -15,8 +15,10 @@ import SignUpScreen from "./src/screens/SignUpScreen";
 import ShoppingCartScreen from "./src/screens/ShoppingCartScreen";
 import { Provider as AuthProvider } from "./src/context/AuthContext";
 import { setNavigator } from "./src/navigationRef";
+import ResolveAuthScreen from "./src/screens/ResolveAuthScreen";
 
 const switchNavigator = createSwitchNavigator({
+  ResolveAuthScreen: ResolveAuthScreen,
   loginFlow: createStackNavigator({
     LandingScreen: LandingScreen,
     SignUpScreen: SignUpScreen,
