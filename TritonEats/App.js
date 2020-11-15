@@ -13,8 +13,12 @@ import SettingsScreen from "./src/screens/SettingsScreen";
 import SignInScreen from "./src/screens/SignInScreen";
 import SignUpScreen from "./src/screens/SignUpScreen";
 import ShoppingCartScreen from "./src/screens/ShoppingCartScreen";
+import { Provider as AuthProvider } from "./src/context/AuthContext";
+import { setNavigator } from "./src/navigationRef";
+import ResolveAuthScreen from "./src/screens/ResolveAuthScreen";
 
 const switchNavigator = createSwitchNavigator({
+  ResolveAuthScreen: ResolveAuthScreen,
   loginFlow: createStackNavigator({
     LandingScreen: LandingScreen,
     SignUpScreen: SignUpScreen,
@@ -38,7 +42,15 @@ const App = createAppContainer(switchNavigator);
 export default () => {
   const [fontsLoaded, setFontsLoaded] = useState(false);
   if (fontsLoaded) {
-    return <App />;
+    return (
+      <AuthProvider>
+        <App
+          ref={(navigator) => {
+            setNavigator(navigator);
+          }}
+        />
+      </AuthProvider>
+    );
   } else {
     return (
       <AppLoading startAsync={getFonts} onFinish={() => setFontsLoaded(true)} />

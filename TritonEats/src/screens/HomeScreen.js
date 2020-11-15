@@ -1,16 +1,18 @@
 import React, { Component } from "react";
 import { Text, View, StyleSheet } from "react-native";
+import { SafeAreaView } from "react-navigation";
 
 import NavBar from "../Components/NavBar";
 
 class HomeScreen extends Component {
   render() {
     return (
-      <View style={styles.main}>
-        <Text style={styles.text}>This is the main page</Text>
-        <Text style={styles.text}>This is body</Text>
-        <NavBar />
-      </View>
+      <SafeAreaView forceInset={{ top: "always" }}>
+         <View style={styles.main}>
+            <Text style={styles.text}>Homescreen</Text>
+          </View>
+      </SafeAreaView>
+     
     );
   }
 }
@@ -18,8 +20,7 @@ class HomeScreen extends Component {
 const styles = StyleSheet.create({
   main: {
     alignItems: "center",
-    flex: 1,
-    justifyContent: "space-between",
+    marginTop:300
   },
   text: {
     fontSize: 30,
