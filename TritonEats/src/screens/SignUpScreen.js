@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Text } from "react-native";
 import { NavigationEvents } from "react-navigation";
 import { Context as AuthContext } from "../context/AuthContext";
 import AuthForm from "../Components/AuthForm";
@@ -13,7 +13,7 @@ const SignUpScreen = ({ navigation }) => {
       <View style={styles.container}>
         <NavigationEvents onWillFocus={clearErrorMessage} />
         <AuthForm
-          headerText="Sign Up for TritonEats"
+          headerText="Sign Up"
           errorMessage={state.errorMessage}
           submitButtonText="Sign Up"
           deliverCheck="true"
@@ -39,6 +39,12 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     marginBottom: 250,
+  },
+  TitleFont: {
+    fontSize: 45,
+    fontFamily: "Unica One",
+    paddingLeft: 120,
+    marginTop: 45
   },
 });
 
