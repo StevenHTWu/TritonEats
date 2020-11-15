@@ -35,15 +35,14 @@ switch(restaurant_name) {
   default:
     var title_image = require('../../assets/Sandwich.jpg');
 }
-const OrderButton = ({ navigation, text, routeName }) => {
-  
-  return (
-    <Button title="Order Now!" onPress={() => navigation.navigate(routeName)}>
-      <Text style={styles.link}>{text}</Text>
-    </Button>
-  );
-};
 
+function sum( obj ) {
+  var sum = 0;
+  for( var el in obj ) {
+    sum+=el.quantity*el.value
+  }
+  return sum;
+}
 
 const ShoppingCartScreen = ({ navigation }) => {
   return (
@@ -63,8 +62,7 @@ const ShoppingCartScreen = ({ navigation }) => {
               <FlatList
                 data={
                     order_arr
-                }
-                renderItem={({item}) => <View style={{display: 'flex', alignItems: 'center', padding: 2, flexDirection: 'row', justifyContent: 'space-between'}}>
+                }                renderItem={({item}) => <View style={{display: 'flex', alignItems: 'center', padding: 2, flexDirection: 'row', justifyContent: 'space-between'}}>
                                        <Text style={styles.item}>{item.key} ({item.quantity}) </Text> 
                                
                                        <Text style={styles.item}> {String((item.value*item.quantity).toFixed(2))} </Text>
@@ -74,6 +72,14 @@ const ShoppingCartScreen = ({ navigation }) => {
                     flexGrow: 1,
                   }}
               />
+              <View style={{display: 'flex', alignItems:'center', padding:10, flexDirection: 'row', justifyContent: 'space-between'}}>
+                <Text style={styles.item}> Total: </Text> 
+                <Text style={styles.item}> {parseFloat(order_arr.reduce(function(sum, current) {
+
+                      return sum + current.quantity * current.value;
+                    }, 0)).toFixed(2)}       
+          </Text> 
+                </View>
             </View>
             <NavLinkOrder
           routeName="OrderScreen"
