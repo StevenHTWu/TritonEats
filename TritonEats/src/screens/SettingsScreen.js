@@ -7,11 +7,12 @@ import { SafeAreaView } from "react-navigation";
 const sixteen = 16;
 const four = 4;
 const three = 3;
+const ten = 10;
 const inputHeight = 70;
 const buttonHeight = 40;
 
 // To be replaced with return value of GET API
-let object = {profile: {name: "mudit", email: "example@ucsd.edu"}, 
+let object = {profile: {name: "mudit", email: "example@ucsd.edu", phone: "1234567890"}, 
               payment: {card_number: "1234567890123456", expiry: "0922", cvv: "123"}, 
               address: {apartment_number: "212", building: "Earth Hall North", line: "Instructions"}, 
               password: "1234", password1: "", password2: ""};
@@ -179,6 +180,11 @@ class DropdownList extends Component {
             <TextInput defaultValue={object.profile.email} style={styles.input} 
             keyboardType="email-address" onChangeText={(text) => object.profile.email = text}/>
           </View>
+          <View style={{ height: this.state.profileHeight }}>
+            <Text style={styles.inputText} >Phone Number: </Text>
+            <TextInput defaultValue={object.profile.phone} style={styles.input} keyboardType="decimal-pad"
+            maxLength={ten} onChangeText={(text) => object.profile.phone = text} />
+          </View>
           <View style={{ height: this.state.profileButtonHeight }}>  
             <Text style={styles.button} onPress={this.saveProfile} >Save</Text>
           </View>
@@ -218,7 +224,7 @@ class DropdownList extends Component {
             onChangeText={(text) => object.address.building = text}/>
           </View>
           <View style={{ height: this.state.addressHeight }}>
-            <Text style={styles.inputText} >Address Line: </Text> 
+            <Text style={styles.inputText} >Address: </Text> 
             <TextInput defaultValue={object.address.line} style={styles.input} 
             onChangeText={(text) => object.address.line = text}/>
           </View>
