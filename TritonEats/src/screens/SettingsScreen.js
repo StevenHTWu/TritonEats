@@ -1,21 +1,24 @@
-import React, { useContext, Component } from "react";
-import ReactDOM from 'react-dom';
-import { View, StyleSheet, Text, Button, FlatList, TextInput, ScrollView } from "react-native";
+import React, { useContext, Component, useEffect } from "react";
+import { View, StyleSheet, Text, Button, TextInput, ScrollView, Keyboard, Dimensions } from "react-native";
 import { Context as AuthContext } from "../context/AuthContext";
 import { SafeAreaView } from "react-navigation";
 
+// Constants used in the code
 const sixteen = 16;
 const four = 4;
 const three = 3;
 const inputHeight = 70;
 const buttonHeight = 40;
-let menu = [{key: 'My Profile', nav: 'HomeScreen', val : 'profile'}, {key: 'Payment Methods', nav: 'OrderHistoryScreen', val : false}, 
-  {key: 'Manage Address', nav: 'ShoppingCartScreen', val : false}, {key: 'Manage Profile Picture', nav: 'HomeScreen', val : false}, 
-  {key: 'Change Password', nav: 'HomeScreen', val : false}, {key: 'Log Out', nav: 'loginFlow', val : false}];
 
-let object = {profile: {name: "Mudit Bajaj", email: "muditbajaj97@gmail.com"}, payment: {card_number: "1234567890123456", expiry: "0922", cvv: "123"}, address: {apartment_number: "212", building: "Earth Hall North", line: "Instructions"}, password: "qwerty1234"};
+// To be replaced with return value of GET API
+let object = {profile: {name: "mudit", email: "example@ucsd.edu"}, 
+              payment: {card_number: "1234567890123456", expiry: "0922", cvv: "123"}, 
+              address: {apartment_number: "212", building: "Earth Hall North", line: "Instructions"}, 
+              password: "1234", password1: "", password2: ""};
 
-class Test extends Component {
+
+class DropdownList extends Component {
+  
   constructor(){
     super();
     this.state = {
@@ -26,9 +29,40 @@ class Test extends Component {
         profileButtonHeight: 0,
         paymentButtonHeight: 0,
         addressButtonHeight: 0,
-        passwordButtonHeight: 0
+        passwordButtonHeight: 0,
+        scrollHeight: Dimensions.get("window").height * 0.815
     }
   }
+
+  // Following 4 methods are used to detect whether keyboard is open and 
+  // dynamically update ScrollView's height.
+  componentDidMount() {
+    this.keyboardDidShowListener = Keyboard.addListener(
+      'keyboardDidShow',
+      this._keyboardDidShow.bind(this),
+    );
+    this.keyboardDidHideListener = Keyboard.addListener(
+      'keyboardDidHide',
+      this._keyboardDidHide,
+    );
+  }
+  componentWillUnmount() {
+    this.keyboardDidShowListener.remove();
+    this.keyboardDidHideListener.remove();
+  }
+  _keyboardDidShow = (e) => {
+    this.setState({
+      scrollHeight: Dimensions.get("window").height * 0.815 - e.endCoordinates.height
+    });
+  }
+  _keyboardDidHide = () => {
+    this.setState({
+      scrollHeight: Dimensions.get("window").height * 0.815
+    });
+  }
+
+  // Maximum one dropdown will be open at a time.
+  // opens/closes dropdown for profile.
   profile = () => {
     if (this.state.profileHeight === 0) {
       this.setState({
@@ -48,6 +82,7 @@ class Test extends Component {
       })
     }
   }
+  // opens/closes dropdown for payment.
   payment = () => {
     if (this.state.paymentHeight === 0) {
       this.setState({
@@ -67,6 +102,7 @@ class Test extends Component {
       })
     }
   }
+  // opens/closes dropdown for address.
   address = () => {
     if (this.state.addressHeight === 0) {
       this.setState({
@@ -86,6 +122,7 @@ class Test extends Component {
       })
     }
   }
+  // opens/closes dropdown for password.
   password = () => {
     if (this.state.passwordHeight === 0) {
       this.setState({
@@ -105,90 +142,121 @@ class Test extends Component {
       })
     }
   }
-// secureTextEntry, 
+
+  // Update user profile (name and email) by making API call to backend
+  saveProfile = () => {
+  }
+  // Update user payment info by making API call to backend
+  savePayment = () => {
+  }
+  // Update user address info by making API call to backend
+  saveAddress = () => {
+  }
+  // Check password1 === password2 and Update user password by making API call to backend
+  savePassword = () => {
+    if (object.password1 !== object.password2) {
+      alert("Error! Passwords don't match.");
+      return;
+    } else if (object.password === object.password1) {
+      alert("Error! Please set a different password.");
+      return;
+    }
+  }
+
   render() {
     return (
-      <>
-        
-        <Text style={styles.text} onPress={this.profile} >My Profile</Text>
-        <View style={{ height: this.state.profileHeight }}>
-          <Text style={styles.inputText} >Name: </Text> 
-          <TextInput defaultValue={object.profile.name} style={styles.input}  />
-        </View>
-        <View style={{ height: this.state.profileHeight }}>
-          <Text style={styles.inputText} >Email Address: </Text>
-          <TextInput defaultValue={object.profile.email} keyboardType="email-address" style={styles.input} />
-        </View>
-        <View style={{ height: this.state.profileButtonHeight }}>  
-          <Text style={styles.button} >Save</Text>
-        </View>
+      <SafeAreaView >
+        <ScrollView style={{ marginVertical: 20, height: this.state.scrollHeight }} >
+          
+          <Text style={styles.text} onPress={this.profile} >My Profile</Text>
+          <View style={{ height: this.state.profileHeight }}>
+            <Text style={styles.inputText} >Name: </Text> 
+            <TextInput defaultValue={object.profile.name} style={styles.input} 
+            onChangeText={(text) => object.profile.name = text} />
+          </View>
+          <View style={{ height: this.state.profileHeight }}>
+            <Text style={styles.inputText} >Email Address: </Text>
+            <TextInput defaultValue={object.profile.email} style={styles.input} 
+            keyboardType="email-address" onChangeText={(text) => object.profile.email = text}/>
+          </View>
+          <View style={{ height: this.state.profileButtonHeight }}>  
+            <Text style={styles.button} onPress={this.saveProfile} >Save</Text>
+          </View>
 
-        <Text style={styles.text} onPress={this.payment} >Payment Method</Text>
-        <View style={{ height: this.state.paymentHeight }}>
-          <Text style={styles.inputText} >Card Number: </Text> 
-          <TextInput defaultValue={object.payment.card_number} style={styles.input} keyboardType="decimal-pad" maxLength={sixteen} />
-        </View>
-        <View style={{ height: this.state.paymentHeight }}>
-          <Text style={styles.inputText} >Expiry Date (mmyy): </Text>
-          <TextInput defaultValue={object.payment.expiry} style={styles.input} keyboardType="decimal-pad" maxLength={four} />
-        </View>
-        <View style={{ height: this.state.paymentHeight }}>
-          <Text style={styles.inputText} >CVV number: </Text>
-          <TextInput defaultValue={object.payment.cvv} style={styles.input} keyboardType="decimal-pad" maxLength={three} secureTextEntry={true} />
-        </View>
-        <View style={{ height: this.state.paymentButtonHeight }}>  
-          <Text style={styles.button} >Save</Text>
-        </View>
+          <Text style={styles.text} onPress={this.payment} >Payment Method</Text>
+          <View style={{ height: this.state.paymentHeight }}>
+            <Text style={styles.inputText} >Card Number: </Text> 
+            <TextInput defaultValue={object.payment.card_number} style={styles.input} 
+            keyboardType="decimal-pad" maxLength={sixteen} 
+            onChangeText={(text) => object.payment.card_number = text}/>
+          </View>
+          <View style={{ height: this.state.paymentHeight }}>
+            <Text style={styles.inputText} >Expiry Date (mmyy): </Text>
+            <TextInput defaultValue={object.payment.expiry} style={styles.input} 
+            keyboardType="decimal-pad" maxLength={four} 
+            onChangeText={(text) => object.payment.expiry = text}/>
+          </View>
+          <View style={{ height: this.state.paymentHeight }}>
+            <Text style={styles.inputText} >CVV number: </Text>
+            <TextInput defaultValue={object.payment.cvv} style={styles.input} 
+            keyboardType="decimal-pad" maxLength={three} secureTextEntry={true} 
+            onChangeText={(text) => object.payment.cvv = text}/>
+          </View>
+          <View style={{ height: this.state.paymentButtonHeight }}>  
+            <Text style={styles.button} onPress={this.savePayment}>Save</Text>
+          </View>
 
-        <Text style={styles.text} onPress={this.address} >Manage Address</Text>        
-        <View style={{ height: this.state.addressHeight }}>
-          <Text style={styles.inputText} >Apartment Number: </Text> 
-          <TextInput defaultValue={object.address.apartment_number} style={styles.input} />
-        </View>
-        <View style={{ height: this.state.addressHeight }}>
-          <Text style={styles.inputText} >Building: </Text> 
-          <TextInput defaultValue={object.address.building} style={styles.input} />
-        </View>
-        <View style={{ height: this.state.addressHeight }}>
-          <Text style={styles.inputText} >Address Line: </Text> 
-          <TextInput defaultValue={object.address.line} style={styles.input} />
-        </View>
-        <View style={{ height: this.state.addressButtonHeight }}>  
-          <Text style={styles.button} >Save</Text>
-        </View>
+          <Text style={styles.text} onPress={this.address} >Manage Address</Text>        
+          <View style={{ height: this.state.addressHeight }}>
+            <Text style={styles.inputText} >Apartment Number: </Text> 
+            <TextInput defaultValue={object.address.apartment_number} style={styles.input} 
+            onChangeText={(text) => object.address.apartment_number = text}/>
+          </View>
+          <View style={{ height: this.state.addressHeight }}>
+            <Text style={styles.inputText} >Building: </Text> 
+            <TextInput defaultValue={object.address.building} style={styles.input} 
+            onChangeText={(text) => object.address.building = text}/>
+          </View>
+          <View style={{ height: this.state.addressHeight }}>
+            <Text style={styles.inputText} >Address Line: </Text> 
+            <TextInput defaultValue={object.address.line} style={styles.input} 
+            onChangeText={(text) => object.address.line = text}/>
+          </View>
+          <View style={{ height: this.state.addressButtonHeight }}>  
+            <Text style={styles.button} onPress={this.saveAddress}>Save</Text>
+          </View>
 
-        <Text style={styles.text} onPress={this.password} >Change Password</Text>
-        <View style={{ height: this.state.passwordHeight }}>
-          <Text style={styles.inputText} >New Password: </Text>
-          <TextInput defaultValue="" style={styles.input} secureTextEntry={true} />
-        </View>
-        <View style={{ height: this.state.passwordHeight }}>
-          <Text style={styles.inputText} >Confirm Password: </Text>
-          <TextInput defaultValue="" style={styles.input} secureTextEntry={true} />
-        </View>
-        <View style={{ height: this.state.passwordButtonHeight }}>  
-          <Text style={styles.button} >Save</Text>
-        </View>
-        
-      </>
+          <Text style={styles.text} onPress={this.password} >Change Password</Text>
+          <View style={{ height: this.state.passwordHeight }}>
+            <Text style={styles.inputText} >New Password: </Text>
+            <TextInput defaultValue="" style={styles.input} secureTextEntry={true} 
+            onChangeText={(text) => object.password1 = text}/>
+          </View>
+          <View style={{ height: this.state.passwordHeight }}>
+            <Text style={styles.inputText} >Confirm Password: </Text>
+            <TextInput defaultValue="" style={styles.input} secureTextEntry={true} 
+            onChangeText={(text) => object.password2 = text}/>
+          </View>
+          <View style={{ height: this.state.passwordButtonHeight }}>  
+            <Text style={styles.button} onPress={this.savePassword}>Save</Text>
+          </View>
+
+          <Button title="Sign Out" onPress={logout} />
+
+        </ScrollView>
+      </SafeAreaView>
     );
   }
 
 }
-
+let {logout} = {};
 const SettingsScreen = ({ navigation }) => {
   const { signout } = useContext(AuthContext);
+  logout = signout;
   return (
     <SafeAreaView forceInset={{ top: "always" }}>
-      
       <Text style={{ fontSize: 49, paddingTop: 40, fontFamily: "Unica One", textAlign: "center" }}>Settings</Text>
-      
-      <ScrollView style={styles.scroll} >
-        <Test/>
-        <Button title="Sign Out" onPress={signout} />
-      </ScrollView>
-      
-
+      <DropdownList/>
     </SafeAreaView>
   );
 };
@@ -200,13 +268,7 @@ const styles = StyleSheet.create({
     paddingLeft: 15,
     backgroundColor: '#0a2657',
     color: '#FFD700',
-    marginBottom: 1,
-
-    /*
-    borderTopWidth: 1,
-    borderTopColor: '#000000',
-    borderBottomWidth: 1,
-    borderBottomColor: '#000000'*/
+    marginBottom: 1
   },
   list: {
     paddingTop: 40
@@ -231,61 +293,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     textDecorationLine: "underline",
     fontWeight: "bold"
-  },
-  scroll: {
-    marginVertical: 20,
   }
 });
 
 export default SettingsScreen;
-/*
-class Test extends Component{
- 
-  constructor(){
-      super();
-      this.state = {
-          TextHolder:''
-      }
-  }
-  ChangeTextFunction =()=> {
-      this.setState({
-        TextHolder: "This is New Text."
-      })
-  }
-   render(){
-      return(
-      
-
-      <FlatList style={ styles.list }
-      data={menu} renderItem={({item}) => {
-        return (
-        <>
-          <Text style={styles.text} onPress={this.ChangeTextFunction} >{item.key}</Text>
-          <Text>{this.state.TextHolder}</Text>
-          
-        </>
-        );
-      }} />
-      );
-  }
-}
-*/
-
-/*
-<FlatList style={ styles.list }
-      data={menu} renderItem={({item}) => 
-        <Text style={styles.text} onPress={() => navigation.navigate(item.nav)} >{item.key}</Text>
-      } />
-*/
-
-/*
-<FlatList style={ styles.list }
-      data={menu} renderItem={({item}) => {
-        return (
-        <>
-          <Text style={styles.text} onPress={item.key === 'My Profile' ? this.profile : this.changeText} >{item.key}</Text>
-        <Text style={{ height: this.state.h }} >{this.state.TextHolder} {this.state.profile}</Text>
-        </>
-        );
-      }} />
-*/
