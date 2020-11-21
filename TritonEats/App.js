@@ -16,6 +16,7 @@ import SettingsScreen from "./src/screens/SettingsScreen";
 import SignInScreen from "./src/screens/SignInScreen";
 import SignUpScreen from "./src/screens/SignUpScreen";
 import ShoppingCartScreen from "./src/screens/ShoppingCartScreen";
+import PaymentScreen from "./src/screens/PaymentScreen";
 import { Provider as AuthProvider } from "./src/context/AuthContext";
 import { setNavigator } from "./src/navigationRef";
 import ResolveAuthScreen from "./src/screens/ResolveAuthScreen";
@@ -41,12 +42,10 @@ const switchNavigator = createSwitchNavigator({
           title: "History",
         },
       },
-      ShoppingCartScreen: {
-        screen: ShoppingCartScreen,
-        navigationOptions: {
-          title: "Cart",
-        },
-      },
+      Cart: createStackNavigator({
+        ShoppingCartScreen: ShoppingCartScreen,
+        PaymentScreen: PaymentScreen,
+      }),
       SettingsScreen: {
         screen: SettingsScreen,
         navigationOptions: {
