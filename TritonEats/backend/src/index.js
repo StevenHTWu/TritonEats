@@ -15,6 +15,7 @@ const mongoUri =
 mongoose.connect(mongoUri, {
   useNewUrlParser: true,
   useCreateIndex: true,
+  useUnifiedTopology: true,
 });
 
 mongoose.connection.on("connected", () => {
