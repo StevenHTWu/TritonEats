@@ -11,11 +11,20 @@ class OrderHistoryScreen extends React.Component{
       <SafeAreaView forceInset={{top: "always"}}>
           <View style={styles.main}>
               <Text style={styles.text}>Order History</Text>
-              <FlatList data={[{item: "fish", date: "01/01/1990", restaurant: "64 degrees"},
+              <FlatList style={styles.main} data={[{item: "fish", date: "01/01/1990", restaurant: "64 degrees"},
                                {item: "eggs", date: "01/01/1991", restaurant: "64 degrees"},
                                {item: "beef", date: "01/01/1992", restaurant: "64 degrees"},
                   {item: "beef", date: "01/01/1992", restaurant: "64 degrees"},
-                  {item: "beef", date: "01/01/1992", restaurant: "64 degrees loooooooooong"}]}
+                  {item: "beef", date: "01/01/1992", restaurant: "64 degrees"},
+
+                  {item: "beef", date: "01/01/1992", restaurant: "64 degrees"},
+
+
+                  {item: "beef", date: "01/01/1992", restaurant: "64 degrees"},
+
+                  {item: "beef", date: "01/01/1992", restaurant: "64 degrees"},
+
+                  {item: "beef", date: "01/01/1992", restaurant: "64 degrees eeeeeeveeen loooooooooong"}]}
                         renderItem={({item}) => <HistoricalOrder itemOrdered={item.item}
                                                                   dateOrdered={item.date}
                                                                   restaurant={item.restaurant}/>
@@ -29,12 +38,17 @@ class OrderHistoryScreen extends React.Component{
 
 const styles = StyleSheet.create({
   main: {
-    alignItems: "center",
-    marginTop:30,
-      marginBottom:50,
+    marginTop:0,
+      marginBottom:90,
+      width:"100%",
   },
   text: {
     fontSize: 30,
+    fontFamily: "Unica One",
+      alignItems: "center",
+    textAlign:"center",
+      marginBottom:30,
+      marginTop:30,
   },
 });
 

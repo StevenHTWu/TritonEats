@@ -6,9 +6,11 @@ class HistoricalOrder extends React.Component{
         return (
                 <View style={styles.main}>
                 <ScrollView>
-                    <Text style={styles.text}>Item: {this.props.itemOrdered}</Text>
-                    <Text style={styles.text}>Date: {this.props.dateOrdered}</Text>
+                    <Text style={styles.text}>Order Id: {this.props.orderId}</Text>
+                    <Text style={styles.text}>Items: {this.props.itemOrdered}</Text>
                     <Text style={styles.text}>Restaurant: {this.props.restaurant}</Text>
+                    <Text style={styles.text}>Time Ordered: {this.props.dateOrdered}</Text>
+                    <Text style={styles.text}>Deliverer: {this.props.deliverer}</Text>
                 </ScrollView>
                 </View>
         )
@@ -17,13 +19,14 @@ class HistoricalOrder extends React.Component{
 
 const styles = StyleSheet.create({
     main: {
-        alignItems: "flex-start",
-        marginTop:30,
-        marginBottom:30,
-        backgroundColor: '#d6d6d6',
+        //alignItems: "flex-start",
+        marginTop:0,
+        marginBottom:15,
+        backgroundColor: "#0a2657",
     },
     text: {
-        fontSize: 30,
+        fontSize: 20,
+        color:"#FFD700",
     },
 });
 
