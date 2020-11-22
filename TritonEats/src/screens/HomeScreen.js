@@ -42,12 +42,12 @@ class HomeScreen extends Component {
               source={salad}
             />            
           </ScrollView>
+        </View>
 
-
+        <View style={styles.verticalScroll}>
           <ScrollView
-          scrollEventThrottle={200}
-          decelerationRate="fast"
-          pagingEnabled
+          //scrollEventThrottle={200}
+          //decelerationRate="fast"
           >
           <TouchableOpacity
             //onPress={() => navigation.navigate("RestaurantScreen")}
@@ -133,9 +133,12 @@ const styles = StyleSheet.create({
   main: {
     alignItems: "center",
   },
+  verticalScroll: {
+    alignItems: "center",
+  },
   image: {
     width: 375,
-    height: 200,
+    height: 175,
   },
   name: {
     fontSize: 22,
