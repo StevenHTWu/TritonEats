@@ -16,6 +16,7 @@ import ShoppingCartScreen from "./src/screens/ShoppingCartScreen";
 import { Provider as AuthProvider } from "./src/context/AuthContext";
 import { setNavigator } from "./src/navigationRef";
 import ResolveAuthScreen from "./src/screens/ResolveAuthScreen";
+import MenuScreen from "./src/screens/MenuScreen";
 
 const switchNavigator = createSwitchNavigator({
   ResolveAuthScreen: ResolveAuthScreen,
@@ -26,6 +27,7 @@ const switchNavigator = createSwitchNavigator({
   }),
   mainFlow: createBottomTabNavigator({
     HomeScreen: HomeScreen,
+    MenuScreen: MenuScreen,
     OrderHistoryScreen: OrderHistoryScreen,
     ShoppingCartScreen: ShoppingCartScreen,
     SettingsScreen: SettingsScreen,
