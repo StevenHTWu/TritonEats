@@ -21,7 +21,7 @@ router.patch('/pay', async (req, res) => {
     //         return res.status(200).send({ data: result, message: "Value Updated" });
     //     });
 
-    const { _id,
+    const { email,
         firstName,
         lastName,
         cardNumber,
@@ -29,18 +29,26 @@ router.patch('/pay', async (req, res) => {
         cvv,
         zipcode } = req.body;
     try {
-        const user = await userAuth.findOne({ _id: _id })
+        const user = await userAuth.findOne({ email: email })
         if (!user) {
             return res.status(422).send({ error: "User was not found" });
         } else {
             user.updateOne([{
-                first_name: firstName,
-                last_name: lastName,
-                card_number: cardNumber,
-                exp_date: expDate,
-                cvv: cvv,
-                zipcode: zipcode
-            }])
+                $set: {
+                    first_name: firstName,
+                    last_name: lastName,
+                    card_number: cardNumber,
+                    exp_date: expDate,
+                    cvv: cvv,
+                    zipcode: zipcode
+                }
+            }]).then((result) => {
+                console.log(result)
+            })
+            user.save().then((result) => {
+                return res.status(200).send({ data: result })
+            })
+
 
         }
     }
