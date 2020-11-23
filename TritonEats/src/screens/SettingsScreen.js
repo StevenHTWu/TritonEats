@@ -12,9 +12,17 @@ const inputHeight = 70;
 const buttonHeight = 40;
 
 // To be replaced with return value of GET API
-let object = {profile: {name: "mudit", email: "example@ucsd.edu", phone: "1234567890"}, 
+let object2 = {profile: {name: "mudit", email: "example@ucsd.edu", phone: "1234567890"}, 
               payment: {card_number: "1234567890123456", expiry: "0922", cvv: "123"}, 
-              address: {apartment_number: "212", building: "Earth Hall North", line: "Instructions"}, 
+              address: {apartment_number: "212", building: "Earth Hall North", line: "Address"}, 
+              password: "1234", password1: "", password2: ""};
+let object = {name: "mudit", email: "example@ucsd.edu", phone_num: "1234567890", 
+              card1: {card_number: "", expiry: "", cvv: "", card_holder_name: ""},
+              card2: {card_number: "", expiry: "", cvv: "", card_holder_name: ""},
+              card3: {card_number: "", expiry: "", cvv: "", card_holder_name: ""},
+              card4: {card_number: "", expiry: "", cvv: "", card_holder_name: ""},
+              card5: {card_number: "", expiry: "", cvv: "", card_holder_name: ""},
+              apartment: "212", residence: "Earth Hall North", address: "Gilman Drive", 
               password: "1234", password1: "", password2: ""};
 
 
@@ -172,41 +180,41 @@ class DropdownList extends Component {
           <Text style={styles.text} onPress={this.profile} >My Profile</Text>
           <View style={{ height: this.state.profileHeight }}>
             <Text style={styles.inputText} >Name: </Text> 
-            <TextInput defaultValue={object.profile.name} style={styles.input} 
-            onChangeText={(text) => object.profile.name = text} />
+            <TextInput defaultValue={object.name} style={styles.input} 
+            onChangeText={(text) => object.name = text} />
           </View>
           <View style={{ height: this.state.profileHeight }}>
             <Text style={styles.inputText} >Email Address: </Text>
-            <TextInput defaultValue={object.profile.email} style={styles.input} 
-            keyboardType="email-address" onChangeText={(text) => object.profile.email = text}/>
+            <TextInput defaultValue={object.email} style={styles.input} 
+            keyboardType="email-address" onChangeText={(text) => object.email = text}/>
           </View>
           <View style={{ height: this.state.profileHeight }}>
             <Text style={styles.inputText} >Phone Number: </Text>
-            <TextInput defaultValue={object.profile.phone} style={styles.input} keyboardType="decimal-pad"
-            maxLength={ten} onChangeText={(text) => object.profile.phone = text} />
+            <TextInput defaultValue={object.phone_num} style={styles.input} keyboardType="decimal-pad"
+            maxLength={ten} onChangeText={(text) => object.phone_num = text} />
           </View>
           <View style={{ height: this.state.profileButtonHeight }}>  
             <Text style={styles.button} onPress={this.saveProfile} >Save</Text>
           </View>
 
-          <Text style={styles.text} onPress={this.payment} >Payment Method</Text>
+          <Text style={styles.text} onPress={this.payment} >Add Payment Method</Text>
           <View style={{ height: this.state.paymentHeight }}>
             <Text style={styles.inputText} >Card Number: </Text> 
-            <TextInput defaultValue={object.payment.card_number} style={styles.input} 
+            <TextInput defaultValue="" style={styles.input} 
             keyboardType="decimal-pad" maxLength={sixteen} 
-            onChangeText={(text) => object.payment.card_number = text}/>
+            onChangeText={(text) => object.card_number = text}/>
           </View>
           <View style={{ height: this.state.paymentHeight }}>
             <Text style={styles.inputText} >Expiry Date (mmyy): </Text>
-            <TextInput defaultValue={object.payment.expiry} style={styles.input} 
+            <TextInput defaultValue="" style={styles.input} 
             keyboardType="decimal-pad" maxLength={four} 
-            onChangeText={(text) => object.payment.expiry = text}/>
+            onChangeText={(text) => object.expiry = text}/>
           </View>
           <View style={{ height: this.state.paymentHeight }}>
             <Text style={styles.inputText} >CVV number: </Text>
-            <TextInput defaultValue={object.payment.cvv} style={styles.input} 
+            <TextInput defaultValue="" style={styles.input} 
             keyboardType="decimal-pad" maxLength={three} secureTextEntry={true} 
-            onChangeText={(text) => object.payment.cvv = text}/>
+            onChangeText={(text) => object.cvv = text}/>
           </View>
           <View style={{ height: this.state.paymentButtonHeight }}>  
             <Text style={styles.button} onPress={this.savePayment}>Save</Text>
@@ -215,8 +223,8 @@ class DropdownList extends Component {
           <Text style={styles.text} onPress={this.address} >Manage Address</Text>        
           <View style={{ height: this.state.addressHeight }}>
             <Text style={styles.inputText} >Apartment Number: </Text> 
-            <TextInput defaultValue={object.address.apartment_number} style={styles.input} 
-            onChangeText={(text) => object.address.apartment_number = text}/>
+            <TextInput defaultValue={object.apartment} style={styles.input} 
+            onChangeText={(text) => object.apartment = text}/>
           </View>
           <View style={{ height: this.state.addressHeight }}>
             <Text style={styles.inputText} >Building: </Text> 
@@ -225,8 +233,8 @@ class DropdownList extends Component {
           </View>
           <View style={{ height: this.state.addressHeight }}>
             <Text style={styles.inputText} >Address: </Text> 
-            <TextInput defaultValue={object.address.line} style={styles.input} 
-            onChangeText={(text) => object.address.line = text}/>
+            <TextInput defaultValue={object.address} style={styles.input} 
+            onChangeText={(text) => object.address = text}/>
           </View>
           <View style={{ height: this.state.addressButtonHeight }}>  
             <Text style={styles.button} onPress={this.saveAddress}>Save</Text>
@@ -303,3 +311,34 @@ const styles = StyleSheet.create({
 });
 
 export default SettingsScreen;
+
+/*
+
+
+          <Text style={styles.text} onPress={this.payment} >View/Modify Payment Method(s)</Text>
+          <View style={{ height: this.state.paymentHeight }}>
+            <Text style={styles.text} onPress={this.payment} >{object.card1.card_number}</Text>
+          </View>
+          <View style={{ height: this.state.paymentHeight }}>
+            <Text style={styles.inputText} >Card Number: </Text> 
+            <TextInput defaultValue={object.card_number} style={styles.input} 
+            keyboardType="decimal-pad" maxLength={sixteen} 
+            onChangeText={(text) => object.card_number = text}/>
+          </View>
+          <View style={{ height: this.state.paymentHeight }}>
+            <Text style={styles.inputText} >Expiry Date (mmyy): </Text>
+            <TextInput defaultValue={object.expiry} style={styles.input} 
+            keyboardType="decimal-pad" maxLength={four} 
+            onChangeText={(text) => object.expiry = text}/>
+          </View>
+          <View style={{ height: this.state.paymentHeight }}>
+            <Text style={styles.inputText} >CVV number: </Text>
+            <TextInput defaultValue={object.cvv} style={styles.input} 
+            keyboardType="decimal-pad" maxLength={three} secureTextEntry={true} 
+            onChangeText={(text) => object.cvv = text}/>
+          </View>
+          <View style={{ height: this.state.paymentButtonHeight }}>  
+            <Text style={styles.button} onPress={this.savePayment}>Save</Text>
+          </View>
+
+*/

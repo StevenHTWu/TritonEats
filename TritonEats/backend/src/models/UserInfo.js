@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const delivererInfoSchema = new mongoose.Schema({
     //_id: String,
     deliverer_id: String,
-    name: String,
+    "name": String,
     email: String,
     phone_num: String,
     registration_date: String,
