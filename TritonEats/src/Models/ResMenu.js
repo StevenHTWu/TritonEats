@@ -1,6 +1,19 @@
 const mongoose = require('mongoose');
 
-const resMenuSchema = new mongoose.Schema({ _id: String, restaurant_name: String, address: String, hours: [{day: String, opening_hour: String, closing_hour: String}], breakfast_menu: [{name: String, price: String}], lunch_menu: {name: String, price: String}, dinner: {name: String, price: String}}, { collection : 'Restaurants' });
+const resMenuSchema = new mongoose.Schema({
+    _id: String,
+    restaurant_name: String,
+    address: String,
+    hours: [{
+        day: String,
+        opening_hour: String,
+        closing_hour: String
+    }],
+    breakfast_menu: [{ name: String, price: String }],
+    lunch_menu: { name: String, price: String },
+    dinner: { name: String, price: String }
+},
+    { collection: 'Restaurants' });
 /*
 const resMenuSchema = new mongoose.Schema({
     email: {
