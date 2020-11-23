@@ -6,7 +6,7 @@ import NavLinkOrder from "../Components/NavLinkOrder";
 
 
 //these will be replaced by variables updated by the ordering page. For now have hardcoded.
-var restaurant_name = "Oceanview"; //since we only plan to support one restaurant at a time, we can display the restaurant name
+var restaurant_name = "Canyon Vista"; //since we only plan to support one restaurant at a time, we can display the restaurant name
 var order_arr = [
   {key: 'Fries', quantity: 5, value: 1},
   {key: 'Stir Fry Noodles', quantity: 2, value: 4.5},
@@ -82,9 +82,9 @@ const ShoppingCartScreen = ({ navigation }) => {
                 </View>
             </View>
             <NavLinkOrder
-          routeName="OrderScreen"
-          text="Order Now!"
-        /> 
+              routeName="OrderScreen"
+              text="Order Now!"
+            /> 
             </View>
      
       );
@@ -108,9 +108,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   titleText: {
-      color: 'white',
+      color: '#FFD700',
       fontSize: 35,
-      fontWeight: "bold"
+      fontWeight: "bold",
+      textAlign: "center",
+      paddingBottom: "25%",
+      paddingHorizontal: "10%"
   },
   listView: {
     flex: 1,
