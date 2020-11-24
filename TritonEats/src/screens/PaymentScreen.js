@@ -1,9 +1,5 @@
 import React, { useState, useContext } from "react";
-import { StyleSheet, View, TextInput, Text, Image, TouchableOpacity } from "react-native";
-import { PaymentView } from "../Components/PaymentView";
-import AuthForm from "../Components/AuthForm";
-import { Context as AuthContext } from "../context/AuthContext";
-import axios from "axios";
+import { StyleSheet, View, TextInput, Text, Image, TouchableOpacity, Keyboard,  TouchableWithoutFeedback } from "react-native";
 
 const PaymentScreen = ({ navigation }) => {
   const [response, setResponse] = useState();
@@ -11,9 +7,9 @@ const PaymentScreen = ({ navigation }) => {
   const [makePayment, setMakePayment] = useState(false);
   const [paymentStatus, setPaymentStatus] = useState("");
 
-  const [name1, onChangeText1] = React.useState(' Card Name');
-  const [cardnum, onChangeText2] = React.useState(' Card Number');
-  const [date1, onChangeText3] = React.useState(' Exp. Date');
+  const [name1, onChangeText1] = React.useState(' CardHolder Name');
+  const [cardnum, onChangeText2] = React.useState(' 1234-5678-1234-5678');
+  const [date1, onChangeText3] = React.useState(' MM/YY');
   const [cvv1, onChangeText4] = React.useState(' CVV');
   const [billAddr1, onChangeText5] = React.useState(' Billing Address');
   const [name, setName] = useState("");
@@ -22,126 +18,176 @@ const PaymentScreen = ({ navigation }) => {
   const [cvv, setCvv] = useState("");
   const [billAddr, setBillAddr] = useState("");
 
+
   return (
-    <View style={styles.container}>
-      <Image
-            style={styles.CardImg}
-            source={require("../../assets/CardImg.png")}
-      />
-      <View style={styles.LogoRow}>
-      
-        <TextInput
-          label="Name"
-          value={name}
-          onChangeText={setName}
-          autoCapitalize="none"
-          autoCorrect={false}
-          style={styles.textIn}
-          placeholder={name1}
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      <View style={styles.container}>
+        <Image
+              style={styles.CardImg}
+              source={require("../../assets/CardImg.png")}
+              
         />
-        <TextInput
-          label="Card Number"
-          value={cardNum}
-          onChangeText={setCardNum}
-          autoCapitalize="none"
-          autoCorrect={false}
-          style={styles.textIn}
-          placeholder={cardnum}
-        />
-          <TextInput
-            label="Exp. Date"
-            value={date}
-            onChangeText={setDate}
-            autoCapitalize="none"
-            autoCorrect={false}
-            style={styles.textInEXP}
-            placeholder={date1}
-          />
-          <TextInput
-            label="CVV"
-            value={cvv}
-            onChangeText={setCvv}
-            autoCapitalize="none"
-            autoCorrect={false}
-            style={styles.textInCVV}
-            placeholder={cvv1}
-          />
-        <TextInput
-          label="Billing Address"
-          value={billAddr}
-          onChangeText={setBillAddr}
-          autoCapitalize="none"
-          autoCorrect={false}
-          style={styles.textIn}
-          placeholder={billAddr1}
-        />
+          <View style={styles.layer1}>
+          
+            
+            <Text style={{ fontSize: 20, fontFamily: "Unica One", paddingTop: 5, paddingLeft: 10}}>
+                  Card Number
+                </Text>
+              <TextInput
+                label="Card Number"
+                value={cardNum}
+                onChangeText={setCardNum}
+                autoCapitalize="none"
+                autoCorrect={false}
+                style={styles.textIn}
+                placeholder={cardnum}
+                keyboardType="number-pad"
+              />
+            
+            <View style={{flex: 1, flexDirection: 'row'}}>
+              <View style={{width: 275, height: 35}} >
+                <Text style={{ fontSize: 20, fontFamily: "Unica One", paddingTop: 5, paddingLeft: 10}}>
+                  Expiry Date
+                </Text>
+                <TextInput
+                  label="Exp. Date"
+                  value={date}
+                  onChangeText={setDate}
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  style={styles.textInEXP}
+                  placeholder={date1}
+                  keyboardType="number-pad"
+                />
+              </View>
+              <View style={{width: 100, height: 35}} >
+                <Text style={{ fontSize: 20, fontFamily: "Unica One", paddingTop: 5, paddingLeft: 10}}>
+                  CVV
+                </Text>
+                <TextInput
+                  label="CVV"
+                  value={cvv}
+                  keyboardType="number-pad"
+                  onChangeText={setCvv}
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  style={styles.textInCVV}
+                  placeholder={cvv1}
+                />
+              </View>
+            
+            </View>
+            <View style={{flex: 1, flexDirection: 'row', position: "absolute", top: 200}}>
+              <View style={{width: 380, height: 35}} >
+              <Text style={{ fontSize: 20, fontFamily: "Unica One", paddingLeft: 10}}>
+                    Name
+                  </Text>
+              <TextInput
+                label="Name"
+                value={name}
+                onChangeText={setName}
+                autoCapitalize="none"
+                autoCorrect={false}
+                style={styles.textIn}
+                placeholder={name1}
+              />
+              </View>
+            </View>
+
+          
+          <View style={styles.layer2}>
+            <TouchableOpacity
+                onPress={() => navigation.navigate("HomeScreen")}
+                style={styles.PaymentBtn}
+            >
+                <Text style={styles.ButtonText}>Pay</Text>
+              </TouchableOpacity>
+              <Text style={{ fontSize: 30, fontFamily: "Unica One", position: "absolute", left: 250, top: 36, color: "#FFD700"}}>
+                    $ 12.00
+              </Text>
+          </View>
+          
       </View>
-      <TouchableOpacity
-          onPress={() => navigation.navigate("HomeScreen")}
-          style={styles.PaymentBtn}
-        >
-          <Text style={styles.ButtonText}>Submit Payment</Text>
-        </TouchableOpacity>
-    </View>
+      </View>
+    </TouchableWithoutFeedback>
   );
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1},
+  container: { flex: 1, backgroundColor: "#0a2657",},
   CardImg: {
     width: 120,
     height: 120,
     marginLeft: 125,
     marginTop: 50,
-    marginBottom: 30
+    marginBottom: 30,
+    zIndex: 1
+  },
+  layer1: {
+    borderRadius: 50,
+    height: 450,
+    backgroundColor: "#ffffff",
+    paddingTop: 50,
+    position: "absolute",
+    top: 130
+  },
+  layer2: {
+    borderRadius: 50,
+    height: 150,
+    width: "100%",
+    backgroundColor: "#0a2657",
+    position: "absolute",
+    top: 325
   },
   PaymentBtn: {
-    elevation: 8,
-    backgroundColor: "#0a2657",
-    borderRadius: 100,
-    paddingVertical: 11,
-    width: 200,
-    height: 50,
-    marginTop: 80,
-    marginLeft: "23.5%",
+    backgroundColor: "#FFD700",
+    paddingVertical: 8,
+    width: 100,
+    borderRadius: 50,
+    height: 45,
+    marginTop: 32,
+    marginLeft: 40
   },
   ButtonText: {
     fontSize: 23,
-    color: "#FFD700",
+    color: "#0a2657",
     fontWeight: "bold",
     alignSelf: "center",
     textTransform: "uppercase",
     fontFamily: "Unica One",
   },
-  TitleFont: {
-    fontSize: 45,
-    fontFamily: "Unica One",
-    paddingLeft: 120,
-    marginTop: 45
-  },
   textIn: {
     marginLeft: 10,
     marginRight: 10,
+    marginTop: 3,
     height: 40, 
     borderColor: 'gray', 
     borderTopWidth: 0,
-    borderBottomWidth: 1
+    borderBottomWidth: 1,
+    fontFamily: "Unica One",
+    fontSize: 20
   },
   textInEXP: {
     marginLeft: 10,
     marginRight: 10,
+    marginTop: 3,
     height: 40, 
     borderColor: 'gray', 
     borderTopWidth: 0,
-    borderBottomWidth: 1
+    borderBottomWidth: 1,
+    fontFamily: "Unica One",
+    fontSize: 20
   },
   textInCVV: {
     marginLeft: 10,
     marginRight: 10,
+    marginTop: 3,
     height: 40, 
     borderColor: 'gray', 
     borderTopWidth: 0,
-    borderBottomWidth: 1
+    borderBottomWidth: 1,
+    fontFamily: "Unica One",
+    fontSize: 20
   },
   row: {
     flexDirection: 'row',
