@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import React, { useContext } from "react";
 import { View, StyleSheet, Text } from "react-native";
 import { NavigationEvents } from "react-navigation";
@@ -25,34 +24,10 @@ const SignUpScreen = ({ navigation }) => {
           text="Already have an account? Sign in instead!"
         />
       </View>
-=======
-import React from "react";
-import { View, StyleSheet, Text, Button } from "react-native";
-
-const express = require('express');
-
-const router = express.Router();
-
-router.post('/signup', (req, res) => {
-  res.send('You made a post request');
-});
-
-module.exports = router;
-
-const SignUpScreen = ({ navigation }) => {
-  return (
-    <>
-      <Text style={{ fontSize: 49 }}>SignUpScreen</Text>
-      <Button
-        title="Go to MainFlow"
-        onPress={() => navigation.navigate("mainFlow")}
-      />
->>>>>>> origin/backend
     </>
   );
 };
 
-<<<<<<< HEAD
 SignUpScreen.navigationOptions = () => {
   return {
     header: () => false,
@@ -84,8 +59,3 @@ export default SignUpScreen;
   />
 </>; */
 }
-=======
-const styles = StyleSheet.create({});
-
-export default SignUpScreen;
->>>>>>> origin/backend
