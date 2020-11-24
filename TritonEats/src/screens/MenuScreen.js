@@ -85,12 +85,14 @@ const styles = StyleSheet.create({
   bodyText: {
     fontSize: 38,
     paddingTop: 5,
+    paddingLeft: 12,
     color:"#FFD700",
     fontFamily: "Unica One",
     textAlign: "left",
   },
   priceText: {
     fontSize: 30,
+    paddingLeft: 12,
     color:"#FFD700",
     paddingTop: 5,
     fontFamily: "Unica One",
@@ -103,6 +105,7 @@ const styles = StyleSheet.create({
   },
   addToCartButton:{
     marginLeft: 300,
+    marginRight: 12,
     borderWidth: 1,
     marginBottom:10,
     borderColor: "#FFD700",
