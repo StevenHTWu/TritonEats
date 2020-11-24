@@ -228,8 +228,8 @@ class DropdownList extends Component {
           </View>
           <View style={{ height: this.state.addressHeight }}>
             <Text style={styles.inputText} >Building: </Text> 
-            <TextInput defaultValue={object.address.building} style={styles.input} 
-            onChangeText={(text) => object.address.building = text}/>
+            <TextInput defaultValue={object.residence} style={styles.input} 
+            onChangeText={(text) => object.residence = text}/>
           </View>
           <View style={{ height: this.state.addressHeight }}>
             <Text style={styles.inputText} >Address: </Text> 
