@@ -1,4 +1,5 @@
 import React from "react";
+<<<<<<< HEAD
 import { View, StyleSheet, Text, FlatList } from "react-native";
 import { SafeAreaView } from "react-navigation";
 import HistoricalOrder from '../Components/HistoricalOrder';
@@ -55,5 +56,14 @@ const styles = StyleSheet.create({
       marginTop:30,
   },
 });
+=======
+import { View, StyleSheet, Text } from "react-native";
+
+const OrderHistoryScreen = () => {
+  return <Text style={{ fontSize: 49 }}>OrderHistoryScreen</Text>;
+};
+
+const styles = StyleSheet.create({});
+>>>>>>> origin/backend
 
 export default OrderHistoryScreen;

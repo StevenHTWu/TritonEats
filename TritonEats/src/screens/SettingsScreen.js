@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useContext, Component, useEffect } from "react";
 import { View, StyleSheet, Text, Button, TextInput, ScrollView, Keyboard, Dimensions } from "react-native";
 import { Context as AuthContext } from "../context/AuthContext";
@@ -342,3 +343,20 @@ export default SettingsScreen;
           </View>
 
 */
+=======
+import React from "react";
+import { View, StyleSheet, Text, Button } from "react-native";
+
+const SettingsScreen = ({ navigation }) => {
+  return (
+    <>
+      <Text style={{ fontSize: 49 }}>SettingsScreen</Text>
+      <Button title="LogOut" onPress={() => navigation.navigate("loginFlow")} />
+    </>
+  );
+};
+
+const styles = StyleSheet.create({});
+
+export default SettingsScreen;
+>>>>>>> origin/backend
