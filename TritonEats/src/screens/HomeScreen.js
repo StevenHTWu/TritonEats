@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-<<<<<<< HEAD
 import { Container, Text, View, StyleSheet, Image, ScrollView, TouchableOpacity, Dimensions } from "react-native";
 import { SafeAreaView } from "react-navigation";
 
@@ -12,16 +11,10 @@ import pasta from '../../assets/pasta.jpg';
 import meat from '../../assets/meat.jpg'
 import sandwich2 from '../../assets/sandwich2.jpg';
 import salad from '../../assets/salad.jpg';
-=======
-import { Text, View, StyleSheet } from "react-native";
-
-import NavBar from "../Components/NavBar";
->>>>>>> origin/backend
 
 class HomeScreen extends Component {
   render() {
     return (
-<<<<<<< HEAD
       <SafeAreaView forceInset={{ top: "always" }}>
         <View style={styles.main}>
           
@@ -132,13 +125,6 @@ class HomeScreen extends Component {
         </View>
       </SafeAreaView>
 
-=======
-      <View style={styles.main}>
-        <Text style={styles.text}>This is the main page</Text>
-        <Text style={styles.text}>This is body</Text>
-        <NavBar />
-      </View>
->>>>>>> origin/backend
     );
   }
 }
@@ -146,7 +132,6 @@ class HomeScreen extends Component {
 const styles = StyleSheet.create({
   main: {
     alignItems: "center",
-<<<<<<< HEAD
   },
   verticalScroll: {
     alignItems: "center",
@@ -182,13 +167,6 @@ const styles = StyleSheet.create({
     height: 60,
     marginTop: 3,
     flexDirection: 'row',
-=======
-    flex: 1,
-    justifyContent: "space-between",
-  },
-  text: {
-    fontSize: 30,
->>>>>>> origin/backend
   },
 });
 

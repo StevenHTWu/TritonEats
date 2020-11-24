@@ -1,5 +1,4 @@
 import React from "react";
-<<<<<<< HEAD
 import {
   FlatList,
   StyleSheet,
@@ -161,14 +160,5 @@ const styles = StyleSheet.create({
     color: "#0a2657",
   },
 });
-=======
-import { View, StyleSheet, Text } from "react-native";
-
-const ShoppingCartScreen = () => {
-  return <Text style={{ fontSize: 49 }}>ShoppingCartScreen</Text>;
-};
-
-const styles = StyleSheet.create({});
->>>>>>> origin/backend
 
 export default ShoppingCartScreen;
