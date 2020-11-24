@@ -36,7 +36,7 @@ switch (restaurant_name) {
     var color = "black";
     break;
   default:
-    var title_image = require("../../assets/Sandwich.jpg");
+    var title_image = require("../../assets/Sandwich_shopping_cart.jpg");
 }
 
 function sum(obj) {
@@ -121,7 +121,7 @@ const ShoppingCartScreen = ({ navigation }) => {
           </Text>
         </View>
       </View>
-      <NavLinkOrder routeName="OrderScreen" text="Order Now!" />
+      <NavLinkOrder routeName="PaymentScreen" text="Order Now!" />
     </View>
   );
 };
