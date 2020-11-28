@@ -28,15 +28,15 @@ var order_arr = [
 
 switch (restaurant_name) {
   case "Pines":
-    var title_image = require("../../assets/PinesNoodles.jpg");
+    var title_image = require("../../assets/Pinburrito.jpg");
     var color = "#F0EAD6";
     break;
   case "Oceanview":
-    var title_image = require("../../assets/Pizza.jpg");
+    var title_image = require("../../assets/OVpizza.jpg");
     var color = "black";
     break;
   default:
-    var title_image = require("../../assets/Sandwich_shopping_cart.jpg");
+    var title_image = require("../../assets/muffins.jpg");
 }
 
 function sum(obj) {
