@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import { AppLoading } from "expo";
+import { Feather } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
 import * as Font from "expo-font";
 
 import { createAppContainer, createSwitchNavigator } from "react-navigation";
-import { createStackNavigator } from "react-navigation-stack";
+import { createStackNavigator, HeaderTitle } from "react-navigation-stack";
 import { createBottomTabNavigator } from "react-navigation-tabs";
 
 import HomeScreen from "./src/screens/HomeScreen";
@@ -13,9 +16,11 @@ import SettingsScreen from "./src/screens/SettingsScreen";
 import SignInScreen from "./src/screens/SignInScreen";
 import SignUpScreen from "./src/screens/SignUpScreen";
 import ShoppingCartScreen from "./src/screens/ShoppingCartScreen";
+import PaymentScreen from "./src/screens/PaymentScreen";
 import { Provider as AuthProvider } from "./src/context/AuthContext";
 import { setNavigator } from "./src/navigationRef";
 import ResolveAuthScreen from "./src/screens/ResolveAuthScreen";
+import MenuScreen from "./src/screens/MenuScreen";
 
 const switchNavigator = createSwitchNavigator({
   ResolveAuthScreen: ResolveAuthScreen,
@@ -24,12 +29,52 @@ const switchNavigator = createSwitchNavigator({
     SignUpScreen: SignUpScreen,
     SignInScreen: SignInScreen,
   }),
-  mainFlow: createBottomTabNavigator({
-    HomeScreen: HomeScreen,
-    OrderHistoryScreen: OrderHistoryScreen,
-    ShoppingCartScreen: ShoppingCartScreen,
-    SettingsScreen: SettingsScreen,
-  }),
+  mainFlow: createBottomTabNavigator(
+    {
+      HomeScreen: {
+        screen: HomeScreen,
+        navigationOptions: {
+          title: "Home",
+        },
+      },
+      OrderHistoryScreen: {
+        screen: OrderHistoryScreen,
+        navigationOptions: {
+          title: "History",
+        },
+      },
+      Cart: createStackNavigator({
+        ShoppingCartScreen: ShoppingCartScreen,
+        PaymentScreen: PaymentScreen,
+      }),
+      SettingsScreen: {
+        screen: SettingsScreen,
+        navigationOptions: {
+          title: "Settings",
+        },
+      },
+    },
+    {
+      defaultNavigationOptions: ({ navigation }) => ({
+        tabBarIcon: ({ focused, horizontal, tintColor }) => {
+          const { routeName } = navigation.state;
+          if (routeName === "HomeScreen") {
+            return <Feather name="home" size={24} color="black" />;
+          } else if (routeName === "OrderHistoryScreen") {
+            return <MaterialIcons name="history" size={24} color="black" />;
+          } else if (routeName === "ShoppingCartScreen") {
+            return <AntDesign name="shoppingcart" size={24} color="black" />;
+          } else {
+            return <Feather name="settings" size={24} color="black" />;
+          }
+        },
+      }),
+      tabBarOptions: {
+        activeTintColor: "#FF6F00",
+        inactiveTintColor: "#263238",
+      },
+    }
+  ),
 });
 
 const getFonts = () =>
