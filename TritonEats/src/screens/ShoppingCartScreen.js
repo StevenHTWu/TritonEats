@@ -9,7 +9,11 @@ import {
 } from "react-native";
 import NavLinkOrder from "../Components/NavLinkOrder";
 
+var CurrentCart = require('../Components/Cart');
+
+
 //these will be replaced by variables updated by the ordering page. For now have hardcoded.
+/*
 var restaurant_name = "Canyon Vista"; //since we only plan to support one restaurant at a time, we can display the restaurant name
 var order_arr = [
   { key: "Fries", quantity: 5, value: 1 },
@@ -25,15 +29,15 @@ var order_arr = [
   { key: "Hamburger", quantity: 5, value: 0 },
   { key: "Pork Bun", quantity: 2, value: 9 },
 ];
+*/
 
-switch (restaurant_name) {
+
+switch (CurrentCart.restaurant_name) {
   case "Pines":
     var title_image = require("../../assets/PinesNoodles.jpg");
-    var color = "#F0EAD6";
     break;
   case "Oceanview":
     var title_image = require("../../assets/Pizza.jpg");
-    var color = "black";
     break;
   default:
     var title_image = require("../../assets/Sandwich_shopping_cart.jpg");
@@ -69,14 +73,14 @@ const ShoppingCartScreen = ({ navigation }) => {
           }}
         >
           <Text style={styles.titleText}>
-            Your Order From {restaurant_name}
+            Your Order From {CurrentCart.restaurant_name}
           </Text>
         </View>
       </ImageBackground>
 
       <View style={styles.listView}>
         <FlatList
-          data={order_arr}
+          data={CurrentCart.order_arr}
           renderItem={({ item }) => (
             <View
               style={{
@@ -114,7 +118,7 @@ const ShoppingCartScreen = ({ navigation }) => {
           <Text style={styles.item}>
             {" "}
             {parseFloat(
-              order_arr.reduce(function (sum, current) {
+              CurrentCart.order_arr.reduce(function (sum, current) {
                 return sum + current.quantity * current.value;
               }, 0)
             ).toFixed(2)}

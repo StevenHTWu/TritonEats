@@ -10,6 +10,10 @@ import {
   Image
 } from "react-native";
 
+
+
+var CurrentCart = require('../Components/Cart');
+
 class MenuScreen extends Component {
   constructor(props) {
     super(props);
@@ -49,6 +53,9 @@ class MenuScreen extends Component {
                             title="Add to Cart"
                             color="#FFD700"
                             accessibilityLabel="Add to cart"
+                            onClick = {
+                              CurrentCart.addToOrderArr( {key: item.ItemName, quantity: 1, value: parseFloat(item.Price.substring(1)) } )
+                            } 
                         />
                     </View>
                 </TouchableOpacity>
