@@ -22,7 +22,7 @@ var CurrentCart = {
         for (i = 0; i < this.order_arr.length; i++) {
             if (this.order_arr[i]["key"] === order["key"]) {
                 if (this.order_arr[i]["value"] > 1){
-                    this.order_arr[i]["value"] --;
+                    this.order_arr[i]["quantity"] --;
                     return
                 }
             }
