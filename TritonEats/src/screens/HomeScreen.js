@@ -4,10 +4,10 @@ import { SafeAreaView } from "react-navigation";
 
 import NavBar from "../Components/NavBar";
 import foodWorx from '../../assets/FWsandwich.jpg';
-import pines from '../../assets/Pinburrito.jpg'
+import pines from '../../assets/Pinsalmon.jpg';
 import clubMed from '../../assets/CMfish.jpg';
 import canVista from '../../assets/CanVnoodles.jpg';
-import degrees from '../../assets/64salmon.jpg';
+import degrees from '../../assets/64burrito.jpg';
 import cafeV from '../../assets/CafeVsalad.jpg';
 import oceanView from '../../assets/OVpizza.jpg';
 

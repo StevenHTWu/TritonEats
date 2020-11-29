@@ -28,7 +28,7 @@ var order_arr = [
 
 switch (restaurant_name) {
   case "Pines":
-    var title_image = require("../../assets/Pinburrito.jpg");
+    var title_image = require("../../assets/Pinsalmon.jpg");
     var color = "#F0EAD6";
     break;
   case "Oceanview":
