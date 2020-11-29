@@ -15,7 +15,7 @@ class MenuScreen extends Component {
     super(props);
 
     this.state = {
-      ResaturantMenu: [
+      RestaurantMenu: [
         { Id: "1", ItemName: "Triton Burger", Price: "$7" },
         { Id: "2", ItemName: "Noodles", Price: "$6.25" },
         { Id: "3", ItemName: "Pizza-Slice", Price: "$2.50" },
@@ -38,7 +38,7 @@ class MenuScreen extends Component {
         <Text style={styles.headerTitle}>Pines</Text>
         <Image style={styles.topImage} source={require('../../assets/Pinburrito.jpg')} />
         <FlatList
-          data={this.state.ResaturantMenu}
+          data={this.state.RestaurantMenu}
           renderItem={({ item }) => (
             <View>
                 <TouchableOpacity style={styles.borderItem}>
