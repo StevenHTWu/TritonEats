@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Container, Text, View, StyleSheet, Image, ScrollView, TouchableOpacity, Dimensions } from "react-native";
+import { FlatList, Text, View, StyleSheet, Image, ScrollView, TouchableOpacity, Dimensions, ImageBackground } from "react-native";
 import { SafeAreaView } from "react-navigation";
 
 import NavBar from "../Components/NavBar";
@@ -12,9 +12,25 @@ import cafeV from '../../assets/CafeVsalad.jpg';
 import oceanView from '../../assets/OVpizza.jpg';
 
 class HomeScreen extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      Restaurants: [
+        {Id: "1", Image: degrees, Name: "64 Degrees", Hours: "7 am to 9 pm"},
+        {Id: "2", Image: cafeV, Name: "Cafe Ventanas", Hours: "7 am to 9 pm"},
+        {Id: "3", Image: canVista, Name: "Canyon Vista", Hours: "7 am to 9 pm"},
+        {Id: "4", Image: clubMed, Name: "Club Med", Hours: "7 am to 9 pm"},
+        {Id: "5", Image: foodWorx, Name: "Foodworx", Hours: "7 am to 9 pm"},
+        {Id: "6", Image: oceanView, Name: "OceanView", Hours: "7 am to 9 pm"},
+        {Id: "7", Image: pines, Name: "Pines", Hours: "7 am to 9 pm"},
+      ],
+    };
+  }
+
   render() {
     return (
-    <SafeAreaView forceInset={{ top: "always" }}>
+    <SafeAreaView forceInset={{ top: "always" }} >
     <View style={styles.main}>
       
     <View style={styles.Container}>
@@ -26,98 +42,26 @@ class HomeScreen extends Component {
       <Text style={styles.LogoFont}>Triton Eats</Text>
     </View>
     </View>
-      
-        <ScrollView
-        //scrollEventThrottle={200}
-        //decelerationRate="fast"
-        >
-        <TouchableOpacity
-          onPress={() => navigation.navigate("MenuScreen")}
-          style={styles.restaurant}
-        >
-          <Image
-            style={styles.icon}
-            source={degrees}
-          />
-          <Text style={styles.name}>  64 Degrees</Text>
-          <Text style={styles.hours}>           7:00 am to 9:00 pm</Text>
-        </TouchableOpacity>
 
-        <TouchableOpacity
-          onPress={() => navigation.navigate("MenuScreen")}
-          style={styles.restaurant}
-        >
-          <Image
-            style={styles.icon}
-            source={cafeV}
-          />
-          <Text style={styles.name}>  Cafe Ventanas</Text>
-          <Text style={styles.hours}>           7:00 am to 9:00 pm</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          onPress={() => navigation.navigate("MenuScreen")}
-          style={styles.restaurant}
-        >
-          <Image
-            style={styles.icon}
-            source={canVista}
-          />
-          <Text style={styles.name}>  Canyon Vista</Text>
-          <Text style={styles.hours}>           7:00 am to 9:00 pm</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          onPress={() => navigation.navigate("MenuScreen")}
-          style={styles.restaurant}
-        >
-          <Image
-            style={styles.icon}
-            source={clubMed}
-          />
-          <Text style={styles.name}>  Club Med</Text>
-          <Text style={styles.hours}>           7:00 am to 9:00 pm</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          onPress={() => navigation.navigate("MenuScreen")}
-          style={styles.restaurant}
-        >
-          <Image
-            style={styles.icon}
-            source={foodWorx}
-          />
-          <Text style={styles.name}>  Foodworx</Text>
-          <Text style={styles.hours}>           7:00 am to 9:00 pm</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          onPress={() => navigation.navigate("MenuScreen")}
-          style={styles.restaurant}
-        >
-          <Image
-            style={styles.icon}
-            source={oceanView}
-          />
-          <Text style={styles.name}>  OceanView</Text>
-          <Text style={styles.hours}>           7:00 am to 9:00 pm</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          onPress={() => navigation.navigate("MenuScreen")}
-          style={styles.restaurant}
-        >
-          <Image
-            style={styles.icon}
-            source={pines}
-          />
-          <Text style={styles.name}>  Pines</Text>
-          <Text style={styles.hours}>           7:00 am to 9:00 pm</Text>
-        </TouchableOpacity>
-        
-        </ScrollView>
-      </View>
-    </SafeAreaView>
+    <View style={styles.List}>
+    <FlatList
+      data={this.state.Restaurants}
+      renderItem={({ item }) => (
+        <View>
+            <TouchableOpacity 
+              onPress={() => navigation.navigate("MenuScreen")}
+              style={styles.restaurant}>
+                <Image style={styles.icon} source={item.Image} /> 
+                <Text style={styles.name}>{item.Name}</Text>
+                <Text style={styles.hours}>{item.Hours}</Text>
+            </TouchableOpacity>
+        </View>
+      )}
+      keyExtractor={(item) => item.Id}
+    />
+    </View>
+    </View>
+  </SafeAreaView>
 
   );
 }
@@ -132,32 +76,37 @@ image: {
   height: 175,
 },
 name: {
-  fontSize: 22,
-  width: 110,
+  fontSize: 28,
+  width: "30%",
   height: 75,
-  marginLeft: 10,
+  marginLeft: "5%",
+  marginRight: "5%",
   color: "white",
-  textAlign: "center",
+  textAlign: "left",
   fontFamily: "Unica One",
 },
 hours: {
-  fontSize: 15,
+  fontSize: 19,
   color: "white",
   fontFamily: "Unica One",
+  textAlign: "right",
+  marginRight: "20%",
+},
+List:{
+  paddingBottom: 300,
 },
 icon: {
-  width: 65,
-  height: 55,
-  marginLeft: 5,
+  width: "22%",
+  height: "80%",
+  marginLeft: "3%",
 },
 restaurant: {
-  elevation: 8,
   backgroundColor: "#0a2657",
-  paddingVertical: 5,
+  paddingVertical: "5%",
   width: 375,
-  height: 65,
-  marginTop: 3,
+  marginTop: 0,
   flexDirection: 'row',
+  marginBottom: 5,
 },
 LogoFont: {
   fontSize: 55,
@@ -166,7 +115,7 @@ LogoFont: {
 },
 Container: {
   marginTop: 10,
-  marginBottom: 20,
+  marginBottom: 15,
   marginRight: 10,
 },
 LogoRow: {
