@@ -12,6 +12,10 @@ import meat from '../../assets/meat.jpg'
 import sandwich2 from '../../assets/sandwich2.jpg';
 import salad from '../../assets/salad.jpg';
 
+import { navigate } from "../navigationRef";
+
+var CurrentCart = require('../Components/Cart'); //use to set what restaurant menu needs to display
+
 class HomeScreen extends Component {
   render() {
     return (
@@ -50,7 +54,7 @@ class HomeScreen extends Component {
           //decelerationRate="fast"
           >
           <TouchableOpacity
-            //onPress={() => navigation.navigate("RestaurantScreen")}
+            onPress={() => { CurrentCart.viewing_restaurant = "64 Degrees"; navigate('MenuScreen'); }}
             style={styles.restaurant}
           >
             <Image
@@ -62,7 +66,7 @@ class HomeScreen extends Component {
           </TouchableOpacity>
 
           <TouchableOpacity
-            //onPress={() => navigation.navigate("RestaurantScreen")}
+            onPress={() => {CurrentCart.viewing_restaurant = "Cafe Ventanas"; navigate('MenuScreen');}}
             style={styles.restaurant}
           >
             <Image
@@ -74,7 +78,7 @@ class HomeScreen extends Component {
           </TouchableOpacity>
 
           <TouchableOpacity
-            //onPress={() => navigation.navigate("RestaurantScreen")}
+            onPress={() => {CurrentCart.viewing_restaurant = "Club Med"; navigate('MenuScreen');}}
             style={styles.restaurant}
           >
             <Image
@@ -86,7 +90,7 @@ class HomeScreen extends Component {
           </TouchableOpacity>
 
           <TouchableOpacity
-            //onPress={() => navigation.navigate("RestaurantScreen")}
+            onPress={() => {CurrentCart.viewing_restaurant = "Foodworx"; navigate('MenuScreen');}}
             style={styles.restaurant}
           >
             <Image
@@ -98,7 +102,7 @@ class HomeScreen extends Component {
           </TouchableOpacity>
 
           <TouchableOpacity
-            //onPress={() => navigation.navigate("RestaurantScreen")}
+            onPress={() => {CurrentCart.viewing_restaurant = "Pines"; navigate('MenuScreen');}}
             style={styles.restaurant}
           >
             <Image
@@ -110,7 +114,7 @@ class HomeScreen extends Component {
           </TouchableOpacity>
 
           <TouchableOpacity
-            //onPress={() => navigation.navigate("RestaurantScreen")}
+            onPress={() => {CurrentCart.viewing_restaurant = "OceanView"; navigate('MenuScreen');}}
             style={styles.restaurant}
           >
             <Image

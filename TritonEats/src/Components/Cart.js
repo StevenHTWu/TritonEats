@@ -1,5 +1,6 @@
 var CurrentCart = {
     restaurant_name : "",
+    viewing_restaurant : "",
     order_arr : [],
 
     changeName : function(name) {
