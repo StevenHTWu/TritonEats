@@ -3,6 +3,7 @@ require("./Models/Orderers");
 require("./Models/History");
 require("./models/ResMenu");
 require("./models/Orders");
+require("./Models/Deliverers");
 //require("./models/User"); This line is present in the index.js Wei sent me, but there is no User model so I commented it out
 
 const express = require("express");

@@ -17,13 +17,13 @@ router.route("/makeOrder").post(async function (req, res) {
   console.log(order_items);
 
   if (orderer_id == null) {
-    res.status(400).send("Missing orderer_id");
+    res.status(422).send("Missing orderer_id");
   } else if (restaurant_name == null) {
-    res.status(400).send("Missing restaurant name");
+    res.status(422).send("Missing restaurant name");
   } else if (order_items == null) {
-    res.status(400).send("Missing order items.");
+    res.status(422).send("Missing order items.");
   } else if (total_price == null) {
-    res.status(400).send("Missing total price.");
+    res.status(422).send("Missing total price.");
   } else {
     var order_placement_time = new Date();
 

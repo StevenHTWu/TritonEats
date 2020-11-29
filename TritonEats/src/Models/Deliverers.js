@@ -1,18 +1,17 @@
 const mongoose = require("mongoose");
 
-const orderersSchema = new mongoose.Schema(
+const deliverersSchema = new mongoose.Schema(
   {
     _id: String,
-    orderer_id: String,
+    deliverer_id: String,
     name: String,
     email: String,
-    residence: String,
-    address: String,
     phone_num: String,
     registration_date: String,
     email_confirmed: Boolean,
+    active: Boolean,
   },
-  { collection: "Orderers" }
+  { collection: "Deliverers" }
 );
 
-mongoose.model("orderers", orderersSchema);
+mongoose.model("deliverers", deliverersSchema);
