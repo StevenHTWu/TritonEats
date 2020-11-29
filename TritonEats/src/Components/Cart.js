@@ -1,6 +1,5 @@
 var CurrentCart = {
     restaurant_name : "",
-    viewing_restaurant : "",
     order_arr : [],
 
     changeName : function(name) {
@@ -27,7 +26,7 @@ var CurrentCart = {
                     return
                 }
             }
-            this.order_arr.splice(i);
+            this.order_arr = this.order_arr.filter(item => item != this.order_arr[i]);
         }
     },
 

@@ -32,12 +32,10 @@ const switchNavigator = createSwitchNavigator({
   mainFlow: createBottomTabNavigator(
     {
 
-      HomeScreen: {
-        screen: HomeScreen,
-        navigationOptions: {
-          title: "Home",
-        },
-      },
+      HomeScreen: createStackNavigator({
+        Home: HomeScreen,
+        MenuScreen: MenuScreen,
+      }),
       OrderHistoryScreen: {
         screen: OrderHistoryScreen,
         navigationOptions: {

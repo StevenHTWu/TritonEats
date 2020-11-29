@@ -8,6 +8,11 @@ import {
   TouchableOpacity,
 } from "react-native";
 import NavLinkOrder from "../Components/NavLinkOrder";
+import { withNavigationFocus } from 'react-navigation';
+
+
+
+
 
 var CurrentCart = require('../Components/Cart');
 
@@ -33,8 +38,6 @@ var order_arr = [
 
 
 
-CurrentCart.addToOrderArr( {key: "Cheese", quantity: 1, value: 100.0 } ); //remove after testing!
-
 switch (CurrentCart.restaurant_name) {
   case "Pines":
     var title_image = require("../../assets/PinesNoodles.jpg");
@@ -55,12 +58,26 @@ function sum(obj) {
 }
 
 class ShoppingCartScreen extends React.Component {
-  constructor() {
+  constructor(props) {
     super();
-    this.state = {refresh: false};
+    
+    this.state = {refresh: false, data: CurrentCart.order_arr};
+  }
+   
+  componentDidUpdate(prevProps) {
+    if (prevProps.isFocused !== this.props.isFocused && this.props.isFocused == true) {
+      setTimeout(() => {
+        if (this.timerFlatlistRef)
+          this.timerFlatlistRef.scrollToIndex({
+            animated: false,
+            index: 0,
+          });
+      }, 10);
+    }
   }
   render() {
     return (
+      
       <View style={styles.container}>
         {/*image and title*/}
         <ImageBackground
@@ -88,9 +105,13 @@ class ShoppingCartScreen extends React.Component {
 
         <View style={styles.listView}>
           <FlatList
-            
+           ref={ref => (this.timerFlatlistRef = ref)}
+          style={{flex: 1,
+            width: "100%"}}
             data={CurrentCart.order_arr}
             extraData={this.state.refresh}
+            removeClippedSubviews={false}
+            
             renderItem={({ item }) => (
               
               <View
@@ -169,7 +190,7 @@ class ShoppingCartScreen extends React.Component {
                         <Text style={styles.quantityText}>Clear Order</Text>
               </TouchableOpacity>
         </View>
-        <NavLinkOrder routeName="PaymentScreen" text="Order Now!" />
+        <NavLinkOrder routeName="PaymentScreen" text="Order Now!" orderArr={CurrentCart.order_arr}/>
       </View>
     );
             }
@@ -255,4 +276,4 @@ const styles = StyleSheet.create({
 
 });
 
-export default ShoppingCartScreen;
+export default withNavigationFocus(ShoppingCartScreen);

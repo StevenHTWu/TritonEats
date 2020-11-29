@@ -19,7 +19,7 @@ var CurrentCart = require('../Components/Cart'); //use to set what restaurant me
 class HomeScreen extends Component {
   render() {
     return (
-      <SafeAreaView forceInset={{ top: "always" }}>
+      <View>
         <View style={styles.main}>
           
           <ScrollView
@@ -127,11 +127,16 @@ class HomeScreen extends Component {
           
           </ScrollView>
         </View>
-      </SafeAreaView>
+      </View>
 
     );
   }
 }
+HomeScreen.navigationOptions = () => {
+  return {
+    header: () => false,
+  };
+};
 
 const styles = StyleSheet.create({
   main: {

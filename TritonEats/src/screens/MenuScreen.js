@@ -21,17 +21,12 @@ class MenuScreen extends Component {
     this.state = {
       ResaturantMenu: [
         { Id: "1", ItemName: "Triton Burger", Price: "$7" },
-        { Id: "2", ItemName: "Noodles", Price: "$6.25" },
         { Id: "3", ItemName: "Pizza-Slice", Price: "$2.50" },
         { Id: "4", ItemName: "California Roll", Price: "$9.00" },
         { Id: "5", ItemName: "Spicy Tuna Roll", Price: "$9.00" },
         { Id: "6", ItemName: "Tofu and Avocado Roll", Price: "$8.00" },
         { Id: "7", ItemName: "Sandwich", Price: "$7" },
         { Id: "8", ItemName: "Baja Fish Tacos", Price: "$6.00" },
-        { Id: "9", ItemName: "Pizza-Slice", Price: "$2.50" },
-        { Id: "10", ItemName: "Sandwich", Price: "$7" },
-        { Id: "11", ItemName: "Noodles", Price: "$6.25" },
-        { Id: "12", ItemName: "Pizza-Slice", Price: "$2.50" }
       ],
     };
   }
@@ -43,22 +38,29 @@ class MenuScreen extends Component {
         <Image style={styles.topImage} source={require('../../assets/Pines_Burger.jpg')} />
         <FlatList
           data={this.state.ResaturantMenu}
+          
           renderItem={({ item }) => (
             <View>
-                <TouchableOpacity style={styles.borderItem}>
+                <View style={styles.borderItem}>
                     <Text style={styles.bodyText}>{item.ItemName}</Text>
                     <Text style={styles.priceText}>{item.Price}</Text>
                     <View style={styles.addToCartButton}>
-                        <Button
-                            title="Add to Cart"
+                        <TouchableOpacity
+                            
                             color="#FFD700"
                             accessibilityLabel="Add to cart"
-                            onClick = {
-                              CurrentCart.addToOrderArr( {key: item.ItemName, quantity: 1, value: parseFloat(item.Price.substring(1)) } )
+                            onPress = {() => {
+                              var tmpArr = Object.assign([], CurrentCart.order_arr);
+                              CurrentCart.emptyOrderArr();
+                              CurrentCart.order_arr = tmpArr;
+                              CurrentCart.addToOrderArr( {key: item.ItemName, quantity: 1, value: parseFloat(item.Price.substring(1)) }); 
+                            }
                             } 
-                        />
+                        >
+                        <Text style={styles.addToCartText}>Add to cart</Text>
+                        </TouchableOpacity>
                     </View>
-                </TouchableOpacity>
+                </View>
                 <Text></Text>
             </View>
           )}
@@ -68,7 +70,11 @@ class MenuScreen extends Component {
     );
   }
 }
-
+MenuScreen.navigationOptions = () => {
+  return {
+    header: () => false,
+  };
+};
 const styles = StyleSheet.create({
   main: {
     alignItems: "center",
@@ -117,6 +123,14 @@ const styles = StyleSheet.create({
     marginBottom:10,
     borderColor: "#FFD700",
     borderRadius: 10
+  },
+
+  addToCartText: {
+    fontSize: 15,
+    textAlign: "center",
+    color: "#FFD700",
+    margin: "25%"
+
   }
 });
 

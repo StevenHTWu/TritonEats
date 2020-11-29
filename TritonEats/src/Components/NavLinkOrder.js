@@ -2,10 +2,10 @@ import React from "react";
 import { Text, TouchableOpacity, StyleSheet, View } from "react-native";
 import { withNavigation } from "react-navigation";
 
-const NavLinkOrder = ({ navigation, text, routeName }) => {
+const NavLinkOrder = ({ navigation, text, orderArr, routeName }) => {
   return (
     <View style={styles.background}>
-      <TouchableOpacity onPress={() => navigation.navigate(routeName)}>
+      <TouchableOpacity onPress={() => {if (orderArr.length > 0) { navigation.navigate(routeName);}}}>
 
           <Text style={styles.link}>{text}</Text>
       

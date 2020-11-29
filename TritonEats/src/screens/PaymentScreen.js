@@ -112,7 +112,11 @@ const PaymentScreen = ({ navigation }) => {
     </TouchableWithoutFeedback>
   );
 };
-
+PaymentScreen.navigationOptions = () => {
+  return {
+    header: () => false,
+  };
+};
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "#0a2657",},
   CardImg: {
