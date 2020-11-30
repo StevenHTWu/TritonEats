@@ -32,8 +32,8 @@ const switchNavigator = createSwitchNavigator({
   }),
   mainFlow: createBottomTabNavigator(
     {
-      HomeScreen: createStackNavigator({
-        Home: HomeScreen,
+      Home: createStackNavigator({
+        HomeScreen: HomeScreen,
         MenuScreen: MenuScreen,
       }),
       OrderHistoryScreen: {
@@ -58,11 +58,11 @@ const switchNavigator = createSwitchNavigator({
       defaultNavigationOptions: ({ navigation }) => ({
         tabBarIcon: ({ focused, horizontal, tintColor }) => {
           const { routeName } = navigation.state;
-          if (routeName === "HomeScreen") {
+          if (routeName === "Home") {
             return <Feather name="home" size={24} color="black" />;
           } else if (routeName === "OrderHistoryScreen") {
             return <MaterialIcons name="history" size={24} color="black" />;
-          } else if (routeName === "ShoppingCartScreen") {
+          } else if (routeName === "Cart") {
             return <AntDesign name="shoppingcart" size={24} color="black" />;
           } else {
             return <Feather name="settings" size={24} color="black" />;
