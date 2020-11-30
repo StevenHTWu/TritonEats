@@ -32,7 +32,6 @@ const switchNavigator = createSwitchNavigator({
   }),
   mainFlow: createBottomTabNavigator(
     {
-
       HomeScreen: createStackNavigator({
         Home: HomeScreen,
         MenuScreen: MenuScreen,
@@ -78,9 +77,8 @@ const switchNavigator = createSwitchNavigator({
   ),
   menuFlow: createStackNavigator({
     HomeScreen: HomeScreen,
-    MenuScreen: MenuScreen
-
-  })
+    MenuScreen: MenuScreen,
+  }),
 });
 
 const getFonts = () =>
