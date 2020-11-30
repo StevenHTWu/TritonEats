@@ -35,7 +35,8 @@
     "react-native-webview": "^10.10.2",
     "react-navigation": "^4.4.3",
     "react-navigation-stack": "^2.10.1",
-    "react-navigation-tabs": "^2.10.1"
+    "react-navigation-tabs": "^2.10.1",
+    "recyclerlistview": "^3.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",

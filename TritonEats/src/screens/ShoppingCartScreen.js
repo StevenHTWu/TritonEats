@@ -5,11 +5,20 @@ import {
   Text,
   View,
   ImageBackground,
-  Button,
+  TouchableOpacity,
 } from "react-native";
 import NavLinkOrder from "../Components/NavLinkOrder";
+import { withNavigationFocus } from 'react-navigation';
+
+
+
+
+
+var CurrentCart = require('../Components/Cart');
+
 
 //these will be replaced by variables updated by the ordering page. For now have hardcoded.
+/*
 var restaurant_name = "Canyon Vista"; //since we only plan to support one restaurant at a time, we can display the restaurant name
 var order_arr = [
   { key: "Fries", quantity: 5, value: 1 },
@@ -25,15 +34,16 @@ var order_arr = [
   { key: "Hamburger", quantity: 5, value: 0 },
   { key: "Pork Bun", quantity: 2, value: 9 },
 ];
+*/
 
-switch (restaurant_name) {
+
+
+switch (CurrentCart.restaurant_name) {
   case "Pines":
     var title_image = require("../../assets/PinesNoodles.jpg");
-    var color = "#F0EAD6";
     break;
   case "Oceanview":
     var title_image = require("../../assets/Pizza.jpg");
-    var color = "black";
     break;
   default:
     var title_image = require("../../assets/Sandwich_shopping_cart.jpg");
@@ -47,83 +57,143 @@ function sum(obj) {
   return sum;
 }
 
-const ShoppingCartScreen = ({ navigation }) => {
-  return (
-    <View style={styles.container}>
-      {/*image and title*/}
-      <ImageBackground
-        style={{
-          flex: 1,
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-        source={title_image}
-      >
-        <View
+class ShoppingCartScreen extends React.Component {
+  constructor(props) {
+    super();
+    
+    this.state = {refresh: false, data: CurrentCart.order_arr};
+  }
+   
+  componentDidUpdate(prevProps) {
+    if (prevProps.isFocused !== this.props.isFocused && this.props.isFocused == true) {
+      setTimeout(() => {
+        if (this.timerFlatlistRef)
+          this.timerFlatlistRef.scrollToIndex({
+            animated: false,
+            index: 0,
+          });
+      }, 10);
+    }
+  }
+  render() {
+    return (
+      
+      <View style={styles.container}>
+        {/*image and title*/}
+        <ImageBackground
           style={{
             flex: 1,
+            flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
-            width: "100%",
           }}
+          source={title_image}
         >
-          <Text style={styles.titleText}>
-            Your Order From {restaurant_name}
-          </Text>
-        </View>
-      </ImageBackground>
+          <View
+            style={{
+              flex: 1,
+              justifyContent: "center",
+              alignItems: "center",
+              width: "100%",
+            }}
+          >
+            <Text style={styles.titleText}>
+              Your Order From {CurrentCart.restaurant_name}
+            </Text>
+          </View>
+        </ImageBackground>
 
-      <View style={styles.listView}>
-        <FlatList
-          data={order_arr}
-          renderItem={({ item }) => (
-            <View
-              style={{
-                display: "flex",
-                alignItems: "center",
-                padding: 2,
-                flexDirection: "row",
-                justifyContent: "space-between",
-              }}
-            >
-              <Text style={styles.item}>
-                {item.key} ({item.quantity}){" "}
-              </Text>
+        <View style={styles.listView}>
+          <FlatList
+           ref={ref => (this.timerFlatlistRef = ref)}
+          style={{flex: 1,
+            width: "100%"}}
+            data={CurrentCart.order_arr}
+            extraData={this.state.refresh}
+            removeClippedSubviews={false}
+            
+            renderItem={({ item }) => (
+              
+              <View
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  padding: 2,
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                }}
+              >
+                <View
+                  style = {{
+                    display: "flex",
+                    alignItems: "center",
+                    padding: 2,
+                    flexDirection: "row", 
+                  }}
+            
+                >
+                    <Text style={styles.item}>
+                      {item.key}
+                    </Text>
 
-              <Text style={styles.item}>
-                {" "}
-                {String((item.value * item.quantity).toFixed(2))}{" "}
-              </Text>
-            </View>
-          )}
-          contentContainerStyle={{
-            flexGrow: 1,
-          }}
-        />
-        <View
-          style={{
-            display: "flex",
-            alignItems: "center",
-            padding: 10,
-            flexDirection: "row",
-            justifyContent: "space-between",
-          }}
-        >
-          <Text style={styles.item}> Total: </Text>
-          <Text style={styles.item}>
-            {" "}
-            {parseFloat(
-              order_arr.reduce(function (sum, current) {
-                return sum + current.quantity * current.value;
-              }, 0)
-            ).toFixed(2)}
-          </Text>
+                    <TouchableOpacity
+                        style={styles.quantityButton}
+                        onPress= {() => {CurrentCart.addToOrderArr( {key: item.key, quantity: item.quantity, value: item.value }); this.setState({ state: this.state }); } }
+                        underlayColor='#fff'>
+                        <Text style={styles.quantityText}>+</Text>
+                    </TouchableOpacity>
+                    <Text style={{fontSize: 20, borderWidth: 0.5, borderColor: 'grey', borderRadius: 4, padding: 6}}>
+                      {item.quantity}
+                    </Text>
+                    <TouchableOpacity
+                        style={styles.quantityButtonRight}
+                        onPress= {() => {CurrentCart.removeFromOrderArr( {key: item.key, quantity: item.quantity, value: item.value }); this.setState({ state: this.state }); } }
+                        underlayColor='#fff'>
+                        <Text style={styles.quantityText}>-</Text>
+                    </TouchableOpacity>
+
+                </View>
+                <Text style={styles.item}>
+                  {" "}
+                  {String((item.value * item.quantity).toFixed(2))}{" "}
+                </Text>
+              </View>
+            )}
+            contentContainerStyle={{
+              flexGrow: 1,
+            }}
+          />
+          <View
+            style={{
+              display: "flex",
+              alignItems: "center",
+              padding: 10,
+              flexDirection: "row",
+              justifyContent: "space-between",
+            }}
+          >
+            <Text style={styles.item}> Total: </Text>
+            <Text style={styles.item}>
+              {" "}
+              {parseFloat(
+                CurrentCart.order_arr.reduce(function (sum, current) {
+                  return sum + current.quantity * current.value;
+                }, 0)
+              ).toFixed(2)}
+            </Text>
+            
+          </View>
+          <TouchableOpacity
+                        style={styles.clearButton}
+                        onPress= {() => {CurrentCart.emptyOrderArr(); this.setState({ state: this.state });} }
+                        underlayColor='#fff'>
+                        <Text style={styles.quantityText}>Clear Order</Text>
+              </TouchableOpacity>
         </View>
+        <NavLinkOrder routeName="PaymentScreen" text="Order Now!" orderArr={CurrentCart.order_arr}/>
       </View>
-      <NavLinkOrder routeName="PaymentScreen" text="Order Now!" />
-    </View>
-  );
+    );
+            }
 };
 
 ShoppingCartScreen.navigationOptions = () => {
@@ -159,6 +229,51 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#0a2657",
   },
+  quantityButton: {
+    marginRight:10,
+    marginLeft:10,
+    marginTop:10,
+    marginBottom:10,
+    paddingTop:10,
+    paddingBottom:10,
+    backgroundColor:'#0a2657',
+    borderRadius:10,
+    borderWidth: 1,
+    borderColor: '#fff',
+
+  },
+  quantityButtonRight: {
+    marginLeft:10,
+    marginRight:10,
+    marginTop:10,
+    marginBottom:10,
+    paddingTop:10,
+    paddingBottom:10,
+    backgroundColor:'#0a2657',
+    borderRadius:10,
+    borderWidth: 1,
+    borderColor: '#fff'
+  },
+  quantityText: {
+    color:'#FFD700',
+    textAlign:'center',
+    paddingLeft : 10,
+    paddingRight : 10,
+    fontSize: 15,
+  },
+  clearButton: {
+    marginRight:"3%",
+    marginLeft:"3%",
+    marginTop:"3%",
+    marginBottom:"3%",
+    paddingTop:10,
+    paddingBottom:10,
+    backgroundColor:'#0a2657',
+    borderRadius:10,
+    borderWidth: 1,
+    borderColor: '#fff',
+  }
+
 });
 
-export default ShoppingCartScreen;
+export default withNavigationFocus(ShoppingCartScreen);

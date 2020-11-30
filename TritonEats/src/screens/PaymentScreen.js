@@ -95,9 +95,13 @@ const PaymentScreen = ({ navigation }) => {
     </TouchableWithoutFeedback>
   );
 };
-
+PaymentScreen.navigationOptions = () => {
+  return {
+    header: () => false,
+  };
+};
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#0a2657",},
+  container: { flex: 1, backgroundColor: "#0a2657",paddingTop: 100},
   CardImg: {
     width: 120,
     height: 120,
@@ -119,7 +123,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffffff",
     paddingTop: 50,
     position: "absolute",
-    top: 130,
+    top: 230,
     width: "100%"
   },
   layer2: {
