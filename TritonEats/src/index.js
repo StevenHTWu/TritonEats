@@ -2,7 +2,8 @@ require("./Models/Auth");
 require("./Models/Orderers");
 require("./Models/History");
 require("./models/ResMenu");
-require("./Models/Payment")
+require("./models/Orders");
+require("./Models/Deliverers");
 //require("./models/User"); This line is present in the index.js Wei sent me, but there is no User model so I commented it out
 
 const express = require("express");
@@ -10,8 +11,10 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const authRoutes = require("./routes/authRoutes");
 const orderersRoutes = require("./routes/orderersRoutes");
+const deliverersRoutes = require("./routes/delivererRoutes");
+const ordersRoutes = require("./routes/ordersRoutes");
+const historyRoutes = require("./routes/historyRoutes");
 const resMenuRoutes = require("./routes/resMenuRoutes");
-const custPayment = require("./routes/custPaymentRoutes");
 
 const requireAuth = require("./middlewares/requireAuth");
 
@@ -21,7 +24,9 @@ app.use(bodyParser.json());
 app.use(authRoutes);
 app.use(orderersRoutes);
 app.use(resMenuRoutes);
-app.use(custPayment)
+app.use(ordersRoutes);
+app.use(historyRoutes);
+app.use(deliverersRoutes)
 
 const mongoUri =
   "mongodb+srv://tritoneats:cse110fa20@cluster0.bkbuy.mongodb.net/TritonEats?retryWrites=true&w=majority";
