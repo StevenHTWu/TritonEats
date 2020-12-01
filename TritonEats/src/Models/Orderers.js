@@ -11,6 +11,7 @@ const orderersSchema = new mongoose.Schema(
     phone_num: String,
     registration_date: String,
     email_confirmed: Boolean,
+    payment_methods: Array,
   },
   { collection: "Orderers" }
 );

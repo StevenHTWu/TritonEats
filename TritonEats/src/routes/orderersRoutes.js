@@ -35,6 +35,65 @@ router.route("/delivererInfo/:orderer_id").get(function (req, res) {
   });
 });
 
+router.route("/customerPayment/:orderer_id").post(function (req, res) {
+  var _id = req.params.orderer_id;
+  console.log(_id);
+  console.log(req.body);
+
+  card_number = req.body.card_number;
+  cvv = req.body.cvv;
+  expiration_date = req.body.expiration_date;
+
+  if (card_number == null) {
+    res.status(422).send("Missing card number.");
+  } else if (cvv == null) {
+    res.status(422).send("Missing cvv.");
+  } else if (expiration_date == null) {
+    res.status(422).send("Missing expiration date.");
+  } else {
+    new_card = {
+      card_number: card_number,
+      cvv: cvv,
+      expiration_date: expiration_date,
+    };
+    orderers.findOneAndUpdate(
+      { orderer_id: _id },
+      { $push: { payment_methods: new_card } },
+      function (error, success) {
+        if (error) {
+          res.send(error);
+        } else {
+          res.send("Successfully added payment method.");
+        }
+      }
+    );
+  }
+});
+
+router.route("/customerPayment/:orderer_id/").delete(function (req, res) {
+  var _id = req.params.orderer_id;
+  var card_to_delete = req.params.card_number;
+
+  new_cards = [];
+  orderers.findOne({ orderer_id: _id }, function (err, result) {
+    if (err) {
+      res.send(err);
+    } else {
+      orderers.findOneAndUpdate(
+        { orderer_id: _id },
+        { $pull: { payment_methods: { card_number: 9999999999999999 } } },
+        function (error, success) {
+          if (error) {
+            res.send(error);
+          } else {
+            res.send("Successfully deleted payment method.");
+          }
+        }
+      );
+    }
+  });
+});
+
 function helper(deliverer_ids, deliverer_info, index, response) {
   console.log("index = " + index);
   console.log("length = " + deliverer_ids.length);
@@ -49,10 +108,7 @@ function helper(deliverer_ids, deliverer_info, index, response) {
         if (err) {
           //res.send(err);
         } else {
-          console.log(result);
-          console.log(deliverer_ids[index]);
           deliverer_info.push([result[0].name, result[0].phone_num]);
-          console.log("Recursing");
           index = index + 1;
           helper(deliverer_ids, deliverer_info, index, response);
         }
