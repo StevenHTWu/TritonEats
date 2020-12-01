@@ -9,6 +9,29 @@ import {
   Keyboard,
   TouchableWithoutFeedback,
 } from "react-native";
+import axios from 'axios';
+import trackerApi from "../api/tracker";
+import { navigate } from "../navigationRef";
+import { AsyncStorage } from "react-native";
+
+
+const addCard = async (cardNum, cvv, expDate) => {
+  console.log(cardNum);
+  const token = await AsyncStorage.getItem("token");
+  console.log(token);
+    /*
+    jwt.verify(token, "MY_SECRET_KEY", async (err, payload) => {
+      if (err) {
+        return res.status(401).send({ error: "You must be logged in." });
+      }
+  
+      const { userId } = payload;
+      
+    });*/
+  const response = await trackerApi.post("/addcard", { cardNum, cvv, expDate, token });
+  console.log(response);
+};
+
 
 class AddCardScreen extends Component {
   //= ({ navigation }, props) => {
@@ -56,6 +79,7 @@ class AddCardScreen extends Component {
               secureTextEntry={true}
               autoCorrect={false}
               style={styles.textIn}
+              require
               placeholder={"1234-5678-1234-5678"}
               keyboardType="number-pad"
             />
@@ -139,13 +163,12 @@ class AddCardScreen extends Component {
 
             <View style={styles.layer2}>
               <TouchableOpacity
-                onPress={() =>
-                  this.props.navigation.navigate("PaymentScreen", {
-                    cardNum: this.state.cardNum,
-                    date: this.state.date,
-                    cvv: this.state.cvv,
-                    name: this.state.name,
-                  })
+                onPress={() =>{
+                  //if (this.state.cardNum != null && this.state.date != null && this.state.cvv != null && this.state.name != null && this.state.cardNum.length == 16 && this.state.cvv.length == 3 && this.state.date.length == 4) {
+                  addCard(this.state.cardNum, this.state.cvv, this.state.date);
+                  navigate("PaymentScreen");
+                  //}
+                }
                 }
                 style={styles.AddCardBtn}
               >

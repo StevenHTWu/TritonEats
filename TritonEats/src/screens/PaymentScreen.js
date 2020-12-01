@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { StyleSheet, View, TextInput, Text, Image, TouchableOpacity, Keyboard,  TouchableWithoutFeedback, PickerIOSItem } from "react-native";
+import { StyleSheet, View, TextInput, Text, Image, TouchableOpacity, Keyboard,  TouchableWithoutFeedback, Picker } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 
@@ -7,6 +7,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 const PaymentScreen = ({ navigation }) => {
   //const [response, setResponse] = useState();
 
+  const [selectedValue, setSelectedValue] = useState("");
   const[alternateSelect, setAlternateSelect] = useState(true);
 
   const changeSelect = () => {
@@ -14,8 +15,9 @@ const PaymentScreen = ({ navigation }) => {
   }
 
   const array = [
-      {cardNum: navigation.getParam('cardNum'),
-        name: navigation.getParam('name')}
+      {cardNum: navigation.getParam('cardNum')},
+      {cardNum: "xxxx-xxxx-xxxx-8976"},
+      {cardNum: "xxxx-xxxx-xxxx-3421"},
   ]
 
   var cardNum = null;
@@ -71,7 +73,13 @@ const PaymentScreen = ({ navigation }) => {
             <Text style={styles.ButtonText}>Add Card</Text>
           </TouchableOpacity>}
             
-          
+          <Picker
+            selectedValue={selectedValue}
+            mode="dropdown"
+            style={{ height: 50, width: 400}}
+            onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
+          >{array.map(arr => <Picker.Item label={arr.cardNum} value={arr.cardNum} />)}
+          </Picker>
             
             
             
