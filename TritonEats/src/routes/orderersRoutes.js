@@ -70,30 +70,6 @@ router.route("/customerPayment/:orderer_id").post(function (req, res) {
   }
 });
 
-router.route("/customerPayment/:orderer_id/").delete(function (req, res) {
-  var _id = req.params.orderer_id;
-  var card_to_delete = req.params.card_number;
-
-  new_cards = [];
-  orderers.findOne({ orderer_id: _id }, function (err, result) {
-    if (err) {
-      res.send(err);
-    } else {
-      orderers.findOneAndUpdate(
-        { orderer_id: _id },
-        { $pull: { payment_methods: { card_number: 9999999999999999 } } },
-        function (error, success) {
-          if (error) {
-            res.send(error);
-          } else {
-            res.send("Successfully deleted payment method.");
-          }
-        }
-      );
-    }
-  });
-});
-
 function helper(deliverer_ids, deliverer_info, index, response) {
   console.log("index = " + index);
   console.log("length = " + deliverer_ids.length);
