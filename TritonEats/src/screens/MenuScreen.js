@@ -28,16 +28,28 @@ class MenuScreen extends Component {
         { Id: "7", ItemName: "Sandwich", Price: "$7" },
         { Id: "8", ItemName: "Baja Fish Tacos", Price: "$6.00" },
       ],
+      errorMessage: false
     };
   }
 
   render() {
+    let view;
+    console.log(this.errorMessage);
+    if (this.state.errorMessage === true) {
+      view = <Text style={{backgroundColor:'red', color: 'white', fontSize: 20, padding: 0, margin: 0}}>You have items in your shopping cart from another restaurant! Please empty your cart then add more.</Text>
+    }
+    else {
+      view = (null);
+    }
     return (
       <SafeAreaView forceInset={{ top: "always" }}>
         <Text style={styles.headerTitle}>{CurrentCart.viewing_restaurant}</Text>
         <Image style={styles.topImage} source={require('../../assets/Pinburrito.jpg')} />
+        {view}
         <FlatList
           data={this.state.ResaturantMenu}
+
+          
           
           renderItem={({ item }) => (
             <View>
@@ -50,13 +62,20 @@ class MenuScreen extends Component {
                             color="#FFD700"
                             accessibilityLabel="Add to cart"
                             onPress = {() => {
-                              var tmpArr = Object.assign([], CurrentCart.order_arr);
-                              CurrentCart.emptyOrderArr();
-                              CurrentCart.order_arr = tmpArr;
-                              CurrentCart.addToOrderArr( {key: item.ItemName, quantity: 1, value: parseFloat(item.Price.substring(1)) }); 
+                              if (CurrentCart.viewing_restaurant === CurrentCart.restaurant_name || CurrentCart.restaurant_name === "") {
+                                var tmpArr = Object.assign([], CurrentCart.order_arr);
+                                CurrentCart.emptyOrderArr();
+                                CurrentCart.order_arr = tmpArr;
+                                CurrentCart.addToOrderArr( {key: item.ItemName, quantity: 1, value: parseFloat(item.Price.substring(1)) }); 
+                                CurrentCart.restaurant_name = CurrentCart.viewing_restaurant;
+                              }
+                              else {
+                                this.setState({ errorMessage: true});
+                              }
+                        
                             }
-                            } 
-                        >
+                          }
+                          > 
                         <Text style={styles.addToCartText}>Add to cart</Text>
                         </TouchableOpacity>
                     </View>
@@ -84,7 +103,7 @@ const styles = StyleSheet.create({
     fontSize: 30,
   },
   topImage: {
-    marginBottom: 10,
+    marginBottom: 0,
     width: 500,
     height: 200,
   },

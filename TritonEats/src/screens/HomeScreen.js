@@ -11,9 +11,8 @@ import degrees from '../../assets/64salmon.jpg';
 import cafeV from '../../assets/CafeVsalad.jpg';
 import oceanView from '../../assets/OVpizza.jpg';
 
-import { navigate } from "../navigationRef";
-
-var CurrentCart = require('../Components/Cart'); //use to set what restaurant menu needs to display
+import CurrentCart from '../Components/Cart';
+import { navigate } from '../navigationRef'
 
 class HomeScreen extends Component {
   constructor(props) {
@@ -34,14 +33,25 @@ class HomeScreen extends Component {
 
   render() {
     return (
-      <View>
-        <View style={styles.main}>
-        <View style={styles.List}>
+    <SafeAreaView forceInset={{ top: "always" }} >
+    <View style={styles.main}>
+      
+    <View style={styles.Container}>
+    <View style={styles.LogoRow}>
+      <Image
+        style={styles.LogoImg}
+        source={require("../../assets/TritonLogo.png")}
+      />
+      <Text style={styles.LogoFont}>Triton Eats</Text>
+    </View>
+    </View>
+
+    <View style={styles.List}>
     <FlatList
       data={this.state.Restaurants}
       renderItem={({ item }) => (
         <View>
-            <TouchableOpacity
+            <TouchableOpacity 
               onPress={() =>  { CurrentCart.viewing_restaurant = item.Name; navigate('MenuScreen'); }}
               style={styles.restaurant}>
                 <Image style={styles.icon} source={item.Image} /> 
@@ -54,163 +64,72 @@ class HomeScreen extends Component {
     />
     </View>
     </View>
-  </View>
-  /*
-          <ScrollView
-            horizontal={true}
-            showsHorizontalScrollIndicator={true}
-            scrollEventThrottle={200}
-            decelerationRate="fast"
-            pagingEnabled
-          >
-            <Image
-              style={styles.image}
-              source={sandwich}
-            />
-            <Image
-              style={styles.image}
-              source={sushi}
-            />
-            <Image
-              style={styles.image}
-              source={meat}
-            />
-            <Image
-              style={styles.image}
-              source={salad}
-            />            
-          </ScrollView>
-        </View>
+  </SafeAreaView>
 
-        <View style={styles.verticalScroll}>
-          <ScrollView
-          //scrollEventThrottle={200}
-          //decelerationRate="fast"
-          >
-          <TouchableOpacity
-            onPress={() => { CurrentCart.viewing_restaurant = "64 Degrees"; navigate('MenuScreen'); }}
-            style={styles.restaurant}
-          >
-            <Image
-              style={styles.icon}
-              source={sandwich}
-            />
-            <Text style={styles.name}>  64 Degrees</Text>
-            <Text style={styles.hours}>           7:00 am to 9:00 pm</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            onPress={() => {CurrentCart.viewing_restaurant = "Cafe Ventanas"; navigate('MenuScreen');}}
-            style={styles.restaurant}
-          >
-            <Image
-              style={styles.icon}
-              source={pasta}
-            />
-            <Text style={styles.name}>  Cafe Ventanas</Text>
-            <Text style={styles.hours}>           7:00 am to 9:00 pm</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            onPress={() => {CurrentCart.viewing_restaurant = "Club Med"; navigate('MenuScreen');}}
-            style={styles.restaurant}
-          >
-            <Image
-              style={styles.icon}
-              source={sandwich2}
-            />
-            <Text style={styles.name}>  Club Med</Text>
-            <Text style={styles.hours}>           7:00 am to 9:00 pm</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            onPress={() => {CurrentCart.viewing_restaurant = "Foodworx"; navigate('MenuScreen');}}
-            style={styles.restaurant}
-          >
-            <Image
-              style={styles.icon}
-              source={fruit}
-            />
-            <Text style={styles.name}>  Foodworx</Text>
-            <Text style={styles.hours}>           7:00 am to 9:00 pm</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            onPress={() => {CurrentCart.viewing_restaurant = "Pines"; navigate('MenuScreen');}}
-            style={styles.restaurant}
-          >
-            <Image
-              style={styles.icon}
-              source={sushi}
-            />
-            <Text style={styles.name}>  Pines</Text>
-            <Text style={styles.hours}>           7:00 am to 9:00 pm</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            onPress={() => {CurrentCart.viewing_restaurant = "OceanView"; navigate('MenuScreen');}}
-            style={styles.restaurant}
-          >
-            <Image
-              style={styles.icon}
-              source={chicken}
-            />
-            <Text style={styles.name}>  OceanView</Text>
-            <Text style={styles.hours}>           7:00 am to 9:00 pm</Text>
-          </TouchableOpacity>
-          
-          </ScrollView>
-        </View>
-      </View>
-*/
-    );
-  }
+  );
 }
-HomeScreen.navigationOptions = () => {
-  return {
-    header: () => false,
-  };
-};
+}
 
 const styles = StyleSheet.create({
-  main: {
-    alignItems: "center",
-  },
-  verticalScroll: {
-    alignItems: "center",
-  },
-  image: {
-    width: 375,
-    height: 175,
-  },
-  name: {
-    fontSize: 22,
-    width: 100,
-    height: 75,
-    marginLeft: 10,
-    color: "white",
-    textAlign: "center",
-    fontFamily: "Unica One",
-  },
-  hours: {
-    fontSize: 15,
-    color: "white",
-    fontFamily: "Unica One",
-  },
-  icon: {
-    width: 60,
-    height: 50,
-    marginLeft: 5,
-  },
-  restaurant: {
-    elevation: 8,
-    backgroundColor: "#0a2657",
-    paddingVertical: 5,
-    width: 375,
-    height: 60,
-    marginTop: 3,
-    flexDirection: 'row',
-  },
+main: {
+  alignItems: "center",
+},
+image: {
+  width: 375,
+  height: 175,
+},
+name: {
+  fontSize: 28,
+  width: "30%",
+  height: 75,
+  marginLeft: "5%",
+  marginRight: "5%",
+  color: "white",
+  textAlign: "left",
+  fontFamily: "Unica One",
+},
+hours: {
+  fontSize: 19,
+  color: "white",
+  fontFamily: "Unica One",
+  textAlign: "right",
+  marginRight: "20%",
+},
+List:{
+  paddingBottom: 300,
+},
+icon: {
+  width: "22%",
+  height: "80%",
+  marginLeft: "3%",
+},
+restaurant: {
+  backgroundColor: "#0a2657",
+  paddingVertical: "5%",
+  width: 375,
+  marginTop: 0,
+  flexDirection: 'row',
+  marginBottom: 5,
+},
+LogoFont: {
+  fontSize: 55,
+  fontFamily: "Unica One",
+  paddingLeft: 20,
+},
+Container: {
+  marginTop: 10,
+  marginBottom: 15,
+  marginRight: 10,
+},
+LogoRow: {
+  flexDirection: "row",
+  marginTop: "5%",
+  marginLeft: "5%",
+},
+LogoImg: {
+  width: 50,
+  height: 50,
+},
 });
 
 export default HomeScreen;
