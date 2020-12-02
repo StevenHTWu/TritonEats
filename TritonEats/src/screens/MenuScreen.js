@@ -35,7 +35,7 @@ class MenuScreen extends Component {
     return (
       <SafeAreaView forceInset={{ top: "always" }}>
         <Text style={styles.headerTitle}>{CurrentCart.viewing_restaurant}</Text>
-        <Image style={styles.topImage} source={require('../../assets/Pines_Burger.jpg')} />
+        <Image style={styles.topImage} source={require('../../assets/Pinburrito.jpg')} />
         <FlatList
           data={this.state.ResaturantMenu}
           

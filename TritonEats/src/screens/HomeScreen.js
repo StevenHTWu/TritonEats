@@ -1,27 +1,61 @@
 import React, { Component } from "react";
-import { Container, Text, View, StyleSheet, Image, ScrollView, TouchableOpacity, Dimensions } from "react-native";
+import { FlatList, Text, View, StyleSheet, Image, ScrollView, TouchableOpacity, Dimensions, ImageBackground } from "react-native";
 import { SafeAreaView } from "react-navigation";
 
 import NavBar from "../Components/NavBar";
-import sandwich from '../../assets/sandwich.jpg';
-import sushi from '../../assets/sushi.jpg'
-import fruit from '../../assets/fruit.jpg';
-import chicken from '../../assets/chicken.jpg';
-import pasta from '../../assets/pasta.jpg';
-import meat from '../../assets/meat.jpg'
-import sandwich2 from '../../assets/sandwich2.jpg';
-import salad from '../../assets/salad.jpg';
+import foodWorx from '../../assets/FWsandwich.jpg';
+import pines from '../../assets/Pinburrito.jpg'
+import clubMed from '../../assets/CMfish.jpg';
+import canVista from '../../assets/CanVnoodles.jpg';
+import degrees from '../../assets/64salmon.jpg';
+import cafeV from '../../assets/CafeVsalad.jpg';
+import oceanView from '../../assets/OVpizza.jpg';
 
 import { navigate } from "../navigationRef";
 
 var CurrentCart = require('../Components/Cart'); //use to set what restaurant menu needs to display
 
 class HomeScreen extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      Restaurants: [
+        {Id: "1", Image: degrees, Name: "64 Degrees", Hours: "7 am to 9 pm"},
+        {Id: "2", Image: cafeV, Name: "Cafe Ventanas", Hours: "7 am to 9 pm"},
+        {Id: "3", Image: canVista, Name: "Canyon Vista", Hours: "7 am to 9 pm"},
+        {Id: "4", Image: clubMed, Name: "Club Med", Hours: "7 am to 9 pm"},
+        {Id: "5", Image: foodWorx, Name: "Foodworx", Hours: "7 am to 9 pm"},
+        {Id: "6", Image: oceanView, Name: "OceanView", Hours: "7 am to 9 pm"},
+        {Id: "7", Image: pines, Name: "Pines", Hours: "7 am to 9 pm"},
+      ],
+    };
+  }
+
   render() {
     return (
       <View>
         <View style={styles.main}>
-          
+        <View style={styles.List}>
+    <FlatList
+      data={this.state.Restaurants}
+      renderItem={({ item }) => (
+        <View>
+            <TouchableOpacity
+              onPress={() =>  { CurrentCart.viewing_restaurant = item.Name; navigate('MenuScreen'); }}
+              style={styles.restaurant}>
+                <Image style={styles.icon} source={item.Image} /> 
+                <Text style={styles.name}>{item.Name}</Text>
+                <Text style={styles.hours}>{item.Hours}</Text>
+            </TouchableOpacity>
+        </View>
+      )}
+      keyExtractor={(item) => item.Id}
+    />
+    </View>
+    </View>
+  </View>
+  /*
           <ScrollView
             horizontal={true}
             showsHorizontalScrollIndicator={true}
@@ -128,7 +162,7 @@ class HomeScreen extends Component {
           </ScrollView>
         </View>
       </View>
-
+*/
     );
   }
 }
