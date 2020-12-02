@@ -1,8 +1,55 @@
 import React, { useContext, Component, useEffect } from "react";
-import { View, StyleSheet, Text, Button, TextInput, ScrollView, Keyboard, Dimensions } from "react-native";
+import { View, StyleSheet, Text, Button, TextInput, ScrollView, Keyboard, Dimensions, FlatList } from "react-native";
 import { Context as AuthContext } from "../context/AuthContext";
 import { SafeAreaView } from "react-navigation";
 
+
+const menu = [{key: 'My Profile', nav: 'HomeScreen'}, 
+              {key: 'Manage Address', nav: 'ShoppingCartScreen'}, 
+              {key: 'Add Payment Method', nav: 'OrderHistoryScreen'}, 
+              {key: 'View/Edit Payment Method', nav: 'HomeScreen'}, 
+              {key: 'Change Password', nav: 'HomeScreen'}];
+
+const SettingsScreen = ({ navigation }) => {
+  const { signout } = useContext(AuthContext);
+  return (
+    <SafeAreaView forceInset={{ top: "always" }}>
+      <Text style={{ fontSize: 49, paddingTop: 40, fontFamily: "Unica One", textAlign: "center" }}>Settings</Text>
+
+      <FlatList style={ styles.list }
+      data={menu} renderItem={({item}) => 
+        <Text style={styles.text} onPress={() => navigation.navigate(item.nav)} >{item.key}</Text>
+      } />
+      
+      <Button title="Sign Out" onPress={signout} />
+    </SafeAreaView>
+  );
+};
+const styles = StyleSheet.create({
+  text: {
+    fontSize: 20,
+    padding: 10,
+    paddingLeft: 15,
+    backgroundColor: '#0a2657',
+    color: '#FFD700',
+    marginBottom: 1
+    /*
+    borderTopWidth: 1,
+    borderTopColor: '#000000',
+    borderBottomWidth: 1,
+    borderBottomColor: '#000000'*/
+  },
+  list: {
+    paddingTop: 30,
+    marginBottom: 1
+  }
+});
+
+export default SettingsScreen;
+
+
+
+/*
 // Constants used in the code
 const sixteen = 16;
 const four = 4;
@@ -197,30 +244,13 @@ class DropdownList extends Component {
             <Text style={styles.button} onPress={this.saveProfile} >Save</Text>
           </View>
 
-          <Text style={styles.text} onPress={this.payment} >Add Payment Method</Text>
-          <View style={{ height: this.state.paymentHeight }}>
-            <Text style={styles.inputText} >Card Number: </Text> 
-            <TextInput defaultValue="" style={styles.input} 
-            keyboardType="decimal-pad" maxLength={sixteen} 
-            onChangeText={(text) => object.card_number = text}/>
-          </View>
-          <View style={{ height: this.state.paymentHeight }}>
-            <Text style={styles.inputText} >Expiry Date (mmyy): </Text>
-            <TextInput defaultValue="" style={styles.input} 
-            keyboardType="decimal-pad" maxLength={four} 
-            onChangeText={(text) => object.expiry = text}/>
-          </View>
-          <View style={{ height: this.state.paymentHeight }}>
-            <Text style={styles.inputText} >CVV number: </Text>
-            <TextInput defaultValue="" style={styles.input} 
-            keyboardType="decimal-pad" maxLength={three} secureTextEntry={true} 
-            onChangeText={(text) => object.cvv = text}/>
-          </View>
-          <View style={{ height: this.state.paymentButtonHeight }}>  
-            <Text style={styles.button} onPress={this.savePayment}>Save</Text>
-          </View>
 
-          <Text style={styles.text} onPress={this.address} >Manage Address</Text>        
+
+          <Text style={styles.text} onPress={navigation.navigate("AddPaymentScreen")} >Add Payment Method</Text>
+          <Text style={styles.text} onPress={navigation.navigate("ManagePaymentScreen")} >Manage Payment Method(s)</Text>
+          
+
+          <Text style={styles.text} onPress={this.address} >Manage Address</Text>
           <View style={{ height: this.state.addressHeight }}>
             <Text style={styles.inputText} >Apartment Number: </Text> 
             <TextInput defaultValue={object.apartment} style={styles.input} 
@@ -264,9 +294,11 @@ class DropdownList extends Component {
 
 }
 let {logout} = {};
+let {nav} = {};
 const SettingsScreen = ({ navigation }) => {
   const { signout } = useContext(AuthContext);
   logout = signout;
+  nav = navigation;
   return (
     <SafeAreaView forceInset={{ top: "always" }}>
       <Text style={{ fontSize: 49, paddingTop: 40, fontFamily: "Unica One", textAlign: "center" }}>Settings</Text>
@@ -342,3 +374,31 @@ export default SettingsScreen;
           </View>
 
 */
+
+
+
+/*
+
+<View style={{ height: this.state.paymentHeight }}>
+            <Text style={styles.inputText} >Card Number: </Text> 
+            <TextInput defaultValue="" style={styles.input} 
+            keyboardType="decimal-pad" maxLength={sixteen} 
+            onChangeText={(text) => object.card_number = text}/>
+          </View>
+          <View style={{ height: this.state.paymentHeight }}>
+            <Text style={styles.inputText} >Expiry Date (mmyy): </Text>
+            <TextInput defaultValue="" style={styles.input} 
+            keyboardType="decimal-pad" maxLength={four} 
+            onChangeText={(text) => object.expiry = text}/>
+          </View>
+          <View style={{ height: this.state.paymentHeight }}>
+            <Text style={styles.inputText} >CVV number: </Text>
+            <TextInput defaultValue="" style={styles.input} 
+            keyboardType="decimal-pad" maxLength={three} secureTextEntry={true} 
+            onChangeText={(text) => object.cvv = text}/>
+          </View>
+          <View style={{ height: this.state.paymentButtonHeight }}>  
+            <Text style={styles.button} onPress={this.savePayment}>Save</Text>
+          </View>
+
+          */
