@@ -15,20 +15,11 @@ import { navigate } from "../navigationRef";
 import { AsyncStorage } from "react-native";
 
 
-const addCard = async (cardNum, cvv, expDate) => {
-  console.log(cardNum);
+const addCard = async (card_number, cvv, expiration_date) => {
+  //console.log(cardNum);
   const token = await AsyncStorage.getItem("token");
-  console.log(token);
-    /*
-    jwt.verify(token, "MY_SECRET_KEY", async (err, payload) => {
-      if (err) {
-        return res.status(401).send({ error: "You must be logged in." });
-      }
-  
-      const { userId } = payload;
-      
-    });*/
-  const response = await trackerApi.post("/addcard", { cardNum, cvv, expDate, token });
+
+  const response = await trackerApi.post("/customerPayment/fdsfwf32324jk", { card_number, cvv, expiration_date, token });
   console.log(response);
 };
 

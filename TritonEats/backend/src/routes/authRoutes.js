@@ -19,7 +19,7 @@ router.post("/signup", async (req, res) => {
     return res.status(422).send(err.message);
   }
 });
-
+/*
 router.post("/addcard", async (req, res) => {
   const { cardNum, cvv, expDate, token } = req.body;
   console.log(cardNum);
@@ -42,7 +42,7 @@ router.post("/addcard", async (req, res) => {
     return res.status(422).send(err.message);
   }
 });
-
+*/
 router.post("/signin", async (req, res) => {
   const { email, password } = req.body;
 
