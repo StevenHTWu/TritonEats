@@ -63,7 +63,7 @@ class ShoppingCartScreen extends React.Component {
     
     this.state = {refresh: false, data: CurrentCart.order_arr};
   }
-   
+  /*
   componentDidUpdate(prevProps) {
     if (prevProps.isFocused !== this.props.isFocused && this.props.isFocused == true) {
       setTimeout(() => {
@@ -75,6 +75,7 @@ class ShoppingCartScreen extends React.Component {
       }, 10);
     }
   }
+  */
   render() {
     return (
       
