@@ -15,12 +15,20 @@ import { navigate } from "../navigationRef";
 import { AsyncStorage } from "react-native";
 
 
+
 const addCard = async (card_number, cvv, expiration_date) => {
-  //console.log(cardNum);
   const token = await AsyncStorage.getItem("token");
 
-  const response = await trackerApi.post("/customerPayment/fdsfwf32324jk", { card_number, cvv, expiration_date, token });
-  console.log(response);
+  const headers = {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${token}`
+  }
+
+  const response = await trackerApi.post("/auth/customerPayment", { 
+    card_number, cvv, expiration_date 
+  }, {
+    headers: headers
+  });
 };
 
 
@@ -155,10 +163,10 @@ class AddCardScreen extends Component {
             <View style={styles.layer2}>
               <TouchableOpacity
                 onPress={() =>{
-                  //if (this.state.cardNum != null && this.state.date != null && this.state.cvv != null && this.state.name != null && this.state.cardNum.length == 16 && this.state.cvv.length == 3 && this.state.date.length == 4) {
-                  addCard(this.state.cardNum, this.state.cvv, this.state.date);
-                  navigate("PaymentScreen");
-                  //}
+                  if (this.state.cardNum != null && this.state.date != null && this.state.cvv != null && this.state.name != null && this.state.cardNum.length == 16 && this.state.cvv.length == 3 && this.state.date.length == 4) {
+                    addCard(this.state.cardNum, this.state.cvv, this.state.date);
+                    navigate("PaymentScreen");
+                  }
                 }
                 }
                 style={styles.AddCardBtn}
@@ -213,7 +221,7 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     height: 45,
     marginTop: 32,
-    marginLeft: 126,
+    alignSelf:"center"
   },
   ButtonText: {
     fontSize: 23,

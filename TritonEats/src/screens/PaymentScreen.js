@@ -1,30 +1,62 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { StyleSheet, View, TextInput, Text, Image, TouchableOpacity, Keyboard,  TouchableWithoutFeedback, Picker } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import trackerApi from "../api/tracker";
+import { AsyncStorage } from "react-native";
+import { useIsFocused } from "@react-navigation/native";
 
+const makeOrder = async (resName, arrItems, arrQty, tPrice) => {
+
+  const token = await AsyncStorage.getItem("token");
+  const response = await trackerApi.post("/makeOrder", { resName, arrItems, arrQty, tPrice, token });
+  console.log(response);
+};
 
 
 const PaymentScreen = ({ navigation }) => {
-  //const [response, setResponse] = useState();
 
   const [selectedValue, setSelectedValue] = useState("");
+  const [selectedCards, setSelectedCards] = useState("");
   const[alternateSelect, setAlternateSelect] = useState(true);
 
   const changeSelect = () => {
     setAlternateSelect(alternateSelect => !alternateSelect);
   }
 
-  const array = [
-      {cardNum: navigation.getParam('cardNum')},
-      {cardNum: "xxxx-xxxx-xxxx-8976"},
-      {cardNum: "xxxx-xxxx-xxxx-3421"},
-  ]
 
-  var cardNum = null;
+  const getCard = async () => {
+    const token = await AsyncStorage.getItem("token");
+    console.log(token);
+    const headers = {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    }
 
-  if(array[0].cardNum != null) {
-    cardNum = "xxxx-xxxx-xxxx-" + array[0].cardNum.substring(12,16);
+    trackerApi.get("/auth/customerPayment", {
+      headers: headers
+    })
+    .then(res => {
+      setSelectedCards(res.data);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+  
+  };
+
+  const refresh = navigation.addListener('didFocus', () => {
+    getCard();
+  });
+
+  var array = selectedCards;
+  var cardNum=[];
+
+  for (var i=0; i<array.length; i++){
+    if(array[i].card_number != null) {
+      cardNum[i] = "xxxx-xxxx-xxxx-" + array[i].card_number.substring(12,16);
+    }
   }
+
+  console.log(array);
   return (
       
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -37,59 +69,29 @@ const PaymentScreen = ({ navigation }) => {
           <View style={styles.layer1}>
           <View>
 
-          {navigation.getParam('cardNum') != null ? (
-              <TouchableOpacity style={styles.selectCard} onPress={changeSelect}>
-                  {alternateSelect && <View style={{flex: 1, flexDirection: 'row'}}>
-                    <View style={{width: 70, height: 40}} >
-                    <Image
-                                style={styles.CardImgVisa}
-                                source={require("../../assets/visa.png")}
-                            />
-                    </View>
-                    <View style={{width: 400, height: 40}} >
-                        <Text style={{ fontSize: 20, fontFamily: "Unica One", marginLeft: 20, color: "#0a2657"}}>{cardNum}</Text>
-                    </View>
-                    
-                  </View>}
-                  {!alternateSelect && 
-                  <View style={styles.selectCardPress}>
-                    <View style={{width: 70, height: 40}} >
-                    <Image
-                                style={styles.CardImgVisa}
-                                source={require("../../assets/visa.png")}
-                            />
-                    </View>
-                    <View style={{width: 400, height: 40}} >
-                        <Text style={{ fontSize: 20, fontFamily: "Unica One", marginLeft: 20, color: "#0a2657"}}>{cardNum}</Text>
-                    </View>
-                    
-                  </View>}
-             </TouchableOpacity>
-            ) : <TouchableOpacity
-            onPress={() => navigation.navigate("AddCardScreen")}
-            style={styles.AddCardBtn}
-        >
-            
-            <Text style={styles.ButtonText}>Add Card</Text>
-          </TouchableOpacity>}
-            
           <Picker
             selectedValue={selectedValue}
             mode="dropdown"
-            style={{ height: 50, width: 400}}
+            style={{ height: 180, width: 300, alignSelf: "center"}}
             onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
-          >{array.map(arr => <Picker.Item label={arr.cardNum} value={arr.cardNum} />)}
+          >{cardNum.map((item, idx) => <Picker.Item label={item} value={item} key={idx}/>)}
           </Picker>
-            
-            
-            
-  
-              
+
+           <TouchableOpacity
+            onPress={() => navigation.navigate("AddCardScreen")}
+            style={styles.AddCardBtn}
+          >
+            <Text style={styles.ButtonText}>Add Card</Text>
+          </TouchableOpacity>
+
             </View>
 
             <View style={styles.layer2}>
                     <TouchableOpacity
-                        onPress={() => navigation.navigate("HomeScreen")}
+                        onPress={() => {
+                          makeOrder(this.state.resName, this.state.arrItems, this.state.arrQty, this.state.tPrice);
+                          navigate("HomeScreen");
+                        }}
                         style={styles.PaymentBtn}
                     >
                         <Text style={styles.ButtonText}>Pay</Text>
@@ -149,7 +151,7 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     height: 45,
     marginTop: 32,
-    marginLeft: 125
+    alignSelf: "center"
   },
   PaymentBtn: {
     backgroundColor: "#FFD700",

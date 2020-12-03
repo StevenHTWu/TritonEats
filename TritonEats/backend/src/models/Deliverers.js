@@ -10,6 +10,7 @@ const deliverersSchema = new mongoose.Schema(
     registration_date: String,
     email_confirmed: Boolean,
     active: Boolean,
+    balance: Number,
   },
   { collection: "Deliverers" }
 );
