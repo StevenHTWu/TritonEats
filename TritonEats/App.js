@@ -23,6 +23,11 @@ import { setNavigator } from "./src/navigationRef";
 import ResolveAuthScreen from "./src/screens/ResolveAuthScreen";
 import MenuScreen from "./src/screens/MenuScreen";
 
+// Deliver Side Imports
+import DelivererHomeScreen from "./src/screens/DelivererHomeScreen";
+import DelivererJobHistoryScreen from "./src/screens/DelivererJobHistoryScreen";
+import DelivererSettingsScreen from "./src/screens/DelivererSettingsScreen";
+
 const switchNavigator = createSwitchNavigator({
   ResolveAuthScreen: ResolveAuthScreen,
   loginFlow: createStackNavigator({
@@ -77,9 +82,47 @@ const switchNavigator = createSwitchNavigator({
   ),
   menuFlow: createStackNavigator({
     HomeScreen: HomeScreen,
-    MenuScreen: MenuScreen
-
-  })
+    MenuScreen: MenuScreen,
+  }),
+  DelivererMainFlow: createBottomTabNavigator(
+    {
+      DelivererHomeScreen: createStackNavigator({
+        Home: DelivererHomeScreen,
+      }),
+      DelivererJobHistoryScreen: {
+        screen: DelivererJobHistoryScreen,
+        navigationOptions: {
+          title: "Job History",
+        },
+      },
+      DelivererSettingsScreen: {
+        screen: DelivererSettingsScreen,
+        navigationOptions: {
+          title: "Settings",
+        },
+      },
+    }
+    // {
+    //   defaultNavigationOptions: ({ navigation }) => ({
+    //     tabBarIcon: ({ focused, horizontal, tintColor }) => {
+    //       const { routeName } = navigation.state;
+    //       if (routeName === "HomeScreen") {
+    //         return <Feather name="home" size={24} color="black" />;
+    //       } else if (routeName === "OrderHistoryScreen") {
+    //         return <MaterialIcons name="history" size={24} color="black" />;
+    //       } else if (routeName === "ShoppingCartScreen") {
+    //         return <AntDesign name="shoppingcart" size={24} color="black" />;
+    //       } else {
+    //         return <Feather name="settings" size={24} color="black" />;
+    //       }
+    //     },
+    //   }),
+    //   tabBarOptions: {
+    //     activeTintColor: "#FF6F00",
+    //     inactiveTintColor: "#263238",
+    //   },
+    // }
+  ),
 });
 
 const getFonts = () =>
