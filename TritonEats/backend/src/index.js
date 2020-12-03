@@ -1,17 +1,20 @@
 require("./models/User");
 require("./models/UserInfo");
+require("./models/ResMenu");
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const authRoutes = require("./routes/authRoutes");
 const userInfoRoutes = require("./routes/userInfoRoutes");
 const requireAuth = require("./middlewares/requireAuth");
+const resMenuRoutes = require("./routes/resMenuRoutes");
 
 const app = express();
 
 app.use(bodyParser.json());
 app.use(authRoutes);
 app.use(userInfoRoutes);
+app.use(resMenuRoutes);
 
 const mongoUri =
   "mongodb+srv://tritoneats:cse110fa20@cluster0.bkbuy.mongodb.net/TritonEats?retryWrites=true&w=majority";

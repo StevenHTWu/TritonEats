@@ -10,6 +10,16 @@ import {
   Image
 } from "react-native";
 
+import trackerApi from "../api/tracker"
+
+// { Id: "1", ItemName: "Triton Burger", Price: "$7" },
+//         { Id: "3", ItemName: "Pizza-Slice", Price: "$2.50" },
+//         { Id: "4", ItemName: "California Roll", Price: "$9.00" },
+//         { Id: "5", ItemName: "Spicy Tuna Roll", Price: "$9.00" },
+//         { Id: "6", ItemName: "Tofu and Avocado Roll", Price: "$8.00" },
+//         { Id: "7", ItemName: "Sandwich", Price: "$7" },
+//         { Id: "8", ItemName: "Baja Fish Tacos", Price: "$6.00" },
+
 
 
 var CurrentCart = require('../Components/Cart');
@@ -19,17 +29,37 @@ class MenuScreen extends Component {
     super(props);
 
     this.state = {
+      isLoading: true,
       ResaturantMenu: [
-        { Id: "1", ItemName: "Triton Burger", Price: "$7" },
-        { Id: "3", ItemName: "Pizza-Slice", Price: "$2.50" },
-        { Id: "4", ItemName: "California Roll", Price: "$9.00" },
-        { Id: "5", ItemName: "Spicy Tuna Roll", Price: "$9.00" },
-        { Id: "6", ItemName: "Tofu and Avocado Roll", Price: "$8.00" },
-        { Id: "7", ItemName: "Sandwich", Price: "$7" },
-        { Id: "8", ItemName: "Baja Fish Tacos", Price: "$6.00" },
       ],
-      errorMessage: false
     };
+
+    this.state = {
+      isLoading: true,
+      ResaturantMenu: [
+      ],
+      errorMessage: true
+    };
+  }
+
+  async componentDidMount(){
+    console.log("--------------------------")
+    const response = await trackerApi.get("restaurantMenu/" + CurrentCart.viewing_restaurant);
+    console.log(response.data[0].lunch_menu);
+    console.log("Hello Thojdsafldsk");
+
+    if(typeof response.data[0].lunch_menu !== "undefined")
+    {
+      this.setState({isLoading: false,
+        ResaturantMenu: response.data[0].lunch_menu});
+    }else if(typeof response.data[0].breakfast_menu !== "undefined"){
+      this.setState({isLoading: false,
+        ResaturantMenu: response.data[0].breakfast_menu});
+    }else if(typeof response.data[0].dinner_menu !== "undefined"){
+      this.setState({isLoading: false,
+        ResaturantMenu: response.data[0].dinner_menu});
+    }
+    
   }
 
   render() {
@@ -43,51 +73,43 @@ class MenuScreen extends Component {
     }
     return (
       <SafeAreaView forceInset={{ top: "always" }}>
-        <Text style={styles.headerTitle}>{CurrentCart.viewing_restaurant}</Text>
-
-        <Image style={styles.topImage} source={require('../../assets/Pinburrito.jpg')} />
-        {view}
-        <FlatList
-          data={this.state.ResaturantMenu}
-
-          
-
-          
-          renderItem={({ item }) => (
-            <View>
-                <View style={styles.borderItem}>
-                    <Text style={styles.bodyText}>{item.ItemName}</Text>
-                    <Text style={styles.priceText}>{item.Price}</Text>
-                    <View style={styles.addToCartButton}>
-                        <TouchableOpacity
-                            
-                            color="#FFD700"
-                            accessibilityLabel="Add to cart"
-                            onPress = {() => {
-                              if (CurrentCart.viewing_restaurant === CurrentCart.restaurant_name || CurrentCart.restaurant_name === "") {
+      {this.state.isLoading ? <Text>Loading...</Text> :    
+      <View>
+          <Text style={styles.headerTitle}>{CurrentCart.viewing_restaurant}</Text>
+          <Image style={styles.topImage} source={require('../../assets/Pinburrito.jpg')} />
+          <FlatList
+            data={this.state.ResaturantMenu}
+            
+            renderItem={({ item }) => (
+              <View>
+                  <View style={styles.borderItem}>
+                      <Text style={styles.bodyText}>{item.name}</Text>
+                      <Text style={styles.priceText}>{item.price}</Text>
+                      <View style={styles.addToCartButton}>
+                          <TouchableOpacity
+                              
+                              color="#FFD700"
+                              accessibilityLabel="Add to cart"
+                              onPress = {() => {
                                 var tmpArr = Object.assign([], CurrentCart.order_arr);
                                 CurrentCart.emptyOrderArr();
                                 CurrentCart.order_arr = tmpArr;
-                                CurrentCart.addToOrderArr( {key: item.ItemName, quantity: 1, value: parseFloat(item.Price.substring(1)) }); 
-                                CurrentCart.restaurant_name = CurrentCart.viewing_restaurant;
+                                CurrentCart.addToOrderArr( {key: item.name, quantity: 1, value: parseFloat(item.price.substring(1)) }); 
                               }
-                              else {
-                                this.setState({ errorMessage: true});
-                              }
-                        
-                            }
-                          }
-                          > 
-                        <Text style={styles.addToCartText}>Add to cart</Text>
-                        </TouchableOpacity>
-                    </View>
-                </View>
-                <Text></Text>
-            </View>
-          )}
-          keyExtractor={(item) => item.Id}
-        />
-      </SafeAreaView>
+                              } 
+                          >
+                          <Text style={styles.addToCartText}>Add to cart</Text>
+                          </TouchableOpacity>
+                      </View>
+                  </View>
+                  <Text></Text>
+              </View>
+            )}
+            keyExtractor={(item) => item.Id}
+          />
+        </View>  
+      }
+      </SafeAreaView> 
     );
   }
 }
