@@ -35,18 +35,27 @@ class HomeScreen extends Component {
     </View>
     </View>
 
+    <TouchableOpacity 
+      onPress={() => navigation.navigate("HomeScreen")}
+      style={styles.refresh}>
+      <Text style={styles.refreshText}>Click to Refresh Page</Text>
+    </TouchableOpacity>
+
     <View style={styles.List}>
     <FlatList
       data={this.state.Restaurants}
       renderItem={({ item }) => (
-        <View>
-            <TouchableOpacity 
-              onPress={() => navigation.navigate("MenuScreen")}
-              style={styles.restaurant}>
-                <Text style={styles.name}>{item.Name}</Text>
-                <Text style={styles.compensation}>{item.Compensation}</Text>
-                <Text style={styles.miles}>{item.Miles}</Text>
-            </TouchableOpacity>
+        <View style={styles.restaurant}>
+            
+          <Text style={styles.name}>{item.Name}</Text>
+          <Text style={styles.compensation}>{item.Compensation}</Text>
+                
+          <TouchableOpacity 
+            onPress={() => navigation.navigate("MenuScreen")}
+            style={styles.button}>
+
+            <Text style={styles.buttonText}>Accept Job</Text>
+          </TouchableOpacity>
         </View>
       )}
       keyExtractor={(item) => item.Id}
@@ -84,7 +93,7 @@ compensation: {
   flexDirection: 'row', 
 },
 List:{
-  paddingBottom: 300,
+  paddingBottom: 260,
 },
 icon: {
   width: "22%",
@@ -93,6 +102,33 @@ icon: {
 },
 info: {
   flexDirection: 'row', 
+},
+refreshText: {
+  fontFamily: "Unica One",
+  textAlign: "center",
+  fontSize: 20,
+},
+refresh: {
+  borderColor: "black",
+  borderWidth: 1,
+  width: 375,
+},
+buttonText: {
+  color: '#FFD700',
+  fontFamily: "Unica One",
+  textAlign: "center",
+  fontSize: 20,
+},
+button: {
+  backgroundColor: "#0a2657",
+  borderColor: '#FFD700',
+  borderWidth: 1,
+  width: 150,
+  alignItems: "center",
+  alignSelf: "center",
+  marginTop: 10,
+  paddingVertical: 5,
+  paddingHorizontal: 5,
 },
 restaurant: {
   backgroundColor: "#0a2657",
@@ -107,13 +143,13 @@ LogoFont: {
   paddingLeft: 20,
 },
 Container: {
-  marginTop: 10,
-  marginBottom: 15,
-  marginRight: 10,
+  //marginTop: 10,
+  //marginBottom: 15,
+  //marginRight: 10,
 },
 LogoRow: {
   flexDirection: "row",
-  marginTop: "5%",
+
   marginLeft: "5%",
 },
 LogoImg: {
