@@ -5,7 +5,7 @@ const orders = mongoose.model("orders");
 
 const router = express.Router();
 
-router.route("/history").get(function (req, res) {
+router.route("/auth/history").get(function (req, res) {
   orderer_id = req._id;
   history.find({ orderer_id: orderer_id }, function (err, result) {
     if (err) {
