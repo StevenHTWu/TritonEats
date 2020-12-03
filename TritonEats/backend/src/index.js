@@ -1,10 +1,10 @@
 require("./models/User");
-require('./models/UserInfo');
+require("./models/UserInfo");
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const authRoutes = require("./routes/authRoutes");
-const userInfoRoutes = require('./routes/userInfoRoutes');
+const userInfoRoutes = require("./routes/userInfoRoutes");
 const requireAuth = require("./middlewares/requireAuth");
 
 const app = express();
