@@ -12,11 +12,7 @@ import {
 } from "react-native";
 import { navigate } from "../navigationRef";
 
-const three = 3;
-const four = 4;
-const sixteen = 16;
-
-class AddCardFromSettingsScreen extends Component {
+class PasswordScreen extends Component {
   //= ({ navigation }, props) => {
   /*
   const [name1, onChangeText1] = React.useState(' CardHolder Name');
@@ -32,7 +28,7 @@ class AddCardFromSettingsScreen extends Component {
   */
   constructor(props) {
     super(props);
-    this.state = { cardNum: card.card_number, cvv: card.cvv, name: card.name, expiration_date: card.expiration_date };
+    this.state = { password: object.password, confirm_password: object.confirm_password };
   }
 
   render() {
@@ -52,110 +48,50 @@ class AddCardFromSettingsScreen extends Component {
                 paddingLeft: 10,
               }}
             >
-              Card Number
+              New Password
             </Text>
             <TextInput
-              label="Card Number"
+              label="New Password"
               //value={cardNum}
-              onChangeText={(cardNum) => this.setState({ cardNum })}
+              secureTextEntry={true}
+              onChangeText={(password) => this.setState({ password })}
               autoCapitalize="none"
               autoCorrect={false}
-              maxLength={sixteen}
               style={styles.textIn}
-              placeholder={"1234567812345678"}
-              keyboardType="number-pad"
-              defaultValue={card.card_number}
+              placeholder={"New Password"}
+              defaultValue=""
               />
 
-            <View style={{ flex: 1, flexDirection: "row" }}>
-              <View style={{ width: 275, height: 35 }}>
-                <Text
-                  style={{
-                    fontSize: 20,
-                    fontFamily: "Unica One",
-                    paddingTop: 5,
-                    paddingLeft: 10,
-                  }}
-                >
-                  Expiry Date
-                </Text>
-                <TextInput
-                  label="Exp. Date"
-                  //value={date}
-                  onChangeText={(expiration_date) => this.setState({ expiration_date })}
-                  autoCapitalize="none"
-                  autoCorrect={false}
-                  maxLength={four}
-                  style={styles.textInEXP}
-                  placeholder={"MMYY"}
-                  keyboardType="number-pad"
-                  defaultValue={card.expiration_date}
-                />
-              </View>
-              <View style={{ width: 100, height: 35 }}>
-                <Text
-                  style={{
-                    fontSize: 20,
-                    fontFamily: "Unica One",
-                    paddingTop: 5,
-                    paddingLeft: 10,
-                  }}
-                >
-                  CVV
-                </Text>
-                <TextInput
-                  label="CVV"
-                  //value={cvv}
-                  maxLength={three}
-                  secureTextEntry={true}
-                  onChangeText={(cvv) => this.setState({ cvv })}
-                  autoCapitalize="none"
-                  autoCorrect={false}
-                  style={styles.textInCVV}
-                  placeholder={"123"}
-                  keyboardType="number-pad"
-                  defaultValue={card.cvv}
-                />
-              </View>
-            </View>
-            <View
-              style={{
-                flex: 1,
-                flexDirection: "row",
-                position: "absolute",
-                top: 200,
-              }}
+            <Text
+                style={{
+                fontSize: 20,
+                fontFamily: "Unica One",
+                paddingTop: 5,
+                paddingLeft: 10,
+                }}
             >
-              <View style={{ width: 380, height: 35 }}>
-                <Text
-                  style={{
-                    fontSize: 20,
-                    fontFamily: "Unica One",
-                    paddingLeft: 10,
-                  }}
-                >
-                  CardHolder Name
-                </Text>
-                <TextInput
-                  label="CardHolder Name"
-                  //value={name}
-                  onChangeText={(name) => this.setState({ name })}
-                  autoCapitalize="none"
-                  autoCorrect={false}
-                  style={styles.textIn}
-                  placeholder={"CardHolder Name"}
-                  defaultValue={card.name}
-                />
-              </View>
-            </View>
+                Confirm Password
+            </Text>
+            <TextInput
+                label="Confirm Password"
+                //value={date}
+                onChangeText={(confirm_password) => this.setState({ confirm_password })}
+                secureTextEntry={true}
+                autoCapitalize="none"
+                autoCorrect={false}
+                style={styles.textIn}
+                placeholder={"Confirm Password"}
+                defaultValue=""
+            />
+
 
             <View style={styles.layer2}>
               <TouchableOpacity
                 onPress={() => {
-                    let newCard = {card_number: this.state.cardNum, cvv: this.state.cvv, expiration_date: this.state.expiration_date, name: this.state.name};
-                    if (newCard.card_number.length !== 16 || newCard.cvv.length !== 3 || newCard.expiration_date.length !== 4 || newCard.name.length === 0
-                      || !digitsOnly(newCard.card_number) || !digitsOnly(newCard.cvv) || !digitsOnly(newCard.expiration_date)) {
-                      Alert.alert("Error! Please fill in the details correctly.")
+                    object.password = this.state.password;
+                    object.confirm_password = this.state.confirm_password;
+                    if (object.password !== object.confirm_password) {
+                      Alert.alert("Error! Passwords don't match.")
                     } else {
                       //make api call to save data
                       navigate("SettingsScreen");
@@ -175,8 +111,9 @@ class AddCardFromSettingsScreen extends Component {
 }
 
 const digitsOnly = string => [...string].every(c => '0123456789'.includes(c));
+const validEmail = string => string.includes('@') && string.includes('.');
 
-AddCardFromSettingsScreen.navigationOptions = () => {
+PasswordScreen.navigationOptions = () => {
   return {
     header: () => false,
   };
@@ -267,4 +204,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AddCardFromSettingsScreen;
+export default PasswordScreen;

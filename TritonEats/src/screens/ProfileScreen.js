@@ -1,4 +1,5 @@
 import React, { useState, useContext, Component } from "react";
+import { Alert } from "react-native";
 import {
   StyleSheet,
   View,
@@ -9,22 +10,11 @@ import {
   Keyboard,
   TouchableWithoutFeedback,
 } from "react-native";
-import axios from 'axios';
-import trackerApi from "../api/tracker";
 import { navigate } from "../navigationRef";
-import { AsyncStorage } from "react-native";
 
+const ten = 10;
 
-const addCard = async (card_number, cvv, expiration_date) => {
-  //console.log(cardNum);
-  const token = await AsyncStorage.getItem("token");
-
-  const response = await trackerApi.post("/customerPayment/fdsfwf32324jk", { card_number, cvv, expiration_date, token });
-  console.log(response);
-};
-
-
-class AddCardScreen extends Component {
+class ProfileScreen extends Component {
   //= ({ navigation }, props) => {
   /*
   const [name1, onChangeText1] = React.useState(' CardHolder Name');
@@ -40,7 +30,7 @@ class AddCardScreen extends Component {
   */
   constructor(props) {
     super(props);
-    this.state = { cardNum: "1234-5678-1234-5678" };
+    this.state = { name: object.name, email: object.email, phone_num: object.phone_num };
   }
 
   render() {
@@ -60,23 +50,19 @@ class AddCardScreen extends Component {
                 paddingLeft: 10,
               }}
             >
-              Card Number
+              Name
             </Text>
             <TextInput
-              label="Card Number"
+              label="Name"
               //value={cardNum}
-              onChangeText={(cardNum) => this.setState({ cardNum })}
+              onChangeText={(name) => this.setState({ name })}
               autoCapitalize="none"
-              secureTextEntry={true}
               autoCorrect={false}
               style={styles.textIn}
-              require
-              placeholder={"1234-5678-1234-5678"}
-              keyboardType="number-pad"
-            />
+              placeholder={"Name"}
+              defaultValue={object.name}
+              />
 
-            <View style={{ flex: 1, flexDirection: "row" }}>
-              <View style={{ width: 275, height: 35 }}>
                 <Text
                   style={{
                     fontSize: 20,
@@ -85,85 +71,59 @@ class AddCardScreen extends Component {
                     paddingLeft: 10,
                   }}
                 >
-                  Expiry Date
+                  Email
                 </Text>
                 <TextInput
-                  label="Exp. Date"
+                  label="Email"
                   //value={date}
-                  onChangeText={(date) => this.setState({ date })}
-                  autoCapitalize="none"
-                  autoCorrect={false}
-                  style={styles.textInEXP}
-                  placeholder={"MM/YY"}
-                  keyboardType="number-pad"
-                />
-              </View>
-              <View style={{ width: 100, height: 35 }}>
-                <Text
-                  style={{
-                    fontSize: 20,
-                    fontFamily: "Unica One",
-                    paddingTop: 5,
-                    paddingLeft: 10,
-                  }}
-                >
-                  CVV
-                </Text>
-                <TextInput
-                  label="CVV"
-                  //value={cvv}
-                  keyboardType="number-pad"
-                  secureTextEntry={true}
-                  onChangeText={(cvv) => this.setState({ cvv })}
-                  autoCapitalize="none"
-                  autoCorrect={false}
-                  style={styles.textInCVV}
-                  placeholder={"CVV"}
-                />
-              </View>
-            </View>
-            <View
-              style={{
-                flex: 1,
-                flexDirection: "row",
-                position: "absolute",
-                top: 200,
-              }}
-            >
-              <View style={{ width: 380, height: 35 }}>
-                <Text
-                  style={{
-                    fontSize: 20,
-                    fontFamily: "Unica One",
-                    paddingLeft: 10,
-                  }}
-                >
-                  Name
-                </Text>
-                <TextInput
-                  label="Name"
-                  //value={name}
-                  onChangeText={(name) => this.setState({ name })}
+                  onChangeText={(email) => this.setState({ email })}
                   autoCapitalize="none"
                   autoCorrect={false}
                   style={styles.textIn}
-                  placeholder={"CardHolder Name"}
+                  placeholder={"example@ucsd.edu"}
+                  keyboardType="email-address"
+                  defaultValue={object.email}
                 />
-              </View>
-            </View>
+
+                <Text
+                  style={{
+                    fontSize: 20,
+                    fontFamily: "Unica One",
+                    paddingLeft: 10,
+                  }}
+                >
+                  Phone Number
+                </Text>
+                <TextInput
+                  label="Phone Number"
+                  //value={name}
+                  onChangeText={(phone_num) => this.setState({ phone_num })}
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  style={styles.textIn}
+                  placeholder={"1234567890"}
+                  defaultValue={object.phone_num}
+                  keyboardType="phone-pad"
+                  maxLength={ten}
+                />
 
             <View style={styles.layer2}>
               <TouchableOpacity
-                onPress={() =>{
-                  //if (this.state.cardNum != null && this.state.date != null && this.state.cvv != null && this.state.name != null && this.state.cardNum.length == 16 && this.state.cvv.length == 3 && this.state.date.length == 4) {
-                  addCard(this.state.cardNum, this.state.cvv, this.state.date);
-                  navigate("PaymentScreen");
-                  //}
+                onPress={() => {
+                    object.name = this.state.name;
+                    object.email = this.state.email;
+                    object.phone_num = this.state.phone_num;
+                    if (object.phone_num.length !== 10 || !digitsOnly(object.phone_num) || !validEmail(object.email) || object.name.length === 0) {
+                      Alert.alert("Error! Please fill in the details correctly.")
+                    } else {
+                      //make api call to save data
+                      navigate("SettingsScreen");
+                    }
                 }
                 }
                 style={styles.AddCardBtn}
               >
-                <Text style={styles.ButtonText}>Add Card</Text>
+                <Text style={styles.ButtonText}>Save</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -173,7 +133,10 @@ class AddCardScreen extends Component {
   }
 }
 
-AddCardScreen.navigationOptions = () => {
+const digitsOnly = string => [...string].every(c => '0123456789'.includes(c));
+const validEmail = string => string.includes('@') && string.includes('.');
+
+ProfileScreen.navigationOptions = () => {
   return {
     header: () => false,
   };
@@ -184,7 +147,8 @@ const styles = StyleSheet.create({
   CardImg: {
     width: 120,
     height: 120,
-    marginLeft: 125,
+    //marginLeft: 125,
+    alignSelf: "center",
     marginTop: 50,
     marginBottom: 30,
     zIndex: 1,
@@ -213,7 +177,7 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     height: 45,
     marginTop: 32,
-    marginLeft: 126,
+    alignSelf: "center"
   },
   ButtonText: {
     fontSize: 23,
@@ -226,7 +190,7 @@ const styles = StyleSheet.create({
   textIn: {
     marginLeft: 10,
     marginRight: 10,
-    marginTop: 3,
+    marginBottom: 3,
     height: 40,
     borderColor: "gray",
     borderTopWidth: 0,
@@ -263,4 +227,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AddCardScreen;
+export default ProfileScreen;

@@ -1,17 +1,30 @@
-require("./models/User");
-require('./models/UserInfo');
+require("./Models/Auth");
+require("./Models/Orderers");
+require("./Models/History");
+require("./models/ResMenu");
+require("./models/Orders");
+require("./Models/Deliverers");
+//require("./models/User"); This line is present in the index.js Wei sent me, but there is no User model so I commented it out
+
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const authRoutes = require("./routes/authRoutes");
-const userInfoRoutes = require('./routes/userInfoRoutes');
+const orderersRoutes = require("./routes/orderersRoutes");
+const ordersRoutes = require("./routes/ordersRoutes");
+const historyRoutes = require("./routes/historyRoutes");
+const resMenuRoutes = require("./routes/resMenuRoutes");
+
 const requireAuth = require("./middlewares/requireAuth");
 
 const app = express();
 
 app.use(bodyParser.json());
 app.use(authRoutes);
-app.use(userInfoRoutes);
+app.use(orderersRoutes);
+app.use(resMenuRoutes);
+app.use(ordersRoutes);
+app.use(historyRoutes);
 
 const mongoUri =
   "mongodb+srv://tritoneats:cse110fa20@cluster0.bkbuy.mongodb.net/TritonEats?retryWrites=true&w=majority";
@@ -24,6 +37,7 @@ mongoose.connect(mongoUri, {
 mongoose.connection.on("connected", () => {
   console.log("Connected to mongo instance");
 });
+
 mongoose.connection.on("error", (err) => {
   console.error("Error connecting to mongo", err);
 });
@@ -33,5 +47,5 @@ app.get("/", requireAuth, (req, res) => {
 });
 
 app.listen(3000, () => {
-  console.log("Listening on port 3000");
+  console.log("Listening to port 3000");
 });

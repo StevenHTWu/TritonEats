@@ -1,13 +1,25 @@
 import React, { useState, useContext } from "react";
-import { StyleSheet, View, Text, Image, TouchableOpacity, Keyboard,  TouchableWithoutFeedback, Picker } from "react-native";
+import { Alert } from "react-native";
+import { StyleSheet, View, Text, Image, TouchableOpacity, Keyboard, TextInput, TouchableWithoutFeedback, Picker } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+const residences = [
+"Revelle Building 1", "Revelle Building 2",
+"Muir Building 1", "Muir Building 2",
+"Marshall Building 1", "Marshall Building 2",
+"Warren Building 1", "Warren Building 2",
+"ERC Building 1", "ERC Building 2",
+"Sixth Building 1", "Sixth Building 2",
+"Village Building 1", "Village Building 2"
+];
 
-const ManagePaymentScreen = ({ navigation }) => {
+const AddressScreen = ({ navigation }) => {
   //const [response, setResponse] = useState();
 
-  const [selectedValue, setSelectedValue] = useState(cards[0]);
-  const[alternateSelect, setAlternateSelect] = useState(true);
+  const [selectedValue, setSelectedValue] = useState(object.residence);
+  const [alternateSelect, setAlternateSelect] = useState(true);
+  const [apartmentValue, setApartmentValue] = useState(object.apartment);
+  const [addressValue, setAddressValue] = useState(object.address);
 
   const changeSelect = () => {
     setAlternateSelect(alternateSelect => !alternateSelect);
@@ -19,11 +31,7 @@ const ManagePaymentScreen = ({ navigation }) => {
       {cardNum: "xxxx-xxxx-xxxx-3421"},
   ]
 */
-  var cardNum = null;
 
-  if(cards[0].card_number != null) {
-    cardNum = "xxxx-xxxx-xxxx-" + cards[0].card_number.substring(12,16);
-  }
   return (
       
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -33,80 +41,82 @@ const ManagePaymentScreen = ({ navigation }) => {
               source={require("../../assets/pay.png")}
               
         />
-          <View style={styles.layer1}>
-          <View>
+        <View style={styles.layer1}>
 
-          {cardNum != null ? (
-              /*<TouchableOpacity style={styles.selectCard} onPress={changeSelect}>
-                  {alternateSelect && <View style={{flex: 1, flexDirection: 'row'}}>
-                    <View style={{width: 70, height: 40}} >
-                    <Image
-                                style={styles.CardImgVisa}
-                                source={require("../../assets/visa.png")}
-                            />
-                    </View>
-                    <View style={{width: 400, height: 40}} >
-                        <Text style={{ fontSize: 20, fontFamily: "Unica One", marginLeft: 20, color: "#0a2657"}}>{cardNum}</Text>
-                    </View>
-                    
-                  </View>}
-                  {!alternateSelect && 
-                  <View style={styles.selectCardPress}>
-                    <View style={{width: 70, height: 40}} >
-                    <Image
-                                style={styles.CardImgVisa}
-                                source={require("../../assets/visa.png")}
-                            />
-                    </View>
-                    <View style={{width: 400, height: 40}} >
-                        <Text style={{ fontSize: 20, fontFamily: "Unica One", marginLeft: 20, color: "#0a2657"}}>{cardNum}</Text>
-                    </View>
-                    
-                  </View>}
-             </TouchableOpacity>*/
-             <Picker style={styles.selectCard}
+            <Text
+              style={{
+                fontSize: 20,
+                fontFamily: "Unica One",
+                paddingTop: 5,
+                paddingLeft: 10,
+              }}>Apartment Number</Text>
+            <TextInput
+              label="Apartment Number"
+              onChangeText={(apartment) => { setApartmentValue(apartment) }}
+              autoCapitalize="none"
+              autoCorrect={false}
+              style={styles.textIn}
+              placeholder={"Apartment Number"}
+              defaultValue={object.apartment}
+            />
+
+            <Text
+              style={{
+                fontSize: 20,
+                fontFamily: "Unica One",
+                paddingTop: 5,
+                paddingLeft: 10,
+              }}>Address</Text>
+            <TextInput
+              label="Address"
+              onChangeText={(address) => { setAddressValue(address) }}
+              autoCapitalize="none"
+              autoCorrect={false}
+              style={styles.textIn}
+              placeholder={"Address"}
+              defaultValue={object.address}
+            />
+
+            <Text
+              style={{
+                fontSize: 20,
+                fontFamily: "Unica One",
+                paddingTop: 5,
+                paddingLeft: 10,
+              }}>Residence</Text>
+
+            <Picker style={styles.selectCard}
                 selectedValue={selectedValue}
                 mode="dropdown"
                 //style={{ height: 50, width: 400}}
                 onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
-              >{cards.map(arr => <Picker.Item label={arr.card_number} value={arr} />)}
+              >{residences.map(residence => <Picker.Item label={residence} value={residence} />)}
             </Picker>
-
-            ) : <TouchableOpacity
-            onPress={() => {
-                global.card = {cardNum: "", expiry: "", cvv: "", name: ""};
-                navigation.navigate("AddCardFromSettingsScreen")
-            }}
-            style={styles.AddCardBtn}
-        >
-            
-            <Text style={styles.ButtonText}>Add Card</Text>
-          </TouchableOpacity>}
-            
-            
-  
               
-            </View>
-
             <View style={styles.layer2}>
                     <TouchableOpacity
                         onPress={() => {
-                            global.card = selectedValue;
-                            navigation.navigate("AddCardFromSettingsScreen")
+                            if (apartmentValue.length === 0 || addressValue.length === 0) {
+                                Alert.alert("Error! Please enter valid information.")
+                            } else {
+                                object.residence = selectedValue;
+                                object.apartment = apartmentValue;
+                                object.address = addressValue;
+                                // make api call to save data
+                                navigation.navigate("SettingsScreen")
+                            }
                         }}
                         style={styles.PaymentBtn}
                     >
-                        <Text style={styles.ButtonText}>View/Edit</Text>
+                        <Text style={styles.ButtonText}>Save</Text>
                     </TouchableOpacity>
-                
-          </View>
-          
-      </View>
+            </View>
+        </View>
       </View>
     </TouchableWithoutFeedback>
   );
 };
-ManagePaymentScreen.navigationOptions = () => {
+AddressScreen.navigationOptions = () => {
   return {
     header: () => false,
   };
@@ -158,7 +168,7 @@ const styles = StyleSheet.create({
   PaymentBtn: {
     backgroundColor: "#FFD700",
     paddingVertical: 8,
-    width: 170,
+    width: 120,
     borderRadius: 50,
     height: 45,
     marginTop: 32,
@@ -176,14 +186,13 @@ const styles = StyleSheet.create({
   selectCard: {
     backgroundColor: "#f1f2f6",
     height: 60,
-    width: 330,
+    //width: 330,
     //marginLeft: 30,
     borderRadius: 10,
     marginTop: 15,
     paddingTop: 20,
     paddingLeft: 3,
-    alignSelf: "center",
-    
+    marginHorizontal: 10
   },
   selectCardPress: {
     flex: 1, 
@@ -201,7 +210,7 @@ const styles = StyleSheet.create({
   textIn: {
     marginLeft: 10,
     marginRight: 10,
-    marginTop: 3,
+    marginBottom: 3,
     height: 40, 
     borderColor: 'gray', 
     borderTopWidth: 0,
@@ -238,4 +247,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default ManagePaymentScreen;
+export default AddressScreen;

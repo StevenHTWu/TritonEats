@@ -24,6 +24,9 @@ import ResolveAuthScreen from "./src/screens/ResolveAuthScreen";
 import MenuScreen from "./src/screens/MenuScreen";
 import AddCardFromSettingsScreen from "./src/screens/AddCardFromSettingsScreen";
 import ManagePaymentScreen from "./src/screens/ManagePaymentScreen";
+import ProfileScreen from "./src/screens/ProfileScreen";
+import AddressScreen from "./src/screens/AddressScreen";
+import PasswordScreen from "./src/screens/PasswordScreen";
 
 const switchNavigator = createSwitchNavigator({
   ResolveAuthScreen: ResolveAuthScreen,
@@ -34,8 +37,8 @@ const switchNavigator = createSwitchNavigator({
   }),
   mainFlow: createBottomTabNavigator(
     {
-      HomeScreen: createStackNavigator({
-        Home: HomeScreen,
+      Home: createStackNavigator({
+        HomeScreen: HomeScreen,
         MenuScreen: MenuScreen,
       }),
       OrderHistoryScreen: {
@@ -57,19 +60,22 @@ const switchNavigator = createSwitchNavigator({
       },*/
       Settings: createStackNavigator({
         SettingsScreen: SettingsScreen,
+        ProfileScreen: ProfileScreen,
+        AddressScreen: AddressScreen,
         AddCardFromSettingsScreen: AddCardFromSettingsScreen,
-        ManagePaymentScreen: ManagePaymentScreen
+        ManagePaymentScreen: ManagePaymentScreen,
+        PasswordScreen: PasswordScreen
       })
     },
     {
       defaultNavigationOptions: ({ navigation }) => ({
         tabBarIcon: ({ focused, horizontal, tintColor }) => {
           const { routeName } = navigation.state;
-          if (routeName === "HomeScreen") {
+          if (routeName === "Home") {
             return <Feather name="home" size={24} color="black" />;
           } else if (routeName === "OrderHistoryScreen") {
             return <MaterialIcons name="history" size={24} color="black" />;
-          } else if (routeName === "ShoppingCartScreen") {
+          } else if (routeName === "Cart") {
             return <AntDesign name="shoppingcart" size={24} color="black" />;
           } else {
             return <Feather name="settings" size={24} color="black" />;

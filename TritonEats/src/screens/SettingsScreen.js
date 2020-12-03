@@ -4,23 +4,23 @@ import { Context as AuthContext } from "../context/AuthContext";
 import { SafeAreaView } from "react-navigation";
 
 
-const menu = [{key: 'My Profile', nav: 'HomeScreen'}, 
-              {key: 'Manage Address', nav: 'ShoppingCartScreen'}, 
+const menu = [{key: 'My Profile', nav: 'ProfileScreen'}, 
+              {key: 'Manage Address', nav: 'AddressScreen'}, 
               {key: 'Add Payment Method', nav: 'AddCardFromSettingsScreen'}, 
-              {key: 'View/Edit Payment Method', nav: 'ManagePaymentScreen'}, 
-              {key: 'Change Password', nav: 'HomeScreen'}];
+              {key: 'Manage Payment Method(s)', nav: 'ManagePaymentScreen'}, 
+              {key: 'Change Password', nav: 'PasswordScreen'}];
 
-let object = {name: "mudit", email: "example@ucsd.edu", phone_num: "1234567890", 
-              card1: {card_number: "", expiry: "", cvv: "", card_holder_name: ""},
-              card2: {card_number: "", expiry: "", cvv: "", card_holder_name: ""},
-              card3: {card_number: "", expiry: "", cvv: "", card_holder_name: ""},
-              card4: {card_number: "", expiry: "", cvv: "", card_holder_name: ""},
-              card5: {card_number: "", expiry: "", cvv: "", card_holder_name: ""},
-              apartment: "212", residence: "Earth Hall North", address: "Gilman Drive", 
+global.object = {name: "mudit", email: "example@ucsd.edu", phone_num: "1234567890",
+              payment_methods: [{card_number: "1234567812345678", cvv: "456", expiration_date: "5678", name: "Card 1"},
+              {card_number: "1234567812341111", cvv: "123", expiration_date: "1234", name: "Card 2"}],
+              apartment: "212", residence: "ERC Building 1", address: "Gilman Drive", 
               password: "1234", password1: "", password2: ""};
 
-global.cards = [{cardNum: "1234567812345678", expiry: "", cvv: "", name: "1"},
-                {cardNum: "1234567812341234", expiry: "", cvv: "", name: "2"}];
+global.profile = 
+global.cards = object.payment_methods;
+//global.cards = [{}]
+
+
 
 const SettingsScreen = ({ navigation }) => {
   const { signout } = useContext(AuthContext);
@@ -31,7 +31,10 @@ const SettingsScreen = ({ navigation }) => {
 
       <FlatList style={ styles.list }
       data={menu} renderItem={({item}) => 
-        <Text style={styles.text} onPress={() => navigation.navigate(item.nav)} >{item.key}</Text>
+        <Text style={styles.text} onPress={() => {
+          global.card = {cardNum: "", expiry: "", cvv: "", name: ""};
+          navigation.navigate(item.nav)
+        }} >{item.key}</Text>
       } />
       
       <Button title="Sign Out" onPress={signout} />
@@ -53,11 +56,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#0a2657',
     color: '#FFD700',
     marginBottom: 1
-    /*
-    borderTopWidth: 1,
-    borderTopColor: '#000000',
-    borderBottomWidth: 1,
-    borderBottomColor: '#000000'*/
   },
   list: {
     paddingTop: 30,

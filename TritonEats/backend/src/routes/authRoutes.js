@@ -19,7 +19,30 @@ router.post("/signup", async (req, res) => {
     return res.status(422).send(err.message);
   }
 });
+/*
+router.post("/addcard", async (req, res) => {
+  const { cardNum, cvv, expDate, token } = req.body;
+  console.log(cardNum);
+  console.log(token);
+  try {
+    console.log(cvv);
 
+    jwt.verify(token, "MY_SECRET_KEY", async (err, payload) => {
+      if (err) {
+        return res.status(401).send({ error: "You must be logged in." });
+      }
+  
+      const { userId } = payload;
+      console.log(payload);
+
+    });
+    
+    res.send({ token });
+  } catch (err) {
+    return res.status(422).send(err.message);
+  }
+});
+*/
 router.post("/signin", async (req, res) => {
   const { email, password } = req.body;
 
