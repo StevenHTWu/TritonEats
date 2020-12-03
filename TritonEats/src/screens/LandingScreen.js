@@ -12,14 +12,10 @@ const LandingScreen = ({ navigation }) => {
           />
           <Text style={styles.LogoFont}>Triton Eats</Text>
         </View>
+        
         <Image
           style={styles.Picture}
           source={require("../../assets/girlOnBike.jpg")}
-        />
-
-        <Image
-        style={styles.Picture}
-        source={require("../../assets/girlOnBike.jpg")}
         />
 
         <TouchableOpacity
