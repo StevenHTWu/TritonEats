@@ -41,6 +41,13 @@ const signup = (dispatch) => {
     // if we sign up, modify our state, and say that we are authenticated
     // if signing up fails, we probably need to reflect an error message somewhere
     try {
+      
+      if(is_deliverer == "true"){
+        is_deliverer = true;
+      }else{
+        is_deliverer = false;
+      }
+
       const response = await trackerApi.post("/signup", {
         email,
         password,
@@ -48,7 +55,7 @@ const signup = (dispatch) => {
       });
       await AsyncStorage.setItem("token", response.data.token);
       dispatch({ type: "signin", payload: response.data.token });
-
+      
       if (is_deliverer) {
         navigate("DelivererMainFlow");
       } else {
