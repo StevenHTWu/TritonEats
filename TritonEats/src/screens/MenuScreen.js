@@ -28,11 +28,10 @@ class MenuScreen extends Component {
   }
 
   async componentDidMount(){
-
-    console.log("--------------------------")
     const response = await trackerApi.get("restaurantMenu/" + CurrentCart.viewing_restaurant);
-    console.log(response.data[0].lunch_menu);
-    console.log("Hello Thojdsafldsk");
+    // console.log("-----------------------");
+    // console.log(response.data[0].lunch_menu);
+    // console.log("-----------------------");
 
     if(typeof response.data[0].lunch_menu !== "undefined")
     {

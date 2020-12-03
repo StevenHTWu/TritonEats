@@ -2,8 +2,48 @@ import React from "react";
 import { View, StyleSheet, Text, FlatList } from "react-native";
 import { SafeAreaView } from "react-navigation";
 import HistoricalOrder from '../Components/HistoricalOrder';
+import { AsyncStorage } from "react-native";
+
+import trackerApi from "../api/tracker";
+import Loader from '../Components/Loader';
 
 class OrderHistoryScreen extends React.Component{
+  constructor(props) {
+    super(props);
+    this.state = {
+      isLoading: true,
+      OrderHistory: [],
+    };
+  }
+
+  async componentDidMount(){
+    const token = await AsyncStorage.getItem("token");
+    console.log("-----------------------",token);
+    const response = await trackerApi.get("restaurantMenu/" + CurrentCart.viewing_restaurant);
+
+    // console.log("-----------------------");
+    // console.log(response.data[0].lunch_menu);
+    // console.log("-----------------------");
+
+    if(typeof response.data[0].lunch_menu !== "undefined")
+    {
+      this.setState({isLoading: false,
+        ResaturantMenu: response.data[0].lunch_menu});
+    }else if(typeof response.data[0].breakfast_menu !== "undefined"){
+      this.setState({isLoading: false,
+        ResaturantMenu: response.data[0].breakfast_menu});
+    }else if(typeof response.data[0].dinner_menu !== "undefined"){
+      this.setState({isLoading: false,
+        ResaturantMenu: response.data[0].dinner_menu});
+    }
+    
+  }
+
+
+
+
+
+
   render () {
       //connect to database
       //get the order history through api

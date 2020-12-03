@@ -26,7 +26,6 @@ router.route("/restaurantMenu/:id").get(async function (req, res) {
   else day = "Sun";
 
   if (!rnf) {
-    console.log("------------",restaurant_name);
     return res.status(422).send({ error: "No such restaurant available" });
   }
 
