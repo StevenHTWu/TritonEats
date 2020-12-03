@@ -17,6 +17,11 @@ const LandingScreen = ({ navigation }) => {
           source={require("../../assets/girlOnBike.jpg")}
         />
 
+        <Image
+        style={styles.Picture}
+        source={require("../../assets/girlOnBike.jpg")}
+        />
+
         <TouchableOpacity
           onPress={() => navigation.navigate("SignUpScreen")}
           style={styles.SignUpBtn}
@@ -58,6 +63,11 @@ const styles = StyleSheet.create({
   LogoImg: {
     width: 50,
     height: 50,
+  },
+  Picture: {
+    width: 300,
+    height: 300,
+    alignSelf: "center",
   },
   SignUpBtn: {
     elevation: 8,

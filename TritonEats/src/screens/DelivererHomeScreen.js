@@ -1,18 +1,8 @@
 import React, { Component } from "react";
-import { FlatList, Text, View, StyleSheet, Image, TouchableOpacity, } from "react-native";
+import { FlatList, Text, View, StyleSheet, Image, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-navigation";
 
 import NavBar from "../Components/NavBar";
-import foodWorx from '../../assets/FWsandwich.jpg';
-import pines from '../../assets/Pinburrito.jpg'
-import clubMed from '../../assets/CMfish.jpg';
-import canVista from '../../assets/CanVnoodles.jpg';
-import degrees from '../../assets/64salmon.jpg';
-import cafeV from '../../assets/CafeVsalad.jpg';
-import oceanView from '../../assets/OVpizza.jpg';
-
-import CurrentCart from '../Components/Cart';
-import { navigate } from '../navigationRef'
 
 class HomeScreen extends Component {
   constructor(props) {
@@ -20,13 +10,12 @@ class HomeScreen extends Component {
 
     this.state = {
       Restaurants: [
-        {Id: "1", Image: degrees, Name: "64 Degrees", Hours: "7 am to 9 pm"},
-        {Id: "2", Image: cafeV, Name: "Cafe Ventanas", Hours: "7 am to 9 pm"},
-        {Id: "3", Image: canVista, Name: "Canyon Vista", Hours: "7 am to 9 pm"},
-        {Id: "4", Image: clubMed, Name: "Club Med", Hours: "7 am to 9 pm"},
-        {Id: "5", Image: foodWorx, Name: "Foodworx", Hours: "7 am to 9 pm"},
-        {Id: "6", Image: oceanView, Name: "OceanView", Hours: "7 am to 9 pm"},
-        {Id: "7", Image: pines, Name: "Pines", Hours: "7 am to 9 pm"},
+        {Id: "1", Name: "64 Degrees to Earl Warren College  (0.9 miles)", Compensation: "Estimated Earnings: $8.65 + $1.76 tip"},
+        {Id: "2", Name: "Cafe Ventanas to The Village  (0.2 mi)", Compensation: "Estimated Earnings: $5.87 + $0.89 tip"},
+        {Id: "3", Name: "Canyon Vista to Thurgood Marshall College  (0.6 mi)", Compensation: "Estimated Earnings: $7.41 + $2.03 tip"},
+        {Id: "4", Name: "Foodworx to Sixth College  (1.2 mi)", Compensation: "Estimated Earnings: $10.62 + $3.84 tip"},  
+        {Id: "5", Name: "OceanView to John Muir College  (0.5 mi)", Compensation: "Estimated Earnings: $6.54 + $1.06 tip"},
+        {Id: "6", Name: "Pines to Revelle College  (0.5)", Compensation: "Estimated Earnings: $6.27 + $1.89 tip"},
       ],
     };
   }
@@ -52,11 +41,11 @@ class HomeScreen extends Component {
       renderItem={({ item }) => (
         <View>
             <TouchableOpacity 
-              onPress={() =>  { CurrentCart.viewing_restaurant = item.Name; navigate('MenuScreen'); }}
+              onPress={() => navigation.navigate("MenuScreen")}
               style={styles.restaurant}>
-                <Image style={styles.icon} source={item.Image} /> 
                 <Text style={styles.name}>{item.Name}</Text>
-                <Text style={styles.hours}>{item.Hours}</Text>
+                <Text style={styles.compensation}>{item.Compensation}</Text>
+                <Text style={styles.miles}>{item.Miles}</Text>
             </TouchableOpacity>
         </View>
       )}
@@ -69,11 +58,6 @@ class HomeScreen extends Component {
   );
 }
 }
-HomeScreen.navigationOptions = () => {
-  return {
-    header: () => false,
-  };
-};
 
 const styles = StyleSheet.create({
 main: {
@@ -84,21 +68,20 @@ image: {
   height: 175,
 },
 name: {
-  fontSize: 28,
-  width: "30%",
+  fontSize: 25,
   height: 75,
-  marginLeft: "5%",
-  marginRight: "5%",
-  color: "white",
-  textAlign: "left",
+  color: '#FFD700',
   fontFamily: "Unica One",
+  textAlign: "center",
+  paddingLeft: "5%",
+  paddingRight: "5%",
 },
-hours: {
-  fontSize: 19,
+compensation: {
+  fontSize: 22,
   color: "white",
   fontFamily: "Unica One",
-  textAlign: "right",
-  marginRight: "20%",
+  textAlign: "center",
+  flexDirection: 'row', 
 },
 List:{
   paddingBottom: 300,
@@ -108,12 +91,14 @@ icon: {
   height: "80%",
   marginLeft: "3%",
 },
+info: {
+  flexDirection: 'row', 
+},
 restaurant: {
   backgroundColor: "#0a2657",
   paddingVertical: "5%",
   width: 375,
   marginTop: 0,
-  flexDirection: 'row',
   marginBottom: 5,
 },
 LogoFont: {

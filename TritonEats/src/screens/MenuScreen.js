@@ -19,7 +19,7 @@ class MenuScreen extends Component {
     super(props);
 
     this.state = {
-      ResaturantMenu: [
+      RestaurantMenu: [
         { Id: "1", ItemName: "Triton Burger", Price: "$7" },
         { Id: "3", ItemName: "Pizza-Slice", Price: "$2.50" },
         { Id: "4", ItemName: "California Roll", Price: "$9.00" },
