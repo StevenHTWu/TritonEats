@@ -21,12 +21,18 @@ var CurrentCart = {
     removeFromOrderArr : function(order) {
         for (i = 0; i < this.order_arr.length; i++) {
             if (this.order_arr[i]["key"] === order["key"]) {
-                if (this.order_arr[i]["value"] > 1){
+
+                if (this.order_arr[i]["quantity"] > 1){
                     this.order_arr[i]["quantity"] --;
                     return
                 }
+                else {
+                    console.log("removed");
+                    this.order_arr = this.order_arr.filter(item => item != this.order_arr[i]);
+                }
             }
-            this.order_arr = this.order_arr.filter(item => item != this.order_arr[i]);
+    
+            
         }
     },
 
