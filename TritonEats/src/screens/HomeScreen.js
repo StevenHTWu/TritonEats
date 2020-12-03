@@ -69,6 +69,11 @@ class HomeScreen extends Component {
   );
 }
 }
+HomeScreen.navigationOptions = () => {
+  return {
+    header: () => false,
+  };
+};
 
 const styles = StyleSheet.create({
 main: {

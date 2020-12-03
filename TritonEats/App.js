@@ -17,6 +17,7 @@ import SignInScreen from "./src/screens/SignInScreen";
 import SignUpScreen from "./src/screens/SignUpScreen";
 import ShoppingCartScreen from "./src/screens/ShoppingCartScreen";
 import PaymentScreen from "./src/screens/PaymentScreen";
+import AddCardScreen from "./src/screens/AddCardScreen";
 import { Provider as AuthProvider } from "./src/context/AuthContext";
 import { setNavigator } from "./src/navigationRef";
 import ResolveAuthScreen from "./src/screens/ResolveAuthScreen";
@@ -31,7 +32,6 @@ const switchNavigator = createSwitchNavigator({
   }),
   mainFlow: createBottomTabNavigator(
     {
-
       HomeScreen: createStackNavigator({
         Home: HomeScreen,
         MenuScreen: MenuScreen,
@@ -45,6 +45,7 @@ const switchNavigator = createSwitchNavigator({
       Cart: createStackNavigator({
         ShoppingCartScreen: ShoppingCartScreen,
         PaymentScreen: PaymentScreen,
+        AddCardScreen: AddCardScreen,
       }),
       SettingsScreen: {
         screen: SettingsScreen,
