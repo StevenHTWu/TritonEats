@@ -10,39 +10,25 @@ import {
   Image
 } from "react-native";
 
-import trackerApi from "../api/tracker"
-
-// { Id: "1", ItemName: "Triton Burger", Price: "$7" },
-//         { Id: "3", ItemName: "Pizza-Slice", Price: "$2.50" },
-//         { Id: "4", ItemName: "California Roll", Price: "$9.00" },
-//         { Id: "5", ItemName: "Spicy Tuna Roll", Price: "$9.00" },
-//         { Id: "6", ItemName: "Tofu and Avocado Roll", Price: "$8.00" },
-//         { Id: "7", ItemName: "Sandwich", Price: "$7" },
-//         { Id: "8", ItemName: "Baja Fish Tacos", Price: "$6.00" },
-
-
+import trackerApi from "../api/tracker";
+import Loader from '../Components/Loader';
 
 var CurrentCart = require('../Components/Cart');
 
 class MenuScreen extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       isLoading: true,
       ResaturantMenu: [
       ],
-    };
+      errorMessage: true,
 
-    this.state = {
-      isLoading: true,
-      ResaturantMenu: [
-      ],
-      errorMessage: true
     };
   }
 
   async componentDidMount(){
+
     console.log("--------------------------")
     const response = await trackerApi.get("restaurantMenu/" + CurrentCart.viewing_restaurant);
     console.log(response.data[0].lunch_menu);
@@ -63,6 +49,7 @@ class MenuScreen extends Component {
   }
 
   render() {
+
     let view;
     console.log(this.errorMessage);
     if (this.state.errorMessage === true) {
@@ -73,7 +60,12 @@ class MenuScreen extends Component {
     }
     return (
       <SafeAreaView forceInset={{ top: "always" }}>
-      {this.state.isLoading ? <Text>Loading...</Text> :    
+        <Loader
+          loading={this.state.isLoading} />
+      {this.state.isLoading ? 
+      <>
+      </>
+       :    
       <View>
           <Text style={styles.headerTitle}>{CurrentCart.viewing_restaurant}</Text>
           <Image style={styles.topImage} source={require('../../assets/Pinburrito.jpg')} />
@@ -172,7 +164,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     textAlign: "center",
     color: "#FFD700",
-    margin: "25%"
+    margin: "10%"
 
   }
 });
