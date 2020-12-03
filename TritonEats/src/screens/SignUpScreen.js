@@ -20,7 +20,7 @@ const SignUpScreen = ({ navigation }) => {
           onSubmit={signup}
         />
         <NavLink
-          routeName="SignInScreen"
+          routeName="HomeScreen"
           text="Already have an account? Sign in instead!"
         />
       </View>
