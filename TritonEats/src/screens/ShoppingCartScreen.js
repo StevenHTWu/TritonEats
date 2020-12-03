@@ -147,7 +147,7 @@ class ShoppingCartScreen extends React.Component {
                     </Text>
                     <TouchableOpacity
                         style={styles.quantityButtonRight}
-                        onPress= {() => {CurrentCart.removeFromOrderArr( {key: item.key, quantity: item.quantity, value: item.value }); this.setState({ state: this.state }); } }
+                        onPress= {() => { CurrentCart.removeFromOrderArr( {key: item.key, quantity: item.quantity, value: item.value }); this.setState({ state: this.state }); } }
                         underlayColor='#fff'>
                         <Text style={styles.quantityText}>-</Text>
                     </TouchableOpacity>
