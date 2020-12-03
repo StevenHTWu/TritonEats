@@ -11,6 +11,7 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const authRoutes = require("./routes/authRoutes");
 const orderersRoutes = require("./routes/orderersRoutes");
+const deliverersRoutes = require("./routes/delivererRoutes");
 const ordersRoutes = require("./routes/ordersRoutes");
 const historyRoutes = require("./routes/historyRoutes");
 const resMenuRoutes = require("./routes/resMenuRoutes");
@@ -24,6 +25,7 @@ app.use("/auth", requireAuth);
 app.use(bodyParser.json());
 app.use(authRoutes);
 app.use(orderersRoutes);
+app.use(deliverersRoutes);
 app.use(resMenuRoutes);
 app.use(ordersRoutes);
 app.use(historyRoutes);
@@ -45,7 +47,7 @@ mongoose.connection.on("error", (err) => {
 });
 
 app.get("/", requireAuth, (req, res) => {
-  res.send(`Your email: ${req.user.email}`);
+  res.send(`Your ID: ${req._id}`);
 });
 
 app.listen(3000, () => {
