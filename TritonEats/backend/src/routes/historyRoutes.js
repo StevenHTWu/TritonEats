@@ -16,15 +16,15 @@ router.route("/auth/history").get(function (req, res) {
   });
 });
 
-router.route("/complete/:order_id").post(function (req, res) {
-  this_order_id = req.params.order_id;
-  orders.find({ order_id: this_order_id }, async function (err, result) {
+router.route("/complete").post(function (req, res) {
+  deliverer_id = req._id;
+  orders.find({ deliverer_id: _id }, async function (err, result) {
     if (err) {
       console.log(err);
       res.send(err);
     } else {
       if (result.length == 0) {
-        res.status(400).send("No order with ID " + this_order_id + " exists.");
+        res.status(400).send("No order exists for deliverer " + _id + " .");
       } else {
         console.log("Creating history document.");
         obj = result.entries().next().value[1];
