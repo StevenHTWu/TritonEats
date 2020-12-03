@@ -12,6 +12,10 @@ const LandingScreen = ({ navigation }) => {
           />
           <Text style={styles.LogoFont}>Triton Eats</Text>
         </View>
+        <Image
+          style={styles.Picture}
+          source={require("../../assets/girlOnBike.jpg")}
+        />
 
         <TouchableOpacity
           onPress={() => navigation.navigate("SignUpScreen")}
@@ -37,11 +41,19 @@ const styles = StyleSheet.create({
     fontFamily: "Unica One",
     paddingLeft: 20,
   },
-  Container: {},
+  Container: {
+    backgroundColor: 'white',
+    flex: 1
+  },
   LogoRow: {
     flexDirection: "row",
     marginTop: "5%",
     marginLeft: "5%",
+  },
+  Picture: {
+    width: 300,
+    height: 300,
+    alignSelf: "center",
   },
   LogoImg: {
     width: 50,
@@ -54,7 +66,7 @@ const styles = StyleSheet.create({
     paddingVertical: 17,
     width: 200,
     height: 60,
-    marginTop: 300,
+    marginTop: 20,
     marginLeft: "23.5%",
   },
   SignInBtn: {
