@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { FlatList, Text, View, StyleSheet, Image, ScrollView, TouchableOpacity, Dimensions, ImageBackground } from "react-native";
+import { FlatList, Text, View, StyleSheet, Image, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-navigation";
 
 import NavBar from "../Components/NavBar";
