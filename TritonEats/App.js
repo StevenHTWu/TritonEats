@@ -17,10 +17,13 @@ import SignInScreen from "./src/screens/SignInScreen";
 import SignUpScreen from "./src/screens/SignUpScreen";
 import ShoppingCartScreen from "./src/screens/ShoppingCartScreen";
 import PaymentScreen from "./src/screens/PaymentScreen";
+import AddCardScreen from "./src/screens/AddCardScreen";
 import { Provider as AuthProvider } from "./src/context/AuthContext";
 import { setNavigator } from "./src/navigationRef";
 import ResolveAuthScreen from "./src/screens/ResolveAuthScreen";
 import MenuScreen from "./src/screens/MenuScreen";
+import AddCardFromSettingsScreen from "./src/screens/AddCardFromSettingsScreen";
+import ManagePaymentScreen from "./src/screens/ManagePaymentScreen";
 
 const switchNavigator = createSwitchNavigator({
   ResolveAuthScreen: ResolveAuthScreen,
@@ -31,12 +34,10 @@ const switchNavigator = createSwitchNavigator({
   }),
   mainFlow: createBottomTabNavigator(
     {
-      HomeScreen: {
-        screen: HomeScreen,
-        navigationOptions: {
-          title: "Home",
-        },
-      },
+      HomeScreen: createStackNavigator({
+        Home: HomeScreen,
+        MenuScreen: MenuScreen,
+      }),
       OrderHistoryScreen: {
         screen: OrderHistoryScreen,
         navigationOptions: {
@@ -46,13 +47,19 @@ const switchNavigator = createSwitchNavigator({
       Cart: createStackNavigator({
         ShoppingCartScreen: ShoppingCartScreen,
         PaymentScreen: PaymentScreen,
+        AddCardScreen: AddCardScreen,
       }),
-      SettingsScreen: {
+      /*SettingsScreen: {
         screen: SettingsScreen,
         navigationOptions: {
           title: "Settings",
         },
-      },
+      },*/
+      Settings: createStackNavigator({
+        SettingsScreen: SettingsScreen,
+        AddCardFromSettingsScreen: AddCardFromSettingsScreen,
+        ManagePaymentScreen: ManagePaymentScreen
+      })
     },
     {
       defaultNavigationOptions: ({ navigation }) => ({
@@ -75,6 +82,10 @@ const switchNavigator = createSwitchNavigator({
       },
     }
   ),
+  menuFlow: createStackNavigator({
+    HomeScreen: HomeScreen,
+    MenuScreen: MenuScreen,
+  }),
 });
 
 const getFonts = () =>

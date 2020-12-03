@@ -1,10 +1,11 @@
 import React, { useState, useContext } from "react";
+import { FlatList } from "react-native";
 import { StyleSheet, View, TextInput, Text, Image, TouchableOpacity, Keyboard,  TouchableWithoutFeedback, PickerIOSItem } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import SettingsScreen from "./SettingsScreen";
 
 
-
-const PaymentScreen = ({ navigation }) => {
+const ManagePaymentScreen = ({ navigation }) => {
   //const [response, setResponse] = useState();
 
   const[alternateSelect, setAlternateSelect] = useState(true);
@@ -12,16 +13,16 @@ const PaymentScreen = ({ navigation }) => {
   const changeSelect = () => {
     setAlternateSelect(alternateSelect => !alternateSelect);
   }
-
+/*
   const array = [
       {cardNum: navigation.getParam('cardNum'),
         name: navigation.getParam('name')}
   ]
-
+*/
   var cardNum = null;
 
-  if(array[0].cardNum != null) {
-    cardNum = "xxxx-xxxx-xxxx-" + array[0].cardNum.substring(12,16);
+  if(cards[0].cardNum != null) {
+    cardNum = "xxxx-xxxx-xxxx-" + cards[0].cardNum.substring(12,16);
   }
   return (
       
@@ -35,7 +36,7 @@ const PaymentScreen = ({ navigation }) => {
           <View style={styles.layer1}>
           <View>
 
-          {navigation.getParam('cardNum') != null ? (
+          {cards[0].cardNum != null ? (
               <TouchableOpacity style={styles.selectCard} onPress={changeSelect}>
                   {alternateSelect && <View style={{flex: 1, flexDirection: 'row'}}>
                     <View style={{width: 70, height: 40}} >
@@ -57,14 +58,16 @@ const PaymentScreen = ({ navigation }) => {
                                 source={require("../../assets/visa.png")}
                             />
                     </View>
-                    <View style={{width: 400, height: 40}} >
-                        <Text style={{ fontSize: 20, fontFamily: "Unica One", marginLeft: 20, color: "#0a2657"}}>{cardNum}</Text>
-                    </View>
-                    
+
+                    <FlatList style={styles.list} data={cards} renderItem={({item}) => 
+                        <View style={{width: 400, height: 40}} >
+                            <Text style={{ fontSize: 20, fontFamily: "Unica One", marginLeft: 20, color: "#0a2657"}}>{item.cardNum}</Text>
+                        </View>
+                    }/>
                   </View>}
              </TouchableOpacity>
             ) : <TouchableOpacity
-            onPress={() => navigation.navigate("AddCardScreen")}
+            onPress={() => navigation.navigate("AddCardFromSettingsScreen")}
             style={styles.AddCardBtn}
         >
             
@@ -81,10 +84,13 @@ const PaymentScreen = ({ navigation }) => {
 
             <View style={styles.layer2}>
                     <TouchableOpacity
-                        onPress={() => navigation.navigate("HomeScreen")}
+                        onPress={() => {
+                            global.card = {cardNum: "1234567812345678", expiry: "", cvv: "", name: ""};
+                            navigation.navigate("AddCardFromSettingsScreen")
+                        }}
                         style={styles.PaymentBtn}
                     >
-                        <Text style={styles.ButtonText}>Pay</Text>
+                        <Text style={styles.ButtonText}>Select</Text>
                     </TouchableOpacity>
                     <Text style={{ fontSize: 30, fontFamily: "Unica One", marginLeft: 250, position: "absolute", top: 35, color: "#FFD700"}}>$12.00</Text>
                 
@@ -95,7 +101,7 @@ const PaymentScreen = ({ navigation }) => {
     </TouchableWithoutFeedback>
   );
 };
-PaymentScreen.navigationOptions = () => {
+ManagePaymentScreen.navigationOptions = () => {
   return {
     header: () => false,
   };
@@ -220,7 +226,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'stretch',
     justifyContent: 'flex-end'
+  },
+  list: {
+    paddingTop: 30,
+    marginBottom: 1
   }
 });
 
-export default PaymentScreen;
+export default ManagePaymentScreen;

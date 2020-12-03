@@ -6,12 +6,25 @@ import { SafeAreaView } from "react-navigation";
 
 const menu = [{key: 'My Profile', nav: 'HomeScreen'}, 
               {key: 'Manage Address', nav: 'ShoppingCartScreen'}, 
-              {key: 'Add Payment Method', nav: 'OrderHistoryScreen'}, 
-              {key: 'View/Edit Payment Method', nav: 'HomeScreen'}, 
+              {key: 'Add Payment Method', nav: 'AddCardFromSettingsScreen'}, 
+              {key: 'View/Edit Payment Method', nav: 'ManagePaymentScreen'}, 
               {key: 'Change Password', nav: 'HomeScreen'}];
+
+let object = {name: "mudit", email: "example@ucsd.edu", phone_num: "1234567890", 
+              card1: {card_number: "", expiry: "", cvv: "", card_holder_name: ""},
+              card2: {card_number: "", expiry: "", cvv: "", card_holder_name: ""},
+              card3: {card_number: "", expiry: "", cvv: "", card_holder_name: ""},
+              card4: {card_number: "", expiry: "", cvv: "", card_holder_name: ""},
+              card5: {card_number: "", expiry: "", cvv: "", card_holder_name: ""},
+              apartment: "212", residence: "Earth Hall North", address: "Gilman Drive", 
+              password: "1234", password1: "", password2: ""};
+
+global.cards = [{cardNum: "1234567812345678", expiry: "", cvv: "", name: "1"},
+                {cardNum: "1234567812341234", expiry: "", cvv: "", name: "2"}];
 
 const SettingsScreen = ({ navigation }) => {
   const { signout } = useContext(AuthContext);
+
   return (
     <SafeAreaView forceInset={{ top: "always" }}>
       <Text style={{ fontSize: 49, paddingTop: 40, fontFamily: "Unica One", textAlign: "center" }}>Settings</Text>
@@ -25,6 +38,13 @@ const SettingsScreen = ({ navigation }) => {
     </SafeAreaView>
   );
 };
+
+SettingsScreen.navigationOptions = () => {
+  return {
+    header: () => false,
+  };
+};
+
 const styles = StyleSheet.create({
   text: {
     fontSize: 20,
