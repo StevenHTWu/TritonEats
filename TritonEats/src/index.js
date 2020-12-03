@@ -19,6 +19,8 @@ const requireAuth = require("./middlewares/requireAuth");
 
 const app = express();
 
+app.use("/auth", requireAuth);
+
 app.use(bodyParser.json());
 app.use(authRoutes);
 app.use(orderersRoutes);
