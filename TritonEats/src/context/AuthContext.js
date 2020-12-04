@@ -1,6 +1,8 @@
 import { AsyncStorage } from "react-native";
 import createDataContext from "./createDataContext";
 import trackerApi from "../api/tracker";
+const mongoose = require("mongoose");
+export const User = mongoose.model("userAuth");
 import { navigate } from "../navigationRef";
 
 const authReducer = (state, action) => {
@@ -39,6 +41,13 @@ const signup = (dispatch) => {
     // if we sign up, modify our state, and say that we are authenticated
     // if signing up fails, we probably need to reflect an error message somewhere
     try {
+      
+      if(is_deliverer == "true"){
+        is_deliverer = true;
+      }else{
+        is_deliverer = false;
+      }
+
       const response = await trackerApi.post("/signup", {
         email,
         password,
@@ -46,8 +55,12 @@ const signup = (dispatch) => {
       });
       await AsyncStorage.setItem("token", response.data.token);
       dispatch({ type: "signin", payload: response.data.token });
-
-      navigate("HomeScreen");
+      
+      if (is_deliverer) {
+        navigate("DelivererMainFlow");
+      } else {
+        navigate("HomeScreen");
+      }
     } catch (err) {
       dispatch({
         type: "add_error",
@@ -66,7 +79,18 @@ const signin = (dispatch) => {
       const response = await trackerApi.post("/signin", { email, password });
       await AsyncStorage.setItem("token", response.data.token);
       dispatch({ type: "signin", payload: response.data.token });
-      navigate("HomeScreen");
+
+      console.log("Hey hey hey");
+      const isDeliverer = response.data.isDeliverer;
+      console.log(isDeliverer);
+
+      if (isDeliverer) {
+        console.log("In true block: ", isDeliverer);
+        navigate("DelivererMainFlow");
+      } else {
+        console.log("In false block: ", isDeliverer);
+        navigate("HomeScreen");
+      }
     } catch (err) {
       dispatch({
         type: "add_error",

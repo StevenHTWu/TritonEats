@@ -2,30 +2,39 @@ import React, { useState, useContext, useEffect } from "react";
 import { StyleSheet, View, TextInput, Text, Image, TouchableOpacity, Keyboard,  TouchableWithoutFeedback, Picker } from "react-native";
 import trackerApi from "../api/tracker";
 import { AsyncStorage } from "react-native";
-import { useIsFocused } from "@react-navigation/native";
-
-const makeOrder = async (resName, arrItems, arrQty, tPrice) => {
-
-  const token = await AsyncStorage.getItem("token");
-  const response = await trackerApi.post("/makeOrder", { resName, arrItems, arrQty, tPrice, token });
-  console.log(response);
-};
-
 
 const PaymentScreen = ({ navigation }) => {
 
+  console.log(navigation.getParam("res_name"));
   const [selectedValue, setSelectedValue] = useState("");
   const [selectedCards, setSelectedCards] = useState("");
+  const [resName, setResName] = useState("");
+  const [orderArray, setOrderArray] = useState("");
+  const [price, setPrice] = useState("");
+
   const[alternateSelect, setAlternateSelect] = useState(true);
 
   const changeSelect = () => {
     setAlternateSelect(alternateSelect => !alternateSelect);
   }
 
+  const makeOrder = async (restaurant_name, order_items, total_price) => {
+    console.log(restaurant_name);
+  
+    const token = await AsyncStorage.getItem("token");
+    const headers = {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    }
+  
+    const response = await trackerApi.post("/auth/makeOrder", { restaurant_name, order_items, total_price }, {
+      headers: headers
+    });
+  };
+
 
   const getCard = async () => {
     const token = await AsyncStorage.getItem("token");
-    console.log(token);
     const headers = {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${token}`
@@ -43,8 +52,15 @@ const PaymentScreen = ({ navigation }) => {
   
   };
 
+ 
+
   const refresh = navigation.addListener('didFocus', () => {
     getCard();
+    if(navigation.getParam("res_name") != null){
+      setResName(navigation.getParam("res_name"));
+      setOrderArray(navigation.getParam("order_array"));
+      setPrice(navigation.getParam("total_price"));
+    }
   });
 
   var array = selectedCards;
@@ -56,7 +72,6 @@ const PaymentScreen = ({ navigation }) => {
     }
   }
 
-  console.log(array);
   return (
       
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -89,14 +104,15 @@ const PaymentScreen = ({ navigation }) => {
             <View style={styles.layer2}>
                     <TouchableOpacity
                         onPress={() => {
-                          makeOrder(this.state.resName, this.state.arrItems, this.state.arrQty, this.state.tPrice);
-                          navigate("HomeScreen");
+                          console.log("hi");
+                          makeOrder(navigation.getParam("res_name"), navigation.getParam("order_array"), navigation.getParam("total_price"));
+                          navigation.navigate("HomeScreen");
                         }}
                         style={styles.PaymentBtn}
                     >
                         <Text style={styles.ButtonText}>Pay</Text>
                     </TouchableOpacity>
-                    <Text style={{ fontSize: 30, fontFamily: "Unica One", marginLeft: 250, position: "absolute", top: 35, color: "#FFD700"}}>$12.00</Text>
+                      <Text style={{ fontSize: 30, fontFamily: "Unica One", marginLeft: 250, position: "absolute", top: 35, color: "#FFD700"}}>{"$" + navigation.getParam("total_price")}</Text>
                 
           </View>
           

@@ -40,13 +40,13 @@ var order_arr = [
 
 switch (CurrentCart.restaurant_name) {
   case "Pines":
-    var title_image = require("../../assets/PinesNoodles.jpg");
+    var title_image = require("../../assets/Pinburrito.jpg");
     break;
   case "Oceanview":
-    var title_image = require("../../assets/Pizza.jpg");
+    var title_image = require("../../assets/OVpizza.jpg");
     break;
   default:
-    var title_image = require("../../assets/Sandwich_shopping_cart.jpg");
+    var title_image = require("../../assets/muffins.jpg");
 }
 
 function sum(obj) {
@@ -190,7 +190,11 @@ class ShoppingCartScreen extends React.Component {
                         <Text style={styles.quantityText}>Clear Order</Text>
               </TouchableOpacity>
         </View>
-        <NavLinkOrder routeName="PaymentScreen" text="Order Now!" orderArr={CurrentCart.order_arr}/>
+        <NavLinkOrder routeName="PaymentScreen" text="Order Now!" orderArr={CurrentCart.order_arr} totalPrice={parseFloat(
+                CurrentCart.order_arr.reduce(function (sum, current) {
+                  return sum + current.quantity * current.value;
+                }, 0)
+              ).toFixed(2)} resName={CurrentCart.restaurant_name}/>
       </View>
     );
             }

@@ -5,9 +5,9 @@ ObjectID = require("mongodb").ObjectID;
 
 const router = express.Router();
 
-router.route("/makeOrder").post(async function (req, res) {
+router.route("/auth/makeOrder").post(async function (req, res) {
   var parameters = req.body;
-  var orderer_id = parameters.orderer_id;
+  var orderer_id = req._id;
   var restaurant_name = parameters.restaurant_name;
   var order_items = parameters.order_items;
   var total_price = parameters.total_price;
