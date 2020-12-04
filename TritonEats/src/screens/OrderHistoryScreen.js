@@ -12,37 +12,37 @@ class OrderHistoryScreen extends React.Component {
     super(props);
     this.state = {
       isLoading: true,
+      isEmpty: false,
       OrderHistory: [],
     };
   }
 
   async componentDidMount() {
     const token = await AsyncStorage.getItem("token");
-    console.log("-----------------------", token);
+    const AuthStr = 'Bearer '.concat(token);
+
     const response = await trackerApi.get(
-      "restaurantMenu/" + CurrentCart.viewing_restaurant
+      "/auth/history", { headers: { Authorization: AuthStr } }
     );
 
-    // console.log("-----------------------");
-    // console.log(response.data[0].lunch_menu);
-    // console.log("-----------------------");
-
-    if (typeof response.data[0].lunch_menu !== "undefined") {
+    console.log("-----------------------");
+    console.log(response.data);
+    console.log("-----------------------");
+    if(response.data.length == 0){
       this.setState({
         isLoading: false,
-        ResaturantMenu: response.data[0].lunch_menu,
+        isEmpty:true
       });
-    } else if (typeof response.data[0].breakfast_menu !== "undefined") {
+    }else{
       this.setState({
         isLoading: false,
-        ResaturantMenu: response.data[0].breakfast_menu,
-      });
-    } else if (typeof response.data[0].dinner_menu !== "undefined") {
-      this.setState({
-        isLoading: false,
-        ResaturantMenu: response.data[0].dinner_menu,
+        isEmpty:false,
+        OrderHistory: response.data
       });
     }
+
+    
+    
   }
 
   render() {
@@ -50,81 +50,32 @@ class OrderHistoryScreen extends React.Component {
     //get the order history through api
     return (
       <SafeAreaView forceInset={{ top: "always" }}>
+        <Loader loading={this.state.isLoading} />
+        {this.state.isEmpty ? (
+          <>
+            <Text style={styles.text}>Order History</Text>
+            <Text style={styles.emptyMessage}>Order history is empty for current user.</Text>
+          </>
+        ) : (
         <View style={styles.main}>
           <Text style={styles.text}>Order History</Text>
           <FlatList
             style={styles.main}
-            data={[
-              {
-                items: [
-                  { item: "Triton Burger", price: "8.00", qty: "1" },
-                  { item: "Fries", price: "6.00", qty: "2" },
-                ],
-                timeOrdered: "01/01/2023 3:27 PM",
-                timeDelivered: "01/01/2023 4:08 PM",
-                restaurant: "64 degrees",
-                orderId: "005",
-                deliverer: "001",
-                price: "20.00",
-              },
-              {
-                items: [{ item: "Triton Salad", price: "6.00", qty: "1" }],
-                timeOrdered: "01/01/2022 3:27 PM",
-                timeDelivered: "01/01/2022 4:08 PM",
-                restaurant: "Canyon Vista",
-                orderId: "004",
-                deliverer: "001",
-                price: "6.00",
-              },
-              {
-                items: [
-                  { item: "Milkshake", price: "5.00", qty: "3" },
-                  { item: "Fries", price: "6.00", qty: "2" },
-                ],
-                timeOrdered: "01/01/2021 3:27 PM",
-                timeDelivered: "01/01/2021 4:08 PM",
-                restaurant: "Cafe Ventanas",
-                orderId: "003",
-                deliverer: "001",
-                price: "27.00",
-              },
-              {
-                items: [
-                  { item: "Triton Burger", price: "8.00", qty: "1" },
-                  { item: "Fries", price: "6.00", qty: "2" },
-                ],
-                timeOrdered: "01/01/1990 3:27 PM",
-                timeDelivered: "01/01/1990 4:08 PM",
-                restaurant: "64 degrees",
-                orderId: "001",
-                deliverer: "001",
-                price: "20.00",
-              },
-              {
-                items: [
-                  { item: "Triton Burger", price: "8.00", qty: "1" },
-                  { item: "Fries", price: "6.00", qty: "2" },
-                ],
-                timeOrdered: "01/01/1990 3:27 PM",
-                timeDelivered: "01/01/1990 4:08 PM",
-                restaurant: "64 degrees",
-                orderId: "001",
-                deliverer: "001",
-                price: "20.00",
-              },
-            ]}
+            data={this.state.OrderHistory}
             renderItem={({ item }) => (
               <HistoricalOrder
-                orderId={item.orderId}
-                items={item.items}
-                restaurant={item.restaurant}
-                timeOrdered={item.timeOrdered}
-                deliverer={item.deliverer}
-                price={item.price}
+                orderId={item.order_id}
+                items={item.order_items}
+                restaurant={item.restaurant_name}
+                timeOrdered={item.order_placement_time}
+                timeDelivered={item.order_completion_time}
+                deliverer={item.deliverer_id}
+                price={item.total_price}
               />
             )}
           />
         </View>
+        )}
       </SafeAreaView>
     );
   }
@@ -144,6 +95,14 @@ const styles = StyleSheet.create({
     marginBottom: 30,
     marginTop: 30,
   },
+  emptyMessage: {
+    fontSize: 35,
+    fontFamily: "Unica One",
+    textAlign:"center",
+    paddingTop:"20%"
+
+  },
 });
 
 export default OrderHistoryScreen;
+
