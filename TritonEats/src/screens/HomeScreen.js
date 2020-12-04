@@ -1,8 +1,18 @@
 import React, { Component } from "react";
-import { FlatList, Text, View, StyleSheet, Image, TouchableOpacity } from "react-native";
+import { FlatList, Text, View, StyleSheet, Image, TouchableOpacity, } from "react-native";
 import { SafeAreaView } from "react-navigation";
 
 import NavBar from "../Components/NavBar";
+import foodWorx from '../../assets/FWsandwich.jpg';
+import pines from '../../assets/Pinsalmon.jpg'
+import clubMed from '../../assets/CMfish.jpg';
+import canVista from '../../assets/CanVnoodles.jpg';
+import degrees from '../../assets/64burrito.jpg';
+import cafeV from '../../assets/CafeVsalad.jpg';
+import oceanView from '../../assets/OVpizza.jpg';
+
+import CurrentCart from '../Components/Cart';
+import { navigate } from '../navigationRef'
 
 class HomeScreen extends Component {
   constructor(props) {
@@ -10,164 +20,121 @@ class HomeScreen extends Component {
 
     this.state = {
       Restaurants: [
-        {Id: "1", Name: "64 Degrees to Earl Warren College  (0.9 miles)", Compensation: "Estimated Earnings: $8.65 + $1.76 tip"},
-        {Id: "2", Name: "Cafe Ventanas to The Village  (0.2 mi)", Compensation: "Estimated Earnings: $5.87 + $0.89 tip"},
-        {Id: "3", Name: "Canyon Vista to Thurgood Marshall College  (0.6 mi)", Compensation: "Estimated Earnings: $7.41 + $2.03 tip"},
-        {Id: "4", Name: "Foodworx to Sixth College  (1.2 mi)", Compensation: "Estimated Earnings: $10.62 + $3.84 tip"},  
-        {Id: "5", Name: "OceanView to John Muir College  (0.5 mi)", Compensation: "Estimated Earnings: $6.54 + $1.06 tip"},
-        {Id: "6", Name: "Pines to Revelle College  (0.5)", Compensation: "Estimated Earnings: $6.27 + $1.89 tip"},
+        {Id: "1", Image: degrees, Name: "64 Degrees", Hours: "7 am to 9 pm"},
+        {Id: "2", Image: cafeV, Name: "Cafe Ventanas", Hours: "7 am to 9 pm"},
+        {Id: "3", Image: canVista, Name: "Canyon Vista", Hours: "7 am to 9 pm"},
+        {Id: "4", Image: clubMed, Name: "Club Med", Hours: "7 am to 9 pm"},
+        {Id: "5", Image: foodWorx, Name: "Foodworx", Hours: "7 am to 9 pm"},
+        {Id: "6", Image: oceanView, Name: "OceanView", Hours: "7 am to 9 pm"},
+        {Id: "7", Image: pines, Name: "Pines", Hours: "7 am to 9 pm"},
       ],
     };
   }
 
   render() {
     return (
-      <SafeAreaView forceInset={{ top: "always" }} >
-      <View style={styles.main}>
-        
-      <View style={styles.Container}>
-      <View style={styles.LogoRow}>
-        <Image
-          style={styles.LogoImg}
-          source={require("../../assets/TritonLogo.png")}
-        />
-        <Text style={styles.LogoFont}>Triton Eats</Text>
-      </View>
-      </View>
-
-      <TouchableOpacity 
-        onPress={() => navigation.navigate("HomeScreen")}
-        style={styles.refresh}>
-        <Image
-          style={styles.refreshIcon}
-          source={require("../../assets/refreshIcon.png")}
-        />
-        <Text style={styles.refreshText}> Click to Refresh Page</Text>
-      </TouchableOpacity>
-
-      <View style={styles.List}>
-      <FlatList
-        data={this.state.Restaurants}
-        renderItem={({ item }) => (
-          <View style={styles.restaurant}>
-              
-            <Text style={styles.name}>{item.Name}</Text>
-            <Text style={styles.compensation}>{item.Compensation}</Text>
-                  
-            <TouchableOpacity 
-              onPress={() => navigation.navigate("MenuScreen")}
-              style={styles.button}>
-
-              <Text style={styles.buttonText}>Accept Job</Text>
-            </TouchableOpacity>
-          </View>
-        )}
-        keyExtractor={(item) => item.Id}
+    <SafeAreaView forceInset={{ top: "always" }} >
+    <View style={styles.main}>
+      
+    <View style={styles.Container}>
+    <View style={styles.LogoRow}>
+      <Image
+        style={styles.LogoImg}
+        source={require("../../assets/TritonLogo.png")}
       />
-      </View>
-      </View>
-      </SafeAreaView>
-    );
-  }
+      <Text style={styles.LogoFont}>Triton Eats</Text>
+    </View>
+    </View>
+
+    <View style={styles.List}>
+    <FlatList
+      data={this.state.Restaurants}
+      renderItem={({ item }) => (
+        <View>
+            <TouchableOpacity 
+              onPress={() =>  { CurrentCart.viewing_restaurant = item.Name; navigate('MenuScreen'); }}
+              style={styles.restaurant}>
+                <Image style={styles.icon} source={item.Image} /> 
+                <Text style={styles.name}>{item.Name}</Text>
+                <Text style={styles.hours}>{item.Hours}</Text>
+            </TouchableOpacity>
+        </View>
+      )}
+      keyExtractor={(item) => item.Id}
+    />
+    </View>
+    </View>
+  </SafeAreaView>
+
+  );
 }
+}
+HomeScreen.navigationOptions = () => {
+  return {
+    header: () => false,
+  };
+};
 
 const styles = StyleSheet.create({
-  main: {
-    alignItems: "center",
-  },
-  image: {
-    width: 375,
-    height: 175,
-  },
-  name: {
-    fontSize: 24,
-    color: '#FFD700',
-    fontFamily: "Unica One",
-    textAlign: "center",
-    paddingLeft: "5%",
-    paddingRight: "5%",
-    marginHorizontal: 20,
-  },
-  compensation: {
-    fontSize: 21,
-    color: "white",
-    fontFamily: "Unica One",
-    textAlign: "center",
-    flexDirection: 'row', 
-  },
-  List:{
-    paddingBottom: 300,
-  },
-  icon: {
-    width: "22%",
-    height: "80%",
-    marginLeft: "3%",
-  },
-  info: {
-    flexDirection: 'row', 
-  },
-  refreshIcon: {
-    width: 25,
-    height: 25,
-    marginVertical: 5,
-
-  },
-  refreshText: {
-    fontFamily: "Unica One",
-    textAlign: "center",
-    fontSize: 28,
-    color: "black",
-  },
-  refresh: {
-    borderColor: "#0a2657",
-    borderWidth: 1,
-    width: 375,
-    backgroundColor: "white",
-    flexDirection: 'row',
-    paddingHorizontal: 40,
-  },
-  buttonText: {
-    color: '#FFD700',
-    fontFamily: "Unica One",
-    textAlign: "center",
-    fontSize: 20,
-  },
-  button: {
-    backgroundColor: "#0a2657",
-    borderColor: '#FFD700',
-    borderWidth: 1,
-    width: 150,
-    alignItems: "center",
-    alignSelf: "center",
-    marginTop: 5,
-    paddingVertical: 5,
-    paddingHorizontal: 5,
-  },
-  restaurant: {
-    backgroundColor: "#0a2657",
-    paddingVertical: "5%",
-    width: 375,
-    marginTop: 0,
-    marginBottom: 5,
-  },
-  LogoFont: {
-    fontSize: 55,
-    fontFamily: "Unica One",
-    paddingLeft: 20,
-  },
-  Container: {
-    //marginTop: 10,
-    //marginBottom: 15,
-    //marginRight: 10,
-  },
-  LogoRow: {
-    flexDirection: "row",
-    marginLeft: "5%", 
-  },
-  LogoImg: {
-    width: 50,
-    height: 50,
-  },
+main: {
+  alignItems: "center",
+},
+image: {
+  width: 375,
+  height: 175,
+},
+name: {
+  fontSize: 28,
+  width: "30%",
+  height: 75,
+  marginLeft: "5%",
+  marginRight: "5%",
+  color: "white",
+  textAlign: "left",
+  fontFamily: "Unica One",
+},
+hours: {
+  fontSize: 19,
+  color: "white",
+  fontFamily: "Unica One",
+  textAlign: "right",
+  marginRight: "20%",
+},
+List:{
+  paddingBottom: 300,
+},
+icon: {
+  width: "22%",
+  height: "80%",
+  marginLeft: "3%",
+},
+restaurant: {
+  backgroundColor: "#0a2657",
+  paddingVertical: "5%",
+  width: 375,
+  marginTop: 0,
+  flexDirection: 'row',
+  marginBottom: 5,
+},
+LogoFont: {
+  fontSize: 55,
+  fontFamily: "Unica One",
+  paddingLeft: 20,
+},
+Container: {
+  marginTop: 10,
+  marginBottom: 15,
+  marginRight: 10,
+},
+LogoRow: {
+  flexDirection: "row",
+  marginTop: "5%",
+  marginLeft: "5%",
+},
+LogoImg: {
+  width: 50,
+  height: 50,
+},
 });
 
 export default HomeScreen;

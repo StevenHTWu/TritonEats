@@ -22,140 +22,166 @@ class HomeScreen extends Component {
 
   render() {
     return (
-    <SafeAreaView forceInset={{ top: "always" }} >
-    <View style={styles.main}>
+      <View style={styles.main}>
+      <SafeAreaView forceInset={{ top: "always" }} >
       
-    <View style={styles.Container}>
-    <View style={styles.LogoRow}>
-      <Image
-        style={styles.LogoImg}
-        source={require("../../assets/TritonLogo.png")}
+        
+      <View style={styles.Container}>
+      <View style={styles.LogoRow}>
+        <Image
+          style={styles.LogoImg}
+          source={require("../../assets/TritonLogo.png")}
+        />
+        <Text style={styles.LogoFont}>Triton Eats</Text>
+      </View>
+      </View>
+
+      
+
+      <View style={styles.List}>
+      <FlatList
+        data={this.state.Restaurants}
+        renderItem={({ item }) => (
+          <View style={styles.restaurant}>
+              
+            <Text style={styles.name}>{item.Name}</Text>
+            <Text style={styles.compensation}>{item.Compensation}</Text>
+                  
+            <TouchableOpacity 
+              onPress={() => navigation.navigate("MenuScreen")}
+              style={styles.button}>
+
+              <Text style={styles.buttonText}>Accept Job</Text>
+            </TouchableOpacity>
+          </View>
+        )}
+        keyExtractor={(item) => item.Id}
       />
-      <Text style={styles.LogoFont}>Triton Eats</Text>
-    </View>
-    </View>
+      
 
-    <TouchableOpacity 
-      onPress={() => navigation.navigate("HomeScreen")}
-      style={styles.refresh}>
-      <Text style={styles.refreshText}>Click to Refresh Page</Text>
-    </TouchableOpacity>
+      <TouchableOpacity 
+        onPress={() => navigation.navigate("HomeScreen")}
+        style={styles.refresh}>
+        <Image
+          style={styles.refreshIcon}
+          source={require("../../assets/refreshIcon.png")}
+        />
+        <Text style={styles.refreshText}> Click to Refresh Page</Text>
+      </TouchableOpacity>
+      </View>
 
-    <View style={styles.List}>
-    <FlatList
-      data={this.state.Restaurants}
-      renderItem={({ item }) => (
-        <View style={styles.restaurant}>
-            
-          <Text style={styles.name}>{item.Name}</Text>
-          <Text style={styles.compensation}>{item.Compensation}</Text>
-                
-          <TouchableOpacity 
-            onPress={() => navigation.navigate("MenuScreen")}
-            style={styles.button}>
-
-            <Text style={styles.buttonText}>Accept Job</Text>
-          </TouchableOpacity>
-        </View>
-      )}
-      keyExtractor={(item) => item.Id}
-    />
-    </View>
-    </View>
-  </SafeAreaView>
-
-  );
+    
+      </SafeAreaView>
+      </View>
+    );
+  }
 }
-}
+
+DelivererHomeScreen.navigationOptions = () => {
+  return {
+    header: () => false,
+  };
+};
 
 const styles = StyleSheet.create({
-main: {
-  alignItems: "center",
-},
-image: {
-  width: 375,
-  height: 175,
-},
-name: {
-  fontSize: 25,
-  height: 75,
-  color: '#FFD700',
-  fontFamily: "Unica One",
-  textAlign: "center",
-  paddingLeft: "5%",
-  paddingRight: "5%",
-},
-compensation: {
-  fontSize: 22,
-  color: "white",
-  fontFamily: "Unica One",
-  textAlign: "center",
-  flexDirection: 'row', 
-},
-List:{
-  paddingBottom: 260,
-},
-icon: {
-  width: "22%",
-  height: "80%",
-  marginLeft: "3%",
-},
-info: {
-  flexDirection: 'row', 
-},
-refreshText: {
-  fontFamily: "Unica One",
-  textAlign: "center",
-  fontSize: 20,
-},
-refresh: {
-  borderColor: "black",
-  borderWidth: 1,
-  width: 375,
-},
-buttonText: {
-  color: '#FFD700',
-  fontFamily: "Unica One",
-  textAlign: "center",
-  fontSize: 20,
-},
-button: {
-  backgroundColor: "#0a2657",
-  borderColor: '#FFD700',
-  borderWidth: 1,
-  width: 150,
-  alignItems: "center",
-  alignSelf: "center",
-  marginTop: 10,
-  paddingVertical: 5,
-  paddingHorizontal: 5,
-},
-restaurant: {
-  backgroundColor: "#0a2657",
-  paddingVertical: "5%",
-  width: 375,
-  marginTop: 0,
-  marginBottom: 5,
-},
-LogoFont: {
-  fontSize: 55,
-  fontFamily: "Unica One",
-  paddingLeft: 20,
-},
-Container: {
-  //marginTop: 10,
-  //marginBottom: 15,
-  //marginRight: 10,
-},
-LogoRow: {
-  flexDirection: "row",
+  main: {
+    alignItems: "center",
+    backgroundColor: "white",
+  },
+  image: {
+    width: 375,
+    height: 175,
+  },
+  name: {
+    fontSize: 24,
+    color: '#FFD700',
+    fontFamily: "Unica One",
+    textAlign: "center",
+    paddingLeft: "5%",
+    paddingRight: "5%",
+    marginHorizontal: 20,
+  },
+  compensation: {
+    fontSize: 21,
+    color: "white",
+    fontFamily: "Unica One",
+    textAlign: "center",
+    flexDirection: 'row', 
+  },
+  List:{
+    paddingBottom: 195,
+  },
+  icon: {
+    width: "22%",
+    height: "80%",
+    marginLeft: "3%",
+  },
+  info: {
+    flexDirection: 'row', 
+  },
+  refreshIcon: {
+    width: 25,
+    height: 25,
+    marginVertical: 5,
 
-  marginLeft: "5%",
-},
-LogoImg: {
-  width: 50,
-  height: 50,
-},
+  },
+  refreshText: {
+    fontFamily: "Unica One",
+    textAlign: "center",
+    fontSize: 28,
+    color: "black",
+  },
+  refresh: {
+    borderColor: "#0a2657",
+    borderBottomWidth: 2,
+    width: 375,
+    backgroundColor: "white",
+    flexDirection: 'row',
+    paddingHorizontal: "13%",
+   
+  },
+  buttonText: {
+    color: '#FFD700',
+    fontFamily: "Unica One",
+    textAlign: "center",
+    fontSize: 20,
+  },
+  button: {
+    backgroundColor: "#0a2657",
+    borderColor: '#FFD700',
+    borderWidth: 1,
+    width: 150,
+    alignItems: "center",
+    alignSelf: "center",
+    marginTop: 5,
+    paddingVertical: 5,
+    paddingHorizontal: 5,
+  },
+  restaurant: {
+    backgroundColor: "#0a2657",
+    paddingVertical: "5%",
+    width: 375,
+    marginTop: 0,
+    marginBottom: 5,
+  },
+  LogoFont: {
+    fontSize: 55,
+    fontFamily: "Unica One",
+    paddingLeft: 20,
+  },
+  Container: {
+    //marginTop: 10,
+    //marginBottom: 15,
+    //marginRight: 10,
+  },
+  LogoRow: {
+    flexDirection: "row",
+    marginLeft: "5%", 
+  },
+  LogoImg: {
+    width: 50,
+    height: 50,
+  },
 });
 
 export default HomeScreen;
