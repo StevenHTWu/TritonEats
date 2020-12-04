@@ -65,7 +65,7 @@ const switchNavigator = createSwitchNavigator({
         AddCardFromSettingsScreen: AddCardFromSettingsScreen,
         ManagePaymentScreen: ManagePaymentScreen,
         PasswordScreen: PasswordScreen
-      })
+      }),
     },
     {
       defaultNavigationOptions: ({ navigation }) => ({

@@ -4,13 +4,12 @@ import { Context as AuthContext } from "../context/AuthContext";
 import { SafeAreaView } from "react-navigation";
 
 
-const menu = [{key: 'My Profile', nav: 'ProfileScreen'}, 
-              {key: 'Manage Address', nav: 'AddressScreen'}, 
-              {key: 'Add Payment Method', nav: 'AddCardFromSettingsScreen'}, 
-              {key: 'Manage Payment Method(s)', nav: 'ManagePaymentScreen'}, 
-              {key: 'Change Password', nav: 'PasswordScreen'}];
+const menu = [{key: 'My Profile', nav: 'DelivererProfileScreen'}, 
+              {key: 'Add Payment Method', nav: 'DelivererAddCardFromSettingsScreen'}, 
+              {key: 'Manage Payment Method(s)', nav: 'DelivererManagePaymentScreen'}, 
+              {key: 'Change Password', nav: 'DelivererPasswordScreen'}];
 
-global.object = {name: "mudit", email: "example@ucsd.edu", phone_num: "1234567890",
+global.object = {name: "mudit", email: "example@ucsd.edu", phone_num: "1234567890", balance: "30",
               payment_methods: [{card_number: "1234567812345678", cvv: "456", expiration_date: "5678", name: "Card 1"},
               {card_number: "1234567812341111", cvv: "123", expiration_date: "1234", name: "Card 2"}],
               apartment: "212", residence: "ERC Building 1", address: "Gilman Drive", 
@@ -21,7 +20,7 @@ global.cards = object.payment_methods;
 
 
 
-const SettingsScreen = ({ navigation }) => {
+const DelivererSettingsScreen = ({ navigation }) => {
   const { signout } = useContext(AuthContext);
 
   return (
@@ -41,7 +40,7 @@ const SettingsScreen = ({ navigation }) => {
   );
 };
 
-SettingsScreen.navigationOptions = () => {
+DelivererSettingsScreen.navigationOptions = () => {
   return {
     header: () => false,
   };
@@ -62,7 +61,7 @@ const styles = StyleSheet.create({
   }
 });
 
-export default SettingsScreen;
+export default DelivererSettingsScreen;
 
 
 
