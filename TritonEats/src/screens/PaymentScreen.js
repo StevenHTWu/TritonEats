@@ -109,7 +109,7 @@ const PaymentScreen = ({ navigation }) => {
                   navigation.getParam("order_array"),
                   navigation.getParam("total_price")
                 );
-                navigation.navigate("HomeScreen");
+                navigation.navigate("OrderStatusScreen");
               }}
               style={styles.PaymentBtn}
             >

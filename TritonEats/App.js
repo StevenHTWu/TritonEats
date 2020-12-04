@@ -22,6 +22,7 @@ import { Provider as AuthProvider } from "./src/context/AuthContext";
 import { setNavigator } from "./src/navigationRef";
 import ResolveAuthScreen from "./src/screens/ResolveAuthScreen";
 import MenuScreen from "./src/screens/MenuScreen";
+import OrderStatusScreen from "./src/screens/OrderStatusScreen";
 
 // Deliver Side Imports
 import DelivererHomeScreen from "./src/screens/DelivererHomeScreen";
@@ -51,6 +52,7 @@ const switchNavigator = createSwitchNavigator({
         ShoppingCartScreen: ShoppingCartScreen,
         PaymentScreen: PaymentScreen,
         AddCardScreen: AddCardScreen,
+        OrderStatusScreen: OrderStatusScreen,
       }),
       SettingsScreen: {
         screen: SettingsScreen,

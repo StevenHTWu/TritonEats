@@ -26,6 +26,7 @@ router.route("/restaurantMenu/:id").get(async function (req, res) {
   else day = "Sun";
 
   if (!rnf) {
+    console.log("422 error ", "no such restaurant available");
     return res.status(422).send({ error: "No such restaurant available" });
   }
 
@@ -81,6 +82,7 @@ router.route("/restaurantMenu/:id").get(async function (req, res) {
       console.log("Mon_dinner");
       menu = "dinner_menu";
     } else {
+      console.log("422 error", "Restaurant is closed.");
       return res.status(422).send({ error: "Restaurant is closed." });
     }
   }

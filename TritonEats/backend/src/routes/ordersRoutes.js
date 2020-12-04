@@ -1,9 +1,44 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const orders = mongoose.model("orders");
+const deliverers = mongoose.model("deliverers");
+
 ObjectID = require("mongodb").ObjectID;
 
 const router = express.Router();
+
+router.route("/auth/orderStatus").get(async function (req, res) {
+  const order = await orders.findOne({ orderer_id: req._id });
+  console.log("this is the order: " + order);
+  if (!order) {
+    res.status(400).send("User has no active orders.");
+  } else {
+    console.log("this is the order id: " + req._id);
+    console.log("this is the order" + order);
+    const orderObj = order.toObject();
+    const status = orderObj.status;
+    console.log(orderObj);
+    console.log("this is the status" + status);
+    if (status == "pending") {
+      res.status(200).send({
+        status: status,
+      });
+    } else {
+      console.log(orderObj.deliverer_id);
+      const deliverer = await deliverers.findOne({
+        deliverer_id: orderObj.deliverer_id,
+      });
+
+      const delivererObj = deliverer.toObject();
+      console.log(delivererObj);
+      res.status(200).send({
+        status: orderObj.status,
+        name: delivererObj.name,
+        num: delivererObj.phone_num,
+      });
+    }
+  }
+});
 
 router.route("/auth/makeOrder").post(async function (req, res) {
   var parameters = req.body;
@@ -34,7 +69,7 @@ router.route("/auth/makeOrder").post(async function (req, res) {
 
     var order_pickup_time = null;
     var deliverer_id = null;
-    var status = null;
+    var status = "pending";
 
     try {
       const order = new orders({
