@@ -1,9 +1,41 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const orders = mongoose.model("orders");
+const deliverers = mongoose.model("deliverers");
+
 ObjectID = require("mongodb").ObjectID;
 
 const router = express.Router();
+
+router.route("/auth/orderStatus").get(async function (req, res) {
+  const order = await orders.findOne({ orderer_id: _id });
+  if (!order) {
+    res.status(400).send("User has no active orders.");
+  } else {
+    const orderObj = order.toObject();
+    const status = orderObj.status;
+    console.log(orderObj);
+    console.log(status);
+    if (status == "Order Pending") {
+      res.status(200).send({
+        status: status,
+      });
+    } else {
+      console.log(orderObj.deliverer_id);
+      const deliverer = await deliverers.findOne({
+        deliverer_id: orderObj.deliverer_id,
+      });
+
+      const delivererObj = deliverer.toObject();
+      console.log(delivererObj);
+      res.status(200).send({
+        status: orderObj.status,
+        name: delivererObj.name,
+        num: delivererObj.phone_num,
+      });
+    }
+  }
+});
 
 router.route("/auth/makeOrder").post(async function (req, res) {
   var parameters = req.body;
@@ -34,7 +66,7 @@ router.route("/auth/makeOrder").post(async function (req, res) {
 
     var order_pickup_time = null;
     var deliverer_id = null;
-    var status = null;
+    var status = "Order Pending";
 
     try {
       const order = new orders({

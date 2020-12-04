@@ -1,6 +1,8 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const deliverers = mongoose.model("deliverers");
+const orders = mongoose.model("orders");
+const orderers = mongoose.model("orderers");
 
 const router = express.Router();
 
@@ -51,6 +53,20 @@ router.route("/auth/delivererPay").get(async function (req, res) {
     return res.status(422).send({ error: "User was not found" });
   } else {
     return res.status(200).send({ balance: user.balance });
+  }
+});
+
+router.route("/auth/directions").get(async function (req, res) {
+  const order = await orders.findOne({ deliverer_id: _id });
+  if (!order) {
+    res.status(404).send({ error: "Deliverer has no orders." });
+  } else {
+    orderer_id = order.toObject().orderer_id;
+    const orderer = await orderers.findOne({ orderer_id: orderer_id });
+    const ordererObj = orderer.toObject();
+    res
+      .status(200)
+      .send({ location: ordererObj.address, apartment: ordererObj.residence });
   }
 });
 
