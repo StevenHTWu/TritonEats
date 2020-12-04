@@ -5,12 +5,8 @@ import { AsyncStorage } from "react-native";
 
 const PaymentScreen = ({ navigation }) => {
 
-  console.log(navigation.getParam("res_name"));
   const [selectedValue, setSelectedValue] = useState("");
   const [selectedCards, setSelectedCards] = useState("");
-  const [resName, setResName] = useState("");
-  const [orderArray, setOrderArray] = useState("");
-  const [price, setPrice] = useState("");
 
   const[alternateSelect, setAlternateSelect] = useState(true);
 
@@ -19,7 +15,6 @@ const PaymentScreen = ({ navigation }) => {
   }
 
   const makeOrder = async (restaurant_name, order_items, total_price) => {
-    console.log(restaurant_name);
   
     const token = await AsyncStorage.getItem("token");
     const headers = {
@@ -56,11 +51,6 @@ const PaymentScreen = ({ navigation }) => {
 
   const refresh = navigation.addListener('didFocus', () => {
     getCard();
-    if(navigation.getParam("res_name") != null){
-      setResName(navigation.getParam("res_name"));
-      setOrderArray(navigation.getParam("order_array"));
-      setPrice(navigation.getParam("total_price"));
-    }
   });
 
   var array = selectedCards;
@@ -104,7 +94,6 @@ const PaymentScreen = ({ navigation }) => {
             <View style={styles.layer2}>
                     <TouchableOpacity
                         onPress={() => {
-                          console.log("hi");
                           makeOrder(navigation.getParam("res_name"), navigation.getParam("order_array"), navigation.getParam("total_price"));
                           navigation.navigate("HomeScreen");
                         }}

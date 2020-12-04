@@ -194,7 +194,7 @@ class ShoppingCartScreen extends React.Component {
                 CurrentCart.order_arr.reduce(function (sum, current) {
                   return sum + current.quantity * current.value;
                 }, 0)
-              ).toFixed(2)} resName={CurrentCart.restaurant_name}/>
+              ).toFixed(2)} resName={CurrentCart.viewing_restaurant}/>
       </View>
     );
             }
