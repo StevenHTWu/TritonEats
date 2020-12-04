@@ -42,8 +42,8 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
   },
   Container: {
-    backgroundColor: 'white',
-    flex: 1
+    backgroundColor: "white",
+    flex: 1,
   },
   LogoRow: {
     flexDirection: "row",
