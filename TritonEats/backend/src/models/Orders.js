@@ -16,4 +16,4 @@ const ordersSchema = new mongoose.Schema(
   { collection: "Orders" }
 );
 
-mongoose.model("orders", ordersSchema);
+mongoose.model("Orders", ordersSchema);
