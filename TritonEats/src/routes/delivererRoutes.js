@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const deliverers = mongoose.model("deliverers");
+const orders = mongoose.model("orders");
 
 const router = express.Router();
 
@@ -41,6 +42,12 @@ router.route("/delivererPay/:deliverrer_id").patch(async function (req, res) {
     res.status(422).send({ error: "Invalid Information" });
     console.log(err);
   }
+});
+
+//Send a list of unaccepted jobs
+router.route("/jobqueue").post(async function (req, res) { 
+  const order = await orders.find({ deliverer_id: null });
+  return res.status(200).json(order);
 });
 
 // show user balance before transfer

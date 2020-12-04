@@ -56,4 +56,22 @@ userAuthSchema.pre('save', function(next) {
     });
   };
 
+    // update password method.
+  userAuthSchema.methods.updatePassword = function(input) {
+    const user = this;
+    bcrypt.genSalt(10, (err, salt) => {
+      if (err) {
+        return next(err);
+      }
+
+      bcrypt.hash(input, salt, (err, hash) => {
+        if (err) {
+          return next(err);
+        }
+        user.password = hash;
+        next();
+      });
+    });
+  };
+
 mongoose.model('userAuth', userAuthSchema);
