@@ -8,15 +8,7 @@ const router = express.Router();
 
 router.route("/delivererPay/:deliverrer_id").patch(async function (req, res) {
   console.log(req.deliverer_id);
-  // // Update many to add fields
-  // //
-  // await deliverers.updateMany({}, [{
-  //     $set: {
-  //         balance: 30.900,
-  //     }
-  // }]).then((result, err) => {
-  //     return res.status(200).send({ data: result, message: "Value Updated" });
-  // });
+
   var _id = req.params.deliverrer_id;
   try {
     const user = await deliverers.findOne({ deliverer_id: _id });
@@ -68,6 +60,21 @@ router.route("/auth/directions").get(async function (req, res) {
       .status(200)
       .send({ location: ordererObj.address, apartment: ordererObj.residence });
   }
+});
+
+router.route("/auth/jobAccept/:order_id").post(async function (req, res) {
+  order_id = req.params.order_id;
+  orders.findOne({ order_id: order_id }, async function (err, ord) {
+    if (err) {
+      res.status(404).send(err);
+    } else {
+      ord.status = "picked up";
+      ord.deliverer_id = req._id;
+      console.log(ord);
+      await ord.save();
+      res.status(200).send("Job was successfully accepted.");
+    }
+  });
 });
 
 module.exports = router;
