@@ -10,10 +10,16 @@ const deliverersSchema = new mongoose.Schema(
     registration_date: String,
     email_confirmed: Boolean,
     active: Boolean,
+<<<<<<< HEAD
     balance: Number,
+=======
+>>>>>>> Deliverer-Home-Screen
   },
   { collection: "Deliverers" }
 );
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> Deliverer-Home-Screen
 mongoose.model("deliverers", deliverersSchema);

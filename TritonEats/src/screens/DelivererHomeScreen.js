@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+<<<<<<< HEAD
 import {
   FlatList,
   Text,
@@ -12,6 +13,14 @@ import {
 import NavBar from "../Components/NavBar";
 
 class DelivererHomeScreen extends Component {
+=======
+import { FlatList, Text, View, StyleSheet, Image, TouchableOpacity } from "react-native";
+import { SafeAreaView } from "react-navigation";
+
+import NavBar from "../Components/NavBar";
+
+class HomeScreen extends Component {
+>>>>>>> Deliverer-Home-Screen
   constructor(props) {
     super(props);
 
@@ -71,7 +80,11 @@ class DelivererHomeScreen extends Component {
         style={styles.refresh}>
         <Image
           style={styles.refreshIcon}
+<<<<<<< HEAD
           source={require("../../assets/refreshIcon.jpg")}
+=======
+          source={require("../../assets/refreshIcon.png")}
+>>>>>>> Deliverer-Home-Screen
         />
         <Text style={styles.refreshText}> Click to Refresh Page</Text>
       </TouchableOpacity>
@@ -191,4 +204,8 @@ const styles = StyleSheet.create({
   },
 });
 
+<<<<<<< HEAD
 export default DelivererHomeScreen;
+=======
+export default HomeScreen;
+>>>>>>> Deliverer-Home-Screen
