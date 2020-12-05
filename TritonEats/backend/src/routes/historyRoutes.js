@@ -16,6 +16,17 @@ router.route("/auth/history").get(function (req, res) {
   });
 });
 
+router.route("/auth/delivererHistory").get(function (req, res) {
+  deliverer_id = req._id;
+  history.find({ deliverer_id: deliverer_id }, function (err, result) {
+    if (err) {
+      res.send(err);
+    } else {
+      res.json(result);
+    }
+  });
+});
+
 router.route("/complete").post(function (req, res) {
   deliverer_id = req._id;
   orders.find({ deliverer_id: _id }, async function (err, result) {
