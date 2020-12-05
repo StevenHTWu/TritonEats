@@ -137,17 +137,19 @@ router.route("/auth/homescreen").get(async function (req, res) {
     var z;
 
     currTime = cHours * 100 + cMins;
-    //console.log(currTime);
+    cDay = cDay - 1;
     for (z = 0; z < restaurants.length; z++) {
-      this_res = restaurants[z].toObject();
-      var openBTime = this_res.hours[0].opening_hour.split(":");
-      var closeDTime = this_res.hours[2].closing_hour.split(":");
+      try {
+        this_res = restaurants[z].toObject();
+        var openBTime = this_res.hours[3 * cDay].opening_hour.split(":");
+        var closeDTime = this_res.hours[3 * cDay + 2].closing_hour.split(":");
 
-      openBTime = parseInt(openBTime[0]) * 100 + parseInt(openBTime[1]);
-      closeDTime = parseInt(closeDTime[0]) * 100 + parseInt(closeDTime[1]);
-      if (currTime >= openBTime && currTime < closeDTime) {
-        res_arr.push(this_res.restaurant_name);
-      }
+        openBTime = parseInt(openBTime[0]) * 100 + parseInt(openBTime[1]);
+        closeDTime = parseInt(closeDTime[0]) * 100 + parseInt(closeDTime[1]);
+        if (currTime >= openBTime && currTime < closeDTime) {
+          res_arr.push(this_res.restaurant_name);
+        }
+      } catch {}
     }
     console.log(res_arr);
     res.status(200).send(res_arr);
