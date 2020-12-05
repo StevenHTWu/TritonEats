@@ -97,4 +97,60 @@ router.route("/restaurantMenu/:id").get(async function (req, res) {
     }
   );
 });
+
+router.route("/auth/homescreen").get(async function (req, res) {
+  const rnf = await resMenu.find({});
+  var curr = new Date();
+  var cDate = curr.getDate();
+  var cHours = curr.getHours();
+  var cMins = curr.getMinutes();
+  var cDay = curr.getDay();
+  var menu;
+  var day;
+
+  if (cDay == 1) day = "Mon";
+  else if (cDay == 2) day = "Tues";
+  else if (cDay == 3) day = "Wed";
+  else if (cDay == 4) day = "Thurs";
+  else if (cDay == 5) day = "Fri";
+  else if (cDay == 6) day = "Sat";
+  else day = "Sun";
+
+  console.log(day);
+
+  if (!rnf) {
+    return res.status(422).send({ error: "No restaurants available" });
+  }
+
+  if (
+    day == "Mon" ||
+    day == "Tues" ||
+    day == "Wed" ||
+    day == "Thurs" ||
+    day == "Fri" ||
+    day == "Sat" ||
+    day == "Sun"
+  ) {
+    const restaurants = await resMenu.find({});
+    const res_arr = [];
+    console.log(restaurants);
+    var z;
+
+    currTime = cHours * 100 + cMins;
+    //console.log(currTime);
+    for (z = 0; z < restaurants.length; z++) {
+      this_res = restaurants[z].toObject();
+      var openBTime = this_res.hours[0].opening_hour.split(":");
+      var closeDTime = this_res.hours[2].closing_hour.split(":");
+
+      openBTime = parseInt(openBTime[0]) * 100 + parseInt(openBTime[1]);
+      closeDTime = parseInt(closeDTime[0]) * 100 + parseInt(closeDTime[1]);
+      if (currTime >= openBTime && currTime < closeDTime) {
+        res_arr.push(this_res.restaurant_name);
+      }
+    }
+    console.log(res_arr);
+    res.status(200).send(res_arr);
+  }
+});
 module.exports = router;
