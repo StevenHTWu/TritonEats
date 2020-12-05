@@ -6,7 +6,6 @@ class HistoricalOrder extends React.Component{
         return (
                 <View style={styles.main}>
                 <ScrollView>
-                    <Text style={styles.text}>Order Id: {this.props.orderId}</Text>
                     <Text style={styles.text}>Items:</Text>
                     <FlatList style={styles.text} data={this.props.items}
                               renderItem={({item}) =>
@@ -54,3 +53,5 @@ const styles = StyleSheet.create({
 });
 
 export default HistoricalOrder;
+//<Text style={styles.text}>Order Id: {this.props.orderId}</Text>
+                    
