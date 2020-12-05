@@ -21,11 +21,16 @@ import oceanView from "../../assets/OVpizza.jpg";
 import CurrentCart from "../Components/Cart";
 import { navigate } from "../navigationRef";
 
+import trackerApi from "../api/tracker";
+import Loader from "../Components/Loader";
+
 class HomeScreen extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      isLoading: true, 
+      isEmpty: false,
       Restaurants: [
         {
           Id: "1",
@@ -73,10 +78,63 @@ class HomeScreen extends Component {
     };
   }
 
+  async componentDidMount() {
+    const response = await trackerApi.get("/homescreen");
+
+    console.log("-----------------------");
+    console.log(response.data);
+    console.log("-----------------------");
+    if (response.data.length == 0) {
+      this.setState({
+        isLoading: false,
+        isEmpty: true,
+      });
+    } else {
+
+      var resArr = []
+      response.data.forEach(function(item){
+        var obj = {};
+        obj.Name = item.Name;
+        obj.Hours = item.Hours;
+        if (item.Name == "Pines") obj.Image = pines;
+        else if (item.Name == "OceanView") obj.Image = oceanView;
+        else if (item.Name == "64 Degrees") obj.Image = degrees;
+        else if (item.Name == "Foodworx") obj.Image = foodWorx;
+        else if (item.Name == "Club Med") obj.Image = clubMed;
+        else if (item.Name == "Canyon Vista") obj.Image = canVista;
+        else if (item.Name == "Cafe Ventanas") obj.Image = cafeV;
+        else obj.Image = canVista;
+        resArr.push(obj);
+      });
+
+
+      this.setState({
+        isLoading: false,
+        isEmpty: false,
+        Restaurants: resArr
+
+      });
+    }
+  }
+
   render() {
     return (
       <View style={styles.main}>
         <SafeAreaView forceInset={{ top: "always" }}>
+          <Loader loading={this.state.isLoading} />
+          {this.state.isEmpty ? (
+            <>
+              <Image
+                style={styles.LogoImg}
+                source={require("../../assets/TritonLogo.png")}
+              />
+              <Text style={styles.LogoFont}>Triton Eats</Text>
+              <Text style={styles.emptyMessage}>
+                No restaurants are currently open.
+              </Text>
+            </>
+          ) : (
+            <>
           <View style={styles.Container}>
             <View style={styles.LogoRow}>
               <Image
@@ -108,6 +166,8 @@ class HomeScreen extends Component {
               keyExtractor={(item) => item.Id}
             />
           </View>
+          </>
+          )}
         </SafeAreaView>
       </View>
     );
@@ -177,6 +237,12 @@ const styles = StyleSheet.create({
   LogoImg: {
     width: 50,
     height: 50,
+  },
+  emptyMessage: {
+    fontSize: 25,
+    fontFamily: "Unica One",
+    textAlign: "center",
+    paddingTop: "50%",
   },
 });
 

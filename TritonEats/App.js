@@ -29,6 +29,8 @@ import DelivererHomeScreen from "./src/screens/DelivererHomeScreen";
 import DelivererJobHistoryScreen from "./src/screens/DelivererJobHistoryScreen";
 import DelivererSettingsScreen from "./src/screens/DelivererSettingsScreen";
 
+console.disableYellowBox = true;
+
 const switchNavigator = createSwitchNavigator({
   ResolveAuthScreen: ResolveAuthScreen,
   loginFlow: createStackNavigator({
