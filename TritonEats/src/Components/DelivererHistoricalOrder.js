@@ -6,20 +6,17 @@ class HistoricalOrder extends React.Component{
         return (
                 <View style={styles.main}>
                 <ScrollView>
-                    <Text style={styles.text}>Order Id: {this.props.orderId}</Text>
                     <Text style={styles.text}>Items:</Text>
                     <FlatList style={styles.text} data={this.props.items}
                               renderItem={({item}) =>
                                   <ScrollView horizontal={true}>
-                                  <Text style={styles.text}>- {item.item}</Text>
-                                  <Text style={styles.text}>${item.price}</Text>
+                                  <Text style={styles.text}>- {item.name}</Text>
                                   <Text style={styles.text}>x{item.quantity}</Text>
                                   </ScrollView>
                               }/>
                     <Text style={styles.text}>Restaurant: {this.props.restaurant}</Text>
                     <Text style={styles.text}>Time Ordered: {this.props.timeOrdered}</Text>
                     <Text style={styles.text}>Time Delivered: {this.props.timeDelivered}</Text>
-                    <Text style={styles.text}>Orderer: {this.props.orderer}</Text>
                 </ScrollView>
                 </View>
         )
