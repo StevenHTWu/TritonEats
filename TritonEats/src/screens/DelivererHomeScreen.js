@@ -4,7 +4,7 @@ import {
   Text,
   View,
   StyleSheet,
-  Image, 
+  Image,
   TouchableOpacity,
   SafeAreaView,
 } from "react-native";
@@ -17,12 +17,36 @@ class DelivererHomeScreen extends Component {
 
     this.state = {
       Restaurants: [
-        {Id: "1", Name: "64 Degrees to Earl Warren College  (0.9 miles)", Compensation: "Estimated Earnings: $8.65 + $1.76 tip"},
-        {Id: "2", Name: "Cafe Ventanas to The Village  (0.2 mi)", Compensation: "Estimated Earnings: $5.87 + $0.89 tip"},
-        {Id: "3", Name: "Canyon Vista to Thurgood Marshall College  (0.6 mi)", Compensation: "Estimated Earnings: $7.41 + $2.03 tip"},
-        {Id: "4", Name: "Foodworx to Sixth College  (1.2 mi)", Compensation: "Estimated Earnings: $10.62 + $3.84 tip"},  
-        {Id: "5", Name: "OceanView to John Muir College  (0.5 mi)", Compensation: "Estimated Earnings: $6.54 + $1.06 tip"},
-        {Id: "6", Name: "Pines to Revelle College  (0.5)", Compensation: "Estimated Earnings: $6.27 + $1.89 tip"},
+        {
+          Id: "1",
+          Name: "64 Degrees to Earl Warren College  (0.9 miles)",
+          Compensation: "Estimated Earnings: $8.65 + $1.76 tip",
+        },
+        {
+          Id: "2",
+          Name: "Cafe Ventanas to The Village  (0.2 mi)",
+          Compensation: "Estimated Earnings: $5.87 + $0.89 tip",
+        },
+        {
+          Id: "3",
+          Name: "Canyon Vista to Thurgood Marshall College  (0.6 mi)",
+          Compensation: "Estimated Earnings: $7.41 + $2.03 tip",
+        },
+        {
+          Id: "4",
+          Name: "Foodworx to Sixth College  (1.2 mi)",
+          Compensation: "Estimated Earnings: $10.62 + $3.84 tip",
+        },
+        {
+          Id: "5",
+          Name: "OceanView to John Muir College  (0.5 mi)",
+          Compensation: "Estimated Earnings: $6.54 + $1.06 tip",
+        },
+        {
+          Id: "6",
+          Name: "Pines to Revelle College  (0.5)",
+          Compensation: "Estimated Earnings: $6.27 + $1.89 tip",
+        },
       ],
     };
   }
@@ -30,55 +54,48 @@ class DelivererHomeScreen extends Component {
   render() {
     return (
       <View style={styles.main}>
-      <SafeAreaView forceInset={{ top: "always" }} >
-      
-        
-      <View style={styles.Container}>
-      <View style={styles.LogoRow}>
-        <Image
-          style={styles.LogoImg}
-          source={require("../../assets/TritonLogo.png")}
-        />
-        <Text style={styles.LogoFont}>Triton Eats</Text>
-      </View>
-      </View>
+        <SafeAreaView forceInset={{ top: "always" }}>
+          <View style={styles.Container}>
+            <View style={styles.LogoRow}>
+              <Image
+                style={styles.LogoImg}
+                source={require("../../assets/TritonLogo.png")}
+              />
+              <Text style={styles.LogoFont}>Triton Eats</Text>
+            </View>
+          </View>
 
-      
+          <View style={styles.List}>
+            <FlatList
+              data={this.state.Restaurants}
+              renderItem={({ item }) => (
+                <View style={styles.restaurant}>
+                  <Text style={styles.name}>{item.Name}</Text>
+                  <Text style={styles.compensation}>{item.Compensation}</Text>
 
-      <View style={styles.List}>
-      <FlatList
-        data={this.state.Restaurants}
-        renderItem={({ item }) => (
-          <View style={styles.restaurant}>
-              
-            <Text style={styles.name}>{item.Name}</Text>
-            <Text style={styles.compensation}>{item.Compensation}</Text>
-                  
-            <TouchableOpacity 
-              onPress={() => navigation.navigate("MenuScreen")}
-              style={styles.button}>
+                  <TouchableOpacity
+                    onPress={() => navigation.navigate("MenuScreen")}
+                    style={styles.button}
+                  >
+                    <Text style={styles.buttonText}>Accept Job</Text>
+                  </TouchableOpacity>
+                </View>
+              )}
+              keyExtractor={(item) => item.Id}
+            />
 
-              <Text style={styles.buttonText}>Accept Job</Text>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("HomeScreen")}
+              style={styles.refresh}
+            >
+              <Image
+                style={styles.refreshIcon}
+                source={require("../../assets/refreshIcon.jpg")}
+              />
+              <Text style={styles.refreshText}> Click to Refresh Page</Text>
             </TouchableOpacity>
           </View>
-        )}
-        keyExtractor={(item) => item.Id}
-      />
-      
-
-      <TouchableOpacity 
-        onPress={() => navigation.navigate("HomeScreen")}
-        style={styles.refresh}>
-        <Image
-          style={styles.refreshIcon}
-          source={require("../../assets/refreshIcon.jpg")}
-        />
-        <Text style={styles.refreshText}> Click to Refresh Page</Text>
-      </TouchableOpacity>
-      </View>
-
-    
-      </SafeAreaView>
+        </SafeAreaView>
       </View>
     );
   }
@@ -101,7 +118,7 @@ const styles = StyleSheet.create({
   },
   name: {
     fontSize: 24,
-    color: '#FFD700',
+    color: "#FFD700",
     fontFamily: "Unica One",
     textAlign: "center",
     paddingLeft: "5%",
@@ -113,9 +130,9 @@ const styles = StyleSheet.create({
     color: "white",
     fontFamily: "Unica One",
     textAlign: "center",
-    flexDirection: 'row', 
+    flexDirection: "row",
   },
-  List:{
+  List: {
     paddingBottom: 195,
   },
   icon: {
@@ -124,13 +141,12 @@ const styles = StyleSheet.create({
     marginLeft: "3%",
   },
   info: {
-    flexDirection: 'row', 
+    flexDirection: "row",
   },
   refreshIcon: {
     width: 25,
     height: 25,
     marginVertical: 5,
-
   },
   refreshText: {
     fontFamily: "Unica One",
@@ -143,19 +159,18 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
     width: 375,
     backgroundColor: "white",
-    flexDirection: 'row',
+    flexDirection: "row",
     paddingHorizontal: "13%",
-   
   },
   buttonText: {
-    color: '#FFD700',
+    color: "#FFD700",
     fontFamily: "Unica One",
     textAlign: "center",
     fontSize: 20,
   },
   button: {
     backgroundColor: "#0a2657",
-    borderColor: '#FFD700',
+    borderColor: "#FFD700",
     borderWidth: 1,
     width: 150,
     alignItems: "center",
@@ -183,7 +198,7 @@ const styles = StyleSheet.create({
   },
   LogoRow: {
     flexDirection: "row",
-    marginLeft: "5%", 
+    marginLeft: "5%",
   },
   LogoImg: {
     width: 50,

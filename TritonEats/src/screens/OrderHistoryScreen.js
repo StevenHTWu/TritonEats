@@ -19,30 +19,27 @@ class OrderHistoryScreen extends React.Component {
 
   async componentDidMount() {
     const token = await AsyncStorage.getItem("token");
-    const AuthStr = 'Bearer '.concat(token);
+    const AuthStr = "Bearer ".concat(token);
 
-    const response = await trackerApi.get(
-      "/auth/history", { headers: { Authorization: AuthStr } }
-    );
+    const response = await trackerApi.get("/auth/history", {
+      headers: { Authorization: AuthStr },
+    });
 
     console.log("-----------------------");
     console.log(response.data);
     console.log("-----------------------");
-    if(response.data.length == 0){
+    if (response.data.length == 0) {
       this.setState({
         isLoading: false,
-        isEmpty:true
+        isEmpty: true,
       });
-    }else{
+    } else {
       this.setState({
         isLoading: false,
-        isEmpty:false,
-        OrderHistory: response.data
+        isEmpty: false,
+        OrderHistory: response.data,
       });
     }
-
-    
-    
   }
 
   render() {
@@ -54,27 +51,29 @@ class OrderHistoryScreen extends React.Component {
         {this.state.isEmpty ? (
           <>
             <Text style={styles.text}>Order History</Text>
-            <Text style={styles.emptyMessage}>Order history is empty for current user.</Text>
+            <Text style={styles.emptyMessage}>
+              Order history is empty for current user.
+            </Text>
           </>
         ) : (
-        <View style={styles.main}>
-          <Text style={styles.text}>Order History</Text>
-          <FlatList
-            style={styles.main}
-            data={this.state.OrderHistory}
-            renderItem={({ item }) => (
-              <HistoricalOrder
-                orderId={item.order_id}
-                items={item.order_items}
-                restaurant={item.restaurant_name}
-                timeOrdered={item.order_placement_time}
-                timeDelivered={item.order_completion_time}
-                deliverer={item.deliverer_id}
-                price={item.total_price}
-              />
-            )}
-          />
-        </View>
+          <View style={styles.main}>
+            <Text style={styles.text}>Order History</Text>
+            <FlatList
+              style={styles.main}
+              data={this.state.OrderHistory}
+              renderItem={({ item }) => (
+                <HistoricalOrder
+                  orderId={item.order_id}
+                  items={item.order_items}
+                  restaurant={item.restaurant_name}
+                  timeOrdered={item.order_placement_time}
+                  timeDelivered={item.order_completion_time}
+                  deliverer={item.deliverer_id}
+                  price={item.total_price}
+                />
+              )}
+            />
+          </View>
         )}
       </SafeAreaView>
     );
@@ -98,11 +97,9 @@ const styles = StyleSheet.create({
   emptyMessage: {
     fontSize: 35,
     fontFamily: "Unica One",
-    textAlign:"center",
-    paddingTop:"20%"
-
+    textAlign: "center",
+    paddingTop: "20%",
   },
 });
 
 export default OrderHistoryScreen;
-

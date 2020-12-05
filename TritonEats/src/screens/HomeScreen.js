@@ -27,17 +27,17 @@ class HomeScreen extends Component {
 
     this.state = {
       Restaurants: [
-        { 
-          Id: "1", 
-          Image: degrees, 
-          Name: "64 Degrees", 
-          Hours: "7 am to 9 pm" 
+        {
+          Id: "1",
+          Image: degrees,
+          Name: "64 Degrees",
+          Hours: "7 am to 9 pm",
         },
-        { 
-          Id: "2", 
-          Image: cafeV, 
-          Name: "Cafe Ventanas", 
-          Hours: "7 am to 9 pm" 
+        {
+          Id: "2",
+          Image: cafeV,
+          Name: "Cafe Ventanas",
+          Hours: "7 am to 9 pm",
         },
         {
           Id: "3",
@@ -45,38 +45,38 @@ class HomeScreen extends Component {
           Name: "Canyon Vista",
           Hours: "7 am to 9 pm",
         },
-        { 
-          Id: "4", 
-          Image: clubMed, 
-          Name: "Club Med", 
-          Hours: "7 am to 9 pm" 
+        {
+          Id: "4",
+          Image: clubMed,
+          Name: "Club Med",
+          Hours: "7 am to 9 pm",
         },
-        { 
-          Id: "5", 
-          Image: foodWorx, 
-          Name: "Foodworx", 
-          Hours: "7 am to 9 pm" 
+        {
+          Id: "5",
+          Image: foodWorx,
+          Name: "Foodworx",
+          Hours: "7 am to 9 pm",
         },
-        { 
-          Id: "6", 
-          Image: oceanView, 
-          Name: "OceanView", 
-          Hours: "7 am to 9 pm" 
+        {
+          Id: "6",
+          Image: oceanView,
+          Name: "OceanView",
+          Hours: "7 am to 9 pm",
         },
-        { 
-          Id: "7", 
-          Image: pines, 
-          Name: "Pines", 
-          Hours: "7 am to 9 pm" 
+        {
+          Id: "7",
+          Image: pines,
+          Name: "Pines",
+          Hours: "7 am to 9 pm",
         },
       ],
     };
   }
 
   render() {
-    return ( 
+    return (
       <View style={styles.main}>
-        <SafeAreaView forceInset={{ top: "always" }}>         
+        <SafeAreaView forceInset={{ top: "always" }}>
           <View style={styles.Container}>
             <View style={styles.LogoRow}>
               <Image
