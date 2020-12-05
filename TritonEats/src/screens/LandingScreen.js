@@ -35,12 +35,6 @@ const LandingScreen = ({ navigation }) => {
   );
 };
 
-LandingScreen.navigationOptions = () => {
-  return {
-    header: () => false,
-  };
-};
-
 const styles = StyleSheet.create({
   LogoFont: {
     fontSize: 55,
@@ -48,9 +42,8 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
   },
   Container: {
-    backgroundColor: "white",
-    flex: 1,
-    paddingTop: 30,
+    backgroundColor: 'white',
+    flex: 1
   },
   LogoRow: {
     flexDirection: "row",
@@ -61,7 +54,6 @@ const styles = StyleSheet.create({
     width: 300,
     height: 300,
     alignSelf: "center",
-    marginTop: "5%",
   },
   LogoImg: {
     width: 50,
