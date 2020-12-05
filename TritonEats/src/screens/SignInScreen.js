@@ -20,7 +20,7 @@ const SignInScreen = ({ navigation }) => {
       />
       <NavLink
         text="Don't have an account? Sign up instead"
-        routeName="SignUpScreen"
+        routeName="DelivererHomeScreen"
       />
     </View>
   );

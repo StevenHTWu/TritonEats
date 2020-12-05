@@ -33,7 +33,7 @@ var order_arr = [
 
 switch (CurrentCart.restaurant_name) {
   case "Pines":
-    var title_image = require("../../assets/Pinburrito.jpg");
+    var title_image = require("../../assets/Pinsalmon.jpg");
     break;
   case "Oceanview":
     var title_image = require("../../assets/OVpizza.jpg");
