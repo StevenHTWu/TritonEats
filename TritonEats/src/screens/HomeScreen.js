@@ -1,139 +1,127 @@
 import React, { Component } from "react";
-import { Container, Text, View, StyleSheet, Image, ScrollView, TouchableOpacity, Dimensions } from "react-native";
-import { SafeAreaView } from "react-navigation";
+import {
+  FlatList,
+  Text,
+  View,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  SafeAreaView,
+} from "react-native";
 
 import NavBar from "../Components/NavBar";
-import sandwich from '../../assets/sandwich.jpg';
-import sushi from '../../assets/sushi.jpg'
-import fruit from '../../assets/fruit.jpg';
-import chicken from '../../assets/chicken.jpg';
-import pasta from '../../assets/pasta.jpg';
-import meat from '../../assets/meat.jpg'
-import sandwich2 from '../../assets/sandwich2.jpg';
-import salad from '../../assets/salad.jpg';
+import foodWorx from "../../assets/FWsandwich.jpg";
+import pines from "../../assets/Pinsalmon.jpg";
+import clubMed from "../../assets/CMfish.jpg";
+import canVista from "../../assets/CanVnoodles.jpg";
+import degrees from "../../assets/64burrito.jpg";
+import cafeV from "../../assets/CafeVsalad.jpg";
+import oceanView from "../../assets/OVpizza.jpg";
+
+import CurrentCart from "../Components/Cart";
+import { navigate } from "../navigationRef";
 
 class HomeScreen extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      Restaurants: [
+        {
+          Id: "1",
+          Image: degrees,
+          Name: "64 Degrees",
+          Hours: "7 am to 9 pm",
+        },
+        {
+          Id: "2",
+          Image: cafeV,
+          Name: "Cafe Ventanas",
+          Hours: "7 am to 9 pm",
+        },
+        {
+          Id: "3",
+          Image: canVista,
+          Name: "Canyon Vista",
+          Hours: "7 am to 9 pm",
+        },
+        {
+          Id: "4",
+          Image: clubMed,
+          Name: "Club Med",
+          Hours: "7 am to 9 pm",
+        },
+        {
+          Id: "5",
+          Image: foodWorx,
+          Name: "Foodworx",
+          Hours: "7 am to 9 pm",
+        },
+        {
+          Id: "6",
+          Image: oceanView,
+          Name: "OceanView",
+          Hours: "7 am to 9 pm",
+        },
+        {
+          Id: "7",
+          Image: pines,
+          Name: "Pines",
+          Hours: "7 am to 9 pm",
+        },
+      ],
+    };
+  }
+
   render() {
     return (
-      <SafeAreaView forceInset={{ top: "always" }}>
-        <View style={styles.main}>
-          
-          <ScrollView
-            horizontal={true}
-            showsHorizontalScrollIndicator={true}
-            scrollEventThrottle={200}
-            decelerationRate="fast"
-            pagingEnabled
-          >
-            <Image
-              style={styles.image}
-              source={sandwich}
-            />
-            <Image
-              style={styles.image}
-              source={sushi}
-            />
-            <Image
-              style={styles.image}
-              source={meat}
-            />
-            <Image
-              style={styles.image}
-              source={salad}
-            />            
-          </ScrollView>
-        </View>
+      <View style={styles.main}>
+        <SafeAreaView forceInset={{ top: "always" }}>
+          <View style={styles.Container}>
+            <View style={styles.LogoRow}>
+              <Image
+                style={styles.LogoImg}
+                source={require("../../assets/TritonLogo.png")}
+              />
+              <Text style={styles.LogoFont}>Triton Eats</Text>
+            </View>
+          </View>
 
-        <View style={styles.verticalScroll}>
-          <ScrollView
-          //scrollEventThrottle={200}
-          //decelerationRate="fast"
-          >
-          <TouchableOpacity
-            //onPress={() => navigation.navigate("RestaurantScreen")}
-            style={styles.restaurant}
-          >
-            <Image
-              style={styles.icon}
-              source={sandwich}
+          <View style={styles.List}>
+            <FlatList
+              data={this.state.Restaurants}
+              renderItem={({ item }) => (
+                <View>
+                  <TouchableOpacity
+                    onPress={() => {
+                      CurrentCart.viewing_restaurant = item.Name;
+                      navigate("MenuScreen");
+                    }}
+                    style={styles.restaurant}
+                  >
+                    <Image style={styles.icon} source={item.Image} />
+                    <Text style={styles.name}>{item.Name}</Text>
+                    <Text style={styles.hours}>{item.Hours}</Text>
+                  </TouchableOpacity>
+                </View>
+              )}
+              keyExtractor={(item) => item.Id}
             />
-            <Text style={styles.name}>  64 Degrees</Text>
-            <Text style={styles.hours}>           7:00 am to 9:00 pm</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            //onPress={() => navigation.navigate("RestaurantScreen")}
-            style={styles.restaurant}
-          >
-            <Image
-              style={styles.icon}
-              source={pasta}
-            />
-            <Text style={styles.name}>  Cafe Ventanas</Text>
-            <Text style={styles.hours}>           7:00 am to 9:00 pm</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            //onPress={() => navigation.navigate("RestaurantScreen")}
-            style={styles.restaurant}
-          >
-            <Image
-              style={styles.icon}
-              source={sandwich2}
-            />
-            <Text style={styles.name}>  Club Med</Text>
-            <Text style={styles.hours}>           7:00 am to 9:00 pm</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            //onPress={() => navigation.navigate("RestaurantScreen")}
-            style={styles.restaurant}
-          >
-            <Image
-              style={styles.icon}
-              source={fruit}
-            />
-            <Text style={styles.name}>  Foodworx</Text>
-            <Text style={styles.hours}>           7:00 am to 9:00 pm</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            //onPress={() => navigation.navigate("RestaurantScreen")}
-            style={styles.restaurant}
-          >
-            <Image
-              style={styles.icon}
-              source={sushi}
-            />
-            <Text style={styles.name}>  Pines</Text>
-            <Text style={styles.hours}>           7:00 am to 9:00 pm</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            //onPress={() => navigation.navigate("RestaurantScreen")}
-            style={styles.restaurant}
-          >
-            <Image
-              style={styles.icon}
-              source={chicken}
-            />
-            <Text style={styles.name}>  OceanView</Text>
-            <Text style={styles.hours}>           7:00 am to 9:00 pm</Text>
-          </TouchableOpacity>
-          
-          </ScrollView>
-        </View>
-      </SafeAreaView>
-
+          </View>
+        </SafeAreaView>
+      </View>
     );
   }
 }
 
+HomeScreen.navigationOptions = () => {
+  return {
+    header: () => false,
+  };
+};
+
 const styles = StyleSheet.create({
   main: {
-    alignItems: "center",
-  },
-  verticalScroll: {
     alignItems: "center",
   },
   image: {
@@ -141,32 +129,54 @@ const styles = StyleSheet.create({
     height: 175,
   },
   name: {
-    fontSize: 22,
-    width: 100,
+    fontSize: 28,
+    width: "30%",
     height: 75,
-    marginLeft: 10,
+    marginLeft: "5%",
+    marginRight: "5%",
     color: "white",
-    textAlign: "center",
+    textAlign: "left",
     fontFamily: "Unica One",
   },
   hours: {
-    fontSize: 15,
+    fontSize: 19,
     color: "white",
     fontFamily: "Unica One",
+    textAlign: "right",
+    marginRight: "20%",
+  },
+  List: {
+    paddingBottom: 200,
   },
   icon: {
-    width: 60,
-    height: 50,
-    marginLeft: 5,
+    width: "22%",
+    height: "80%",
+    marginLeft: "3%",
   },
   restaurant: {
-    elevation: 8,
     backgroundColor: "#0a2657",
-    paddingVertical: 5,
+    paddingVertical: "5%",
     width: 375,
-    height: 60,
-    marginTop: 3,
-    flexDirection: 'row',
+    marginTop: 0,
+    flexDirection: "row",
+    marginBottom: 5,
+  },
+  LogoFont: {
+    fontSize: 55,
+    fontFamily: "Unica One",
+    paddingLeft: 20,
+  },
+  Container: {
+    marginTop: 5,
+    marginRight: 10,
+  },
+  LogoRow: {
+    flexDirection: "row",
+    marginHorizontal: "6%",
+  },
+  LogoImg: {
+    width: 50,
+    height: 50,
   },
 });
 

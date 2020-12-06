@@ -1,127 +1,159 @@
-import React, { useState, useContext } from "react";
-import { StyleSheet, View, TextInput, Text, Image, TouchableOpacity, Keyboard,  TouchableWithoutFeedback } from "react-native";
+import React, { useState, useContext, useEffect } from "react";
+import {
+  StyleSheet,
+  View,
+  TextInput,
+  Text,
+  Image,
+  TouchableOpacity,
+  Keyboard,
+  TouchableWithoutFeedback,
+  Picker,
+} from "react-native";
+import trackerApi from "../api/tracker";
+import { AsyncStorage } from "react-native";
 
 const PaymentScreen = ({ navigation }) => {
-  const [response, setResponse] = useState();
+  const [selectedValue, setSelectedValue] = useState("");
+  const [selectedCards, setSelectedCards] = useState("");
 
-  const [makePayment, setMakePayment] = useState(false);
-  const [paymentStatus, setPaymentStatus] = useState("");
+  const [alternateSelect, setAlternateSelect] = useState(true);
 
-  const [name1, onChangeText1] = React.useState(' CardHolder Name');
-  const [cardnum, onChangeText2] = React.useState(' 1234-5678-1234-5678');
-  const [date1, onChangeText3] = React.useState(' MM/YY');
-  const [cvv1, onChangeText4] = React.useState(' CVV');
-  const [billAddr1, onChangeText5] = React.useState(' Billing Address');
-  const [name, setName] = useState("");
-  const [cardNum, setCardNum] = useState("");
-  const [date, setDate] = useState("");
-  const [cvv, setCvv] = useState("");
-  const [billAddr, setBillAddr] = useState("");
+  const changeSelect = () => {
+    setAlternateSelect((alternateSelect) => !alternateSelect);
+  };
 
+  const makeOrder = async (restaurant_name, order_items, total_price) => {
+    const token = await AsyncStorage.getItem("token");
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    };
+
+    const response = await trackerApi.post(
+      "/auth/makeOrder",
+      { restaurant_name, order_items, total_price },
+      {
+        headers: headers,
+      }
+    );
+  };
+
+  const getCard = async () => {
+    const token = await AsyncStorage.getItem("token");
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    };
+
+    trackerApi
+      .get("/auth/customerPayment", {
+        headers: headers,
+      })
+      .then((res) => {
+        setSelectedCards(res.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+
+  const refresh = navigation.addListener("didFocus", () => {
+    getCard();
+  });
+
+  var array = selectedCards;
+  var cardNum = [];
+
+  for (var i = 0; i < array.length; i++) {
+    if (array[i].card_number != null) {
+      cardNum[i] = "xxxx-xxxx-xxxx-" + array[i].card_number.substring(12, 16);
+    }
+  }
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View style={styles.container}>
         <Image
-              style={styles.CardImg}
-              source={require("../../assets/CardImg.png")}
-              
+          style={styles.CardImg}
+          source={require("../../assets/pay.png")}
         />
-          <View style={styles.layer1}>
-          
-            
-            <Text style={{ fontSize: 20, fontFamily: "Unica One", paddingTop: 5, paddingLeft: 10}}>
-                  Card Number
-                </Text>
-              <TextInput
-                label="Card Number"
-                value={cardNum}
-                onChangeText={setCardNum}
-                autoCapitalize="none"
-                autoCorrect={false}
-                style={styles.textIn}
-                placeholder={cardnum}
-                keyboardType="number-pad"
-              />
-            
-            <View style={{flex: 1, flexDirection: 'row'}}>
-              <View style={{width: 275, height: 35}} >
-                <Text style={{ fontSize: 20, fontFamily: "Unica One", paddingTop: 5, paddingLeft: 10}}>
-                  Expiry Date
-                </Text>
-                <TextInput
-                  label="Exp. Date"
-                  value={date}
-                  onChangeText={setDate}
-                  autoCapitalize="none"
-                  autoCorrect={false}
-                  style={styles.textInEXP}
-                  placeholder={date1}
-                  keyboardType="number-pad"
-                />
-              </View>
-              <View style={{width: 100, height: 35}} >
-                <Text style={{ fontSize: 20, fontFamily: "Unica One", paddingTop: 5, paddingLeft: 10}}>
-                  CVV
-                </Text>
-                <TextInput
-                  label="CVV"
-                  value={cvv}
-                  keyboardType="number-pad"
-                  onChangeText={setCvv}
-                  autoCapitalize="none"
-                  autoCorrect={false}
-                  style={styles.textInCVV}
-                  placeholder={cvv1}
-                />
-              </View>
-            
-            </View>
-            <View style={{flex: 1, flexDirection: 'row', position: "absolute", top: 200}}>
-              <View style={{width: 380, height: 35}} >
-              <Text style={{ fontSize: 20, fontFamily: "Unica One", paddingLeft: 10}}>
-                    Name
-                  </Text>
-              <TextInput
-                label="Name"
-                value={name}
-                onChangeText={setName}
-                autoCapitalize="none"
-                autoCorrect={false}
-                style={styles.textIn}
-                placeholder={name1}
-              />
-              </View>
-            </View>
+        <View style={styles.layer1}>
+          <View>
+            <Picker
+              selectedValue={selectedValue}
+              mode="dropdown"
+              style={{ height: 180, width: 300, alignSelf: "center" }}
+              onValueChange={(itemValue, itemIndex) =>
+                setSelectedValue(itemValue)
+              }
+            >
+              {cardNum.map((item, idx) => (
+                <Picker.Item label={item} value={item} key={idx} />
+              ))}
+            </Picker>
 
-          
+            <TouchableOpacity
+              onPress={() => navigation.navigate("AddCardScreen")}
+              style={styles.AddCardBtn}
+            >
+              <Text style={styles.ButtonText}>Add Card</Text>
+            </TouchableOpacity>
+          </View>
+
           <View style={styles.layer2}>
             <TouchableOpacity
-                onPress={() => navigation.navigate("HomeScreen")}
-                style={styles.PaymentBtn}
+              onPress={() => {
+                makeOrder(
+                  navigation.getParam("res_name"),
+                  navigation.getParam("order_array"),
+                  navigation.getParam("total_price")
+                );
+                navigation.navigate("OrderStatusScreen");
+              }}
+              style={styles.PaymentBtn}
             >
-                <Text style={styles.ButtonText}>Pay</Text>
-              </TouchableOpacity>
-              <Text style={{ fontSize: 30, fontFamily: "Unica One", position: "absolute", left: 250, top: 36, color: "#FFD700"}}>
-                    $ 12.00
-              </Text>
+              <Text style={styles.ButtonText}>Pay</Text>
+            </TouchableOpacity>
+            <Text
+              style={{
+                fontSize: 30,
+                fontFamily: "Unica One",
+                marginLeft: 250,
+                position: "absolute",
+                top: 35,
+                color: "#FFD700",
+              }}
+            >
+              {"$" + navigation.getParam("total_price")}
+            </Text>
           </View>
-          
-      </View>
+        </View>
       </View>
     </TouchableWithoutFeedback>
   );
 };
-
+PaymentScreen.navigationOptions = () => {
+  return {
+    header: () => false,
+  };
+};
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#0a2657",},
+  container: { flex: 1, backgroundColor: "#0a2657", paddingTop: 100 },
   CardImg: {
     width: 120,
     height: 120,
     marginLeft: 125,
     marginTop: 50,
     marginBottom: 30,
-    zIndex: 1
+    zIndex: 1,
+  },
+  CardImgVisa: {
+    width: 50,
+    height: 40,
+    marginLeft: 20,
+    position: "absolute",
+    bottom: 9,
   },
   layer1: {
     borderRadius: 50,
@@ -129,7 +161,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffffff",
     paddingTop: 50,
     position: "absolute",
-    top: 130
+    top: 230,
+    width: "100%",
   },
   layer2: {
     borderRadius: 50,
@@ -137,16 +170,25 @@ const styles = StyleSheet.create({
     width: "100%",
     backgroundColor: "#0a2657",
     position: "absolute",
-    top: 325
+    top: 325,
+  },
+  AddCardBtn: {
+    backgroundColor: "#FFD700",
+    paddingVertical: 8,
+    width: 120,
+    borderRadius: 50,
+    height: 45,
+    marginTop: 32,
+    alignSelf: "center",
   },
   PaymentBtn: {
     backgroundColor: "#FFD700",
     paddingVertical: 8,
-    width: 100,
+    width: 120,
     borderRadius: 50,
     height: 45,
     marginTop: 32,
-    marginLeft: 40
+    marginLeft: 36,
   },
   ButtonText: {
     fontSize: 23,
@@ -156,44 +198,66 @@ const styles = StyleSheet.create({
     textTransform: "uppercase",
     fontFamily: "Unica One",
   },
+  selectCard: {
+    backgroundColor: "#f1f2f6",
+    height: 60,
+    width: 330,
+    marginLeft: 20,
+    borderRadius: 10,
+    marginTop: 15,
+    paddingTop: 20,
+    paddingLeft: 3,
+  },
+  selectCardPress: {
+    flex: 1,
+    flexDirection: "row",
+    borderWidth: 3,
+    borderColor: "#0a2657",
+    borderRadius: 6,
+    height: 60,
+    width: 330,
+    position: "absolute",
+    top: 0,
+    paddingTop: 17,
+  },
   textIn: {
     marginLeft: 10,
     marginRight: 10,
     marginTop: 3,
-    height: 40, 
-    borderColor: 'gray', 
+    height: 40,
+    borderColor: "gray",
     borderTopWidth: 0,
     borderBottomWidth: 1,
     fontFamily: "Unica One",
-    fontSize: 20
+    fontSize: 20,
   },
   textInEXP: {
     marginLeft: 10,
     marginRight: 10,
     marginTop: 3,
-    height: 40, 
-    borderColor: 'gray', 
+    height: 40,
+    borderColor: "gray",
     borderTopWidth: 0,
     borderBottomWidth: 1,
     fontFamily: "Unica One",
-    fontSize: 20
+    fontSize: 20,
   },
   textInCVV: {
     marginLeft: 10,
     marginRight: 10,
     marginTop: 3,
-    height: 40, 
-    borderColor: 'gray', 
+    height: 40,
+    borderColor: "gray",
     borderTopWidth: 0,
     borderBottomWidth: 1,
     fontFamily: "Unica One",
-    fontSize: 20
+    fontSize: 20,
   },
   row: {
-    flexDirection: 'row',
-    alignItems: 'stretch',
-    justifyContent: 'flex-end'
-  }
+    flexDirection: "row",
+    alignItems: "stretch",
+    justifyContent: "flex-end",
+  },
 });
 
 export default PaymentScreen;

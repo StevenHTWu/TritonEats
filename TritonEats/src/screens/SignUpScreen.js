@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     fontSize: 45,
     fontFamily: "Unica One",
     paddingLeft: 120,
-    marginTop: 45
+    marginTop: 45,
   },
 });
 

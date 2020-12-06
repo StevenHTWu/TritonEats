@@ -7,61 +7,128 @@ import {
   SafeAreaView,
   TouchableOpacity,
   Button,
-  Image
+  Image,
 } from "react-native";
+
+import trackerApi from "../api/tracker";
+import Loader from "../Components/Loader";
+
+var CurrentCart = require("../Components/Cart");
 
 class MenuScreen extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
-      ResaturantMenu: [
-        { Id: "1", ItemName: "Triton Burger", Price: "$7" },
-        { Id: "2", ItemName: "Noodles", Price: "$6.25" },
-        { Id: "3", ItemName: "Pizza-Slice", Price: "$2.50" },
-        { Id: "4", ItemName: "California Roll", Price: "$9.00" },
-        { Id: "5", ItemName: "Spicy Tuna Roll", Price: "$9.00" },
-        { Id: "6", ItemName: "Tofu and Avocado Roll", Price: "$8.00" },
-        { Id: "7", ItemName: "Sandwich", Price: "$7" },
-        { Id: "8", ItemName: "Baja Fish Tacos", Price: "$6.00" },
-        { Id: "9", ItemName: "Pizza-Slice", Price: "$2.50" },
-        { Id: "10", ItemName: "Sandwich", Price: "$7" },
-        { Id: "11", ItemName: "Noodles", Price: "$6.25" },
-        { Id: "12", ItemName: "Pizza-Slice", Price: "$2.50" }
-      ],
+      isLoading: true,
+      RestaurantMenu: [],
+      errorMessage: true,
     };
   }
 
+  async componentDidMount() {
+    //console.log(CurrentCart.viewing_restaurant);
+    const response = await trackerApi.get(
+      "/restaurantMenu/" + CurrentCart.viewing_restaurant
+    );
+    // console.log("-----------------------");
+    // console.log(response.data[0].lunch_menu);
+    // console.log("-----------------------");
+
+    if (typeof response.data[0].lunch_menu !== "undefined") {
+      this.setState({
+        isLoading: false,
+        RestaurantMenu: response.data[0].lunch_menu,
+      });
+    } else if (typeof response.data[0].breakfast_menu !== "undefined") {
+      this.setState({
+        isLoading: false,
+        RestaurantMenu: response.data[0].breakfast_menu,
+      });
+    } else if (typeof response.data[0].dinner_menu !== "undefined") {
+      this.setState({
+        isLoading: false,
+        RestaurantMenu: response.data[0].dinner_menu,
+      });
+    }
+  }
+
   render() {
+    let view;
+    //console.log(this.errorMessage);
+    if (this.state.errorMessage === true) {
+      view = (
+        <Text
+          style={{
+            backgroundColor: "red",
+            color: "white",
+            fontSize: 20,
+            padding: 0,
+            margin: 0,
+          }}
+        >
+          You have items in your shopping cart from another restaurant! Please
+          empty your cart then add more.
+        </Text>
+      );
+    } else {
+      view = null;
+    }
     return (
       <SafeAreaView forceInset={{ top: "always" }}>
-        <Text style={styles.headerTitle}>Pines</Text>
-        <Image style={styles.topImage} source={require('../../assets/Pines_Burger.jpg')} />
-        <FlatList
-          data={this.state.ResaturantMenu}
-          renderItem={({ item }) => (
-            <View>
-                <TouchableOpacity style={styles.borderItem}>
-                    <Text style={styles.bodyText}>{item.ItemName}</Text>
-                    <Text style={styles.priceText}>{item.Price}</Text>
+        <Loader loading={this.state.isLoading} />
+        {this.state.isLoading ? (
+          <></>
+        ) : (
+          <View>
+            <Text style={styles.headerTitle}>
+              {CurrentCart.viewing_restaurant}
+            </Text>
+            <Image
+              style={styles.topImage}
+              source={require("../../assets/Pinsalmon.jpg")}
+            />
+            <FlatList
+              data={this.state.RestaurantMenu}
+              renderItem={({ item }) => (
+                <View>
+                  <View style={styles.borderItem}>
+                    <Text style={styles.bodyText}>{item.name}</Text>
+                    <Text style={styles.priceText}>{item.price}</Text>
                     <View style={styles.addToCartButton}>
-                        <Button
-                            title="Add to Cart"
-                            color="#FFD700"
-                            accessibilityLabel="Add to cart"
-                        />
+                      <TouchableOpacity
+                        color="#FFD700"
+                        accessibilityLabel="Add to cart"
+                        onPress={() => {
+                          var tmpArr = Object.assign([], CurrentCart.order_arr);
+                          CurrentCart.emptyOrderArr();
+                          CurrentCart.order_arr = tmpArr;
+                          CurrentCart.addToOrderArr({
+                            key: item.name,
+                            quantity: 1,
+                            value: parseFloat(item.price.substring(1)),
+                          });
+                        }}
+                      >
+                        <Text style={styles.addToCartText}>Add to cart</Text>
+                      </TouchableOpacity>
                     </View>
-                </TouchableOpacity>
-                <Text></Text>
-            </View>
-          )}
-          keyExtractor={(item) => item.Id}
-        />
+                  </View>
+                  <Text></Text>
+                </View>
+              )}
+              keyExtractor={(item) => item.Id}
+            />
+          </View>
+        )}
       </SafeAreaView>
     );
   }
 }
-
+MenuScreen.navigationOptions = () => {
+  return {
+    header: () => false,
+  };
+};
 const styles = StyleSheet.create({
   main: {
     alignItems: "center",
@@ -71,7 +138,7 @@ const styles = StyleSheet.create({
     fontSize: 30,
   },
   topImage: {
-    marginBottom: 10,
+    marginBottom: 0,
     width: 500,
     height: 200,
   },
@@ -86,14 +153,14 @@ const styles = StyleSheet.create({
     fontSize: 38,
     paddingTop: 5,
     paddingLeft: 12,
-    color:"#FFD700",
+    color: "#FFD700",
     fontFamily: "Unica One",
     textAlign: "left",
   },
   priceText: {
     fontSize: 30,
     paddingLeft: 12,
-    color:"#FFD700",
+    color: "#FFD700",
     paddingTop: 5,
     fontFamily: "Unica One",
     textAlign: "left",
@@ -101,16 +168,23 @@ const styles = StyleSheet.create({
   borderItem: {
     borderRadius: 0,
     borderWidth: 0,
-    backgroundColor:"#0a2657"
+    backgroundColor: "#0a2657",
   },
-  addToCartButton:{
+  addToCartButton: {
     marginLeft: 300,
     marginRight: 12,
     borderWidth: 1,
-    marginBottom:10,
+    marginBottom: 10,
     borderColor: "#FFD700",
-    borderRadius: 10
-  }
+    borderRadius: 10,
+  },
+
+  addToCartText: {
+    fontSize: 15,
+    textAlign: "center",
+    color: "#FFD700",
+    margin: "10%",
+  },
 });
 
 export default MenuScreen;

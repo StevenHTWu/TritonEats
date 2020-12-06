@@ -17,10 +17,17 @@ import SignInScreen from "./src/screens/SignInScreen";
 import SignUpScreen from "./src/screens/SignUpScreen";
 import ShoppingCartScreen from "./src/screens/ShoppingCartScreen";
 import PaymentScreen from "./src/screens/PaymentScreen";
+import AddCardScreen from "./src/screens/AddCardScreen";
 import { Provider as AuthProvider } from "./src/context/AuthContext";
 import { setNavigator } from "./src/navigationRef";
 import ResolveAuthScreen from "./src/screens/ResolveAuthScreen";
 import MenuScreen from "./src/screens/MenuScreen";
+import OrderStatusScreen from "./src/screens/OrderStatusScreen";
+
+// Deliver Side Imports
+import DelivererHomeScreen from "./src/screens/DelivererHomeScreen";
+import DelivererJobHistoryScreen from "./src/screens/DelivererJobHistoryScreen";
+import DelivererSettingsScreen from "./src/screens/DelivererSettingsScreen";
 
 const switchNavigator = createSwitchNavigator({
   ResolveAuthScreen: ResolveAuthScreen,
@@ -31,12 +38,10 @@ const switchNavigator = createSwitchNavigator({
   }),
   mainFlow: createBottomTabNavigator(
     {
-      HomeScreen: {
-        screen: HomeScreen,
-        navigationOptions: {
-          title: "Home",
-        },
-      },
+      Home: createStackNavigator({
+        HomeScreen: HomeScreen,
+        MenuScreen: MenuScreen,
+      }),
       OrderHistoryScreen: {
         screen: OrderHistoryScreen,
         navigationOptions: {
@@ -46,6 +51,8 @@ const switchNavigator = createSwitchNavigator({
       Cart: createStackNavigator({
         ShoppingCartScreen: ShoppingCartScreen,
         PaymentScreen: PaymentScreen,
+        AddCardScreen: AddCardScreen,
+        OrderStatusScreen: OrderStatusScreen,
       }),
       SettingsScreen: {
         screen: SettingsScreen,
@@ -58,11 +65,11 @@ const switchNavigator = createSwitchNavigator({
       defaultNavigationOptions: ({ navigation }) => ({
         tabBarIcon: ({ focused, horizontal, tintColor }) => {
           const { routeName } = navigation.state;
-          if (routeName === "HomeScreen") {
+          if (routeName === "Home") {
             return <Feather name="home" size={24} color="black" />;
           } else if (routeName === "OrderHistoryScreen") {
             return <MaterialIcons name="history" size={24} color="black" />;
-          } else if (routeName === "ShoppingCartScreen") {
+          } else if (routeName === "Cart") {
             return <AntDesign name="shoppingcart" size={24} color="black" />;
           } else {
             return <Feather name="settings" size={24} color="black" />;
@@ -74,6 +81,49 @@ const switchNavigator = createSwitchNavigator({
         inactiveTintColor: "#263238",
       },
     }
+  ),
+  menuFlow: createStackNavigator({
+    HomeScreen: HomeScreen,
+    MenuScreen: MenuScreen,
+  }),
+  DelivererMainFlow: createBottomTabNavigator(
+    {
+      DelivererHomeScreen: createStackNavigator({
+        Home: DelivererHomeScreen,
+      }),
+      DelivererJobHistoryScreen: {
+        screen: DelivererJobHistoryScreen,
+        navigationOptions: {
+          title: "Job History",
+        },
+      },
+      DelivererSettingsScreen: {
+        screen: DelivererSettingsScreen,
+        navigationOptions: {
+          title: "Settings",
+        },
+      },
+    }
+    // {
+    //   defaultNavigationOptions: ({ navigation }) => ({
+    //     tabBarIcon: ({ focused, horizontal, tintColor }) => {
+    //       const { routeName } = navigation.state;
+    //       if (routeName === "HomeScreen") {
+    //         return <Feather name="home" size={24} color="black" />;
+    //       } else if (routeName === "OrderHistoryScreen") {
+    //         return <MaterialIcons name="history" size={24} color="black" />;
+    //       } else if (routeName === "ShoppingCartScreen") {
+    //         return <AntDesign name="shoppingcart" size={24} color="black" />;
+    //       } else {
+    //         return <Feather name="settings" size={24} color="black" />;
+    //       }
+    //     },
+    //   }),
+    //   tabBarOptions: {
+    //     activeTintColor: "#FF6F00",
+    //     inactiveTintColor: "#263238",
+    //   },
+    // }
   ),
 });
 
