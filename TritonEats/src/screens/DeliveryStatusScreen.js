@@ -15,7 +15,7 @@ const status_update = async ( order_id, text ) => {
         navigation.navigate("DelivererHomeScreen")
     }*/
     this.setState({text: text});
-    map_direction();
+    //map_direction();
 };
 
 const map_direction = async( ) => {
@@ -30,9 +30,9 @@ const map_direction = async( ) => {
 class DelivererStatusScreen extends Component {
 
     constructor(props) {
-        super(props); 
+        super(props);
         this.state = {
-            text: "Picked Up",
+            text: "Picked Up",  
             link: ""
         };
         map_direction();

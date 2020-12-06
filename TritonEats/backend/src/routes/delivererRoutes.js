@@ -66,6 +66,7 @@ router.route("/mapDirection").post(async function (req, res) {
     var address = orderer_id.address;
     var destination = address.replace(" ", "+");
     destination = destination.replace(",", "%2C");
+    destination = destination + "2C+UCSD";
     link = "https://www.google.com/maps/dir/?api=1&destination=" + destination + "&travelmode=walking&dir_action=navigate";
   }
   res.send(link);
