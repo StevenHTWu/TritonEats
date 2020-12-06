@@ -90,9 +90,9 @@ const AddressScreen = ({ navigation }) => {
             <Picker style={styles.selectCard}
                 selectedValue={selectedValue}
                 mode="dropdown"
-                //style={{ height: 50, width: 400}}
+                style={{ height: 20, width: 400, flex: 1}}
                 onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
-              >{residences.map(residence => <Picker.Item label={residence} value={residence} />)}
+              >{residences.map(residence => <Picker.Item style={ {flex: 1} } label={residence} value={residence} />)}
             </Picker>
               
             <View style={styles.layer2}>
@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
   },
   layer1: {
     borderRadius: 50,
-    height: 450,
+    height: 500,
     backgroundColor: "#ffffff",
     paddingTop: 50,
     position: "absolute",
@@ -152,11 +152,11 @@ const styles = StyleSheet.create({
   },
   layer2: {
     borderRadius: 50,
-    height: 150,
+    height: 100,
     width: "100%",
     backgroundColor: "#0a2657",
     position: "absolute",
-    top: 325
+    top: 410
   },
   AddCardBtn: {
     backgroundColor: "#FFD700",
