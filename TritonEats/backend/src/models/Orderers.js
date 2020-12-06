@@ -16,8 +16,4 @@ const orderersSchema = new mongoose.Schema(
   { collection: "Orderers" }
 );
 
-<<<<<<< HEAD
 mongoose.model("orderers", orderersSchema);
-=======
-mongoose.model("orderers", orderersSchema);
->>>>>>> af35a8b48a0c84a2f54a9121bd67fbcd95547017

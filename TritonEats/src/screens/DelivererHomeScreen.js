@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   SafeAreaView,
 } from "react-native";
+import { navigate } from "../navigationRef";
 
 import NavBar from "../Components/NavBar";
 
@@ -74,7 +75,7 @@ class DelivererHomeScreen extends Component {
                   <Text style={styles.compensation}>{item.Compensation}</Text>
 
                   <TouchableOpacity
-                    onPress={() => navigation.navigate("MenuScreen")}
+                    onPress={() => navigate("DelivererStatusScreen")}
                     style={styles.button}
                   >
                     <Text style={styles.buttonText}>Accept Job</Text>
@@ -85,7 +86,7 @@ class DelivererHomeScreen extends Component {
             />
 
             <TouchableOpacity
-              onPress={() => navigation.navigate("HomeScreen")}
+              onPress={() => navigate("HomeScreen")}
               style={styles.refresh}
             >
               <Image

@@ -15,7 +15,6 @@ import { AsyncStorage } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const PaymentScreen = ({ navigation }) => {
-  const [selectedValue, setSelectedValue] = useState("");
   const [selectedCards, setSelectedCards] = useState("");
 
   const [selectedValue, setSelectedValue] = useState("");
