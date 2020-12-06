@@ -28,6 +28,7 @@ import OrderStatusScreen from "./src/screens/OrderStatusScreen";
 import DelivererHomeScreen from "./src/screens/DelivererHomeScreen";
 import DelivererJobHistoryScreen from "./src/screens/DelivererJobHistoryScreen";
 import DelivererSettingsScreen from "./src/screens/DelivererSettingsScreen";
+import DelivererJobScreen from "./src/screens/DelivererJobScreen";
 
 const switchNavigator = createSwitchNavigator({
   ResolveAuthScreen: ResolveAuthScreen,
@@ -88,9 +89,15 @@ const switchNavigator = createSwitchNavigator({
   }),
   DelivererMainFlow: createBottomTabNavigator(
     {
-      DelivererHomeScreen: createStackNavigator({
+      Home: createStackNavigator({
         Home: DelivererHomeScreen,
-      }),
+      },),
+      DelivererJobScreen: {
+        screen: DelivererJobScreen,
+        navigationOptions: {
+          title: "Job Screen",
+        },
+      },
       DelivererJobHistoryScreen: {
         screen: DelivererJobHistoryScreen,
         navigationOptions: {
