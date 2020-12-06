@@ -30,7 +30,7 @@ class HistoricalOrder extends React.Component{
                             <Text style={styles.text}>Qty</Text>
                         </View>
                     </View>
-                    <FlatList style={{width: "100%"}} data={this.props.items}
+                    <FlatList style={{width: "100%", borderBottomWidth: 1, borderBottomColor: "#FFD700"}} data={this.props.items}
                               renderItem={({item}) =>
                                   <ScrollView style={{width: "100%"}}>
                                       
@@ -47,7 +47,7 @@ class HistoricalOrder extends React.Component{
                                       </View>
                                   </ScrollView>
                               }/>
-                    <View style={{ flex: 1, flexDirection: "row", height: 70, justifyContent: "center" }}>
+                    <View style={{ flexDirection: "row", height: 82, justifyContent: "center", marginTop: "2%", borderBottomWidth: 1, borderBottomColor: "#FFD700"}}>
                         <View style={{ width: "50%", height: 45 }}>
                             <Text style={styles.text}>Ordered By</Text>
                             <Text style={styles.text}>{this.props.timeOrdered.substr(0,16)}</Text>
@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
         marginLeft:5,
         marginRight:5,
         marginTop: 10,
-        fontFamily: "Unica One",
+        fontFamily: "Unica One"
     },
     title: {
         fontSize: 32,
