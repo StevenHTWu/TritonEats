@@ -5,11 +5,15 @@ import { Feather, Entypo, AntDesign } from "@expo/vector-icons";
 const NavBar = ({ navigation }) => {
   return (
     <View style={styles.navbar}>
-
-      <TouchableOpacity onPress={()=>navigation.navigate("SignUpScreen")}>
-        <Feather name="home" size={24} color="white" style={{ marginLeft: 15 }} />
+      <TouchableOpacity onPress={() => navigation.navigate("SignUpScreen")}>
+        <Feather
+          name="home"
+          size={24}
+          color="white"
+          style={{ marginLeft: 15 }}
+        />
       </TouchableOpacity>
-      
+
       <Entypo name="menu" size={24} color="white" />
       <AntDesign name="shoppingcart" size={24} color="white" />
       <Feather
@@ -33,7 +37,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     marginBottom: 50,
     paddingLeft: 10,
-    paddingRight: 10
+    paddingRight: 10,
   },
 });
 
