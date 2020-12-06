@@ -16,8 +16,8 @@ router.route("/orderers").get(function (req, res) {
   });
 });
 
-router.route("/delivererInfo/:orderer_id").get(function (req, res) {
-  var _id = req.params.orderer_id;
+router.route("/auth/delivererInfo").get(function (req, res) {
+  var _id = req._id;
   console.log(_id);
   orders.find({ orderer_id: _id }, function (err, result) {
     if (err) {
@@ -35,8 +35,8 @@ router.route("/delivererInfo/:orderer_id").get(function (req, res) {
   });
 });
 
-router.route("/customerPayment/:orderer_id").post(function (req, res) {
-  var _id = req.params.orderer_id;
+router.route("/auth/customerPayment").post(function (req, res) {
+  _id = req._id;
   console.log(_id);
   console.log(req.body);
 
@@ -68,6 +68,24 @@ router.route("/customerPayment/:orderer_id").post(function (req, res) {
       }
     );
   }
+});
+
+router.route("/auth/customerPayment").get(function (req, res) {
+  var _id = req._id;
+  console.log(_id);
+  console.log(req.body);
+
+  orderers.find({ orderer_id: _id }, function (err, result) {
+    if (err) {
+      res.send(err);
+    } else {
+      var payments = result[0].toObject().payment_methods;
+      if (!payments) {
+        res.send("No payment method available");
+      }
+      res.send(payments);
+    }
+  });
 });
 
 function helper(deliverer_ids, deliverer_info, index, response) {

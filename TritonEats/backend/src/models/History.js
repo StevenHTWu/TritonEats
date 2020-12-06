@@ -16,4 +16,8 @@ const historySchema = new mongoose.Schema(
   { collection: "History" }
 );
 
+<<<<<<< HEAD
 mongoose.model("history", historySchema);
+=======
+mongoose.model("history", historySchema);
+>>>>>>> af35a8b48a0c84a2f54a9121bd67fbcd95547017

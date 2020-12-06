@@ -27,6 +27,12 @@ import ManagePaymentScreen from "./src/screens/ManagePaymentScreen";
 import ProfileScreen from "./src/screens/ProfileScreen";
 import AddressScreen from "./src/screens/AddressScreen";
 import PasswordScreen from "./src/screens/PasswordScreen";
+import OrderStatusScreen from "./src/screens/OrderStatusScreen";
+
+// Deliver Side Imports
+import DelivererHomeScreen from "./src/screens/DelivererHomeScreen";
+import DelivererJobHistoryScreen from "./src/screens/DelivererJobHistoryScreen";
+import DelivererSettingsScreen from "./src/screens/DelivererSettingsScreen";
 
 const switchNavigator = createSwitchNavigator({
   ResolveAuthScreen: ResolveAuthScreen,
@@ -51,6 +57,7 @@ const switchNavigator = createSwitchNavigator({
         ShoppingCartScreen: ShoppingCartScreen,
         PaymentScreen: PaymentScreen,
         AddCardScreen: AddCardScreen,
+        OrderStatusScreen: OrderStatusScreen,
       }),
       /*SettingsScreen: {
         screen: SettingsScreen,
@@ -92,6 +99,45 @@ const switchNavigator = createSwitchNavigator({
     HomeScreen: HomeScreen,
     MenuScreen: MenuScreen,
   }),
+  DelivererMainFlow: createBottomTabNavigator(
+    {
+      DelivererHomeScreen: createStackNavigator({
+        Home: DelivererHomeScreen,
+      }),
+      DelivererJobHistoryScreen: {
+        screen: DelivererJobHistoryScreen,
+        navigationOptions: {
+          title: "Job History",
+        },
+      },
+      DelivererSettingsScreen: {
+        screen: DelivererSettingsScreen,
+        navigationOptions: {
+          title: "Settings",
+        },
+      },
+    }
+    // {
+    //   defaultNavigationOptions: ({ navigation }) => ({
+    //     tabBarIcon: ({ focused, horizontal, tintColor }) => {
+    //       const { routeName } = navigation.state;
+    //       if (routeName === "HomeScreen") {
+    //         return <Feather name="home" size={24} color="black" />;
+    //       } else if (routeName === "OrderHistoryScreen") {
+    //         return <MaterialIcons name="history" size={24} color="black" />;
+    //       } else if (routeName === "ShoppingCartScreen") {
+    //         return <AntDesign name="shoppingcart" size={24} color="black" />;
+    //       } else {
+    //         return <Feather name="settings" size={24} color="black" />;
+    //       }
+    //     },
+    //   }),
+    //   tabBarOptions: {
+    //     activeTintColor: "#FF6F00",
+    //     inactiveTintColor: "#263238",
+    //   },
+    // }
+  ),
 });
 
 const getFonts = () =>

@@ -16,4 +16,8 @@ const ordersSchema = new mongoose.Schema(
   { collection: "Orders" }
 );
 
+<<<<<<< HEAD
 mongoose.model("orders", ordersSchema);
+=======
+mongoose.model("orders", ordersSchema);
+>>>>>>> af35a8b48a0c84a2f54a9121bd67fbcd95547017
