@@ -8,16 +8,19 @@ import { navigate } from "../navigationRef";
 
 class DelivererStatusScreen extends Component {
 
+    // constructor that sets button text to picked up and initializes link
     constructor(props) {
         super(props);
         this.state = {
             text: "Picked Up",  
             link: ""
         };
-        //map_direction();
+        //binding the two functions so they act on correct object
         this.status_update = this.status_update.bind(this);
         this.map_direction = this.map_direction.bind(this);
 
+        //Update status in database to Pending and get directions to restaraunt.
+        this.status_update("Pending");
         this.map_direction();
     }
     map_direction = async( ) => {
@@ -36,12 +39,17 @@ class DelivererStatusScreen extends Component {
             headers: { status: this.state.text }
           })
         if( this.state.text == "Delivered") {
-            navigate("DelivererHomeScreen")
+            navigate("DelivererHomeScreen");
         }
-        this.setState({text: text});
+        if( text != "Pending" ) {
+            this.setState({text: text});
+        }
         this.map_direction();
     };
     render() {
+        //On click of the url the link would open.
+        //On clicking of the button the text would change to delivered and the status would be updated to Picked up.
+        //On clicking of button second time database would be notified of complete delivery and you would be redirected to home page.
         return (
             <>
             <View style={styles.MainContainer}>
@@ -49,7 +57,7 @@ class DelivererStatusScreen extends Component {
             </View>
             <TouchableOpacity
                 onClick={() => {this.status_update("Delivered")}}
-                style={styles.PaymentBtn} >
+                style={styles.StatusBtn} >
                 <Text style={styles.ButtonText}>{this.state.text}</Text>
             </TouchableOpacity>
             </>
@@ -68,7 +76,7 @@ const styles = StyleSheet.create({
         color: "#0a2657",
         textDecorationLine: 'underline',
     },
-    PaymentBtn: {
+    StatusBtn: {
         position: 'absolute',
         backgroundColor: "#0a2657",
         bottom: 0,

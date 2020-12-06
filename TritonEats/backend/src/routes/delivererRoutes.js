@@ -57,7 +57,7 @@ router.route("/mapDirection").post(async function (req, res) {
   var _id = req.deliverer_id;
   const order_id = await orders.find({ deliverer_id: _id });
   var link = "";
-  if( order_id.status == "pending" ) {
+  if( order_id.status == "Pending" ) {
     var restaraunt = order_id.restaraunt_name;
     var destination = restaraunt.replace(" ", "+");
     destination = destination.replace(",", "%2C");
