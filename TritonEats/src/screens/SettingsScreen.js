@@ -71,7 +71,7 @@ export const setUserAddress = async(address, apartment, residence) => {
       headers: headers,      
     }).then((res) => {
       console.log("Updated...");
-
+      getUserInfo();
       return;
     }).catch (function (error) {
       console.log("error");

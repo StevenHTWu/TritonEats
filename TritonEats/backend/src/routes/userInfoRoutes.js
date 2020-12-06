@@ -48,7 +48,7 @@ router.patch('/auth/orderer/userAddressUpdate', async(req, res) => {
     
     var address = parameters.address;
     var apartment = parameters.apartment;
-    var residence = parameters.apartment;
+    var residence = parameters.residence;
 
     let user_id = ordererObj.orderer_id;
     const my_orderer = await orderer.findOneAndUpdate({ "orderer_id" : user_id }, 

@@ -102,7 +102,7 @@ const AddressScreen = ({ navigation }) => {
                                 Alert.alert("Error! Please enter valid information.")
                             } else {
                                 setUserAddress(addressValue, apartmentValue, selectedValue);
-                                getUserInfo();
+                                
                                 // make api call to save data
                                 navigation.navigate("SettingsScreen")
                             }
