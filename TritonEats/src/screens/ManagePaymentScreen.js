@@ -69,7 +69,7 @@ const ManagePaymentScreen = ({ navigation }) => {
                 mode="dropdown"
                 //style={{ height: 50, width: 400}}
                 onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
-              >{cards.map(arr => <Picker.Item label={arr.card_number} value={arr} />)}
+              >{cards.map(arr => <Picker.Item label={arr.card_number} value={arr.card_number} />)}
             </Picker>
 
             ) : <TouchableOpacity
