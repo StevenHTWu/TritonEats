@@ -76,6 +76,7 @@ const signin = (dispatch) => {
     // Handle success by updating state
     // Handle failure by showing error message (somehow)
     try {
+
       const response = await trackerApi.post("/signin", { email, password });
       await AsyncStorage.setItem("token", response.data.token);
       dispatch({ type: "signin", payload: response.data.token });

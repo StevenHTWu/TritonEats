@@ -184,6 +184,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "#FFD700",
     margin: "10%",
+    fontFamily: "Unica One",
   },
 });
 

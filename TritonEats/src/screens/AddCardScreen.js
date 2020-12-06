@@ -63,31 +63,32 @@ class AddCardScreen extends Component {
             source={require("../../assets/CardImg.png")}
           />
           <View style={styles.layer1}>
-            <Text
-              style={{
-                fontSize: 20,
-                fontFamily: "Unica One",
-                paddingTop: 5,
-                paddingLeft: 10,
-              }}
-            >
-              Card Number
-            </Text>
-            <TextInput
-              label="Card Number"
-              //value={cardNum}
-              onChangeText={(cardNum) => this.setState({ cardNum })}
-              autoCapitalize="none"
-              secureTextEntry={true}
-              autoCorrect={false}
-              style={styles.textIn}
-              require
-              placeholder={"1234-5678-1234-5678"}
-              keyboardType="number-pad"
-            />
+            <View>
+              <Text
+                style={{
+                  fontSize: 20,
+                  fontFamily: "Unica One",
+                  paddingLeft: 10,
+                }}
+              >
+                Card Number
+              </Text>
+              <TextInput
+                label="Card Number"
+                //value={cardNum}
+                onChangeText={(cardNum) => this.setState({ cardNum })}
+                autoCapitalize="none"
+                secureTextEntry={true}
+                autoCorrect={false}
+                style={styles.textIn}
+                require
+                placeholder={"1234-5678-1234-5678"}
+                keyboardType="number-pad"
+              />
+            </View>
 
-            <View style={{ flex: 1, flexDirection: "row" }}>
-              <View style={{ width: 275, height: 35 }}>
+            <View style={{ flexDirection: "row", height: "15%", marginTop: "3%"}}>
+              <View style={{ width: "70%", height: 35 }}>
                 <Text
                   style={{
                     fontSize: 20,
@@ -109,7 +110,7 @@ class AddCardScreen extends Component {
                   keyboardType="number-pad"
                 />
               </View>
-              <View style={{ width: 100, height: 35 }}>
+              <View style={{ width: "30%", height: 35 }}>
                 <Text
                   style={{
                     fontSize: 20,
@@ -133,15 +134,8 @@ class AddCardScreen extends Component {
                 />
               </View>
             </View>
-            <View
-              style={{
-                flex: 1,
-                flexDirection: "row",
-                position: "absolute",
-                top: 200,
-              }}
-            >
-              <View style={{ width: 380, height: 35 }}>
+            
+              <View style={{ width: "100%", height: 35, marginTop: "2%" }}>
                 <Text
                   style={{
                     fontSize: 20,
@@ -161,7 +155,7 @@ class AddCardScreen extends Component {
                   placeholder={"CardHolder Name"}
                 />
               </View>
-            </View>
+              
 
             <View style={styles.layer2}>
               <TouchableOpacity
@@ -202,22 +196,21 @@ AddCardScreen.navigationOptions = () => {
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#0a2657", paddingTop: 100 },
+  container: { flex: 1, backgroundColor: "#0a2657" },
   CardImg: {
     width: 120,
     height: 120,
-    marginLeft: 125,
-    marginTop: 50,
-    marginBottom: 30,
+    marginTop: "25%",
     zIndex: 1,
+    alignSelf: "center"
   },
   layer1: {
     borderRadius: 50,
-    height: 450,
+    height: "100%",
     backgroundColor: "#ffffff",
-    paddingTop: 50,
     position: "absolute",
-    top: 230,
+    paddingTop: "20%",
+    top: "26%",
     width: "100%",
   },
   layer2: {
@@ -226,7 +219,8 @@ const styles = StyleSheet.create({
     width: "100%",
     backgroundColor: "#0a2657",
     position: "absolute",
-    top: 360,
+    top: "74%",
+    zIndex: 1
   },
   AddCardBtn: {
     backgroundColor: "#FFD700",
@@ -234,7 +228,7 @@ const styles = StyleSheet.create({
     width: 120,
     borderRadius: 50,
     height: 45,
-    marginTop: 32,
+    marginTop: "8%",
     alignSelf: "center",
   },
   ButtonText: {
