@@ -32,7 +32,12 @@ class AddCardFromSettingsScreen extends Component {
   */
   constructor(props) {
     super(props);
-    this.state = { cardNum: card.card_number, cvv: card.cvv, name: card.name, expiration_date: card.expiration_date };
+    this.state = {
+      cardNum: card.card_number,
+      cvv: card.cvv,
+      name: card.name,
+      expiration_date: card.expiration_date,
+    };
   }
 
   render() {
@@ -65,7 +70,7 @@ class AddCardFromSettingsScreen extends Component {
               placeholder={"1234567812345678"}
               keyboardType="number-pad"
               defaultValue={card.card_number}
-              />
+            />
 
             <View style={{ flex: 1, flexDirection: "row" }}>
               <View style={{ width: 275, height: 35 }}>
@@ -82,7 +87,9 @@ class AddCardFromSettingsScreen extends Component {
                 <TextInput
                   label="Exp. Date"
                   //value={date}
-                  onChangeText={(expiration_date) => this.setState({ expiration_date })}
+                  onChangeText={(expiration_date) =>
+                    this.setState({ expiration_date })
+                  }
                   autoCapitalize="none"
                   autoCorrect={false}
                   maxLength={four}
@@ -152,16 +159,27 @@ class AddCardFromSettingsScreen extends Component {
             <View style={styles.layer2}>
               <TouchableOpacity
                 onPress={() => {
-                    let newCard = {card_number: this.state.cardNum, cvv: this.state.cvv, expiration_date: this.state.expiration_date, name: this.state.name};
-                    if (newCard.card_number.length !== 16 || newCard.cvv.length !== 3 || newCard.expiration_date.length !== 4 || newCard.name.length === 0
-                      || !digitsOnly(newCard.card_number) || !digitsOnly(newCard.cvv) || !digitsOnly(newCard.expiration_date)) {
-                      Alert.alert("Error! Please fill in the details correctly.")
-                    } else {
-                      //make api call to save data
-                      navigate("SettingsScreen");
-                    }
-                }
-                }
+                  let newCard = {
+                    card_number: this.state.cardNum,
+                    cvv: this.state.cvv,
+                    expiration_date: this.state.expiration_date,
+                    name: this.state.name,
+                  };
+                  if (
+                    newCard.card_number.length !== 16 ||
+                    newCard.cvv.length !== 3 ||
+                    newCard.expiration_date.length !== 4 ||
+                    newCard.name.length === 0 ||
+                    !digitsOnly(newCard.card_number) ||
+                    !digitsOnly(newCard.cvv) ||
+                    !digitsOnly(newCard.expiration_date)
+                  ) {
+                    Alert.alert("Error! Please fill in the details correctly.");
+                  } else {
+                    //make api call to save data
+                    navigate("SettingsScreen");
+                  }
+                }}
                 style={styles.AddCardBtn}
               >
                 <Text style={styles.ButtonText}>Save</Text>
@@ -174,7 +192,8 @@ class AddCardFromSettingsScreen extends Component {
   }
 }
 
-const digitsOnly = string => [...string].every(c => '0123456789'.includes(c));
+const digitsOnly = (string) =>
+  [...string].every((c) => "0123456789".includes(c));
 
 AddCardFromSettingsScreen.navigationOptions = () => {
   return {
@@ -217,7 +236,7 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     height: 45,
     marginTop: 32,
-    alignSelf: "center"
+    alignSelf: "center",
   },
   ButtonText: {
     fontSize: 23,

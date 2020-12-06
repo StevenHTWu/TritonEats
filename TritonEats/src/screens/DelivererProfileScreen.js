@@ -17,7 +17,11 @@ const ten = 10;
 class DelivererProfileScreen extends Component {
   constructor(props) {
     super(props);
-    this.state = { name: object.name, email: object.email, phone_num: object.phone_num };
+    this.state = {
+      name: object.name,
+      email: object.email,
+      phone_num: object.phone_num,
+    };
   }
 
   render() {
@@ -48,31 +52,31 @@ class DelivererProfileScreen extends Component {
               style={styles.textIn}
               placeholder={"Name"}
               defaultValue={object.name}
-              />
+            />
 
-                <Text
-                  style={{
-                    fontSize: 20,
-                    fontFamily: "Unica One",
-                    paddingTop: 5,
-                    paddingLeft: 10,
-                  }}
-                >
-                  Email
-                </Text>
-                <TextInput
-                  label="Email"
-                  //value={date}
-                  onChangeText={(email) => this.setState({ email })}
-                  autoCapitalize="none"
-                  autoCorrect={false}
-                  style={styles.textIn}
-                  placeholder={"example@ucsd.edu"}
-                  keyboardType="email-address"
-                  defaultValue={object.email}
-                />
+            <Text
+              style={{
+                fontSize: 20,
+                fontFamily: "Unica One",
+                paddingTop: 5,
+                paddingLeft: 10,
+              }}
+            >
+              Email
+            </Text>
+            <TextInput
+              label="Email"
+              //value={date}
+              onChangeText={(email) => this.setState({ email })}
+              autoCapitalize="none"
+              autoCorrect={false}
+              style={styles.textIn}
+              placeholder={"example@ucsd.edu"}
+              keyboardType="email-address"
+              defaultValue={object.email}
+            />
 
-              <View style={{ flex: 1, flexDirection: "row" }}>
+            <View style={{ flex: 1, flexDirection: "row" }}>
               <View style={{ width: 250, height: 35 }}>
                 <Text
                   style={{
@@ -95,7 +99,7 @@ class DelivererProfileScreen extends Component {
                   keyboardType="phone-pad"
                   maxLength={ten}
                 />
-</View>
+              </View>
               <View style={{ width: 160, height: 35 }}>
                 <Text
                   style={{
@@ -113,26 +117,30 @@ class DelivererProfileScreen extends Component {
                   autoCorrect={false}
                   style={styles.textIn}
                   placeholder={"balance"}
-                  defaultValue={"$"+object.balance.toString()}
+                  defaultValue={"$" + object.balance.toString()}
                   editable={false}
                 />
-                </View>
+              </View>
             </View>
 
             <View style={styles.layer2}>
               <TouchableOpacity
                 onPress={() => {
-                    object.name = this.state.name;
-                    object.email = this.state.email;
-                    object.phone_num = this.state.phone_num;
-                    if (object.phone_num.length !== 10 || !digitsOnly(object.phone_num) || !validEmail(object.email) || object.name.length === 0) {
-                      Alert.alert("Error! Please fill in the details correctly.")
-                    } else {
-                      //make api call to save data
-                      navigate("DelivererSettingsScreen");
-                    }
-                }
-                }
+                  object.name = this.state.name;
+                  object.email = this.state.email;
+                  object.phone_num = this.state.phone_num;
+                  if (
+                    object.phone_num.length !== 10 ||
+                    !digitsOnly(object.phone_num) ||
+                    !validEmail(object.email) ||
+                    object.name.length === 0
+                  ) {
+                    Alert.alert("Error! Please fill in the details correctly.");
+                  } else {
+                    //make api call to save data
+                    navigate("DelivererSettingsScreen");
+                  }
+                }}
                 style={styles.AddCardBtn}
               >
                 <Text style={styles.ButtonText}>Save</Text>
@@ -145,8 +153,9 @@ class DelivererProfileScreen extends Component {
   }
 }
 
-const digitsOnly = string => [...string].every(c => '0123456789'.includes(c));
-const validEmail = string => string.includes('@') && string.includes('.');
+const digitsOnly = (string) =>
+  [...string].every((c) => "0123456789".includes(c));
+const validEmail = (string) => string.includes("@") && string.includes(".");
 
 DelivererProfileScreen.navigationOptions = () => {
   return {
@@ -189,7 +198,7 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     height: 45,
     marginTop: 32,
-    alignSelf: "center"
+    alignSelf: "center",
   },
   ButtonText: {
     fontSize: 23,

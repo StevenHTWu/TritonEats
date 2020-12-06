@@ -29,7 +29,7 @@ class HomeScreen extends Component {
     super(props);
 
     this.state = {
-      isLoading: true, 
+      isLoading: true,
       isEmpty: false,
       Restaurants: [
         {
@@ -90,9 +90,8 @@ class HomeScreen extends Component {
         isEmpty: true,
       });
     } else {
-
-      var resArr = []
-      response.data.forEach(function(item){
+      var resArr = [];
+      response.data.forEach(function (item) {
         var obj = {};
         obj.Name = item.Name;
         obj.Hours = item.Hours;
@@ -107,12 +106,10 @@ class HomeScreen extends Component {
         resArr.push(obj);
       });
 
-
       this.setState({
         isLoading: false,
         isEmpty: false,
-        Restaurants: resArr
-
+        Restaurants: resArr,
       });
     }
   }
@@ -135,38 +132,38 @@ class HomeScreen extends Component {
             </>
           ) : (
             <>
-          <View style={styles.Container}>
-            <View style={styles.LogoRow}>
-              <Image
-                style={styles.LogoImg}
-                source={require("../../assets/TritonLogo.png")}
-              />
-              <Text style={styles.LogoFont}>Triton Eats</Text>
-            </View>
-          </View>
-
-          <View style={styles.List}>
-            <FlatList
-              data={this.state.Restaurants}
-              renderItem={({ item }) => (
-                <View>
-                  <TouchableOpacity
-                    onPress={() => {
-                      CurrentCart.viewing_restaurant = item.Name;
-                      navigate("MenuScreen");
-                    }}
-                    style={styles.restaurant}
-                  >
-                    <Image style={styles.icon} source={item.Image} />
-                    <Text style={styles.name}>{item.Name}</Text>
-                    <Text style={styles.hours}>{item.Hours}</Text>
-                  </TouchableOpacity>
+              <View style={styles.Container}>
+                <View style={styles.LogoRow}>
+                  <Image
+                    style={styles.LogoImg}
+                    source={require("../../assets/TritonLogo.png")}
+                  />
+                  <Text style={styles.LogoFont}>Triton Eats</Text>
                 </View>
-              )}
-              keyExtractor={(item) => item.Id}
-            />
-          </View>
-          </>
+              </View>
+
+              <View style={styles.List}>
+                <FlatList
+                  data={this.state.Restaurants}
+                  renderItem={({ item }) => (
+                    <View>
+                      <TouchableOpacity
+                        onPress={() => {
+                          CurrentCart.viewing_restaurant = item.Name;
+                          navigate("MenuScreen");
+                        }}
+                        style={styles.restaurant}
+                      >
+                        <Image style={styles.icon} source={item.Image} />
+                        <Text style={styles.name}>{item.Name}</Text>
+                        <Text style={styles.hours}>{item.Hours}</Text>
+                      </TouchableOpacity>
+                    </View>
+                  )}
+                  keyExtractor={(item) => item.Id}
+                />
+              </View>
+            </>
           )}
         </SafeAreaView>
       </View>

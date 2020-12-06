@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, Button, TextInput, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Button,
+  TextInput,
+  TouchableOpacity,
+} from "react-native";
 
 const AuthForm = ({
   headerText,
@@ -8,11 +15,9 @@ const AuthForm = ({
   submitButtonText,
   deliverCheck,
 }) => {
-  const [value1, onChangeText1] = React.useState(' Email');
-  const [value2, onChangeText2] = React.useState(' Password');
-  const [value3, onChangeText3] = React.useState(' isDeliverer');
-  
-
+  const [value1, onChangeText1] = React.useState(" Email");
+  const [value2, onChangeText2] = React.useState(" Password");
+  const [value3, onChangeText3] = React.useState(" isDeliverer");
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -28,7 +33,7 @@ const AuthForm = ({
           onChangeText={setEmail}
           autoCapitalize="none"
           autoCorrect={false}
-          style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
+          style={{ height: 40, borderColor: "gray", borderWidth: 1 }}
           placeholder={value1}
         />
       </View>
@@ -40,7 +45,7 @@ const AuthForm = ({
         autoCapitalize="none"
         autoCorrect={false}
         placeholder={value2}
-        style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
+        style={{ height: 40, borderColor: "gray", borderWidth: 1 }}
       />
       {deliverCheck ? (
         <TextInput
@@ -50,37 +55,30 @@ const AuthForm = ({
           autoCapitalize="none"
           autoCorrect={false}
           placeholder={value3}
-          style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
+          style={{ height: 40, borderColor: "gray", borderWidth: 1 }}
         />
       ) : null}
       {errorMessage ? (
         <Text style={styles.errorMessage}>{errorMessage}</Text>
       ) : null}
 
-
-      {submitButtonText =="Sign Up" ?
-        (<TouchableOpacity
+      {submitButtonText == "Sign Up" ? (
+        <TouchableOpacity
           onPress={() => onSubmit({ email, password, is_deliverer })}
-        style={styles.SignUpBtn}
-          >
+          style={styles.SignUpBtn}
+        >
           <Text style={styles.ButtonText}>Sign Up to Deliver Food</Text>
-        </TouchableOpacity>)
-        : null
-      }
+        </TouchableOpacity>
+      ) : null}
 
-      {submitButtonText =="Sign In" ?
-        (<TouchableOpacity
+      {submitButtonText == "Sign In" ? (
+        <TouchableOpacity
           onPress={() => onSubmit({ email, password })}
-        style={styles.SignUpBtn}
-          >
+          style={styles.SignUpBtn}
+        >
           <Text style={styles.ButtonText}>Sign In</Text>
-        </TouchableOpacity>)
-        : null
-      }
-
-      
-
-
+        </TouchableOpacity>
+      ) : null}
     </>
   );
 };
@@ -94,7 +92,7 @@ const styles = StyleSheet.create({
     fontSize: 45,
     fontFamily: "Unica One",
     paddingLeft: 120,
-    marginTop: 45
+    marginTop: 45,
   },
   SignUpBtn: {
     elevation: 8,

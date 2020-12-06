@@ -28,7 +28,10 @@ class PasswordScreen extends Component {
   */
   constructor(props) {
     super(props);
-    this.state = { password: object.password, confirm_password: object.confirm_password };
+    this.state = {
+      password: object.password,
+      confirm_password: object.confirm_password,
+    };
   }
 
   render() {
@@ -60,44 +63,44 @@ class PasswordScreen extends Component {
               style={styles.textIn}
               placeholder={"New Password"}
               defaultValue=""
-              />
+            />
 
             <Text
-                style={{
+              style={{
                 fontSize: 20,
                 fontFamily: "Unica One",
                 paddingTop: 5,
                 paddingLeft: 10,
-                }}
+              }}
             >
-                Confirm Password
+              Confirm Password
             </Text>
             <TextInput
-                label="Confirm Password"
-                //value={date}
-                onChangeText={(confirm_password) => this.setState({ confirm_password })}
-                secureTextEntry={true}
-                autoCapitalize="none"
-                autoCorrect={false}
-                style={styles.textIn}
-                placeholder={"Confirm Password"}
-                defaultValue=""
+              label="Confirm Password"
+              //value={date}
+              onChangeText={(confirm_password) =>
+                this.setState({ confirm_password })
+              }
+              secureTextEntry={true}
+              autoCapitalize="none"
+              autoCorrect={false}
+              style={styles.textIn}
+              placeholder={"Confirm Password"}
+              defaultValue=""
             />
-
 
             <View style={styles.layer2}>
               <TouchableOpacity
                 onPress={() => {
-                    object.password = this.state.password;
-                    object.confirm_password = this.state.confirm_password;
-                    if (object.password !== object.confirm_password) {
-                      Alert.alert("Error! Passwords don't match.")
-                    } else {
-                      //make api call to save data
-                      navigate("SettingsScreen");
-                    }
-                }
-                }
+                  object.password = this.state.password;
+                  object.confirm_password = this.state.confirm_password;
+                  if (object.password !== object.confirm_password) {
+                    Alert.alert("Error! Passwords don't match.");
+                  } else {
+                    //make api call to save data
+                    navigate("SettingsScreen");
+                  }
+                }}
                 style={styles.AddCardBtn}
               >
                 <Text style={styles.ButtonText}>Save</Text>
@@ -110,8 +113,9 @@ class PasswordScreen extends Component {
   }
 }
 
-const digitsOnly = string => [...string].every(c => '0123456789'.includes(c));
-const validEmail = string => string.includes('@') && string.includes('.');
+const digitsOnly = (string) =>
+  [...string].every((c) => "0123456789".includes(c));
+const validEmail = (string) => string.includes("@") && string.includes(".");
 
 PasswordScreen.navigationOptions = () => {
   return {
@@ -154,7 +158,7 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     height: 45,
     marginTop: 32,
-    alignSelf: "center"
+    alignSelf: "center",
   },
   ButtonText: {
     fontSize: 23,
