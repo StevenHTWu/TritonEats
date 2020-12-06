@@ -23,7 +23,7 @@ global.object = {name: "tmp" , email: "tmp", phone_num: "1234567890",
               password: "1234", password1: "", password2: ""};
 global.cards = object.payment_methods;
 
-const getUserInfo = async() => {
+export const getUserInfo = async() => {
   console.log("in getuserinfo");
   const token = await AsyncStorage.getItem("token");
   const headers = {
@@ -35,8 +35,17 @@ const getUserInfo = async() => {
       headers: headers,      
     }).then((res) => {
       var userInfo = res.data;
-      console.log(userInfo);
-      setUserData(userInfo[0]);
+      var info = userInfo[0];
+      object.name = info.name;
+      object.email = info.email;
+      object.phone_num = info.phone_num;
+      object.payment_methods = info.payment_methods;
+      object.password = object.password; //fix this!
+      object.password1 = object.password1; //fix this!
+      object.password2 = object.password2; //fix this!
+      object.address = info.address;
+      object.residence = info.residence;
+      object.apartment = info.apartment;
       return userInfo;
     }).catch (function (error) {
       console.log(error);
@@ -45,18 +54,33 @@ const getUserInfo = async() => {
     
 }
 
-const setUserData = (info) => {
-  object.name = info.name;
-  object.email = info.email;
-  object.phone_num = info.phone_num;
-  object.payment_methods = info.payment_methods;
-  object.password = object.password; //fix this!
-  object.password1 = object.password1; //fix this!
-  object.password2 = object.password2; //fix this!
-  object.address = info.address;
-  object.residence = info.residence;
-  object.apartment = info.apartment;
+export const setUserAddress = async(address, apartment, residence) => {
+  console.log("in setUserAddress");
+  const token = await AsyncStorage.getItem("token");
+  const headers = {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${token}`,
+  };
+  const response = trackerApi
+    .patch("/auth/orderer/userAddressUpdate", {
+      address,
+      apartment,
+      residence
+    },
+    {
+      headers: headers,      
+    }).then((res) => {
+      console.log("Updated...");
+
+      return;
+    }).catch (function (error) {
+      console.log("error");
+      console.log(error);
+      return null;
+    });
+    
 }
+
 
 
 

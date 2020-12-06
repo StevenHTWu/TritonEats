@@ -41,6 +41,36 @@ router.get('/auth/orderer/userInfo', async(req, res) => {
     });
 });
 
+
+router.patch('/auth/orderer/userAddressUpdate', async(req, res) => {
+    const ordererObj = await orderer.findOne({orderer_id: req._id});
+    var parameters = req.body;
+    
+    var address = parameters.address;
+    var apartment = parameters.apartment;
+    var residence = parameters.apartment;
+
+    let user_id = ordererObj.orderer_id;
+    const my_orderer = await orderer.findOneAndUpdate({ "orderer_id" : user_id }, 
+        
+        { "$set" : { 
+
+            "address" : address,
+            "apartment" : apartment,
+            "residence" : residence 
+        
+        }}, (err, response) => {
+
+            if (err)
+                res.send(err);
+            
+            else {
+                    res.send("Updated successfully!");
+                }
+    });
+});
+
+
 router.patch('/userInfo/:user_id/:isDeliverer', async (req, res) => {
     let user_id = req.params.user_id;
     let isDeliverer = req.params.isDeliverer;

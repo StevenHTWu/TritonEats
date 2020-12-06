@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import { Alert } from "react-native";
 import { StyleSheet, View, Text, Image, TouchableOpacity, Keyboard, TextInput, TouchableWithoutFeedback, Picker } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-
+import { setUserAddress, getUserInfo } from "./SettingsScreen";
 const residences = [
 "Revelle: Argo Hall", "Revelle: Blake Hall", "Revelle: Atlantis Hall", "Revelle: Beagle Hall", 
 "Revelle: Challenger Hall", "Revelle: Discovery Hall", "Revelle: Galathea Hall", "Revelle: Meteor Hall",
@@ -101,9 +101,8 @@ const AddressScreen = ({ navigation }) => {
                             if (apartmentValue.length === 0 || addressValue.length === 0) {
                                 Alert.alert("Error! Please enter valid information.")
                             } else {
-                                object.residence = selectedValue;
-                                object.apartment = apartmentValue;
-                                object.address = addressValue;
+                                setUserAddress(addressValue, apartmentValue, selectedValue);
+                                getUserInfo();
                                 // make api call to save data
                                 navigation.navigate("SettingsScreen")
                             }
