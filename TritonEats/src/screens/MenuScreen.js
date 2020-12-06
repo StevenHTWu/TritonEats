@@ -26,7 +26,7 @@ class MenuScreen extends Component {
   }
 
   async componentDidMount() {
-    //console.log(CurrentCart.viewing_restaurant);
+    console.log(CurrentCart.viewing_restaurant);
     const response = await trackerApi.get(
       "/restaurantMenu/" + CurrentCart.viewing_restaurant
     );
