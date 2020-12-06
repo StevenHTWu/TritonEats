@@ -17,7 +17,7 @@ const ordersRoutes = require("./routes/ordersRoutes");
 const historyRoutes = require("./routes/historyRoutes");
 const resMenuRoutes = require("./routes/resMenuRoutes");
 const resHoursRoutes = require("./routes/resHoursRoutes");
-
+const userInfoRoutes = require("./routes/userInfoRoutes");
 const requireAuth = require("./middlewares/requireAuth");
 
 const app = express();
@@ -32,6 +32,7 @@ app.use(deliverersRoutes);
 app.use(resMenuRoutes);
 app.use(ordersRoutes);
 app.use(historyRoutes);
+app.use(userInfoRoutes)
 
 
 const mongoUri =

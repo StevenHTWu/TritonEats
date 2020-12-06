@@ -2,7 +2,9 @@ import React, { useContext, Component, useEffect } from "react";
 import { View, StyleSheet, Text, Button, TextInput, ScrollView, Keyboard, Dimensions, FlatList } from "react-native";
 import { Context as AuthContext } from "../context/AuthContext";
 import { SafeAreaView } from "react-navigation";
-
+import { AsyncStorage } from "react-native";
+import trackerApi from "../api/tracker";
+import { get } from "mongoose";
 
 const menu = [{key: 'My Profile', nav: 'ProfileScreen'}, 
               {key: 'Manage Address', nav: 'AddressScreen'}, 
@@ -10,20 +12,58 @@ const menu = [{key: 'My Profile', nav: 'ProfileScreen'},
               {key: 'Manage Payment Method(s)', nav: 'ManagePaymentScreen'}, 
               {key: 'Change Password', nav: 'PasswordScreen'}];
 
-global.object = {name: "mudit", email: "example@ucsd.edu", phone_num: "1234567890",
+
+
+
+//global.cards = [{}]
+global.object = {name: "tmp" , email: "tmp", phone_num: "1234567890",
               payment_methods: [{card_number: "1234567812345678", cvv: "456", expiration_date: "5678", name: "Card 1"},
               {card_number: "1234567812341111", cvv: "123", expiration_date: "1234", name: "Card 2"}],
-              apartment: "212", residence: "ERC Building 1", address: "Gilman Drive", 
+              apartment: "100", residence: "ERC Building 1", address: "Gilman Drive", 
               password: "1234", password1: "", password2: ""};
-
 global.cards = object.payment_methods;
-//global.cards = [{}]
+
+const getUserInfo = async() => {
+  console.log("in getuserinfo");
+  const token = await AsyncStorage.getItem("token");
+  const headers = {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${token}`,
+  };
+  const response = trackerApi
+    .get("/auth/orderer/userInfo", {
+      headers: headers,      
+    }).then((res) => {
+      var userInfo = res.data;
+      console.log(userInfo);
+      setUserData(userInfo[0]);
+      return userInfo;
+    }).catch (function (error) {
+      console.log(error);
+      return null;
+    });
+    
+}
+
+const setUserData = (info) => {
+  object.name = info.name;
+  object.email = info.email;
+  object.phone_num = info.phone_num;
+  object.payment_methods = info.payment_methods;
+  object.password = object.password; //fix this!
+  object.password1 = object.password1; //fix this!
+  object.password2 = object.password2; //fix this!
+  object.address = info.address;
+  object.residence = info.residence;
+  object.apartment = info.apartment;
+}
+
 
 
 
 const SettingsScreen = ({ navigation }) => {
   const { signout } = useContext(AuthContext);
-
+  getUserInfo();
   return (
     <SafeAreaView forceInset={{ top: "always" }}>
       <Text style={{ fontSize: 49, paddingTop: 40, fontFamily: "Unica One", textAlign: "center" }}>Settings</Text>

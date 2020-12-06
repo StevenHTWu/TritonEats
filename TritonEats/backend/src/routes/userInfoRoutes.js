@@ -1,7 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const orderer = mongoose.model("ordererInfo");
-const deliverer = mongoose.model("delivererInfo");
+const orderer = mongoose.model("orderers");
+const deliverer = mongoose.model("deliverers");
 
 const router = express.Router();
 
@@ -26,6 +26,19 @@ router.get('/userInfo/:user_id/:isDeliverer', async (req, res) => {
         }
         });
     }
+});
+
+router.get('/auth/orderer/userInfo', async(req, res) => {
+    const ordererObj = await orderer.findOne({orderer_id: req._id});
+
+    let user_id = ordererObj.orderer_id;
+    const info = await orderer.find({orderer_id: user_id}, (err, result) => {
+        if (err) {
+            res.send(err);
+        } else {
+            res.json(result);
+        }
+    });
 });
 
 router.patch('/userInfo/:user_id/:isDeliverer', async (req, res) => {
