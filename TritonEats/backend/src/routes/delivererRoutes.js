@@ -43,6 +43,34 @@ router.route("/delivererPay/:deliverrer_id").patch(async function (req, res) {
   }
 });
 
+//Send a list of unaccepted jobs
+router.route("/jobqueue").post(async function (req, res) { 
+  const order = await orders.find({ deliverer_id: null });
+  return res.status(200).json(order);
+});
+
+//Send a google maps link
+router.route("/mapDirection").post(async function (req, res) { 
+  var _id = req._id;
+  const order_id = await orders.find({ deliverer_id: _id });
+  var link = "";
+  if( order_id.status == "Pending" ) {
+    var restaraunt = order_id.restaraunt_name;
+    var destination = restaraunt.replace(" ", "+");
+    destination = destination.replace(",", "%2C");
+    destination = destination + "%2C+UCSD";
+    link = "https://www.google.com/maps/dir/?api=1&destination=" + destination + "&travelmode=walking&dir_action=navigate";
+  } 
+  else {
+    const orderer_id = order_id.orderer_id;
+    var address = orderer_id.address;
+    var destination = address.replace(" ", "+");
+    destination = destination.replace(",", "%2C");
+    link = "https://www.google.com/maps/dir/?api=1&destination=" + destination + "&travelmode=walking&dir_action=navigate";
+  }
+  res.send(link);
+});
+
 // show user balance before transfer
 router.route("/auth/delivererPay").get(async function (req, res) {
   var _id = req._id;
