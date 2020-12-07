@@ -5,6 +5,7 @@ const deliverer = mongoose.model("deliverers");
 
 const router = express.Router();
 
+<<<<<<< HEAD
 router.get("/userInfo/:user_id/:isDeliverer", async (req, res) => {
   let user_id = req.params.user_id;
   let isDeliverer = req.params.isDeliverer;
@@ -48,6 +49,22 @@ router.get("/auth/orderer/userInfo", async (req, res) => {
       res.json(result);
     }
   });
+=======
+router.get('/auth/orderer/userInfo', async (req, res) => {
+    const ordererObj = await orderer.findOne({ orderer_id: req._id });
+
+    let user_id = ordererObj.orderer_id;
+    console.log(user_id+ "123");
+    const info = await orderer.find({ orderer_id: user_id }, (err, result) => {
+        if (err) {
+            res.send(err);
+        } else {
+            res.status(200).send({
+                address: ordererObj.address,
+            });
+        }
+    });
+>>>>>>> fde72a17b2c0a259ca06137c8f88bcb8484ec255
 });
 
 router.patch("/auth/orderer/userAddressUpdate", async (req, res) => {

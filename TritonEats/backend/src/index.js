@@ -5,6 +5,7 @@ require("./models/ResMenu");
 require("./models/Orders");
 require("./models/Deliverers");
 require("./models/resHours");
+require("./Models/UserInfo");
 //require("./models/User"); This line is present in the index.js Wei sent me, but there is no User model so I commented it out
 
 const express = require("express");

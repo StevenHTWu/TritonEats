@@ -12,15 +12,13 @@ import {
 } from "react-native";
 import trackerApi from "../api/tracker";
 import { AsyncStorage } from "react-native";
+import Loader from "../Components/Loader";
 
 const PaymentScreen = ({ navigation }) => {
   const [selectedCards, setSelectedCards] = useState("");
-
-  const [alternateSelect, setAlternateSelect] = useState(true);
-
-  const changeSelect = () => {
-    setAlternateSelect((alternateSelect) => !alternateSelect);
-  };
+  const [noCards, setNoCards] = useState(false);
+  const [userInfo, setUserInfo] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const makeOrder = async (restaurant_name, order_items, total_price) => {
     const token = await AsyncStorage.getItem("token");
@@ -57,8 +55,30 @@ const PaymentScreen = ({ navigation }) => {
       });
   };
 
+  const getUserInfo = async () => {
+    const token = await AsyncStorage.getItem("token");
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    };
+    setIsLoading(true);
+
+    trackerApi
+      .get("/auth/orderer/userInfo", {
+        headers: headers,
+      })
+      .then((res) => {
+        setUserInfo(res.data.address);
+        setIsLoading(false);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+
   const refresh = navigation.addListener("didFocus", () => {
     getCard();
+    getUserInfo();
   });
 
   var array = selectedCards;
@@ -70,9 +90,11 @@ const PaymentScreen = ({ navigation }) => {
     }
   }
 
+
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View style={styles.container}>
+      <Loader loading={isLoading} />
         <Image
           style={styles.CardImg}
           source={require("../../assets/pay.png")}
@@ -89,6 +111,19 @@ const PaymentScreen = ({ navigation }) => {
             >
               Select or Add Card
             </Text>
+            {noCards == true ? (
+                <Text
+                style={{
+                  fontSize: 15,
+                  fontFamily: "Unica One",
+                  color: "red",
+                  alignSelf: "center",
+                  marginTop: "3%"
+                }}
+              >
+                No card is currently available in your account. 
+              </Text>
+              ) : (<></>)}
             <Picker
               //selectedValue={selectedValue}
               mode="dropdown"
@@ -114,19 +149,35 @@ const PaymentScreen = ({ navigation }) => {
             
             <View style={{ flex: 1, flexDirection: "row", paddingLeft: "8%", paddingTop: "8%"}}>
               <View style={{ width: 220, height: 35 }}>
-              <TouchableOpacity
-                onPress={() => {
-                  makeOrder(
-                    navigation.getParam("res_name"),
-                    navigation.getParam("order_array"),
-                    navigation.getParam("total_price")
-                  );
-                  navigation.navigate("OrderStatusScreen");
-                }}
-                style={styles.PaymentBtn}
-              >
-                <Text style={styles.ButtonText}>Pay</Text>
-              </TouchableOpacity>
+              {userInfo != "" ? (
+                <TouchableOpacity
+                  onPress={() => {
+                    setNoCards(false);
+                    if(selectedValue == "") {
+                      setNoCards(true);
+                    }
+                    else {
+                      makeOrder(
+                        navigation.getParam("res_name"),
+                        navigation.getParam("order_array"),
+                        navigation.getParam("total_price")
+                      );
+                      navigation.navigate("OrderStatusScreen");
+                    }
+                  }}
+                  style={styles.PaymentBtn}
+                >
+                  <Text style={styles.ButtonText}>Pay</Text>
+                </TouchableOpacity>
+                ) : (
+                <TouchableOpacity
+                  onPress={() => {
+                      navigation.navigate("SettingsScreen");
+                  }}
+                  style={styles.AddrBtn}
+                >
+                  <Text style={styles.ButtonText}>Enter Address</Text>
+                </TouchableOpacity>)}
               </View>
               <View style={{ width: 50, height: 45, paddingTop: "2%" }}>
                   <Image
@@ -185,6 +236,7 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     height: 150,
     width: "100%",
+    height: "50%",
     backgroundColor: "#0a2657",
     marginTop: "5%",
     zIndex: 1
@@ -195,13 +247,20 @@ const styles = StyleSheet.create({
     width: 120,
     borderRadius: 50,
     height: 45,
-    marginTop: "15%",
+    marginTop: "9%",
     alignSelf: "center",
   },
   PaymentBtn: {
     backgroundColor: "#FFD700",
     paddingVertical: 8,
     width: 120,
+    borderRadius: 50,
+    height: 45,
+  },
+  AddrBtn: {
+    backgroundColor: "#FFD700",
+    paddingVertical: 8,
+    width: 170,
     borderRadius: 50,
     height: 45,
   },
