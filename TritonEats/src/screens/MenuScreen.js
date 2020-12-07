@@ -101,27 +101,31 @@ class MenuScreen extends Component {
                       }}
                     >
                       <Text style={styles.bodyText}>{item.name}</Text>
-                      <Text style={styles.priceText}>{item.price}</Text>
+                        <View>
+                        <Text style={styles.priceText}>{item.price}</Text>
+                          <TouchableOpacity
+                          style={styles.addToCartButton}
+                            color="#FFD700"
+                            accessibilityLabel="Add to cart"
+                            onPress={() => {
+                              var tmpArr = Object.assign([], CurrentCart.order_arr);
+                              CurrentCart.emptyOrderArr();
+                              CurrentCart.order_arr = tmpArr;
+                              CurrentCart.addToOrderArr({
+                                key: item.name,
+                                quantity: 1,
+                                value: parseFloat(item.price.substring(1)),
+                              });
+                            }}
+                          >
+                            <Text style={styles.addToCartText}>Add to cart</Text>
+                        </TouchableOpacity>
+                        </View>
                     </View>
 
-                    <View style={styles.addToCartButton}>
-                      <TouchableOpacity
-                        color="#FFD700"
-                        accessibilityLabel="Add to cart"
-                        onPress={() => {
-                          var tmpArr = Object.assign([], CurrentCart.order_arr);
-                          CurrentCart.emptyOrderArr();
-                          CurrentCart.order_arr = tmpArr;
-                          CurrentCart.addToOrderArr({
-                            key: item.name,
-                            quantity: 1,
-                            value: parseFloat(item.price.substring(1)),
-                          });
-                        }}
-                      >
-                        <Text style={styles.addToCartText}>Add to cart</Text>
-                      </TouchableOpacity>
-                    </View>
+                    
+                      
+            
                   </View>
                   <Text></Text>
                 </View>
@@ -159,12 +163,13 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   bodyText: {
-    fontSize: 38,
+    fontSize: 25,
     paddingTop: 5,
     paddingLeft: 12,
     color: "#FFD700",
     fontFamily: "Unica One",
     textAlign: "left",
+    width: "70%"
   },
   priceText: {
     fontSize: 30,
@@ -185,20 +190,24 @@ const styles = StyleSheet.create({
     marginTop: 0,
   },
   addToCartButton: {
-    marginLeft: 255,
-    marginTop: 15,
+    paddingLeft: 12,
+    paddingRight: "10%",
+    marginRight: "25%",
+    marginLeft: "-3%",
+    paddingTop: 5,
     borderWidth: 1,
     // marginBottom: 10,
     borderColor: "#FFD700",
     borderRadius: 10,
-    width: 100,
+    width: "50%",
+
   },
 
   addToCartText: {
-    fontSize: 15,
+    fontSize: 20,
     textAlign: "center",
     color: "#FFD700",
-    margin: "10%",
+    margin: "1%",
     fontFamily: "Unica One",
   },
 });
