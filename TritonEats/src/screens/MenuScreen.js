@@ -92,8 +92,18 @@ class MenuScreen extends Component {
               renderItem={({ item }) => (
                 <View>
                   <View style={styles.borderItem}>
-                    <Text style={styles.bodyText}>{item.name}</Text>
-                    <Text style={styles.priceText}>{item.price}</Text>
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        justifyContent: "space-between",
+                        paddingRight: 20,
+                        paddingTop: 10,
+                      }}
+                    >
+                      <Text style={styles.bodyText}>{item.name}</Text>
+                      <Text style={styles.priceText}>{item.price}</Text>
+                    </View>
+
                     <View style={styles.addToCartButton}>
                       <TouchableOpacity
                         color="#FFD700"
@@ -138,14 +148,13 @@ const styles = StyleSheet.create({
     fontSize: 30,
   },
   topImage: {
-    marginBottom: 0,
+    marginBottom: 7,
     width: 500,
-    height: 200,
+    height: 190,
   },
   headerTitle: {
     fontSize: 49,
-    paddingTop: 10,
-    paddingBottom: 10,
+    // paddingBottom: 10,
     fontFamily: "Unica One",
     textAlign: "center",
   },
@@ -166,17 +175,23 @@ const styles = StyleSheet.create({
     textAlign: "left",
   },
   borderItem: {
-    borderRadius: 0,
     borderWidth: 0,
+    height: 130,
     backgroundColor: "#0a2657",
+    margin: -5,
+    borderRadius: 10,
+    marginRight: 5,
+    marginLeft: 5,
+    marginTop: 0,
   },
   addToCartButton: {
-    marginLeft: 300,
-    marginRight: 12,
+    marginLeft: 255,
+    marginTop: 15,
     borderWidth: 1,
-    marginBottom: 10,
+    // marginBottom: 10,
     borderColor: "#FFD700",
     borderRadius: 10,
+    width: 100,
   },
 
   addToCartText: {

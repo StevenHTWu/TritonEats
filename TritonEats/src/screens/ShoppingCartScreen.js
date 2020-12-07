@@ -94,18 +94,7 @@ class ShoppingCartScreen extends React.Component {
             }}
           >
             <Text style={styles.titleText}>
-              Your Order From{" "}
-              <Text
-                style={{
-                  color: "#0a2657",
-                  fontSize: 35,
-                  fontWeight: "bold",
-                  textAlign: "center",
-                  paddingHorizontal: "10%",
-                }}
-              >
-                {CurrentCart.viewing_restaurant}
-              </Text>
+              Your Order From {CurrentCart.viewing_restaurant}
             </Text>
           </View>
         </ImageBackground>
