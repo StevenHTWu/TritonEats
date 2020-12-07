@@ -18,6 +18,21 @@ router.route("/allOrders").get(function (req, res) {
   });
 });
 
+
+router.route("/orderer/orderInfoAsDeliverer").get(async function (req, res) {
+  console.log("Calling the order getter");
+  const orderObj = await orders.findOne({ order_id: req.body.order_id });
+  console.log(orderObj);
+  let obj_id = orderObj.order_id;
+  const info = await orders.find({ order_id: obj_id }, (err, result) => {
+    if (err) {
+      res.send(err);
+    } else {
+      res.json(result);
+    }
+  });
+});
+
 router.route("/auth/orderStatus").get(async function (req, res) {
   const order = await orders.findOne({ orderer_id: req._id });
   console.log("this is the order: " + order);
@@ -120,6 +135,33 @@ router.route("/auth/makeOrder").post(async function (req, res) {
       return res.status(422).send(err.message);
     }
   }
+});
+
+
+router.route("/auth/assignDeliverer").patch(async function (req, res) {
+  var parameters = req.body;
+  var set_deliverer_id = req._id;
+  var order_set = parameters.order_set;
+
+  console.log("ORDER: " + order_set);
+  console.log("DELIVERER " + set_deliverer_id);
+
+
+  const my_orderer = await orders.findOneAndUpdate(
+    { order_id: order_set },
+
+    {
+      $set: {
+        deliverer_id: set_deliverer_id,
+      },
+    },
+    (err, response) => {
+      if (err) res.send(err);
+      else {
+        res.send("Updated successfully!");
+      }
+    }
+  );
 });
 
 module.exports = router;

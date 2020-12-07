@@ -6,6 +6,38 @@ import NavBar from "../Components/NavBar";
 import { NativeModules } from "react-native";
 import { navigate } from "../navigationRef";
 import traffic from "../../assets/traffic.png";
+
+const getOrderStatus = async () => {
+    console.log("Calling getORderStatus");
+    const token = await AsyncStorage.getItem("token");
+    const headers = {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+    };
+
+    const response = await trackerApi.get("/orderer/orderInfoAsDeliverer", 
+        { 
+        order_id : order.orderer_id
+      },
+      { headers : headers 
+    
+    }).then((res) => {
+        var userInfo = res.data;
+        var info = userInfo[0];
+
+        var address = userInfo.address;
+        var residence = userInfo.residence;
+        var apartment = userInfo.apartment;
+
+        this.setState( {
+            address: address,
+            residence: residence,
+            apartment: apartment
+        });
+    
+    });
+  };
+
 class DelivererStatusScreen extends Component {
 
     // constructor that sets button text to picked up and initializes link
@@ -13,13 +45,17 @@ class DelivererStatusScreen extends Component {
         console.log(order);
         super(props);
         this.state = {
-            text: "Picked Up",  
-            link: ""
+            text: "",  
+            link: "",
+            address: "",
+            apartment: "",
+            residence: "",
+            fake: order
         };
         //binding the two functions so they act on correct object
         this.status_update = this.status_update.bind(this);
         this.map_direction = this.map_direction.bind(this);
-
+        
         //Update status in database to Pending and get directions to restaraunt.
         
     }
@@ -42,35 +78,89 @@ class DelivererStatusScreen extends Component {
         }
         
     }
+
+    orderer_direction = async ( text ) => {
+        
+        const token = await AsyncStorage.getItem("token");
+        const headers = {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+        };
+
+        const response = await trackerApi.get("/auth/orderer/getUserInfoAsDeliverer", 
+            { 
+            order_id : order.orderer_id
+          },
+          { headers : headers 
+        
+        }).then((res) => {
+            var userInfo = res.data;
+            var info = userInfo[0];
+
+            var address = userInfo.address;
+            var residence = userInfo.residence;
+            var apartment = userInfo.apartment;
+
+            this.setState( {
+                address: address,
+                residence: residence,
+                apartment: apartment
+            });
+        
+        });
+
+
+    }
     status_update = async ( text ) => {
         console.log("Calling update...");
         const token = await AsyncStorage.getItem("token");
+        const headers = {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+        };
         const response = await trackerApi.patch("/auth/deliveryStatusUpdate", 
-          { token },
-          { 
-            headers: { status: this.state.text }
-          })
-        if( this.state.text == "Delivered") {
-            navigate("DelivererHomeScreen");
-        }
-        if( text != "Pending" ) {
-            this.setState({text: text});
-        }
-        this.map_direction();
+            { 
+            status: this.state.text,
+            order_id : order.order_id
+          },
+          { headers : headers 
+        
+        }).then ( (res) => {
+                if( this.state.text == "Delivered") {
+                    navigate("DelivererHomeScreen");
+                }
+                if( text === "Picked Up" ) {
+                    
+                    this.setState({text: "Delivered"});
+                    this.orderer_direction();
+                    this.setState({text: text});
+                } 
+                this.map_direction();
+          });
     };
+
+
+
+
     componentDidMount = () => {
+        this.state.text = getOrderStatus();
         this.map_direction();
     }
+
+
     render() {
+        console.log("===================");
         //On click of the url the link would open.
         //On clicking of the button the text would change to delivered and the status would be updated to Picked up.
         //On clicking of button second time database would be notified of complete delivery and you would be redirected to home page.
-        
-        return (
-            
+        console.log("STATE: " + this.state.text);
+        if (this.state.text === "Pending") {
+            var display = (
+
+
             <View style={styles.MainContainer}>
                 <View style={ { padding: 20} }>
-                    <Text style={ {fontSize: 30} }>Delivery to {order.restaurant}</Text>
+                    <Text style={ {fontSize: 30} }>Pick Up From {order.restaurant}</Text>
 
                 </View>
                 <TouchableOpacity 
@@ -86,11 +176,52 @@ class DelivererStatusScreen extends Component {
             <TouchableOpacity
                 onPress={() => {
                     console.log("Picked up!");
-                    this.status_update("Picked up");
+
+                    this.status_update("Picked Up");
                 }}
                 style={styles.StatusBtn} >
-                <Text style={styles.ButtonText}>{this.state.text}?</Text>
+                <Text style={styles.ButtonText}>Picked up?</Text>
             </TouchableOpacity>
+            </View>
+
+            );
+        } else if (this.state.text === "Picked Up") {
+            console.log("Successfully changed...");
+            var display = (
+
+
+                <View style={styles.MainContainer}>
+                    <View style={ { padding: 20} }>
+                        <Text style={ {fontSize: 30} }>Deliver To {this.state.apartment} {this.state.residence} </Text>
+    
+                    </View>
+                    <TouchableOpacity 
+                        onPress={()=> Linking.openURL(this.state.residence + this.state.address)}
+                        style={styles.directionStyle}
+                        >
+            
+                        <Text style={styles.TextStyle} >Directions</Text>
+                    </TouchableOpacity>
+                    
+                    
+                
+                <TouchableOpacity
+                    onPress={() => {
+                        console.log("Delivered!");
+    
+                        this.status_update("Delivered");
+                    }}
+                    style={styles.StatusBtn} >
+                    <Text style={styles.ButtonText}>Delivered?</Text>
+                </TouchableOpacity>
+                </View>
+    
+                );
+        }
+
+        return (
+            <View>
+            {display}
             </View>
         );
     }

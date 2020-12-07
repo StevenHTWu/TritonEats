@@ -18,6 +18,36 @@ import Loader from "../Components/Loader";
 
 global.order = {order_id: "", orderer_id: "", restaurant: ""};
 
+const assignDelivererToOrder = async (order_id) => {
+  console.log("in assigning deliverer");
+  const token = await AsyncStorage.getItem("token");
+  const headers = {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${token}`,
+  };
+  const response = trackerApi
+    .patch(
+      "/auth/assignDeliverer",
+      {
+        order_set : order_id
+      },
+      {
+        headers: headers,
+      }
+    )
+    .then((res) => {
+      console.log("Updated...");
+      
+      return;
+    })
+    .catch(function (error) {
+      console.log("error");
+      console.log(error);
+      return null;
+    });
+};
+
+
 class DelivererHomeScreen extends Component {
   constructor(props) {
     
@@ -61,34 +91,6 @@ class DelivererHomeScreen extends Component {
     console.log("Update complete");
   }
 
-  async refresh() {
-    this.setState( {
-      Restaurants : this.state.Restaurants,
-      errorMessage: false
-    })
-    console.log("Getting order list");
-    const response = await trackerApi.get(
-      "/allOrders"
-    );
-    //console.log("-----------------------");
-    //console.log("-----------------------");
-    var dataset = response.data;
-    var stateUpdate = []
-    for (var i = 0; i < dataset.length; i++) {
-      if (dataset[i].status === "pending") {
-        //console.log(dataset[i]);
-        stateUpdate.push ({
-          Id: i.toString(),
-          Name: dataset[i].restaurant_name,
-          Compensation: (dataset[i].total_price * 0.1).toFixed(2),
-          secret: dataset[i].order_id,
-        });
-      }
-    }
-    
-    this.setState({Restaurants: stateUpdate});
-    console.log("Update complete");
-  }
 
   async componentDidMount() {
     this.refresh()
@@ -139,11 +141,11 @@ class DelivererHomeScreen extends Component {
 
                   <TouchableOpacity
                     onPress={() => {
-               
+                      console.log(item);
                       order.order_id = item.Secret;
                       order.orderer_id = item.Orderer_Id;
                       order.restaurant = item.Name;
-                      
+                      assignDelivererToOrder(order.order_id);
                       navigate("DelivererStatusScreen");
                     
                     }}

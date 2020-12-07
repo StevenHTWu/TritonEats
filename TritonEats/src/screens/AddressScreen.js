@@ -213,11 +213,11 @@ const styles = StyleSheet.create({
   },
   layer2: {
     borderRadius: 50,
-    height: 100,
+    height: 50,
     width: "100%",
     backgroundColor: "#0a2657",
     position: "absolute",
-    top: 410,
+    bottom: "0%",
   },
   AddCardBtn: {
     backgroundColor: "#FFD700",

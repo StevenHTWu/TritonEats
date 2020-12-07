@@ -16,6 +16,7 @@ router.route("/orderers").get(function (req, res) {
   });
 });
 
+
 router.route("/delivererInfo/:orderer_id").get(function (req, res) {
   var _id = req.params.orderer_id;
   console.log(_id);
@@ -93,8 +94,4 @@ function helper(deliverer_ids, deliverer_info, index, response) {
   }
 }
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 33e37896116ea5a952b4f70bc580aa392c925535
 module.exports = router;
