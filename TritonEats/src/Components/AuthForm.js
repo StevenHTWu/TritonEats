@@ -99,8 +99,8 @@ const styles = StyleSheet.create({
   TitleFont: {
     fontSize: 45,
     fontFamily: "Unica One",
-    paddingLeft: 120,
-    marginTop: 45
+    paddingLeft: "33%",
+    marginTop: 10
   },
   SignUpBtn: {
     elevation: 8,
@@ -109,9 +109,9 @@ const styles = StyleSheet.create({
     paddingVertical: 17,
     width: 250,
     height: 60,
-    marginTop: 23,
-    marginBottom: 133,
-    marginLeft: "15%",
+    marginTop: 5,
+    marginBottom: 10,
+    marginLeft: "17%",
   },
     SignUpBtnDeliv: {
     elevation: 8,
@@ -120,9 +120,9 @@ const styles = StyleSheet.create({
     paddingVertical: 17,
     width: 250,
     height: 60,
-    marginTop: 23,
-    marginBottom: 15,
-    marginLeft: "15%",
+    marginTop: 5,
+    marginBottom: 0,
+    marginLeft: "17%",
   },
   ButtonText: {
     fontSize: 23,
