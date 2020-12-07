@@ -1,7 +1,12 @@
 import React from "react";
 import { View, StyleSheet, Text, Image, TouchableOpacity } from "react-native";
 
+var CurrentCart = require("../Components/Cart");
+
 const LandingScreen = ({ navigation }) => {
+  CurrentCart.restaurant_name= "";
+  CurrentCard.order_arr= [];
+  CurrentCart.viewing_restaurant= "";
   return (
     <>
       <View style={styles.Container}>
