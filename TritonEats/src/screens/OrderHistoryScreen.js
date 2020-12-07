@@ -105,7 +105,7 @@ class OrderHistoryScreen extends React.Component {
                   restaurant={item.restaurant_name}
                   timeOrdered={item.order_placement_time}
                   timeDelivered={item.order_completion_time}
-                  deliverer={item.deliverer_name}
+                  deliverer={item.deliverer_id}
                   price={item.total_price}
                 />
               )}

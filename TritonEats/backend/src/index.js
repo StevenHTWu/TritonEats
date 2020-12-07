@@ -17,9 +17,9 @@ const deliverersRoutes = require("./routes/delivererRoutes");
 const ordersRoutes = require("./routes/ordersRoutes");
 const historyRoutes = require("./routes/historyRoutes");
 const resMenuRoutes = require("./routes/resMenuRoutes");
-const userInfoRoutes = require("./routes/userInfoRoutes");
 const resHoursRoutes = require("./routes/resHoursRoutes");
-
+const userInfoRoutes = require("./routes/userInfoRoutes");
+const deliveryStatusRoutes = require("./routes/deliveryStatusRoutes");
 const requireAuth = require("./middlewares/requireAuth");
 
 const app = express();
@@ -31,6 +31,7 @@ app.use(authRoutes);
 app.use(resHoursRoutes);
 app.use(orderersRoutes);
 app.use(deliverersRoutes);
+app.use(deliveryStatusRoutes);
 app.use(resMenuRoutes);
 app.use(ordersRoutes);
 app.use(historyRoutes);

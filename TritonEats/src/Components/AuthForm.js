@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, Button, TextInput, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Button,
+  TextInput,
+  TouchableOpacity,
+} from "react-native";
 
 const AuthForm = ({
   headerText,
@@ -9,11 +16,9 @@ const AuthForm = ({
   submitButtonText,
   deliverCheck,
 }) => {
-  const [value1, onChangeText1] = React.useState(' Email');
-  const [value2, onChangeText2] = React.useState(' Password');
-  const [value3, onChangeText3] = React.useState(' isDeliverer');
-  
-
+  const [value1, onChangeText1] = React.useState(" Email");
+  const [value2, onChangeText2] = React.useState(" Password");
+  const [value3, onChangeText3] = React.useState(" isDeliverer");
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -71,11 +76,11 @@ const AuthForm = ({
       }
       
 
-      {submitButtonText =="Sign In" ?
-        (<TouchableOpacity
+      {submitButtonText == "Sign In" ? (
+        <TouchableOpacity
           onPress={() => onSubmit({ email, password })}
-        style={styles.SignUpBtn}
-          >
+          style={styles.SignUpBtn}
+        >
           <Text style={styles.ButtonText}>Sign In</Text>
         </TouchableOpacity>)
         : null

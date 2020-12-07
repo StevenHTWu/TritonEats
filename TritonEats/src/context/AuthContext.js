@@ -37,12 +37,10 @@ const clearErrorMessage = (dispatch) => () => {
 
 const signup = (dispatch) => {
   return async ({ email, password, is_deliverer }) => {
-    
     // make api request to sign up with that email and password
     // if we sign up, modify our state, and say that we are authenticated
     // if signing up fails, we probably need to reflect an error message somewhere
     try {
-      
       is_deliverer = false;
 
       const response = await trackerApi.post("/signup", {
@@ -52,7 +50,7 @@ const signup = (dispatch) => {
       });
       await AsyncStorage.setItem("token", response.data.token);
       dispatch({ type: "signin", payload: response.data.token });
-      
+
       if (is_deliverer) {
         navigate("DelivererMainFlow");
       } else {
@@ -69,12 +67,10 @@ const signup = (dispatch) => {
 
 const signupDeliv = (dispatch) => {
   return async ({ email, password, is_deliverer }) => {
-    
     // make api request to sign up with that email and password
     // if we sign up, modify our state, and say that we are authenticated
     // if signing up fails, we probably need to reflect an error message somewhere
     try {
-      
       is_deliverer = true;
 
       const response = await trackerApi.post("/signup", {
@@ -84,7 +80,7 @@ const signupDeliv = (dispatch) => {
       });
       await AsyncStorage.setItem("token", response.data.token);
       dispatch({ type: "signin", payload: response.data.token });
-      
+
       if (is_deliverer) {
         navigate("DelivererMainFlow");
       } else {
@@ -105,7 +101,6 @@ const signin = (dispatch) => {
     // Handle success by updating state
     // Handle failure by showing error message (somehow)
     try {
-
       const response = await trackerApi.post("/signin", { email, password });
       await AsyncStorage.setItem("token", response.data.token);
       dispatch({ type: "signin", payload: response.data.token });
