@@ -12,9 +12,10 @@ const NavLink = ({ navigation, text, routeName }) => {
 
 const styles = StyleSheet.create({
   link: {
+    marginTop: "8%",
     fontWeight: "bold",
     color: "#0a2657",
-    textAlign: "center"
+    textAlign: "center",
   },
 });
 

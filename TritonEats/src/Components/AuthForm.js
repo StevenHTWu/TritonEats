@@ -36,7 +36,7 @@ const AuthForm = ({
           onChangeText={setEmail}
           autoCapitalize="none"
           autoCorrect={false}
-          style={{ height: 60, borderColor: 'gray', borderWidth: 1, padding: 10 }}
+          style={styles.textInput}
           placeholder={value1}
         />
       </View>
@@ -48,33 +48,32 @@ const AuthForm = ({
         autoCapitalize="none"
         autoCorrect={false}
         placeholder={value2}
-        style={{ height: 60, borderColor: 'gray', borderWidth: 1, padding: 10  }}
+        style={styles.textInput}
       />
-      {submitButtonText == "Sign Up" ?
-        (<TouchableOpacity
-          onPress={() => { 
-            onSubmitAlt({ email, password,  is_deliverer});
-            
-        } }
-        style={styles.SignUpBtnDeliv}
-          >
+      {errorMessage ? (
+        <Text style={styles.errorMessage}>{errorMessage}</Text>
+      ) : null}
+      {submitButtonText == "Sign Up" ? (
+        <TouchableOpacity
+          onPress={() => {
+            onSubmitAlt({ email, password, is_deliverer });
+          }}
+          style={styles.SignUpBtnDeliv}
+        >
           <Text style={styles.ButtonText}>Sign Up As Deliverer</Text>
-        </TouchableOpacity>)
-        : null
-      }
-     
+        </TouchableOpacity>
+      ) : null}
 
-
-      {submitButtonText =="Sign Up" ?
-        (<TouchableOpacity
-          onPress={() => {onSubmit({ email, password,  is_deliverer}); } }
-        style={styles.SignUpBtn}
-          >
-          <Text style={styles.ButtonText}>Sign Up</Text>
-        </TouchableOpacity>)
-        : null
-      }
-      
+      {submitButtonText == "Sign Up" ? (
+        <TouchableOpacity
+          onPress={() => {
+            onSubmit({ email, password, is_deliverer });
+          }}
+          style={styles.SignUpBtn}
+        >
+          <Text style={styles.ButtonText}>Sign Up As Orderer</Text>
+        </TouchableOpacity>
+      ) : null}
 
       {submitButtonText == "Sign In" ? (
         <TouchableOpacity
@@ -82,16 +81,8 @@ const AuthForm = ({
           style={styles.SignUpBtn}
         >
           <Text style={styles.ButtonText}>Sign In</Text>
-        </TouchableOpacity>)
-        : null
-      }
-       {errorMessage ? (
-        <Text style={styles.errorMessage}>{errorMessage}</Text>
+        </TouchableOpacity>
       ) : null}
-
-      
-
-
     </>
   );
 };
@@ -100,34 +91,36 @@ const styles = StyleSheet.create({
   errorMessage: {
     fontSize: 16,
     color: "red",
+    textAlign: "center",
   },
   TitleFont: {
     fontSize: 45,
     fontFamily: "Unica One",
     paddingLeft: "33%",
-    marginTop: 10
+    marginTop: "65%",
+    marginBottom: 60,
   },
   SignUpBtn: {
     elevation: 8,
     backgroundColor: "#0a2657",
     borderRadius: 600,
     paddingVertical: 17,
-    width: 250,
+    width: 262,
     height: 60,
-    marginTop: 5,
     marginBottom: 10,
-    marginLeft: "17%",
+    marginLeft: "16%",
+    marginTop: 146,
   },
-    SignUpBtnDeliv: {
+  SignUpBtnDeliv: {
     elevation: 8,
     backgroundColor: "#0a2657",
     borderRadius: 600,
     paddingVertical: 17,
     width: 250,
     height: 60,
-    marginTop: 5,
-    marginBottom: 0,
-    marginLeft: "17%",
+    marginLeft: "16%",
+    position: "absolute",
+    top: "83%",
   },
   ButtonText: {
     fontSize: 23,
@@ -136,6 +129,15 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     textTransform: "uppercase",
     fontFamily: "Unica One",
+  },
+  textInput: {
+    height: 60,
+    borderColor: "black",
+    borderWidth: 1,
+    padding: 10,
+    marginBottom: "5%",
+    marginLeft: "7%",
+    marginRight: "7%",
   },
 });
 
