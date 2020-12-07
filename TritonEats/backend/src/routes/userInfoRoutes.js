@@ -28,9 +28,11 @@ router.get("/userInfo/:user_id/:isDeliverer", async (req, res) => {
   }
 });
 
-router.get("/orderer/userInfoAsDeliverer:orderer_id", async (req, res) => {
+router.get("/orderer/userInfoAsDeliverer/:orderer_id", async (req, res) => {
+  console.log("ORDERER ID");
+  console.log(req.params.orderer_id);
   const ordererObj = await orderer.findOne({ orderer_id: req.params.orderer_id });
-  res.json(orderObj);
+  res.json(ordererObj);
 });
 
 

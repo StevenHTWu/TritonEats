@@ -33,21 +33,29 @@ class DelivererStatusScreen extends Component {
 
     //set link to right address
     map_direction = ( ) => {
+        console.log("Setting direction");
         switch (order.restaurant) {
             case ("Pines"):
                 this.setState( { link: "https://goo.gl/maps/dZBAF9C48MYWjnxDA" } );
+                break;
             case ("64 Degrees"):
-                this.setState( { link: "https://goo.gl/maps/dM3Z6QfzAnbhVT3p6" } );
+                this.setState( { link: "https://goo.gl/maps/e9Vacp3cZsWryBCh7" } );
+                break;
             case ("Cafe Ventanas"):
                 this.setState( { link: "https://goo.gl/maps/QxAVFtB9axgYqrAB9" } );
+                break;
             case ("OceanView"):
                 this.setState( { link: "https://goo.gl/maps/LFDDc3Dtq6vHa9U37" } );
+                break;
             case ("Foodworx"):
                 this.setState( { link: "https://goo.gl/maps/1bgKS1jvH6GMzLkc6" } );
+                break;
             case ("Club Med"):
                 this.setState( { link: "https://goo.gl/maps/azDZHitkQAnqYg8P7" } );
+                break;
             case ("Canyon Vista"):
                 this.setState( { link: "https://goo.gl/maps/QSXhZ5cVwVx138cw7" } );
+                break;
         }
         
     }
@@ -79,13 +87,12 @@ class DelivererStatusScreen extends Component {
             Authorization: `Bearer ${token}`,
         };
         console.log("Getting User Info...");
-
+        console.log(order.orderer_id);
         const response = await trackerApi.get(`/orderer/userInfoAsDeliverer/${order.orderer_id}`, 
           { headers : headers 
         
-        }).then((res) => {
-            var userInfo = res.data;
-            var info = userInfo[0];
+        }).then((response) => {
+            var userInfo = response.data;
 
             var address = userInfo.address;
             var residence = userInfo.residence;
@@ -116,15 +123,20 @@ class DelivererStatusScreen extends Component {
           },
           { headers : headers 
         
-        }).then ( (res) => {
+        }).then ( (response) => {
 
                 console.log("Finished updating..");
-                if( text === "Delivered") {
+                if( text == "Delivered") {
+                    console.log("We are delivering!");
                     navigate("DelivererHomeScreen");
                 }
                 else if( text === "Picked Up" ) {
+                    console.log("We are picking up!");
                     this.orderer_direction();
                 } 
+                else {
+                    console.log("We are ????!");
+                }
                 
           });
     };
@@ -133,8 +145,9 @@ class DelivererStatusScreen extends Component {
 
 
     componentDidMount = () => {
-        this.getOrderStatus(); //set status
         this.map_direction();
+        this.getOrderStatus(); //set status
+        
 
     }
 

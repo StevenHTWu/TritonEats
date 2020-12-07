@@ -14,6 +14,10 @@ router.route("/homescreen").get(async function (req, res) {
   //cHours = 13;
   var cMins = curr.getMinutes();
   var cDay = curr.getDay();
+
+  var cDay = 1; //remove!
+  var cHours = 13; //remove!
+
   var menu;
   var day;
 

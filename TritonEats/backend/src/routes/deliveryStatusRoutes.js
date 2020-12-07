@@ -37,7 +37,8 @@ router.patch("/auth/deliveryStatusUpdate", async (req, res) => {
             );
             break;
 
-          case "delivered":
+          case "Delivered":
+            console.log("FInished delivering!");
             res.send("Your order has been delivered. Enjoy!");
         }
       }

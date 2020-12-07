@@ -90,7 +90,7 @@ const PaymentScreen = ({ navigation }) => {
               Select or Add Card
             </Text>
             <Picker
-              selectedValue={selectedValue}
+              //selectedValue={selectedValue}
               mode="dropdown"
               style={{ height: 180, width: 300, alignSelf: "center" }}
               onValueChange={(itemValue, itemIndex) =>
