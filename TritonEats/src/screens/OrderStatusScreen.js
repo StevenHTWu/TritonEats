@@ -89,7 +89,7 @@ class OrderStatusScreen extends Component {
         var statusText = "Waiting for Tritons to pick up!";
         var progressBar = 0.33;
         break;
-      case "Picked up":
+      case "Picked Up":
         var statusText =
           "Your food has been Picked up! It will arrive in 20 minutes";
         var progressBar = 0.66;

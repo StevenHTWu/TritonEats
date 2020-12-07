@@ -64,13 +64,15 @@ class DelivererHomeScreen extends Component {
 
   async refresh() {
     console.log("Getting order list");
+    const token = await AsyncStorage.getItem("token");
     const response = await trackerApi.get("/allOrders").then((response) => {
       //console.log("-----------------------");
       console.log("-----------------------");
+      
       var dataset = response.data;
       var stateUpdate = [];
       for (var i = 0; i < dataset.length; i++) {
-        if (dataset[i].status === "pending") {
+        if (dataset[i].status === "pending" || (dataset[i].status === "Picked Up" && dataset[i].deliverer_id === token)) {
           console.log(dataset[i]);
           stateUpdate.push({
             Id: i.toString(),
