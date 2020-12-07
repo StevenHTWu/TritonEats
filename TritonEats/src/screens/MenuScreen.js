@@ -79,7 +79,7 @@ class MenuScreen extends Component {
         {this.state.isLoading ? (
           <></>
         ) : (
-          <View>
+          <View style={ { height: "100%"}}>
             <Text style={styles.headerTitle}>
               {CurrentCart.viewing_restaurant}
             </Text>
@@ -87,6 +87,7 @@ class MenuScreen extends Component {
               style={styles.topImage}
               source={require("../../assets/Pinsalmon.jpg")}
             />
+            <View style={styles.List}> 
             <FlatList
               data={this.state.RestaurantMenu}
               renderItem={({ item }) => (
@@ -131,7 +132,11 @@ class MenuScreen extends Component {
                 </View>
               )}
               keyExtractor={(item) => item.Id}
+              contentContainerStyle={{
+                flexGrow: 1,
+              }}
             />
+           </View>
           </View>
         )}
       </SafeAreaView>
@@ -203,6 +208,10 @@ const styles = StyleSheet.create({
 
   },
 
+  List: {
+    flex: 1,
+
+  },
   addToCartText: {
     fontSize: 20,
     textAlign: "center",
