@@ -2,22 +2,40 @@ const express = require("express");
 const mongoose = require("mongoose");
 const orders = mongoose.model("orders");
 const deliverers = mongoose.model("deliverers");
-
+const orderers = mongoose.model("orderers");
 ObjectID = require("mongodb").ObjectID;
 
 const router = express.Router();
 
+router.route("/allOrders").get(function (req, res) {
+  orders.find({}, function (err, result) {
+    if (err) {
+      res.send(err);
+    } else {
+      //console.log(result)
+      res.json(result);
+    }
+  });
+});
+
 router.route("/auth/orderStatus").get(async function (req, res) {
   const order = await orders.findOne({ orderer_id: req._id });
   console.log("this is the order: " + order);
+
   if (!order) {
-    res.status(400).send("User has no active orders.");
+    const status = "";
+    const name = "";
+    const phone_num = "";
+    res.status(200).send({
+      status: status,
+      name: name,
+      num: phone_num,
+    });
   } else {
     console.log("this is the order id: " + req._id);
     console.log("this is the order" + order);
     const orderObj = order.toObject();
     const status = orderObj.status;
-    console.log(orderObj);
     console.log("this is the status" + status);
     if (status == "pending") {
       res.status(200).send({
@@ -29,12 +47,12 @@ router.route("/auth/orderStatus").get(async function (req, res) {
         deliverer_id: orderObj.deliverer_id,
       });
 
-      const delivererObj = deliverer.toObject();
-      console.log(delivererObj);
+      //const delivererObj = deliverer.toObject();
+      //console.log(delivererObj);
       res.status(200).send({
         status: orderObj.status,
-        name: delivererObj.name,
-        num: delivererObj.phone_num,
+        //name: delivererObj.name,
+        //num: delivererObj.phone_num,
       });
     }
   }

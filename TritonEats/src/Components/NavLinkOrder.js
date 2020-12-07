@@ -22,6 +22,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     textAlign: "center",
     margin: "5%",
+    fontFamily: "Unica One",
 
   },
   background: {

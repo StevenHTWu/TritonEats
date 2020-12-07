@@ -15,6 +15,7 @@ const SignInScreen = ({ navigation }) => {
         headerText="Sign In"
         errorMessage={state.errorMessage}
         onSubmit={signin}
+        onSubmitAlt={null}
         deliverCheck=""
         submitButtonText="Sign In"
       />

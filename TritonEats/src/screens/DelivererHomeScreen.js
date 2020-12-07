@@ -8,47 +8,45 @@ import {
   TouchableOpacity,
   SafeAreaView,
 } from "react-native";
+import { navigate } from "../navigationRef";
 
 import NavBar from "../Components/NavBar";
+import { AsyncStorage } from "react-native";
+var CurrentCart = require("../Components/Cart");
+import trackerApi from "../api/tracker";
+import Loader from "../Components/Loader";
 
 class DelivererHomeScreen extends Component {
   constructor(props) {
     super(props);
-
+    this.refresh = this.refresh.bind(this);
     this.state = {
-      Restaurants: [
-        {
-          Id: "1",
-          Name: "64 Degrees to Earl Warren College  (0.9 miles)",
-          Compensation: "Estimated Earnings: $8.65 + $1.76 tip",
-        },
-        {
-          Id: "2",
-          Name: "Cafe Ventanas to The Village  (0.2 mi)",
-          Compensation: "Estimated Earnings: $5.87 + $0.89 tip",
-        },
-        {
-          Id: "3",
-          Name: "Canyon Vista to Thurgood Marshall College  (0.6 mi)",
-          Compensation: "Estimated Earnings: $7.41 + $2.03 tip",
-        },
-        {
-          Id: "4",
-          Name: "Foodworx to Sixth College  (1.2 mi)",
-          Compensation: "Estimated Earnings: $10.62 + $3.84 tip",
-        },
-        {
-          Id: "5",
-          Name: "OceanView to John Muir College  (0.5 mi)",
-          Compensation: "Estimated Earnings: $6.54 + $1.06 tip",
-        },
-        {
-          Id: "6",
-          Name: "Pines to Revelle College  (0.5)",
-          Compensation: "Estimated Earnings: $6.27 + $1.89 tip",
-        },
-      ],
+      Restaurants: [{}],
     };
+  }
+  async componentDidMount() {
+    this.refresh();
+  }
+  async refresh() {
+    console.log("Getting order list");
+    const response = await trackerApi.get("/allOrders");
+    //console.log("-----------------------");
+    console.log("-----------------------");
+    var dataset = response.data;
+    var stateUpdate = [];
+    for (var i = 0; i < dataset.length; i++) {
+      if (dataset[i].status === "pending") {
+        console.log(dataset[i]);
+        stateUpdate.push({
+          Id: i.toString(),
+          Name: dataset[i].restaurant_name,
+          Compensation: (dataset[i].total_price * 0.1).toFixed(2),
+        });
+      }
+    }
+
+    this.setState({ Restaurants: stateUpdate });
+    console.log("Update complete");
   }
 
   render() {
@@ -71,10 +69,10 @@ class DelivererHomeScreen extends Component {
               renderItem={({ item }) => (
                 <View style={styles.restaurant}>
                   <Text style={styles.name}>{item.Name}</Text>
-                  <Text style={styles.compensation}>{item.Compensation}</Text>
+                  <Text style={styles.compensation}>${item.Compensation}</Text>
 
                   <TouchableOpacity
-                    onPress={() => navigation.navigate("MenuScreen")}
+                    onPress={() => navigate("DelivererStatusScreen")}
                     style={styles.button}
                   >
                     <Text style={styles.buttonText}>Accept Job</Text>
@@ -84,10 +82,7 @@ class DelivererHomeScreen extends Component {
               keyExtractor={(item) => item.Id}
             />
 
-            <TouchableOpacity
-              onPress={() => navigation.navigate("HomeScreen")}
-              style={styles.refresh}
-            >
+            <TouchableOpacity onPress={this.refresh} style={styles.refresh}>
               <Image
                 style={styles.refreshIcon}
                 source={require("../../assets/refreshIcon.jpg")}

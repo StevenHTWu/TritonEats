@@ -83,7 +83,7 @@ router.route("/restaurantMenu/:id").get(async function (req, res) {
       menu = "dinner_menu";
     } else {
       console.log("422 error", "Restaurant is closed.");
-      return res.status(422).send({ error: "Restaurant is closed." });
+      //return res.status(422).send({ error: "Restaurant is closed." });
     }
   }
 

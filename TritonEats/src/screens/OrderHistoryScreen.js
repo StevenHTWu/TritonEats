@@ -1,45 +1,60 @@
 import React from "react";
-import { View, StyleSheet, Text, FlatList } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Text,
+  FlatList,
+  Image,
+  TouchableOpacity,
+} from "react-native";
 import { SafeAreaView } from "react-navigation";
 import HistoricalOrder from "../Components/HistoricalOrder";
 import { AsyncStorage } from "react-native";
 
 import trackerApi from "../api/tracker";
 import Loader from "../Components/Loader";
+import { navigate } from "../navigationRef";
 
 class OrderHistoryScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLoading: true,
+      isLoading: false,
       isEmpty: false,
       OrderHistory: [],
     };
   }
 
   async componentDidMount() {
-    const token = await AsyncStorage.getItem("token");
-    const AuthStr = "Bearer ".concat(token);
+    const getOrderHistory = async () => {
+      const token = await AsyncStorage.getItem("token");
+      const AuthStr = "Bearer ".concat(token);
+      this.setState({ isLoading: true });
+      const response = await trackerApi.get("/auth/history", {
+        headers: { Authorization: AuthStr },
+      });
 
-    const response = await trackerApi.get("/auth/history", {
-      headers: { Authorization: AuthStr },
+      console.log("-----------------------");
+      console.log(response.data);
+      console.log("-----------------------");
+      if (response.data.length == 0) {
+        this.setState({
+          isLoading: false,
+          isEmpty: true,
+        });
+      } else {
+        this.setState({
+          isLoading: false,
+          isEmpty: false,
+          OrderHistory: response.data,
+        });
+      }
+    };
+
+    const { navigation } = this.props;
+    this.focusListener = navigation.addListener("didFocus", () => {
+      getOrderHistory();
     });
-
-    console.log("-----------------------");
-    console.log(response.data);
-    console.log("-----------------------");
-    if (response.data.length == 0) {
-      this.setState({
-        isLoading: false,
-        isEmpty: true,
-      });
-    } else {
-      this.setState({
-        isLoading: false,
-        isEmpty: false,
-        OrderHistory: response.data,
-      });
-    }
   }
 
   render() {
@@ -51,6 +66,17 @@ class OrderHistoryScreen extends React.Component {
         {this.state.isEmpty ? (
           <>
             <Text style={styles.text}>Order History</Text>
+            <TouchableOpacity
+              onPress={() => {
+                navigate("OrderStatusScreen");
+              }}
+              style={styles.curStatusBtn}
+            >
+              <Image
+                style={styles.statusIcon}
+                source={require("../../assets/package.png")}
+              />
+            </TouchableOpacity>
             <Text style={styles.emptyMessage}>
               Order history is empty for current user.
             </Text>
@@ -58,6 +84,17 @@ class OrderHistoryScreen extends React.Component {
         ) : (
           <View style={styles.main}>
             <Text style={styles.text}>Order History</Text>
+            <TouchableOpacity
+              onPress={() => {
+                navigate("OrderStatusScreen");
+              }}
+              style={styles.curStatusBtn}
+            >
+              <Image
+                style={styles.statusIcon}
+                source={require("../../assets/package.png")}
+              />
+            </TouchableOpacity>
             <FlatList
               style={styles.main}
               data={this.state.OrderHistory}
@@ -98,7 +135,16 @@ const styles = StyleSheet.create({
     fontSize: 35,
     fontFamily: "Unica One",
     textAlign: "center",
-    paddingTop: "20%",
+    paddingTop: "40%",
+  },
+  statusIcon: {
+    width: 40,
+    height: 40,
+  },
+  curStatusBtn: {
+    padding: 30,
+    position: "absolute",
+    left: "75%",
   },
 });
 
