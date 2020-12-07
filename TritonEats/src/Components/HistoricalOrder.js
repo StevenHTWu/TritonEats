@@ -130,3 +130,4 @@ const styles = StyleSheet.create({
 });
 
 export default HistoricalOrder;
+//<Text style={styles.text}>Order Id: {this.props.orderId}</Text>

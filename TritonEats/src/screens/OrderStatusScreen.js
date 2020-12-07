@@ -89,19 +89,19 @@ class OrderStatusScreen extends Component {
         var statusText = "Waiting for Tritons to pick up!";
         var progressBar = 0.33;
         break;
-      case "picked up":
+      case "Picked up":
         var statusText =
-          "Your food has been picked up! It will arrive in 20 minutes";
+          "Your food has been Picked up! It will arrive in 20 minutes";
         var progressBar = 0.66;
         break;
-      case "delivered":
+      case "Delivered":
         var statusText =
           "Your food has arrived! Please pick up your food before it gets cold!";
         break;
       default:
         var statusText = "";
     }
-    //
+
     console.log(statusText + "this is statusText");
     return (
       <>
@@ -124,7 +124,7 @@ class OrderStatusScreen extends Component {
           </View>
         ) : (
           <>
-            {this.state.status == "delivered" ? (
+            {this.state.status == "Delivered" ? (
               <>
                 <View style={styles.container}>
                   <Text style={styles.status}>
@@ -172,7 +172,7 @@ class OrderStatusScreen extends Component {
                 Deliverer phone: {this.state.delivererPhone}
               </Text>
             </View>
-            {this.state.status == "delivered" ? (
+            {this.state.status == "Delivered" ? (
               <TouchableOpacity
                 onPress={() => {
                   complete();

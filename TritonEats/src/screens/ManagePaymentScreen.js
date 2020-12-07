@@ -79,7 +79,10 @@ const ManagePaymentScreen = ({ navigation }) => {
                 }
               >
                 {cards.map((arr) => (
-                  <Picker.Item label={arr.card_number} value={arr} />
+                  <Picker.Item
+                    label={arr.card_number}
+                    value={arr.card_number}
+                  />
                 ))}
               </Picker>
             ) : (

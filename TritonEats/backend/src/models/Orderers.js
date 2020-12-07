@@ -12,6 +12,7 @@ const orderersSchema = new mongoose.Schema(
     registration_date: String,
     email_confirmed: Boolean,
     payment_methods: Array,
+    apartment: String,
   },
   { collection: "Orderers" }
 );

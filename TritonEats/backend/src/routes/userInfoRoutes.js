@@ -5,27 +5,57 @@ const deliverer = mongoose.model("delivererInfo");
 
 const router = express.Router();
 
-router.get("/userInfo/:user_id/:isDeliverer", async (req, res) => {
-  let user_id = req.params.user_id;
-  let isDeliverer = req.params.isDeliverer;
+router.get("/auth/orderer/userInfo", async (req, res) => {
+  const ordererObj = await orderer.findOne({ orderer_id: req._id });
 
-  if (isDeliverer === "true") {
-    info = await deliverer.find({ deliverer_id: user_id }, (err, result) => {
-      if (err) {
-        res.send(err);
-      } else {
-        res.json(result);
+  let user_id = ordererObj.orderer_id;
+  console.log(user_id + "123");
+  const info = await orderer.find({ orderer_id: user_id }, (err, result) => {
+    if (err) {
+      res.send(err);
+    } else {
+      res.status(200).send({
+        address: ordererObj.address,
+      });
+    }
+  });
+});
+
+router.get("/orderer/userInfoAsDeliverer/:orderer_id", async (req, res) => {
+  console.log("ORDERER ID");
+  console.log(req.params.orderer_id);
+  const ordererObj = await orderer.findOne({
+    orderer_id: req.params.orderer_id,
+  });
+  res.json(ordererObj);
+});
+
+router.patch("/auth/orderer/userAddressUpdate", async (req, res) => {
+  const ordererObj = await orderer.findOne({ orderer_id: req._id });
+  var parameters = req.body;
+
+  var address = parameters.address;
+  var apartment = parameters.apartment;
+  var residence = parameters.residence;
+
+  let user_id = ordererObj.orderer_id;
+  const my_orderer = await orderer.findOneAndUpdate(
+    { orderer_id: user_id },
+
+    {
+      $set: {
+        address: address,
+        apartment: apartment,
+        residence: residence,
+      },
+    },
+    (err, response) => {
+      if (err) res.send(err);
+      else {
+        res.send("Updated successfully!");
       }
-    });
-  } else {
-    info = await orderer.find({ orderer_id: user_id }, (err, result) => {
-      if (err) {
-        res.send(err);
-      } else {
-        res.json(result);
-      }
-    });
-  }
+    }
+  );
 });
 
 router.patch("/userInfo/:user_id/:isDeliverer", async (req, res) => {

@@ -12,6 +12,9 @@ import {
 } from "react-native";
 import { Context as AuthContext } from "../context/AuthContext";
 import { SafeAreaView } from "react-navigation";
+import { AsyncStorage } from "react-native";
+import trackerApi from "../api/tracker";
+import { get } from "mongoose";
 
 const menu = [
   { key: "My Profile", nav: "ProfileScreen" },
@@ -21,9 +24,10 @@ const menu = [
   { key: "Change Password", nav: "PasswordScreen" },
 ];
 
+//global.cards = [{}]
 global.object = {
-  name: "mudit",
-  email: "example@ucsd.edu",
+  name: "tmp",
+  email: "tmp",
   phone_num: "1234567890",
   payment_methods: [
     {
@@ -39,20 +43,81 @@ global.object = {
       name: "Card 2",
     },
   ],
-  apartment: "212",
+  apartment: "100",
   residence: "ERC Building 1",
   address: "Gilman Drive",
   password: "1234",
   password1: "",
   password2: "",
 };
-
 global.cards = object.payment_methods;
-//global.cards = [{}]
+
+export const getUserInfo = async () => {
+  console.log("in getuserinfo");
+  const token = await AsyncStorage.getItem("token");
+  const headers = {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${token}`,
+  };
+  const response = trackerApi
+    .get("/auth/orderer/userInfo", {
+      headers: headers,
+    })
+    .then((res) => {
+      var userInfo = res.data;
+      var info = userInfo[0];
+      object.name = info.name;
+      object.email = info.email;
+      object.phone_num = info.phone_num;
+      object.payment_methods = info.payment_methods;
+      object.password = object.password; //fix this!
+      object.password1 = object.password1; //fix this!
+      object.password2 = object.password2; //fix this!
+      object.address = info.address;
+      object.residence = info.residence;
+      object.apartment = info.apartment;
+      return userInfo;
+    })
+    .catch(function (error) {
+      console.log(error);
+      return null;
+    });
+};
+
+export const setUserAddress = async (address, apartment, residence) => {
+  console.log("in setUserAddress");
+  const token = await AsyncStorage.getItem("token");
+  const headers = {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${token}`,
+  };
+  const response = trackerApi
+    .patch(
+      "/auth/orderer/userAddressUpdate",
+      {
+        address,
+        apartment,
+        residence,
+      },
+      {
+        headers: headers,
+      }
+    )
+    .then((res) => {
+      console.log("Updated...");
+      getUserInfo();
+      return;
+    })
+    .catch(function (error) {
+      console.log("error");
+      console.log(error);
+      return null;
+    });
+};
 
 const SettingsScreen = ({ navigation }) => {
   const { signout } = useContext(AuthContext);
-
+  getUserInfo();
   return (
     <SafeAreaView forceInset={{ top: "always" }}>
       <Text

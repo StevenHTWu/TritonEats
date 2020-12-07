@@ -11,8 +11,13 @@ router.route("/homescreen").get(async function (req, res) {
   var curr = new Date();
   var cDate = curr.getDate();
   var cHours = curr.getHours();
+  //cHours = 13;
   var cMins = curr.getMinutes();
   var cDay = curr.getDay();
+
+  var cDay = 1; //remove!
+  var cHours = 13; //remove!
+
   var menu;
   var day;
 
@@ -55,7 +60,8 @@ router.route("/homescreen").get(async function (req, res) {
         closeDTime = parseInt(closeDTime[0]) * 100 + parseInt(closeDTime[1]);
         if (currTime >= openBTime && currTime < closeDTime) {
           var JsonObj = {};
-          JsonObj.resName = this_res.restaurant_name;
+          JsonObj.Name = this_res.restaurant_name;
+          JsonObj.Hours = openTimeStr + " to " + closeTimeStr;
           JsonObj.openTime = openTimeStr;
           JsonObj.closeTime = closeTimeStr;
           console.log(JsonObj);

@@ -16,40 +16,105 @@ var CurrentCart = require("../Components/Cart");
 import trackerApi from "../api/tracker";
 import Loader from "../Components/Loader";
 
+import { withNavigationFocus } from "react-navigation";
+
+global.order = { order_id: "", orderer_id: "", restaurant: "" };
+
+const assignDelivererToOrder = async (order_id) => {
+  console.log("in assigning deliverer");
+  const token = await AsyncStorage.getItem("token");
+  const headers = {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${token}`,
+  };
+  const response = trackerApi
+    .patch(
+      "/auth/assignDeliverer",
+      {
+        order_set: order_id,
+      },
+      {
+        headers: headers,
+      }
+    )
+    .then((res) => {
+      console.log("Updated...");
+
+      return;
+    })
+    .catch(function (error) {
+      console.log("error");
+      console.log(error);
+      return null;
+    });
+};
+
 class DelivererHomeScreen extends Component {
   constructor(props) {
     super(props);
     this.refresh = this.refresh.bind(this);
     this.state = {
       Restaurants: [{}],
+      errorMessage: false,
     };
   }
   async componentDidMount() {
     this.refresh();
   }
+
   async refresh() {
     console.log("Getting order list");
-    const response = await trackerApi.get("/allOrders");
-    //console.log("-----------------------");
-    console.log("-----------------------");
-    var dataset = response.data;
-    var stateUpdate = [];
-    for (var i = 0; i < dataset.length; i++) {
-      if (dataset[i].status === "pending") {
-        console.log(dataset[i]);
-        stateUpdate.push({
-          Id: i.toString(),
-          Name: dataset[i].restaurant_name,
-          Compensation: (dataset[i].total_price * 0.1).toFixed(2),
-        });
+    const response = await trackerApi.get("/allOrders").then((response) => {
+      //console.log("-----------------------");
+      console.log("-----------------------");
+      var dataset = response.data;
+      var stateUpdate = [];
+      for (var i = 0; i < dataset.length; i++) {
+        if (dataset[i].status === "pending") {
+          console.log(dataset[i]);
+          stateUpdate.push({
+            Id: i.toString(),
+            Secret: dataset[i].order_id,
+            Name: dataset[i].restaurant_name,
+            Orderer_Id: dataset[i].orderer_id,
+            Compensation: (dataset[i].total_price * 0.1).toFixed(2),
+          });
+        }
       }
-    }
-
-    this.setState({ Restaurants: stateUpdate });
-    console.log("Update complete");
+      this.setState({ Restaurants: stateUpdate });
+      console.log("Update complete");
+    });
   }
 
+  async componentDidMount() {
+    this.refresh();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.isFocused !== this.props.isFocused) {
+      this.refresh();
+    }
+  }
   render() {
+    let view;
+    console.log(this.state.errorMessage);
+    if (this.state.errorMessage === true) {
+      view = (
+        <Text
+          style={{
+            backgroundColor: "red",
+            color: "white",
+            fontSize: 20,
+            padding: 10,
+            margin: 0,
+          }}
+        >
+          You already have a job active! Please complete it before continuing!
+        </Text>
+      );
+    } else {
+      view = null;
+    }
     return (
       <View style={styles.main}>
         <SafeAreaView forceInset={{ top: "always" }}>
@@ -72,7 +137,14 @@ class DelivererHomeScreen extends Component {
                   <Text style={styles.compensation}>${item.Compensation}</Text>
 
                   <TouchableOpacity
-                    onPress={() => navigate("DelivererStatusScreen")}
+                    onPress={() => {
+                      console.log(item);
+                      order.order_id = item.Secret;
+                      order.orderer_id = item.Orderer_Id;
+                      order.restaurant = item.Name;
+                      assignDelivererToOrder(order.order_id);
+                      navigate("DelivererStatusScreen");
+                    }}
                     style={styles.button}
                   >
                     <Text style={styles.buttonText}>Accept Job</Text>
@@ -89,6 +161,7 @@ class DelivererHomeScreen extends Component {
               />
               <Text style={styles.refreshText}> Click to Refresh Page</Text>
             </TouchableOpacity>
+            {view}
           </View>
         </SafeAreaView>
       </View>
@@ -128,7 +201,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   List: {
-    paddingBottom: 195,
+    paddingBottom: "10%",
   },
   icon: {
     width: "22%",
@@ -152,7 +225,7 @@ const styles = StyleSheet.create({
   refresh: {
     borderColor: "#0a2657",
     borderBottomWidth: 2,
-    width: 375,
+    width: "100%",
     backgroundColor: "white",
     flexDirection: "row",
     paddingHorizontal: "13%",
@@ -201,4 +274,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DelivererHomeScreen;
+export default withNavigationFocus(DelivererHomeScreen);

@@ -3,6 +3,7 @@ require("./models/Orderers");
 require("./models/History");
 require("./models/ResMenu");
 require("./models/Orders");
+require("./models/UserInfo");
 require("./models/Deliverers");
 require("./models/resHours");
 //require("./models/User"); This line is present in the index.js Wei sent me, but there is no User model so I commented it out
@@ -17,7 +18,8 @@ const ordersRoutes = require("./routes/ordersRoutes");
 const historyRoutes = require("./routes/historyRoutes");
 const resMenuRoutes = require("./routes/resMenuRoutes");
 const resHoursRoutes = require("./routes/resHoursRoutes");
-
+const userInfoRoutes = require("./routes/userInfoRoutes");
+const deliveryStatusRoutes = require("./routes/deliveryStatusRoutes");
 const requireAuth = require("./middlewares/requireAuth");
 
 const app = express();
@@ -29,10 +31,11 @@ app.use(authRoutes);
 app.use(resHoursRoutes);
 app.use(orderersRoutes);
 app.use(deliverersRoutes);
+app.use(deliveryStatusRoutes);
 app.use(resMenuRoutes);
 app.use(ordersRoutes);
 app.use(historyRoutes);
-
+app.use(userInfoRoutes);
 
 const mongoUri =
   "mongodb+srv://tritoneats:cse110fa20@cluster0.bkbuy.mongodb.net/TritonEats?retryWrites=true&w=majority";

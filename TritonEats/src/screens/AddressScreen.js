@@ -59,15 +59,19 @@ const residences = [
   "Village: West Building (1-8)",
   "Village: East Building (1-5)",
 ];
+
 const AddressScreen = ({ navigation }) => {
   //const [response, setResponse] = useState();
+
   const [selectedValue, setSelectedValue] = useState(object.residence);
   const [alternateSelect, setAlternateSelect] = useState(true);
   const [apartmentValue, setApartmentValue] = useState(object.apartment);
   const [addressValue, setAddressValue] = useState(object.address);
+
   const changeSelect = () => {
     setAlternateSelect((alternateSelect) => !alternateSelect);
   };
+
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View style={styles.container}>
@@ -295,7 +299,9 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
   },
 });
+
 export default AddressScreen;
+
 /*
 "Revelle: Hawai'i", "Revelle: Molokai'i", "Revelle: Kaho'olawe", "Revelle: Maui", "Revelle: Lana'l",
 "Revelle: O'ahu", "Revelle: Ni'ihau", "Revelle: Kaua'i",

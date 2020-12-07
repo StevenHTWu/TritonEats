@@ -51,7 +51,16 @@ class AddCardScreen extends Component {
   */
   constructor(props) {
     super(props);
-    this.state = { cardNum: "1234-5678-1234-5678" };
+    this.state = {
+      cardNum: "",
+      wrongCardNum: false,
+      wrongDate: false,
+      wrongCVV: false,
+      wrongName: false,
+      shortCardNum: false,
+      wrongLengthDate: false,
+      wrongLengthCVV: false,
+    };
   }
 
   render() {
@@ -85,12 +94,43 @@ class AddCardScreen extends Component {
                 placeholder={"1234-5678-1234-5678"}
                 keyboardType="number-pad"
               />
+              {this.state.wrongCardNum == true ? (
+                <Text
+                  style={{
+                    fontSize: 15,
+                    fontFamily: "Unica One",
+                    color: "red",
+                    marginLeft: "2%",
+                    marginTop: "1%",
+                  }}
+                >
+                  Card number is not entered.
+                </Text>
+              ) : (
+                <></>
+              )}
+
+              {this.state.shortCardNum == true ? (
+                <Text
+                  style={{
+                    fontSize: 15,
+                    fontFamily: "Unica One",
+                    color: "red",
+                    marginLeft: "2%",
+                    marginTop: "1%",
+                  }}
+                >
+                  Card number should be 16 digits.
+                </Text>
+              ) : (
+                <></>
+              )}
             </View>
 
             <View
-              style={{ flexDirection: "row", height: "15%", marginTop: "3%" }}
+              style={{ flexDirection: "row", height: "12%", marginTop: "4%" }}
             >
-              <View style={{ width: "70%", height: 35 }}>
+              <View style={{ width: "60%", height: "40%" }}>
                 <Text
                   style={{
                     fontSize: 20,
@@ -111,8 +151,39 @@ class AddCardScreen extends Component {
                   placeholder={"MM/YY"}
                   keyboardType="number-pad"
                 />
+                {this.state.wrongDate == true ? (
+                  <Text
+                    style={{
+                      fontSize: 15,
+                      fontFamily: "Unica One",
+                      color: "red",
+                      marginLeft: "3.5%",
+                      marginTop: "1%",
+                    }}
+                  >
+                    Expiry Date is not entered.
+                  </Text>
+                ) : (
+                  <></>
+                )}
+
+                {this.state.wrongLengthDate == true ? (
+                  <Text
+                    style={{
+                      fontSize: 15,
+                      fontFamily: "Unica One",
+                      color: "red",
+                      marginLeft: "2.1%",
+                      marginTop: "1%",
+                    }}
+                  >
+                    Expiry Date should be 4 digits MM/YY.
+                  </Text>
+                ) : (
+                  <></>
+                )}
               </View>
-              <View style={{ width: "30%", height: 35 }}>
+              <View style={{ width: "40%", height: "40%" }}>
                 <Text
                   style={{
                     fontSize: 20,
@@ -134,10 +205,41 @@ class AddCardScreen extends Component {
                   style={styles.textInCVV}
                   placeholder={"CVV"}
                 />
+                {this.state.wrongCVV == true ? (
+                  <Text
+                    style={{
+                      fontSize: 15,
+                      fontFamily: "Unica One",
+                      color: "red",
+                      marginLeft: "5%",
+                      marginTop: "1%",
+                    }}
+                  >
+                    CVV is not entered.
+                  </Text>
+                ) : (
+                  <></>
+                )}
+
+                {this.state.wrongLengthCVV == true ? (
+                  <Text
+                    style={{
+                      fontSize: 15,
+                      fontFamily: "Unica One",
+                      color: "red",
+                      marginLeft: "5%",
+                      marginTop: "1%",
+                    }}
+                  >
+                    CVV should be 3 digits.
+                  </Text>
+                ) : (
+                  <></>
+                )}
               </View>
             </View>
 
-            <View style={{ width: "100%", height: 35, marginTop: "2%" }}>
+            <View style={{ width: "100%", height: "15%", marginTop: "6%" }}>
               <Text
                 style={{
                   fontSize: 20,
@@ -156,11 +258,58 @@ class AddCardScreen extends Component {
                 style={styles.textIn}
                 placeholder={"CardHolder Name"}
               />
+              {this.state.wrongName == true ? (
+                <Text
+                  style={{
+                    fontSize: 15,
+                    fontFamily: "Unica One",
+                    color: "red",
+                    marginLeft: "2.1%",
+                    marginTop: "1%",
+                  }}
+                >
+                  Cardholder Name is not entered.
+                </Text>
+              ) : (
+                <></>
+              )}
             </View>
 
             <View style={styles.layer2}>
               <TouchableOpacity
                 onPress={() => {
+                  this.setState({ wrongCardNum: false });
+                  this.setState({ wrongDate: false });
+                  this.setState({ wrongCVV: false });
+                  this.setState({ wrongName: false });
+                  this.setState({ shortCardNum: false });
+                  this.setState({ wrongLengthDate: false });
+                  this.setState({ wrongLengthCVV: false });
+                  if (this.state.cardNum == "") {
+                    this.setState({ wrongCardNum: true });
+                  } else if (this.state.cardNum.length < 16) {
+                    this.setState({ shortCardNum: true });
+                  }
+                  if (this.state.date == null) {
+                    this.setState({ wrongDate: true });
+                  } else if (
+                    this.state.date.length < 4 ||
+                    this.state.date.length > 4
+                  ) {
+                    this.setState({ wrongLengthDate: true });
+                  }
+                  if (this.state.cvv == null) {
+                    this.setState({ wrongCVV: true });
+                  } else if (
+                    this.state.cvv.length < 3 ||
+                    this.state.cvv.length > 3
+                  ) {
+                    this.setState({ wrongLengthCVV: true });
+                  }
+                  if (this.state.name == null) {
+                    this.setState({ wrongName: true });
+                  }
+
                   if (
                     this.state.cardNum != null &&
                     this.state.date != null &&

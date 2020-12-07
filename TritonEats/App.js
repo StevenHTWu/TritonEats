@@ -35,6 +35,8 @@ import DelivererJobHistoryScreen from "./src/screens/DelivererJobHistoryScreen";
 import DelivererSettingsScreen from "./src/screens/DelivererSettingsScreen";
 import DelivererStatusScreen from "./src/screens/DelivererStatusScreen";
 
+console.disableYellowBox = true;
+
 const switchNavigator = createSwitchNavigator({
   ResolveAuthScreen: ResolveAuthScreen,
   loginFlow: createStackNavigator({
@@ -72,7 +74,7 @@ const switchNavigator = createSwitchNavigator({
         AddressScreen: AddressScreen,
         AddCardFromSettingsScreen: AddCardFromSettingsScreen,
         ManagePaymentScreen: ManagePaymentScreen,
-        PasswordScreen: PasswordScreen
+        PasswordScreen: PasswordScreen,
       }),
     },
     {
@@ -102,8 +104,8 @@ const switchNavigator = createSwitchNavigator({
   }),
   DelivererMainFlow: createBottomTabNavigator(
     {
-      DelivererHomeScreen: createStackNavigator({
-        Home: DelivererHomeScreen,
+      Home: createStackNavigator({
+        DelivererHomeScreen: DelivererHomeScreen,
         DelivererStatusScreen: DelivererStatusScreen,
       }),
       DelivererJobHistoryScreen: {

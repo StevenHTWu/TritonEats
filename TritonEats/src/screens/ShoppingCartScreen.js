@@ -33,7 +33,7 @@ var order_arr = [
 
 switch (CurrentCart.restaurant_name) {
   case "Pines":
-    var title_image = require("../../assets/Pinsalmon.jpg");
+    var title_image = require("../../assets/64burrito.jpg");
     break;
   case "Oceanview":
     var title_image = require("../../assets/OVpizza.jpg");
@@ -57,6 +57,20 @@ class ShoppingCartScreen extends React.Component {
     this.state = { refresh: false, data: CurrentCart.order_arr };
   }
 
+  componentDidUpdate(prevProps) {
+    if (
+      prevProps.isFocused !== this.props.isFocused &&
+      this.props.isFocused == true
+    ) {
+      setTimeout(() => {
+        if (this.timerFlatlistRef)
+          this.timerFlatlistRef.scrollToIndex({
+            animated: false,
+            index: 0,
+          });
+      }, 10);
+    }
+  }
   render() {
     return (
       <View style={styles.container}>

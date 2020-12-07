@@ -1,7 +1,7 @@
 var CurrentCart = {
   restaurant_name: "",
   order_arr: [],
-
+  viewing_restaurant: "",
   changeName: function (name) {
     this.resturant_name = name;
   },
