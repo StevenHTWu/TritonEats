@@ -4,6 +4,7 @@ require("./Models/History");
 require("./models/ResMenu");
 require("./models/Orders");
 require("./Models/Deliverers");
+require("./Models/UserInfo");
 //require("./models/User"); This line is present in the index.js Wei sent me, but there is no User model so I commented it out
 
 const express = require("express");
@@ -15,6 +16,7 @@ const deliverersRoutes = require("./routes/delivererRoutes");
 const ordersRoutes = require("./routes/ordersRoutes");
 const historyRoutes = require("./routes/historyRoutes");
 const resMenuRoutes = require("./routes/resMenuRoutes");
+const userInfoRoutes = require("./routes/userInfoRoutes");
 
 const requireAuth = require("./middlewares/requireAuth");
 
@@ -29,6 +31,7 @@ app.use(deliverersRoutes);
 app.use(resMenuRoutes);
 app.use(ordersRoutes);
 app.use(historyRoutes);
+app.use(userInfoRoutes);
 
 const mongoUri =
   "mongodb+srv://tritoneats:cse110fa20@cluster0.bkbuy.mongodb.net/TritonEats?retryWrites=true&w=majority";
