@@ -65,27 +65,38 @@ class DelivererHomeScreen extends Component {
   async refresh() {
     console.log("Getting order list");
     const token = await AsyncStorage.getItem("token");
-    const response = await trackerApi.get("/allOrders").then((response) => {
-      //console.log("-----------------------");
-      console.log("-----------------------");
-      
-      var dataset = response.data;
-      var stateUpdate = [];
-      for (var i = 0; i < dataset.length; i++) {
-        if (dataset[i].status === "pending" || (dataset[i].status === "Picked Up" && dataset[i].deliverer_id === token)) {
-          console.log(dataset[i]);
-          stateUpdate.push({
-            Id: i.toString(),
-            Secret: dataset[i].order_id,
-            Name: dataset[i].restaurant_name,
-            Orderer_Id: dataset[i].orderer_id,
-            Compensation: (dataset[i].total_price * 0.1).toFixed(2),
-          });
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    };
+    const id = await trackerApi.get("/auth/deliverer_id", { headers : headers }).then((res) => {
+      const response = trackerApi.get("/allOrders").then((response) => {
+        //console.log("-----------------------");
+        console.log("-----------------------");
+        
+        var dataset = response.data;
+        var stateUpdate = [];
+        for (var i = 0; i < dataset.length; i++) {
+          console.log(res.data);
+          if (dataset[i].status === "pending" || (dataset[i].status === "Picked Up" && dataset[i].deliverer_id === res.data)) {
+            console.log(dataset[i]);
+            stateUpdate.push({
+              Id: i.toString(),
+              Secret: dataset[i].order_id,
+              Name: dataset[i].restaurant_name,
+              Orderer_Id: dataset[i].orderer_id,
+              Compensation: (dataset[i].total_price * 0.1).toFixed(2),
+            });
+          }
         }
-      }
-      this.setState({ Restaurants: stateUpdate });
-      console.log("Update complete");
-    });
+        this.setState({ Restaurants: stateUpdate });
+        console.log("Update complete");
+      });
+
+
+
+    },);
+    
   }
 
   async componentDidMount() {
