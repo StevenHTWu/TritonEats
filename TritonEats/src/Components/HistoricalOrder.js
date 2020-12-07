@@ -66,6 +66,9 @@ class HistoricalOrder extends React.Component{
                         onPress={() => {
                           CurrentCart.emptyOrderArr();
                           CurrentCart.order_arr = this.props.items;
+                          CurrentCart.restaurant_name = this.props.restaurant;
+                          CurrentCart.viewing_restaurant = this.props.restaurant;
+                          console.log(CurrentCart.restaurant_name);
                           console.log(CurrentCart.order_arr);
                           navigate("ShoppingCartScreen");
                         }}

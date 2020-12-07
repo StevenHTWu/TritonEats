@@ -35,7 +35,7 @@ switch (CurrentCart.restaurant_name) {
   case "Pines":
     var title_image = require("../../assets/64burrito.jpg");
     break;
-  case "Oceanview":
+  case "OceanView":
     var title_image = require("../../assets/OVpizza.jpg");
     break;
   default:
