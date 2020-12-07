@@ -87,15 +87,21 @@ class ShoppingCartScreen extends React.Component {
         >
           <View
             style={{
-              flex: 1,
               justifyContent: "center",
               alignItems: "center",
-              width: "100%",
+              width: "90%",
+              height: "40%",
+              borderWidth: 2,
+              borderColor: "#FFD700",
+              backgroundColor: "#0a2657",
+              paddingHorizontal: "6%",
+              
             }}
           >
             <Text style={styles.titleText}>
               Your Order From {CurrentCart.viewing_restaurant}
             </Text>
+            
           </View>
         </ImageBackground>
 
@@ -242,14 +248,8 @@ const styles = StyleSheet.create({
   titleText: {
     color: "#FFD700",
     fontSize: 35,
-    width: "90%",
     fontWeight: "bold",
     textAlign: "center",
-    paddingHorizontal: "10%",
-    paddingVertical: "5%",
-    borderWidth: 2,
-    borderColor: "#FFD700",
-    backgroundColor: "#0a2657",
   },
   listView: {
     flex: 1,
