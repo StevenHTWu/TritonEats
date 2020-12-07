@@ -22,12 +22,18 @@ import { Provider as AuthProvider } from "./src/context/AuthContext";
 import { setNavigator } from "./src/navigationRef";
 import ResolveAuthScreen from "./src/screens/ResolveAuthScreen";
 import MenuScreen from "./src/screens/MenuScreen";
+import AddCardFromSettingsScreen from "./src/screens/AddCardFromSettingsScreen";
+import ManagePaymentScreen from "./src/screens/ManagePaymentScreen";
+import ProfileScreen from "./src/screens/ProfileScreen";
+import AddressScreen from "./src/screens/AddressScreen";
+import PasswordScreen from "./src/screens/PasswordScreen";
 import OrderStatusScreen from "./src/screens/OrderStatusScreen";
 
 // Deliver Side Imports
 import DelivererHomeScreen from "./src/screens/DelivererHomeScreen";
 import DelivererJobHistoryScreen from "./src/screens/DelivererJobHistoryScreen";
 import DelivererSettingsScreen from "./src/screens/DelivererSettingsScreen";
+import DelivererStatusScreen from "./src/screens/DelivererStatusScreen";
 
 const switchNavigator = createSwitchNavigator({
   ResolveAuthScreen: ResolveAuthScreen,
@@ -54,12 +60,20 @@ const switchNavigator = createSwitchNavigator({
         AddCardScreen: AddCardScreen,
         OrderStatusScreen: OrderStatusScreen,
       }),
-      SettingsScreen: {
+      /*SettingsScreen: {
         screen: SettingsScreen,
         navigationOptions: {
           title: "Settings",
         },
-      },
+      },*/
+      Settings: createStackNavigator({
+        SettingsScreen: SettingsScreen,
+        ProfileScreen: ProfileScreen,
+        AddressScreen: AddressScreen,
+        AddCardFromSettingsScreen: AddCardFromSettingsScreen,
+        ManagePaymentScreen: ManagePaymentScreen,
+        PasswordScreen: PasswordScreen
+      }),
     },
     {
       defaultNavigationOptions: ({ navigation }) => ({
@@ -90,6 +104,7 @@ const switchNavigator = createSwitchNavigator({
     {
       DelivererHomeScreen: createStackNavigator({
         Home: DelivererHomeScreen,
+        DelivererStatusScreen: DelivererStatusScreen,
       }),
       DelivererJobHistoryScreen: {
         screen: DelivererJobHistoryScreen,

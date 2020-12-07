@@ -85,7 +85,7 @@ class MenuScreen extends Component {
             </Text>
             <Image
               style={styles.topImage}
-              source={require("../../assets/Pinburrito.jpg")}
+              source={require("../../assets/Pinsalmon.jpg")}
             />
             <FlatList
               data={this.state.RestaurantMenu}

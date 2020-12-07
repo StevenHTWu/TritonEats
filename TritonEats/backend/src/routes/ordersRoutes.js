@@ -36,12 +36,12 @@ router.route("/auth/orderStatus").get(async function (req, res) {
         deliverer_id: orderObj.deliverer_id,
       });
 
-      //const delivererObj = deliverer.toObject();
-      //console.log(delivererObj);
+      const delivererObj = deliverer.toObject();
+      console.log(delivererObj);
       res.status(200).send({
         status: orderObj.status,
-        //name: delivererObj.name,
-        //num: delivererObj.phone_num,
+        name: delivererObj.name,
+        num: delivererObj.phone_num,
       });
     }
   }

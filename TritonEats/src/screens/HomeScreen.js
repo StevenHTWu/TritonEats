@@ -5,19 +5,16 @@ import {
   View,
   StyleSheet,
   Image,
-  ScrollView,
   TouchableOpacity,
-  Dimensions,
-  ImageBackground,
+  SafeAreaView,
 } from "react-native";
-import { SafeAreaView } from "react-navigation";
 
 import NavBar from "../Components/NavBar";
 import foodWorx from "../../assets/FWsandwich.jpg";
-import pines from "../../assets/Pinburrito.jpg";
+import pines from "../../assets/Pinsalmon.jpg";
 import clubMed from "../../assets/CMfish.jpg";
 import canVista from "../../assets/CanVnoodles.jpg";
-import degrees from "../../assets/64salmon.jpg";
+import degrees from "../../assets/64burrito.jpg";
 import cafeV from "../../assets/CafeVsalad.jpg";
 import oceanView from "../../assets/OVpizza.jpg";
 
@@ -30,26 +27,56 @@ class HomeScreen extends Component {
 
     this.state = {
       Restaurants: [
-        { Id: "1", Image: degrees, Name: "64 Degrees", Hours: "7 am to 9 pm" },
-        { Id: "2", Image: cafeV, Name: "Cafe Ventanas", Hours: "7 am to 9 pm" },
+        {
+          Id: "1",
+          Image: degrees,
+          Name: "64 Degrees",
+          Hours: "7 am to 9 pm",
+        },
+        {
+          Id: "2",
+          Image: cafeV,
+          Name: "Cafe Ventanas",
+          Hours: "7 am to 9 pm",
+        },
         {
           Id: "3",
           Image: canVista,
           Name: "Canyon Vista",
           Hours: "7 am to 9 pm",
         },
-        { Id: "4", Image: clubMed, Name: "Club Med", Hours: "7 am to 9 pm" },
-        { Id: "5", Image: foodWorx, Name: "Foodworx", Hours: "7 am to 9 pm" },
-        { Id: "6", Image: oceanView, Name: "OceanView", Hours: "7 am to 9 pm" },
-        { Id: "7", Image: pines, Name: "Pines", Hours: "7 am to 9 pm" },
+        {
+          Id: "4",
+          Image: clubMed,
+          Name: "Club Med",
+          Hours: "7 am to 9 pm",
+        },
+        {
+          Id: "5",
+          Image: foodWorx,
+          Name: "Foodworx",
+          Hours: "7 am to 9 pm",
+        },
+        {
+          Id: "6",
+          Image: oceanView,
+          Name: "OceanView",
+          Hours: "7 am to 9 pm",
+        },
+        {
+          Id: "7",
+          Image: pines,
+          Name: "Pines",
+          Hours: "7 am to 9 pm",
+        },
       ],
     };
   }
 
   render() {
     return (
-      <SafeAreaView forceInset={{ top: "always" }}>
-        <View style={styles.main}>
+      <View style={styles.main}>
+        <SafeAreaView forceInset={{ top: "always" }}>
           <View style={styles.Container}>
             <View style={styles.LogoRow}>
               <Image
@@ -81,11 +108,12 @@ class HomeScreen extends Component {
               keyExtractor={(item) => item.Id}
             />
           </View>
-        </View>
-      </SafeAreaView>
+        </SafeAreaView>
+      </View>
     );
   }
 }
+
 HomeScreen.navigationOptions = () => {
   return {
     header: () => false,
@@ -118,7 +146,7 @@ const styles = StyleSheet.create({
     marginRight: "20%",
   },
   List: {
-    paddingBottom: 300,
+    paddingBottom: 200,
   },
   icon: {
     width: "22%",
@@ -139,14 +167,12 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
   },
   Container: {
-    marginTop: 10,
-    marginBottom: 15,
+    marginTop: 5,
     marginRight: 10,
   },
   LogoRow: {
     flexDirection: "row",
-    marginTop: "5%",
-    marginLeft: "5%",
+    marginHorizontal: "6%",
   },
   LogoImg: {
     width: 50,

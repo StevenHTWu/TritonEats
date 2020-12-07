@@ -13,7 +13,7 @@ import {
 import { AsyncStorage } from "react-native";
 import trackerApi from "../api/tracker";
 import Loader from "../Components/Loader";
-import * as Progress from 'react-native-progress';
+import * as Progress from "react-native-progress";
 import { navigate } from "../navigationRef";
 
 const complete = async () => {
@@ -36,11 +36,15 @@ const complete = async () => {
 class OrderStatusScreen extends Component {
   constructor(props) {
     super(props);
-    this.state = { isLoading: false, status: "", delivererName: "", delivererPhone: "" };
+    this.state = {
+      isLoading: false,
+      status: "",
+      delivererName: "",
+      delivererPhone: "",
+    };
   }
 
   componentDidMount() {
-
     const getDelivererStatus = async () => {
       console.log("get mount");
       this.setState({ isLoading: true });
@@ -69,7 +73,7 @@ class OrderStatusScreen extends Component {
     const { navigation } = this.props;
     this.focusListener = navigation.addListener("didFocus", () => {
       getDelivererStatus();
-      console.log(this.state.status+ "curStats");
+      console.log(this.state.status + "curStats");
     });
   }
 
@@ -85,19 +89,19 @@ class OrderStatusScreen extends Component {
         var statusText = "Waiting for Tritons to pick up!";
         var progressBar = 0.33;
         break;
-      case "picked up":
+      case "Picked up":
         var statusText =
-          "Your food has been picked up! It will arrive in 20 minutes";
+          "Your food has been Picked up! It will arrive in 20 minutes";
         var progressBar = 0.66;
         break;
-      case "delivered":
+      case "Delivered":
         var statusText =
           "Your food has arrived! Please pick up your food before it gets cold!";
         break;
       default:
         var statusText = "";
     }
-//
+
     console.log(statusText + "this is statusText");
     return (
       <>
@@ -112,66 +116,77 @@ class OrderStatusScreen extends Component {
         >
           Order Status
         </Text>
-          {this.state.status == "" ? (
-            <View style={styles.container}>
-              <Text style={styles.status}>
-                No order is placed! Are you craving for food?
+        {this.state.status == "" ? (
+          <View style={styles.container}>
+            <Text style={styles.status}>
+              No order is placed! Are you craving for food?
+            </Text>
+          </View>
+        ) : (
+          <>
+            {this.state.status == "Delivered" ? (
+              <>
+                <View style={styles.container}>
+                  <Text style={styles.status}>
+                    Thank you for ordering from TritonEats!
+                  </Text>
+                </View>
+                <Text style={styles.tracking}>Delivery Tracking</Text>
+                <Image
+                  style={styles.checkMark}
+                  source={require("../../assets/check.png")}
+                />
+                <Progress.Bar
+                  style={{ alignSelf: "center", marginTop: 20, borderWidth: 2 }}
+                  progress={1}
+                  width={300}
+                  color="rgba(0, 223, 118, 1)"
+                />
+              </>
+            ) : (
+              <>
+                <View style={styles.container}>
+                  <Text style={styles.status}>
+                    Thank you for ordering from TritonEats! Your food will be
+                    here shortly!
+                  </Text>
+                </View>
+                <Text style={styles.tracking}>Delivery Tracking</Text>
+                <Progress.Bar
+                  style={{ alignSelf: "center", marginTop: 50, borderWidth: 2 }}
+                  progress={progressBar}
+                  width={300}
+                  color="#0a2657"
+                />
+              </>
+            )}
+
+            <View style={styles.deliverStatus}>
+              <View style={{ borderBottomWidth: 1 }}>
+                <Text style={styles.deliverStatusText}>{statusText}</Text>
+              </View>
+              <Text style={styles.delivererInfo}>
+                Deliverer name: {this.state.delivererName}
+              </Text>
+              <Text style={styles.delivererInfo}>
+                Deliverer phone: {this.state.delivererPhone}
               </Text>
             </View>
-            
-          ) : (
-            <>
-              {this.state.status == "delivered" ? (
-                <>
-                  <View style={styles.container}>
-                    <Text style={styles.status}>
-                      Thank you for ordering from TritonEats!
-                    </Text>
-                </View>
-                  <Text style={styles.tracking}>
-                    Delivery Tracking
-                  </Text>
-                  <Image
-                    style={styles.checkMark}
-                    source={require("../../assets/check.png")}
-                  />
-                  <Progress.Bar style={{alignSelf: "center", marginTop: 20, borderWidth: 2}} progress={1} width={300} color="rgba(0, 223, 118, 1)"/>
-                </>
-              ) : (
-                <>
-                  <View style={styles.container}>
-                    <Text style={styles.status}>
-                      Thank you for ordering from TritonEats! Your food will be here
-                      shortly!
-                    </Text>
-                  </View>
-                  <Text style={styles.tracking}>
-                    Delivery Tracking
-                  </Text>
-                  <Progress.Bar style={{alignSelf: "center", marginTop: 50, borderWidth: 2}} progress={progressBar} width={300} color="#0a2657"/>
-                </>
-              )}
-              
-              <View style={styles.deliverStatus}>
-                <View style={{borderBottomWidth: 1}}>
-                  <Text style={styles.deliverStatusText}>{statusText}</Text>
-                </View>
-                <Text style={styles.delivererInfo}>Deliverer name: {this.state.delivererName}</Text>
-                <Text style={styles.delivererInfo}>Deliverer phone: {this.state.delivererPhone}</Text>
-              </View>
-              {this.state.status == "delivered" ? (
-              <TouchableOpacity onPress={() => {
-                complete();
-                navigate("HomeScreen");
-                }} style={styles.completeBtn}>
+            {this.state.status == "Delivered" ? (
+              <TouchableOpacity
+                onPress={() => {
+                  complete();
+                  navigate("HomeScreen");
+                }}
+                style={styles.completeBtn}
+              >
                 <Text style={styles.completeText}>Complete</Text>
               </TouchableOpacity>
-              ) : (<></>)}
-              
-            </>
-            
-          )}
-        
+            ) : (
+              <></>
+            )}
+          </>
+        )}
       </>
     );
   }
@@ -190,20 +205,20 @@ const styles = StyleSheet.create({
     marginTop: 10,
     padding: 10,
     borderRadius: 20,
-    margin: 10
+    margin: 10,
   },
   status: {
     fontSize: 25,
     fontFamily: "Unica One",
     color: "#FFD700",
-    textAlign: "center"
+    textAlign: "center",
   },
   tracking: {
     fontSize: 25,
     fontFamily: "Unica One",
     paddingLeft: 20,
     paddingTop: 10,
-    fontWeight: '900'
+    fontWeight: "900",
   },
   deliverStatus: {
     marginTop: 50,
@@ -211,36 +226,36 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     padding: 10,
     marginLeft: 10,
-    marginRight: 10
+    marginRight: 10,
   },
   deliverStatusText: {
     fontSize: 25,
     fontFamily: "Unica One",
     textAlign: "center",
-    paddingBottom: 10
+    paddingBottom: 10,
   },
   delivererInfo: {
     fontSize: 25,
     fontFamily: "Unica One",
-    paddingTop: 10
+    paddingTop: 10,
   },
   checkMark: {
     marginTop: 30,
     width: 80,
     height: 80,
-    alignSelf: "center"
+    alignSelf: "center",
   },
   completeBtn: {
     alignSelf: "center",
     backgroundColor: "rgba(0, 223, 118, 1)",
     padding: 10,
     borderRadius: 20,
-    marginTop: 15
+    marginTop: 15,
   },
   completeText: {
     fontFamily: "Unica One",
     fontSize: 25,
-  }
+  },
 });
 
 export default OrderStatusScreen;

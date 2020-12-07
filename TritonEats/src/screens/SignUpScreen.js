@@ -6,7 +6,9 @@ import AuthForm from "../Components/AuthForm";
 import NavLink from "../Components/NavLink";
 
 const SignUpScreen = ({ navigation }) => {
-  const { state, signup, clearErrorMessage } = useContext(AuthContext);
+  const { state, signup, clearErrorMessage, signupDeliv } = useContext(
+    AuthContext
+  );
 
   return (
     <>
@@ -16,8 +18,9 @@ const SignUpScreen = ({ navigation }) => {
           headerText="Sign Up"
           errorMessage={state.errorMessage}
           submitButtonText="Sign Up"
-          deliverCheck="true"
+          deliverCheck="false"
           onSubmit={signup}
+          onSubmitAlt={signupDeliv}
         />
         <NavLink
           routeName="SignInScreen"

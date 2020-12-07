@@ -5,23 +5,200 @@ import {
   View,
   StyleSheet,
   Image,
-  ScrollView,
   TouchableOpacity,
-  Dimensions,
-  ImageBackground,
+  SafeAreaView,
 } from "react-native";
+import { navigate } from "../navigationRef";
+
+import NavBar from "../Components/NavBar";
+import { AsyncStorage } from "react-native";
+var CurrentCart = require("../Components/Cart");
+import trackerApi from "../api/tracker";
+import Loader from "../Components/Loader";
 
 class DelivererHomeScreen extends Component {
+  constructor(props) {
+    super(props);
+    this.refresh = this.refresh.bind(this);
+    this.state = {
+      Restaurants: [{}],
+    };
+  }
+  async componentDidMount() {
+    this.refresh();
+  }
+  async refresh() {
+    console.log("Getting order list");
+    const response = await trackerApi.get("/allOrders");
+    //console.log("-----------------------");
+    console.log("-----------------------");
+    var dataset = response.data;
+    var stateUpdate = [];
+    for (var i = 0; i < dataset.length; i++) {
+      if (dataset[i].status === "pending") {
+        console.log(dataset[i]);
+        stateUpdate.push({
+          Id: i.toString(),
+          Name: dataset[i].restaurant_name,
+          Compensation: (dataset[i].total_price * 0.1).toFixed(2),
+        });
+      }
+    }
+
+    this.setState({ Restaurants: stateUpdate });
+    console.log("Update complete");
+  }
+
   render() {
-    return <Text>Deliverer Home Screen</Text>;
+    return (
+      <View style={styles.main}>
+        <SafeAreaView forceInset={{ top: "always" }}>
+          <View style={styles.Container}>
+            <View style={styles.LogoRow}>
+              <Image
+                style={styles.LogoImg}
+                source={require("../../assets/TritonLogo.png")}
+              />
+              <Text style={styles.LogoFont}>Triton Eats</Text>
+            </View>
+          </View>
+
+          <View style={styles.List}>
+            <FlatList
+              data={this.state.Restaurants}
+              renderItem={({ item }) => (
+                <View style={styles.restaurant}>
+                  <Text style={styles.name}>{item.Name}</Text>
+                  <Text style={styles.compensation}>${item.Compensation}</Text>
+
+                  <TouchableOpacity
+                    onPress={() => navigate("DelivererStatusScreen")}
+                    style={styles.button}
+                  >
+                    <Text style={styles.buttonText}>Accept Job</Text>
+                  </TouchableOpacity>
+                </View>
+              )}
+              keyExtractor={(item) => item.Id}
+            />
+
+            <TouchableOpacity onPress={this.refresh} style={styles.refresh}>
+              <Image
+                style={styles.refreshIcon}
+                source={require("../../assets/refreshIcon.jpg")}
+              />
+              <Text style={styles.refreshText}> Click to Refresh Page</Text>
+            </TouchableOpacity>
+          </View>
+        </SafeAreaView>
+      </View>
+    );
   }
 }
+
 DelivererHomeScreen.navigationOptions = () => {
   return {
     header: () => false,
   };
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  main: {
+    alignItems: "center",
+    backgroundColor: "white",
+  },
+  image: {
+    width: 375,
+    height: 175,
+  },
+  name: {
+    fontSize: 24,
+    color: "#FFD700",
+    fontFamily: "Unica One",
+    textAlign: "center",
+    paddingLeft: "5%",
+    paddingRight: "5%",
+    marginHorizontal: 20,
+  },
+  compensation: {
+    fontSize: 21,
+    color: "white",
+    fontFamily: "Unica One",
+    textAlign: "center",
+    flexDirection: "row",
+  },
+  List: {
+    paddingBottom: 195,
+  },
+  icon: {
+    width: "22%",
+    height: "80%",
+    marginLeft: "3%",
+  },
+  info: {
+    flexDirection: "row",
+  },
+  refreshIcon: {
+    width: 25,
+    height: 25,
+    marginVertical: 5,
+  },
+  refreshText: {
+    fontFamily: "Unica One",
+    textAlign: "center",
+    fontSize: 28,
+    color: "black",
+  },
+  refresh: {
+    borderColor: "#0a2657",
+    borderBottomWidth: 2,
+    width: 375,
+    backgroundColor: "white",
+    flexDirection: "row",
+    paddingHorizontal: "13%",
+  },
+  buttonText: {
+    color: "#FFD700",
+    fontFamily: "Unica One",
+    textAlign: "center",
+    fontSize: 20,
+  },
+  button: {
+    backgroundColor: "#0a2657",
+    borderColor: "#FFD700",
+    borderWidth: 1,
+    width: 150,
+    alignItems: "center",
+    alignSelf: "center",
+    marginTop: 5,
+    paddingVertical: 5,
+    paddingHorizontal: 5,
+  },
+  restaurant: {
+    backgroundColor: "#0a2657",
+    paddingVertical: "5%",
+    width: 375,
+    marginTop: 0,
+    marginBottom: 5,
+  },
+  LogoFont: {
+    fontSize: 55,
+    fontFamily: "Unica One",
+    paddingLeft: 20,
+  },
+  Container: {
+    //marginTop: 10,
+    //marginBottom: 15,
+    //marginRight: 10,
+  },
+  LogoRow: {
+    flexDirection: "row",
+    marginLeft: "5%",
+  },
+  LogoImg: {
+    width: 50,
+    height: 50,
+  },
+});
 
 export default DelivererHomeScreen;

@@ -1,10 +1,11 @@
-require("./Models/Auth");
-require("./Models/Orderers");
-require("./Models/History");
+require("./models/Auth");
+require("./models/Orderers");
+require("./models/History");
 require("./models/ResMenu");
 require("./models/Orders");
-require("./Models/Deliverers");
-require("./Models/UserInfo");
+require("./models/UserInfo");
+require("./models/Deliverers");
+require("./models/resHours");
 //require("./models/User"); This line is present in the index.js Wei sent me, but there is no User model so I commented it out
 
 const express = require("express");
@@ -17,6 +18,7 @@ const ordersRoutes = require("./routes/ordersRoutes");
 const historyRoutes = require("./routes/historyRoutes");
 const resMenuRoutes = require("./routes/resMenuRoutes");
 const userInfoRoutes = require("./routes/userInfoRoutes");
+const resHoursRoutes = require("./routes/resHoursRoutes");
 
 const requireAuth = require("./middlewares/requireAuth");
 
@@ -26,6 +28,7 @@ app.use("/auth", requireAuth);
 
 app.use(bodyParser.json());
 app.use(authRoutes);
+app.use(resHoursRoutes);
 app.use(orderersRoutes);
 app.use(deliverersRoutes);
 app.use(resMenuRoutes);

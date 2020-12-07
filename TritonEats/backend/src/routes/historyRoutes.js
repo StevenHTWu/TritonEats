@@ -25,7 +25,9 @@ router.route("/auth/complete").post(function (req, res) {
       res.send(err);
     } else {
       if (result.length == 0) {
-        res.status(400).send("No order exists for orderer " + orderer_id + " .");
+        res
+          .status(400)
+          .send("No order exists for orderer " + orderer_id + " .");
       } else {
         console.log("Creating history document.");
         obj = result.entries().next().value[1];

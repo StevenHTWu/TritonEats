@@ -37,16 +37,45 @@ const clearErrorMessage = (dispatch) => () => {
 
 const signup = (dispatch) => {
   return async ({ email, password, is_deliverer }) => {
+    
     // make api request to sign up with that email and password
     // if we sign up, modify our state, and say that we are authenticated
     // if signing up fails, we probably need to reflect an error message somewhere
     try {
       
-      if(is_deliverer == "true"){
-        is_deliverer = true;
-      }else{
-        is_deliverer = false;
+      is_deliverer = false;
+
+      const response = await trackerApi.post("/signup", {
+        email,
+        password,
+        is_deliverer,
+      });
+      await AsyncStorage.setItem("token", response.data.token);
+      dispatch({ type: "signin", payload: response.data.token });
+      
+      if (is_deliverer) {
+        navigate("DelivererMainFlow");
+      } else {
+        navigate("HomeScreen");
       }
+    } catch (err) {
+      dispatch({
+        type: "add_error",
+        payload: "Something went wrong with sign up",
+      });
+    }
+  };
+};
+
+const signupDeliv = (dispatch) => {
+  return async ({ email, password, is_deliverer }) => {
+    
+    // make api request to sign up with that email and password
+    // if we sign up, modify our state, and say that we are authenticated
+    // if signing up fails, we probably need to reflect an error message somewhere
+    try {
+      
+      is_deliverer = true;
 
       const response = await trackerApi.post("/signup", {
         email,
@@ -112,6 +141,6 @@ const signout = (dispatch) => {
 
 export const { Provider, Context } = createDataContext(
   authReducer,
-  { signin, signout, signup, clearErrorMessage, tryLocalSignin },
+  { signin, signout, signup, clearErrorMessage, tryLocalSignin, signupDeliv },
   { token: null, errorMessage: "" }
 );

@@ -44,6 +44,7 @@ const PaymentScreen = ({ navigation }) => {
       Authorization: `Bearer ${token}`,
     };
 
+    console.log(noCards);
     trackerApi
       .get("/auth/customerPayment", {
         headers: headers,
@@ -78,6 +79,11 @@ const PaymentScreen = ({ navigation }) => {
   };
 
   const refresh = navigation.addListener("didFocus", () => {
+    /*
+    console.log(typeof selectedValue);
+    if(selectedCards == "") {
+      setNoCards(true);
+    }*/
     getCard();
     getUserInfo();
   });
@@ -91,11 +97,10 @@ const PaymentScreen = ({ navigation }) => {
     }
   }
 
-
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View style={styles.container}>
-      <Loader loading={isLoading} />
+        <Loader loading={isLoading} />
         <Image
           style={styles.CardImg}
           source={require("../../assets/pay.png")}
@@ -107,24 +112,26 @@ const PaymentScreen = ({ navigation }) => {
                 fontSize: 30,
                 fontFamily: "Unica One",
                 color: "#0a2657",
-                alignSelf: "center"
+                alignSelf: "center",
               }}
             >
               Select or Add Card
             </Text>
             {noCards == true ? (
-                <Text
+              <Text
                 style={{
                   fontSize: 15,
                   fontFamily: "Unica One",
                   color: "red",
                   alignSelf: "center",
-                  marginTop: "3%"
+                  marginTop: "3%",
                 }}
               >
-                No card is currently available in your account. 
+                No card is currently available in your account.
               </Text>
-              ) : (<></>)}
+            ) : (
+              <></>
+            )}
             <Picker
               selectedValue={selectedValue}
               mode="dropdown"
@@ -139,7 +146,10 @@ const PaymentScreen = ({ navigation }) => {
             </Picker>
 
             <TouchableOpacity
-              onPress={() => navigation.navigate("AddCardScreen")}
+              onPress={() => {
+                setNoCards(false);
+                navigation.navigate("AddCardScreen");
+              }}
               style={styles.AddCardBtn}
             >
               <Text style={styles.ButtonText}>Add Card</Text>
@@ -147,58 +157,63 @@ const PaymentScreen = ({ navigation }) => {
           </View>
 
           <View style={styles.layer2}>
-            
-            <View style={{ flex: 1, flexDirection: "row", paddingLeft: "8%", paddingTop: "8%"}}>
+            <View
+              style={{
+                flex: 1,
+                flexDirection: "row",
+                paddingLeft: "8%",
+                paddingTop: "8%",
+              }}
+            >
               <View style={{ width: 220, height: 35 }}>
-              {userInfo != "" ? (
-                <TouchableOpacity
-                  onPress={() => {
-                    setNoCards(false);
-                    if(selectedValue == "") {
-                      setNoCards(true);
-                    }
-                    else {
-                      makeOrder(
-                        navigation.getParam("res_name"),
-                        navigation.getParam("order_array"),
-                        navigation.getParam("total_price")
-                      );
-                      navigation.navigate("OrderStatusScreen");
-                    }
-                  }}
-                  style={styles.PaymentBtn}
-                >
-                  <Text style={styles.ButtonText}>Pay</Text>
-                </TouchableOpacity>
+                {userInfo != "" ? (
+                  <TouchableOpacity
+                    onPress={() => {
+                      setNoCards(false);
+                      if (selectedValue == "") {
+                        setNoCards(true);
+                      } else {
+                        makeOrder(
+                          navigation.getParam("res_name"),
+                          navigation.getParam("order_array"),
+                          navigation.getParam("total_price")
+                        );
+                        navigation.navigate("OrderStatusScreen");
+                      }
+                    }}
+                    style={styles.PaymentBtn}
+                  >
+                    <Text style={styles.ButtonText}>Pay</Text>
+                  </TouchableOpacity>
                 ) : (
-                <TouchableOpacity
-                  onPress={() => {
+                  <TouchableOpacity
+                    onPress={() => {
                       navigation.navigate("SettingsScreen");
-                  }}
-                  style={styles.AddrBtn}
-                >
-                  <Text style={styles.ButtonText}>Enter Address</Text>
-                </TouchableOpacity>)}
+                    }}
+                    style={styles.AddrBtn}
+                  >
+                    <Text style={styles.ButtonText}>Enter Address</Text>
+                  </TouchableOpacity>
+                )}
               </View>
               <View style={{ width: 50, height: 45, paddingTop: "2%" }}>
-                  <Image
-                style={styles.CardImgVisa}
-                source={require("../../assets/visa.png")}
-              />
+                <Image
+                  style={styles.CardImgVisa}
+                  source={require("../../assets/visa.png")}
+                />
               </View>
               <View style={{ width: 100, height: 45, paddingTop: "2%" }}>
-              <Text
-                style={{
-                  fontSize: 30,
-                  fontFamily: "Unica One",
-                  color: "#FFD700",
-                }}
-              >
-                {"$" + navigation.getParam("total_price")}
-              </Text>
+                <Text
+                  style={{
+                    fontSize: 30,
+                    fontFamily: "Unica One",
+                    color: "#FFD700",
+                  }}
+                >
+                  {"$" + navigation.getParam("total_price")}
+                </Text>
               </View>
             </View>
-            
           </View>
         </View>
       </View>
@@ -217,7 +232,7 @@ const styles = StyleSheet.create({
     height: 120,
     zIndex: 1,
     alignSelf: "center",
-    justifyContent: "center"
+    justifyContent: "center",
   },
   CardImgVisa: {
     width: 35,
@@ -240,7 +255,7 @@ const styles = StyleSheet.create({
     height: "50%",
     backgroundColor: "#0a2657",
     marginTop: "5%",
-    zIndex: 1
+    zIndex: 1,
   },
   AddCardBtn: {
     backgroundColor: "#FFD700",
