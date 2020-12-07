@@ -18,7 +18,7 @@ const PaymentScreen = ({ navigation }) => {
   const [selectedCards, setSelectedCards] = useState("");
 
   const [selectedValue, setSelectedValue] = useState("");
-  const[alternateSelect, setAlternateSelect] = useState(true);
+  const [alternateSelect, setAlternateSelect] = useState(true);
 
   const changeSelect = () => {
     setAlternateSelect((alternateSelect) => !alternateSelect);
@@ -86,7 +86,7 @@ const PaymentScreen = ({ navigation }) => {
                 fontSize: 30,
                 fontFamily: "Unica One",
                 color: "#0a2657",
-                alignSelf: "center"
+                alignSelf: "center",
               }}
             >
               Select or Add Card
@@ -113,42 +113,47 @@ const PaymentScreen = ({ navigation }) => {
           </View>
 
           <View style={styles.layer2}>
-            
-            <View style={{ flex: 1, flexDirection: "row", paddingLeft: "8%", paddingTop: "8%"}}>
+            <View
+              style={{
+                flex: 1,
+                flexDirection: "row",
+                paddingLeft: "8%",
+                paddingTop: "8%",
+              }}
+            >
               <View style={{ width: 220, height: 35 }}>
-              <TouchableOpacity
-                onPress={() => {
-                  makeOrder(
-                    navigation.getParam("res_name"),
-                    navigation.getParam("order_array"),
-                    navigation.getParam("total_price")
-                  );
-                  navigation.navigate("OrderStatusScreen");
-                }}
-                style={styles.PaymentBtn}
-              >
-                <Text style={styles.ButtonText}>Pay</Text>
-              </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => {
+                    makeOrder(
+                      navigation.getParam("res_name"),
+                      navigation.getParam("order_array"),
+                      navigation.getParam("total_price")
+                    );
+                    navigation.navigate("OrderStatusScreen");
+                  }}
+                  style={styles.PaymentBtn}
+                >
+                  <Text style={styles.ButtonText}>Pay</Text>
+                </TouchableOpacity>
               </View>
               <View style={{ width: 50, height: 45, paddingTop: "2%" }}>
-                  <Image
-                style={styles.CardImgVisa}
-                source={require("../../assets/visa.png")}
-              />
+                <Image
+                  style={styles.CardImgVisa}
+                  source={require("../../assets/visa.png")}
+                />
               </View>
               <View style={{ width: 100, height: 45, paddingTop: "2%" }}>
-              <Text
-                style={{
-                  fontSize: 30,
-                  fontFamily: "Unica One",
-                  color: "#FFD700",
-                }}
-              >
-                {"$" + navigation.getParam("total_price")}
-              </Text>
+                <Text
+                  style={{
+                    fontSize: 30,
+                    fontFamily: "Unica One",
+                    color: "#FFD700",
+                  }}
+                >
+                  {"$" + navigation.getParam("total_price")}
+                </Text>
               </View>
             </View>
-            
           </View>
         </View>
       </View>
@@ -167,7 +172,7 @@ const styles = StyleSheet.create({
     height: 120,
     zIndex: 1,
     alignSelf: "center",
-    justifyContent: "center"
+    justifyContent: "center",
   },
   CardImgVisa: {
     width: 35,
@@ -189,7 +194,7 @@ const styles = StyleSheet.create({
     width: "100%",
     backgroundColor: "#0a2657",
     marginTop: "5%",
-    zIndex: 1
+    zIndex: 1,
   },
   AddCardBtn: {
     backgroundColor: "#FFD700",

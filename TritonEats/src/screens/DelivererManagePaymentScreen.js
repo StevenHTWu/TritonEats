@@ -1,18 +1,26 @@
 import React, { useState, useContext } from "react";
-import { StyleSheet, View, Text, Image, TouchableOpacity, Keyboard,  TouchableWithoutFeedback, Picker } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  Keyboard,
+  TouchableWithoutFeedback,
+  Picker,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-
 
 const DelivererManagePaymentScreen = ({ navigation }) => {
   //const [response, setResponse] = useState();
 
   const [selectedValue, setSelectedValue] = useState(cards[0]);
-  const[alternateSelect, setAlternateSelect] = useState(true);
+  const [alternateSelect, setAlternateSelect] = useState(true);
 
   const changeSelect = () => {
-    setAlternateSelect(alternateSelect => !alternateSelect);
-  }
-/*
+    setAlternateSelect((alternateSelect) => !alternateSelect);
+  };
+  /*
   const array = [
       {cardNum: navigation.getParam('cardNum')},
       {cardNum: "xxxx-xxxx-xxxx-8976"},
@@ -21,22 +29,19 @@ const DelivererManagePaymentScreen = ({ navigation }) => {
 */
   var cardNum = null;
 
-  if(cards[0].card_number != null) {
-    cardNum = "xxxx-xxxx-xxxx-" + cards[0].card_number.substring(12,16);
+  if (cards[0].card_number != null) {
+    cardNum = "xxxx-xxxx-xxxx-" + cards[0].card_number.substring(12, 16);
   }
   return (
-      
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View style={styles.container}>
         <Image
-              style={styles.CardImg}
-              source={require("../../assets/pay.png")}
-              
+          style={styles.CardImg}
+          source={require("../../assets/pay.png")}
         />
-          <View style={styles.layer1}>
+        <View style={styles.layer1}>
           <View>
-
-          {cardNum != null ? (
+            {cardNum != null ? (
               /*<TouchableOpacity style={styles.selectCard} onPress={changeSelect}>
                   {alternateSelect && <View style={{flex: 1, flexDirection: 'row'}}>
                     <View style={{width: 70, height: 40}} >
@@ -64,44 +69,44 @@ const DelivererManagePaymentScreen = ({ navigation }) => {
                     
                   </View>}
              </TouchableOpacity>*/
-             <Picker style={styles.selectCard}
+              <Picker
+                style={styles.selectCard}
                 selectedValue={selectedValue}
                 mode="dropdown"
                 //style={{ height: 50, width: 400}}
-                onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
-              >{cards.map(arr => <Picker.Item label={arr.card_number} value={arr} />)}
-            </Picker>
-
-            ) : <TouchableOpacity
-            onPress={() => {
-                global.card = {cardNum: "", expiry: "", cvv: "", name: ""};
-                navigation.navigate("DelivererAddCardFromSettingsScreen")
-            }}
-            style={styles.AddCardBtn}
-        >
-            
-            <Text style={styles.ButtonText}>Add Card</Text>
-          </TouchableOpacity>}
-            
-            
-  
-              
-            </View>
-
-            <View style={styles.layer2}>
-                    <TouchableOpacity
-                        onPress={() => {
-                            global.card = selectedValue;
-                            navigation.navigate("DelivererAddCardFromSettingsScreen")
-                        }}
-                        style={styles.PaymentBtn}
-                    >
-                        <Text style={styles.ButtonText}>View/Edit</Text>
-                    </TouchableOpacity>
-                
+                onValueChange={(itemValue, itemIndex) =>
+                  setSelectedValue(itemValue)
+                }
+              >
+                {cards.map((arr) => (
+                  <Picker.Item label={arr.card_number} value={arr} />
+                ))}
+              </Picker>
+            ) : (
+              <TouchableOpacity
+                onPress={() => {
+                  global.card = { cardNum: "", expiry: "", cvv: "", name: "" };
+                  navigation.navigate("DelivererAddCardFromSettingsScreen");
+                }}
+                style={styles.AddCardBtn}
+              >
+                <Text style={styles.ButtonText}>Add Card</Text>
+              </TouchableOpacity>
+            )}
           </View>
-          
-      </View>
+
+          <View style={styles.layer2}>
+            <TouchableOpacity
+              onPress={() => {
+                global.card = selectedValue;
+                navigation.navigate("DelivererAddCardFromSettingsScreen");
+              }}
+              style={styles.PaymentBtn}
+            >
+              <Text style={styles.ButtonText}>View/Edit</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
       </View>
     </TouchableWithoutFeedback>
   );
@@ -112,7 +117,7 @@ DelivererManagePaymentScreen.navigationOptions = () => {
   };
 };
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#0a2657",paddingTop: 100},
+  container: { flex: 1, backgroundColor: "#0a2657", paddingTop: 100 },
   CardImg: {
     width: 120,
     height: 120,
@@ -120,14 +125,14 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     marginTop: 50,
     marginBottom: 30,
-    zIndex: 1
+    zIndex: 1,
   },
   CardImgVisa: {
     width: 50,
     height: 40,
     marginLeft: 20,
     position: "absolute",
-    bottom: 9
+    bottom: 9,
   },
   layer1: {
     borderRadius: 50,
@@ -136,7 +141,7 @@ const styles = StyleSheet.create({
     paddingTop: 50,
     position: "absolute",
     top: 230,
-    width: "100%"
+    width: "100%",
   },
   layer2: {
     borderRadius: 50,
@@ -144,7 +149,7 @@ const styles = StyleSheet.create({
     width: "100%",
     backgroundColor: "#0a2657",
     position: "absolute",
-    top: 325
+    top: 325,
   },
   AddCardBtn: {
     backgroundColor: "#FFD700",
@@ -153,7 +158,7 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     height: 45,
     marginTop: 32,
-    marginLeft: 125
+    marginLeft: 125,
   },
   PaymentBtn: {
     backgroundColor: "#FFD700",
@@ -163,7 +168,7 @@ const styles = StyleSheet.create({
     height: 45,
     marginTop: 32,
     //marginLeft: 36,
-    alignSelf: "center"
+    alignSelf: "center",
   },
   ButtonText: {
     fontSize: 23,
@@ -183,59 +188,57 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     paddingLeft: 3,
     alignSelf: "center",
-    
   },
   selectCardPress: {
-    flex: 1, 
-    flexDirection: 'row',
+    flex: 1,
+    flexDirection: "row",
     borderWidth: 3,
     borderColor: "#0a2657",
     borderRadius: 6,
     height: 60,
     width: 330,
     position: "absolute",
-    top:0,
+    top: 0,
     paddingTop: 17,
-    
   },
   textIn: {
     marginLeft: 10,
     marginRight: 10,
     marginTop: 3,
-    height: 40, 
-    borderColor: 'gray', 
+    height: 40,
+    borderColor: "gray",
     borderTopWidth: 0,
     borderBottomWidth: 1,
     fontFamily: "Unica One",
-    fontSize: 20
+    fontSize: 20,
   },
   textInEXP: {
     marginLeft: 10,
     marginRight: 10,
     marginTop: 3,
-    height: 40, 
-    borderColor: 'gray', 
+    height: 40,
+    borderColor: "gray",
     borderTopWidth: 0,
     borderBottomWidth: 1,
     fontFamily: "Unica One",
-    fontSize: 20
+    fontSize: 20,
   },
   textInCVV: {
     marginLeft: 10,
     marginRight: 10,
     marginTop: 3,
-    height: 40, 
-    borderColor: 'gray', 
+    height: 40,
+    borderColor: "gray",
     borderTopWidth: 0,
     borderBottomWidth: 1,
     fontFamily: "Unica One",
-    fontSize: 20
+    fontSize: 20,
   },
   row: {
-    flexDirection: 'row',
-    alignItems: 'stretch',
-    justifyContent: 'flex-end'
-  }
+    flexDirection: "row",
+    alignItems: "stretch",
+    justifyContent: "flex-end",
+  },
 });
 
 export default DelivererManagePaymentScreen;

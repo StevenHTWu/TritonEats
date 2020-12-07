@@ -1,5 +1,12 @@
 import React from "react";
-import { View, StyleSheet, Text, FlatList, Image, TouchableOpacity } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Text,
+  FlatList,
+  Image,
+  TouchableOpacity,
+} from "react-native";
 import { SafeAreaView } from "react-navigation";
 import HistoricalOrder from "../Components/HistoricalOrder";
 import { AsyncStorage } from "react-native";
@@ -21,36 +28,33 @@ class OrderHistoryScreen extends React.Component {
   async componentDidMount() {
     const getOrderHistory = async () => {
       const token = await AsyncStorage.getItem("token");
-      const AuthStr = 'Bearer '.concat(token);
-      this.setState({isLoading: true});
-      const response = await trackerApi.get(
-        "/auth/history", { headers: { Authorization: AuthStr } }
-      );
+      const AuthStr = "Bearer ".concat(token);
+      this.setState({ isLoading: true });
+      const response = await trackerApi.get("/auth/history", {
+        headers: { Authorization: AuthStr },
+      });
 
       console.log("-----------------------");
       console.log(response.data);
       console.log("-----------------------");
-      if(response.data.length == 0){
+      if (response.data.length == 0) {
         this.setState({
           isLoading: false,
-          isEmpty:true
+          isEmpty: true,
         });
-      }else{
+      } else {
         this.setState({
           isLoading: false,
-          isEmpty:false,
-          OrderHistory: response.data
+          isEmpty: false,
+          OrderHistory: response.data,
         });
       }
-    }
+    };
 
     const { navigation } = this.props;
     this.focusListener = navigation.addListener("didFocus", () => {
       getOrderHistory();
     });
-
-    
-    
   }
 
   render() {
@@ -61,38 +65,52 @@ class OrderHistoryScreen extends React.Component {
         <Loader loading={this.state.isLoading} />
         {this.state.isEmpty ? (
           <>
-            <Text style={styles.text}>Order History</Text>  
-            <TouchableOpacity onPress={() => {navigate("OrderStatusScreen")}} style={styles.curStatusBtn}>
-                <Image style={styles.statusIcon}
-                  source={require("../../assets/package.png")}
-                />
-            </TouchableOpacity>
-            <Text style={styles.emptyMessage}>Order history is empty for current user.</Text>
-          </>
-        ) : (
-        <View style={styles.main}>
-          <Text style={styles.text}>Order History</Text>  
-          <TouchableOpacity onPress={() => {navigate("OrderStatusScreen")}} style={styles.curStatusBtn}>
-              <Image style={styles.statusIcon}
+            <Text style={styles.text}>Order History</Text>
+            <TouchableOpacity
+              onPress={() => {
+                navigate("OrderStatusScreen");
+              }}
+              style={styles.curStatusBtn}
+            >
+              <Image
+                style={styles.statusIcon}
                 source={require("../../assets/package.png")}
               />
-          </TouchableOpacity>
-          <FlatList
-            style={styles.main}
-            data={this.state.OrderHistory}
-            renderItem={({ item }) => (
-              <HistoricalOrder
-                orderId={item.order_id}
-                items={item.order_items}
-                restaurant={item.restaurant_name}
-                timeOrdered={item.order_placement_time}
-                timeDelivered={item.order_completion_time}
-                deliverer={item.deliverer_id}
-                price={item.total_price}
+            </TouchableOpacity>
+            <Text style={styles.emptyMessage}>
+              Order history is empty for current user.
+            </Text>
+          </>
+        ) : (
+          <View style={styles.main}>
+            <Text style={styles.text}>Order History</Text>
+            <TouchableOpacity
+              onPress={() => {
+                navigate("OrderStatusScreen");
+              }}
+              style={styles.curStatusBtn}
+            >
+              <Image
+                style={styles.statusIcon}
+                source={require("../../assets/package.png")}
               />
-            )}
-          />
-        </View>
+            </TouchableOpacity>
+            <FlatList
+              style={styles.main}
+              data={this.state.OrderHistory}
+              renderItem={({ item }) => (
+                <HistoricalOrder
+                  orderId={item.order_id}
+                  items={item.order_items}
+                  restaurant={item.restaurant_name}
+                  timeOrdered={item.order_placement_time}
+                  timeDelivered={item.order_completion_time}
+                  deliverer={item.deliverer_id}
+                  price={item.total_price}
+                />
+              )}
+            />
+          </View>
         )}
       </SafeAreaView>
     );
@@ -116,19 +134,18 @@ const styles = StyleSheet.create({
   emptyMessage: {
     fontSize: 35,
     fontFamily: "Unica One",
-    textAlign:"center",
-    paddingTop:"40%"
-
+    textAlign: "center",
+    paddingTop: "40%",
   },
   statusIcon: {
     width: 40,
-    height: 40
+    height: 40,
   },
   curStatusBtn: {
     padding: 30,
     position: "absolute",
-    left: "75%"
-  }
+    left: "75%",
+  },
 });
 
 export default OrderHistoryScreen;

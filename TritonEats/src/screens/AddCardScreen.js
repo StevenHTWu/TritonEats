@@ -87,7 +87,9 @@ class AddCardScreen extends Component {
               />
             </View>
 
-            <View style={{ flexDirection: "row", height: "15%", marginTop: "3%"}}>
+            <View
+              style={{ flexDirection: "row", height: "15%", marginTop: "3%" }}
+            >
               <View style={{ width: "70%", height: 35 }}>
                 <Text
                   style={{
@@ -134,28 +136,27 @@ class AddCardScreen extends Component {
                 />
               </View>
             </View>
-            
-              <View style={{ width: "100%", height: 35, marginTop: "2%" }}>
-                <Text
-                  style={{
-                    fontSize: 20,
-                    fontFamily: "Unica One",
-                    paddingLeft: 10,
-                  }}
-                >
-                  Name
-                </Text>
-                <TextInput
-                  label="Name"
-                  //value={name}
-                  onChangeText={(name) => this.setState({ name })}
-                  autoCapitalize="none"
-                  autoCorrect={false}
-                  style={styles.textIn}
-                  placeholder={"CardHolder Name"}
-                />
-              </View>
-              
+
+            <View style={{ width: "100%", height: 35, marginTop: "2%" }}>
+              <Text
+                style={{
+                  fontSize: 20,
+                  fontFamily: "Unica One",
+                  paddingLeft: 10,
+                }}
+              >
+                Name
+              </Text>
+              <TextInput
+                label="Name"
+                //value={name}
+                onChangeText={(name) => this.setState({ name })}
+                autoCapitalize="none"
+                autoCorrect={false}
+                style={styles.textIn}
+                placeholder={"CardHolder Name"}
+              />
+            </View>
 
             <View style={styles.layer2}>
               <TouchableOpacity
@@ -202,7 +203,7 @@ const styles = StyleSheet.create({
     height: 120,
     marginTop: "25%",
     zIndex: 1,
-    alignSelf: "center"
+    alignSelf: "center",
   },
   layer1: {
     borderRadius: 50,
@@ -220,7 +221,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#0a2657",
     position: "absolute",
     top: "74%",
-    zIndex: 1
+    zIndex: 1,
   },
   AddCardBtn: {
     backgroundColor: "#FFD700",

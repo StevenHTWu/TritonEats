@@ -57,7 +57,6 @@ class ShoppingCartScreen extends React.Component {
     this.state = { refresh: false, data: CurrentCart.order_arr };
   }
 
- 
   render() {
     return (
       <View style={styles.container}>
@@ -69,7 +68,8 @@ class ShoppingCartScreen extends React.Component {
             justifyContent: "center",
             alignItems: "center",
           }}
-          source={title_image} imageStyle={{opacity:0.7}}
+          source={title_image}
+          imageStyle={{ opacity: 0.7 }}
         >
           <View
             style={{
@@ -80,16 +80,19 @@ class ShoppingCartScreen extends React.Component {
             }}
           >
             <Text style={styles.titleText}>
-              Your Order From  <Text style={{
-                color: "#0a2657",
-                fontSize: 35,
-                fontWeight: "bold",
-                textAlign: "center",
-                paddingHorizontal: "10%"
-              }}>{CurrentCart.viewing_restaurant}
+              Your Order From{" "}
+              <Text
+                style={{
+                  color: "#0a2657",
+                  fontSize: 35,
+                  fontWeight: "bold",
+                  textAlign: "center",
+                  paddingHorizontal: "10%",
+                }}
+              >
+                {CurrentCart.viewing_restaurant}
+              </Text>
             </Text>
-            </Text>
-            
           </View>
         </ImageBackground>
 
@@ -159,7 +162,6 @@ class ShoppingCartScreen extends React.Component {
                   >
                     <Text style={styles.quantityText}>+</Text>
                   </TouchableOpacity>
-                  
                 </View>
                 <Text style={styles.item}>
                   {" "}
@@ -242,7 +244,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     paddingHorizontal: "10%",
     borderWidth: 2,
-    borderColor: '#0a2657'
+    borderColor: "#0a2657",
   },
   listView: {
     flex: 1,

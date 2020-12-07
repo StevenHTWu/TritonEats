@@ -6,7 +6,9 @@ import AuthForm from "../Components/AuthForm";
 import NavLink from "../Components/NavLink";
 
 const SignUpScreen = ({ navigation }) => {
-  const { state, signup, clearErrorMessage, signupDeliv } = useContext(AuthContext);
+  const { state, signup, clearErrorMessage, signupDeliv } = useContext(
+    AuthContext
+  );
 
   return (
     <>

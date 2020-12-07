@@ -30,7 +30,11 @@ class ProfileScreen extends Component {
   */
   constructor(props) {
     super(props);
-    this.state = { name: object.name, email: object.email, phone_num: object.phone_num };
+    this.state = {
+      name: object.name,
+      email: object.email,
+      phone_num: object.phone_num,
+    };
   }
 
   render() {
@@ -61,66 +65,70 @@ class ProfileScreen extends Component {
               style={styles.textIn}
               placeholder={"Name"}
               defaultValue={object.name}
-              />
+            />
 
-                <Text
-                  style={{
-                    fontSize: 20,
-                    fontFamily: "Unica One",
-                    paddingTop: 5,
-                    paddingLeft: 10,
-                  }}
-                >
-                  Email
-                </Text>
-                <TextInput
-                  label="Email"
-                  //value={date}
-                  onChangeText={(email) => this.setState({ email })}
-                  autoCapitalize="none"
-                  autoCorrect={false}
-                  style={styles.textIn}
-                  placeholder={"example@ucsd.edu"}
-                  keyboardType="email-address"
-                  defaultValue={object.email}
-                />
+            <Text
+              style={{
+                fontSize: 20,
+                fontFamily: "Unica One",
+                paddingTop: 5,
+                paddingLeft: 10,
+              }}
+            >
+              Email
+            </Text>
+            <TextInput
+              label="Email"
+              //value={date}
+              onChangeText={(email) => this.setState({ email })}
+              autoCapitalize="none"
+              autoCorrect={false}
+              style={styles.textIn}
+              placeholder={"example@ucsd.edu"}
+              keyboardType="email-address"
+              defaultValue={object.email}
+            />
 
-                <Text
-                  style={{
-                    fontSize: 20,
-                    fontFamily: "Unica One",
-                    paddingLeft: 10,
-                  }}
-                >
-                  Phone Number
-                </Text>
-                <TextInput
-                  label="Phone Number"
-                  //value={name}
-                  onChangeText={(phone_num) => this.setState({ phone_num })}
-                  autoCapitalize="none"
-                  autoCorrect={false}
-                  style={styles.textIn}
-                  placeholder={"1234567890"}
-                  defaultValue={object.phone_num}
-                  keyboardType="phone-pad"
-                  maxLength={ten}
-                />
+            <Text
+              style={{
+                fontSize: 20,
+                fontFamily: "Unica One",
+                paddingLeft: 10,
+              }}
+            >
+              Phone Number
+            </Text>
+            <TextInput
+              label="Phone Number"
+              //value={name}
+              onChangeText={(phone_num) => this.setState({ phone_num })}
+              autoCapitalize="none"
+              autoCorrect={false}
+              style={styles.textIn}
+              placeholder={"1234567890"}
+              defaultValue={object.phone_num}
+              keyboardType="phone-pad"
+              maxLength={ten}
+            />
 
             <View style={styles.layer2}>
               <TouchableOpacity
                 onPress={() => {
-                    object.name = this.state.name;
-                    object.email = this.state.email;
-                    object.phone_num = this.state.phone_num;
-                    if (object.phone_num.length !== 10 || !digitsOnly(object.phone_num) || !validEmail(object.email) || object.name.length === 0) {
-                      Alert.alert("Error! Please fill in the details correctly.")
-                    } else {
-                      //make api call to save data
-                      navigate("SettingsScreen");
-                    }
-                }
-                }
+                  object.name = this.state.name;
+                  object.email = this.state.email;
+                  object.phone_num = this.state.phone_num;
+                  if (
+                    object.phone_num.length !== 10 ||
+                    !digitsOnly(object.phone_num) ||
+                    !validEmail(object.email) ||
+                    object.name.length === 0
+                  ) {
+                    Alert.alert("Error! Please fill in the details correctly.");
+                  } else {
+                    //make api call to save data
+                    navigate("SettingsScreen");
+                  }
+                }}
                 style={styles.AddCardBtn}
               >
                 <Text style={styles.ButtonText}>Save</Text>
@@ -133,8 +141,9 @@ class ProfileScreen extends Component {
   }
 }
 
-const digitsOnly = string => [...string].every(c => '0123456789'.includes(c));
-const validEmail = string => string.includes('@') && string.includes('.');
+const digitsOnly = (string) =>
+  [...string].every((c) => "0123456789".includes(c));
+const validEmail = (string) => string.includes("@") && string.includes(".");
 
 ProfileScreen.navigationOptions = () => {
   return {
@@ -177,7 +186,7 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     height: 45,
     marginTop: 32,
-    alignSelf: "center"
+    alignSelf: "center",
   },
   ButtonText: {
     fontSize: 23,

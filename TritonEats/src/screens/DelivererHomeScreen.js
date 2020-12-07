@@ -21,11 +21,7 @@ class DelivererHomeScreen extends Component {
     super(props);
     this.refresh = this.refresh.bind(this);
     this.state = {
-      Restaurants: [
-        {
-
-       }
-      ],
+      Restaurants: [{}],
     };
   }
   async componentDidMount() {
@@ -33,25 +29,23 @@ class DelivererHomeScreen extends Component {
   }
   async refresh() {
     console.log("Getting order list");
-    const response = await trackerApi.get(
-      "/allOrders"
-    );
+    const response = await trackerApi.get("/allOrders");
     //console.log("-----------------------");
     console.log("-----------------------");
     var dataset = response.data;
-    var stateUpdate = []
+    var stateUpdate = [];
     for (var i = 0; i < dataset.length; i++) {
       if (dataset[i].status === "pending") {
         console.log(dataset[i]);
-        stateUpdate.push ({
+        stateUpdate.push({
           Id: i.toString(),
           Name: dataset[i].restaurant_name,
-          Compensation: (dataset[i].total_price * 0.1).toFixed(2)
+          Compensation: (dataset[i].total_price * 0.1).toFixed(2),
         });
       }
     }
 
-    this.setState({Restaurants: stateUpdate});
+    this.setState({ Restaurants: stateUpdate });
     console.log("Update complete");
   }
 
@@ -88,10 +82,7 @@ class DelivererHomeScreen extends Component {
               keyExtractor={(item) => item.Id}
             />
 
-            <TouchableOpacity
-              onPress={this.refresh}
-              style={styles.refresh}
-            >
+            <TouchableOpacity onPress={this.refresh} style={styles.refresh}>
               <Image
                 style={styles.refreshIcon}
                 source={require("../../assets/refreshIcon.jpg")}
