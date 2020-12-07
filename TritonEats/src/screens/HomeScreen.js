@@ -190,7 +190,7 @@ const styles = StyleSheet.create({
     width: "30%",
     height: 75,
     marginLeft: "5%",
-    marginRight: "5%",
+    marginRight: "1%",
     color: "white",
     textAlign: "left",
     fontFamily: "Unica One",

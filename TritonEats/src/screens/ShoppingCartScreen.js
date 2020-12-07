@@ -251,14 +251,16 @@ const styles = StyleSheet.create({
     fontFamily: "Unica One",
   },
   titleText: {
-    color: "#0a2657",
+    color: "#FFD700",
     fontSize: 35,
     width: "90%",
     fontWeight: "bold",
     textAlign: "center",
     paddingHorizontal: "10%",
+    paddingVertical: "5%",
     borderWidth: 2,
-    borderColor: "#0a2657",
+    borderColor: "#FFD700",
+    backgroundColor: "#0a2657",
   },
   listView: {
     flex: 1,

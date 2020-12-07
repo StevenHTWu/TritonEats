@@ -44,7 +44,7 @@ class OrderStatusScreen extends Component {
     };
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     const getDelivererStatus = async () => {
       console.log("get mount");
       this.setState({ isLoading: true });
