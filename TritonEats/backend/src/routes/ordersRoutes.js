@@ -2,10 +2,21 @@ const express = require("express");
 const mongoose = require("mongoose");
 const orders = mongoose.model("orders");
 const deliverers = mongoose.model("deliverers");
-
+const orderers = mongoose.model("orderers");
 ObjectID = require("mongodb").ObjectID;
 
 const router = express.Router();
+
+router.route("/allOrders").get(function (req, res) {
+  orders.find({}, function (err, result) {
+    if (err) {
+      res.send(err);
+    } else {
+      //console.log(result)
+      res.json(result);
+    }
+  });
+});
 
 router.route("/auth/orderStatus").get(async function (req, res) {
   const order = await orders.findOne({ orderer_id: req._id });
