@@ -97,10 +97,13 @@ class DelivererStatusScreen extends Component {
             var address = userInfo.address;
             var residence = userInfo.residence;
             var apartment = userInfo.apartment;
+    
             this.getOrderStatus();
             this.setState( {
                 link: `https://www.google.com/maps/place/${residence.replace(/\s+/g, '+')}+${address.replace(/\s+/g, '+')}`,
-                apartment: apartment
+                apartment: apartment,
+                residence: residence,
+                address: address
             });
         
         });
@@ -155,6 +158,7 @@ class DelivererStatusScreen extends Component {
         console.log("=======================");
         console.log("Generating screen");
         console.log(this.state.status);
+        console.log(this.state.link);
         if (this.state.status == "pending" || this.state.status == "") {
             console.log("Checked pending!");
             
@@ -190,34 +194,35 @@ class DelivererStatusScreen extends Component {
             );
         } else if (this.state.text === "Picked Up" || this.state.status === "Picked Up") {
             console.log("Successfully changed...");
+            console.log(this.state.apartment);
+            console.log(this.state.residence);
             
             var display = (
 
 
                 <View style={styles.MainContainer}>
-                    <View style={ { padding: 20} }>
-                        <Text style={ {fontSize: 30} }>Deliver To {this.state.apartment} {this.state.residence} </Text>
-
+                         <View style={ { padding: 10} }>
+                        <Text style={ {fontSize: 30,} }>Deliver To {this.state.apartment} {this.state.residence} </Text>
                     </View>
-                    <TouchableOpacity 
-                        onPress={()=> Linking.openURL(this.state.residence + this.state.address)}
-                        style={styles.directionStyle}
-                        >
-            
-                        <Text style={styles.TextStyle} >Directions</Text>
-                    </TouchableOpacity>
-                    
+                        <TouchableOpacity 
+                            onPress={()=> Linking.openURL(this.state.residence + this.state.address)}
+                            style={styles.directionStyle}
+                            >
+                
+                            <Text style={styles.TextStyle} >Directions</Text>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity
+                            onPress={() => {
+                                console.log("Delivered!");
+
+                                this.status_update("Delivered");
+                            }}
+                            style={styles.StatusBtn} >
+                            <Text style={styles.ButtonText}>Delivered?</Text>
+                        </TouchableOpacity>
                     
                 
-                <TouchableOpacity
-                    onPress={() => {
-                        console.log("Delivered!");
-
-                        this.status_update("Delivered");
-                    }}
-                    style={styles.StatusBtn} >
-                    <Text style={styles.ButtonText}>Delivered?</Text>
-                </TouchableOpacity>
                 </View>
 
                 );
@@ -235,7 +240,7 @@ class DelivererStatusScreen extends Component {
         
 
         return (
-            <View>
+            <View style={styles.MainContainer}>
             {this.screenGenerator()}
             </View>
         );
@@ -257,8 +262,9 @@ const styles = StyleSheet.create({
         textTransform: "uppercase",
         fontFamily: "Unica One",
         backgroundColor: "#0a2657",
-        margin: "5%",
-        padding: "10%",
+        margin: "10%",
+        marginBottom: "15%",
+        padding: "6%",
         borderRadius: 50
     },
     directionStyle: {
@@ -266,7 +272,7 @@ const styles = StyleSheet.create({
         alignSelf: "center",
         fontFamily: "Unica One",
         backgroundColor: "#0a2657",
-
+        margin: 10,
         borderRadius: 50
     },
     StatusBtn: {

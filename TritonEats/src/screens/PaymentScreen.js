@@ -94,7 +94,7 @@ const PaymentScreen = ({ navigation }) => {
               mode="dropdown"
               style={{ height: 180, width: 300, alignSelf: "center" }}
               onValueChange={(itemValue, itemIndex) =>
-                setSelectedValue(itemValue)
+                setSelectedCards(itemValue)
               }
             >
               {cardNum.map((item, idx) => (
