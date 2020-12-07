@@ -5,6 +5,7 @@ const AuthForm = ({
   headerText,
   errorMessage,
   onSubmit,
+  onSubmitAlt,
   submitButtonText,
   deliverCheck,
 }) => {
@@ -16,8 +17,10 @@ const AuthForm = ({
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [is_deliverer, setIsDeliverer] = useState("");
+  var [is_deliverer, setIsDeliverer] = useState("");
 
+  var Falsity = "false";
+  var Truth = "true";
   return (
     <>
       <Text style={styles.TitleFont}>{headerText}</Text>
@@ -28,7 +31,7 @@ const AuthForm = ({
           onChangeText={setEmail}
           autoCapitalize="none"
           autoCorrect={false}
-          style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
+          style={{ height: 60, borderColor: 'gray', borderWidth: 1, padding: 10 }}
           placeholder={value1}
         />
       </View>
@@ -40,33 +43,33 @@ const AuthForm = ({
         autoCapitalize="none"
         autoCorrect={false}
         placeholder={value2}
-        style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
+        style={{ height: 60, borderColor: 'gray', borderWidth: 1, padding: 10  }}
       />
-      {deliverCheck ? (
-        <TextInput
-          label="Is Deliverer"
-          value={is_deliverer}
-          onChangeText={setIsDeliverer}
-          autoCapitalize="none"
-          autoCorrect={false}
-          placeholder={value3}
-          style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
-        />
-      ) : null}
-      {errorMessage ? (
-        <Text style={styles.errorMessage}>{errorMessage}</Text>
-      ) : null}
+      {submitButtonText == "Sign Up" ?
+        (<TouchableOpacity
+          onPress={() => { 
+            onSubmitAlt({ email, password,  is_deliverer});
+            
+        } }
+        style={styles.SignUpBtnDeliv}
+          >
+          <Text style={styles.ButtonText}>Sign Up As Deliverer</Text>
+        </TouchableOpacity>)
+        : null
+      }
+     
 
 
       {submitButtonText =="Sign Up" ?
         (<TouchableOpacity
-          onPress={() => onSubmit({ email, password, is_deliverer })}
+          onPress={() => {onSubmit({ email, password,  is_deliverer}); } }
         style={styles.SignUpBtn}
           >
-          <Text style={styles.ButtonText}>Sign Up to Deliver Food</Text>
+          <Text style={styles.ButtonText}>Sign Up</Text>
         </TouchableOpacity>)
         : null
       }
+      
 
       {submitButtonText =="Sign In" ?
         (<TouchableOpacity
@@ -77,6 +80,9 @@ const AuthForm = ({
         </TouchableOpacity>)
         : null
       }
+       {errorMessage ? (
+        <Text style={styles.errorMessage}>{errorMessage}</Text>
+      ) : null}
 
       
 
@@ -105,6 +111,17 @@ const styles = StyleSheet.create({
     height: 60,
     marginTop: 23,
     marginBottom: 133,
+    marginLeft: "15%",
+  },
+    SignUpBtnDeliv: {
+    elevation: 8,
+    backgroundColor: "#0a2657",
+    borderRadius: 600,
+    paddingVertical: 17,
+    width: 250,
+    height: 60,
+    marginTop: 23,
+    marginBottom: 15,
     marginLeft: "15%",
   },
   ButtonText: {

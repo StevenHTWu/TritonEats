@@ -58,6 +58,7 @@ const styles = StyleSheet.create({
   LogoImg: {
     width: 50,
     height: 50,
+    marginBottom: "10%"
   },
   SignUpBtn: {
     elevation: 8,
