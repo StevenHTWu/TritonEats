@@ -12,13 +12,11 @@ import {
 } from "react-native";
 import trackerApi from "../api/tracker";
 import { AsyncStorage } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 const PaymentScreen = ({ navigation }) => {
   const [selectedCards, setSelectedCards] = useState("");
 
-  const [selectedValue, setSelectedValue] = useState("");
-  const[alternateSelect, setAlternateSelect] = useState(true);
+  const [alternateSelect, setAlternateSelect] = useState(true);
 
   const changeSelect = () => {
     setAlternateSelect((alternateSelect) => !alternateSelect);

@@ -9,6 +9,7 @@ router.patch("/auth/deliveryStatusUpdate", async (req, res) => {
 
   if (status == null) res.status(422).send("Order status not provided!");
 
+  console.log("Patched...");
   const order = await Order.findOneAndUpdate(
     { deliverer_id: req._id },
 
@@ -17,6 +18,7 @@ router.patch("/auth/deliveryStatusUpdate", async (req, res) => {
         status: status,
       },
     },
+    
     (err, response) => {
       if (err) res.send(err);
       else {

@@ -16,6 +16,8 @@ var CurrentCart = require("../Components/Cart");
 import trackerApi from "../api/tracker";
 import Loader from "../Components/Loader";
 
+global.order = {order_id: "", orderer_id: "", restaurant: ""};
+
 class DelivererHomeScreen extends Component {
   constructor(props) {
     super(props);
@@ -45,7 +47,9 @@ class DelivererHomeScreen extends Component {
         console.log(dataset[i]);
         stateUpdate.push ({
           Id: i.toString(),
+          Secret: dataset[i].order_id,
           Name: dataset[i].restaurant_name,
+          Orderer_Id: dataset[i].orderer_id,
           Compensation: (dataset[i].total_price * 0.1).toFixed(2)
         });
       }
@@ -78,7 +82,15 @@ class DelivererHomeScreen extends Component {
                   <Text style={styles.compensation}>${item.Compensation}</Text>
 
                   <TouchableOpacity
-                    onPress={() => navigate("DelivererStatusScreen")}
+                    onPress={() => {
+               
+                      order.order_id = item.Secret;
+                      order.orderer_id = item.Orderer_Id;
+                      order.restaurant = item.Name;
+                      
+                      navigate("DelivererStatusScreen");
+                    
+                    }}
                     style={styles.button}
                   >
                     <Text style={styles.buttonText}>Accept Job</Text>

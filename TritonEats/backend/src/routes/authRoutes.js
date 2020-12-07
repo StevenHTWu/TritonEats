@@ -52,6 +52,7 @@ router.post("/signup", async (req, res) => {
       const registration_date = new Date();
       const email_confirmed = true;
       const payment_methods = [];
+      const apartment = "";
 
       profile = new orderers({
         _id,
@@ -64,6 +65,7 @@ router.post("/signup", async (req, res) => {
         registration_date,
         email_confirmed,
         payment_methods,
+        apartment,
       });
     }
     await profile.save();

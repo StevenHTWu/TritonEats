@@ -35,6 +35,15 @@ import DelivererJobHistoryScreen from "./src/screens/DelivererJobHistoryScreen";
 import DelivererSettingsScreen from "./src/screens/DelivererSettingsScreen";
 import DelivererStatusScreen from "./src/screens/DelivererStatusScreen";
 
+
+import AddCardFromSettingsScreen from "./src/screens/AddCardFromSettingsScreen";
+import ManagePaymentScreen from "./src/screens/ManagePaymentScreen";
+import ProfileScreen from "./src/screens/ProfileScreen";
+import AddressScreen from "./src/screens/AddressScreen";
+import PasswordScreen from "./src/screens/PasswordScreen";
+
+console.disableYellowBox = true;
+
 const switchNavigator = createSwitchNavigator({
   ResolveAuthScreen: ResolveAuthScreen,
   loginFlow: createStackNavigator({

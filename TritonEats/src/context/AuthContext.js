@@ -84,7 +84,7 @@ const signupDeliv = (dispatch) => {
       });
       await AsyncStorage.setItem("token", response.data.token);
       dispatch({ type: "signin", payload: response.data.token });
-      
+
       if (is_deliverer) {
         navigate("DelivererMainFlow");
       } else {

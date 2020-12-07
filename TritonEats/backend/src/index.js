@@ -17,7 +17,11 @@ const ordersRoutes = require("./routes/ordersRoutes");
 const historyRoutes = require("./routes/historyRoutes");
 const resMenuRoutes = require("./routes/resMenuRoutes");
 const resHoursRoutes = require("./routes/resHoursRoutes");
+<<<<<<< HEAD
 
+=======
+const userInfoRoutes = require("./routes/userInfoRoutes");
+>>>>>>> f87db59bfbf970d2dd959e2c268443ecceb44a87
 const requireAuth = require("./middlewares/requireAuth");
 
 const app = express();
@@ -32,6 +36,7 @@ app.use(deliverersRoutes);
 app.use(resMenuRoutes);
 app.use(ordersRoutes);
 app.use(historyRoutes);
+app.use(userInfoRoutes)
 
 
 const mongoUri =
