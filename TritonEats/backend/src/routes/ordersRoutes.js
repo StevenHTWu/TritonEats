@@ -58,6 +58,17 @@ router.route("/auth/orderStatus").get(async function (req, res) {
   }
 });
 
+router.route("/allOrders").get(function (req, res) {
+  orders.find({}, function (err, result) {
+    if (err) {
+      res.send(err);
+    } else {
+      //console.log(result)
+      res.json(result);
+    }
+  });
+});
+
 router.route("/auth/makeOrder").post(async function (req, res) {
   var parameters = req.body;
   var orderer_id = req._id;

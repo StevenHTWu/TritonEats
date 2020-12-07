@@ -93,5 +93,8 @@ function helper(deliverer_ids, deliverer_info, index, response) {
   }
 }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 33e37896116ea5a952b4f70bc580aa392c925535
 module.exports = router;

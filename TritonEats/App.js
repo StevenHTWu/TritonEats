@@ -111,7 +111,7 @@ const switchNavigator = createSwitchNavigator({
   }),
   DelivererMainFlow: createBottomTabNavigator(
     {
-      DelivererHomeScreen: createStackNavigator({
+      Home: createStackNavigator({
         Home: DelivererHomeScreen,
         DelivererStatusScreen: DelivererStatusScreen,
       }),

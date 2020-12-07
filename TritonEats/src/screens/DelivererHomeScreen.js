@@ -20,6 +20,7 @@ global.order = {order_id: "", orderer_id: "", restaurant: ""};
 
 class DelivererHomeScreen extends Component {
   constructor(props) {
+    
     super(props);
     this.refresh = this.refresh.bind(this);
     this.state = {
@@ -28,6 +29,7 @@ class DelivererHomeScreen extends Component {
 
        }
       ],
+      errorMessage: false,
     };
   }
   async componentDidMount() {
@@ -59,9 +61,63 @@ class DelivererHomeScreen extends Component {
     console.log("Update complete");
   }
 
+  async refresh() {
+    this.setState( {
+      Restaurants : this.state.Restaurants,
+      errorMessage: false
+    })
+    console.log("Getting order list");
+    const response = await trackerApi.get(
+      "/allOrders"
+    );
+    //console.log("-----------------------");
+    //console.log("-----------------------");
+    var dataset = response.data;
+    var stateUpdate = []
+    for (var i = 0; i < dataset.length; i++) {
+      if (dataset[i].status === "pending") {
+        //console.log(dataset[i]);
+        stateUpdate.push ({
+          Id: i.toString(),
+          Name: dataset[i].restaurant_name,
+          Compensation: (dataset[i].total_price * 0.1).toFixed(2),
+          secret: dataset[i].order_id,
+        });
+      }
+    }
+    
+    this.setState({Restaurants: stateUpdate});
+    console.log("Update complete");
+  }
+
+  async componentDidMount() {
+    this.refresh()
+  }
+
   render() {
+    let view;
+    console.log(this.state.errorMessage);
+    if (this.state.errorMessage === true) {
+      view = (
+        <Text
+          style={{
+            backgroundColor: "red",
+            color: "white",
+            fontSize: 20,
+            padding: 10,
+            margin: 0,
+          }}
+        >
+          You already have a job active! Please complete it before continuing!
+        </Text>
+      );
+    } else {
+      view = null;
+    }
     return (
+     
       <View style={styles.main}>
+       
         <SafeAreaView forceInset={{ top: "always" }}>
           <View style={styles.Container}>
             <View style={styles.LogoRow}>
@@ -72,7 +128,7 @@ class DelivererHomeScreen extends Component {
               <Text style={styles.LogoFont}>Triton Eats</Text>
             </View>
           </View>
-
+        
           <View style={styles.List}>
             <FlatList
               data={this.state.Restaurants}
@@ -110,6 +166,7 @@ class DelivererHomeScreen extends Component {
               />
               <Text style={styles.refreshText}> Click to Refresh Page</Text>
             </TouchableOpacity>
+            {view}
           </View>
         </SafeAreaView>
       </View>
@@ -149,7 +206,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   List: {
-    paddingBottom: 195,
+    paddingBottom: "10%",
   },
   icon: {
     width: "22%",
@@ -173,7 +230,7 @@ const styles = StyleSheet.create({
   refresh: {
     borderColor: "#0a2657",
     borderBottomWidth: 2,
-    width: 375,
+    width: "100%",
     backgroundColor: "white",
     flexDirection: "row",
     paddingHorizontal: "13%",
