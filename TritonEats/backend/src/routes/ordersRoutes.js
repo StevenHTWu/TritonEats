@@ -19,18 +19,17 @@ router.route("/allOrders").get(function (req, res) {
 });
 
 
-router.route("/orderer/orderInfoAsDeliverer").get(async function (req, res) {
+router.route("/orderer/orderInfoAsDeliverer/:order_id").get(async function (req, res) {
   console.log("Calling the order getter");
-  const orderObj = await orders.findOne({ order_id: req.body.order_id });
-  console.log(orderObj);
-  let obj_id = orderObj.order_id;
-  const info = await orders.find({ order_id: obj_id }, (err, result) => {
-    if (err) {
-      res.send(err);
-    } else {
-      res.json(result);
-    }
-  });
+  console.log(req.params);
+  const orderObj = await orders.findOne({ order_id: req.params.order_id });
+  if (orderObj) {
+    res.json(orderObj);
+  }
+  else {
+    res.send("Fail!");
+  }
+
 });
 
 router.route("/auth/orderStatus").get(async function (req, res) {

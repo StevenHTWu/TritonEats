@@ -16,6 +16,10 @@ var CurrentCart = require("../Components/Cart");
 import trackerApi from "../api/tracker";
 import Loader from "../Components/Loader";
 
+
+import { withNavigationFocus } from 'react-navigation';
+
+
 global.order = {order_id: "", orderer_id: "", restaurant: ""};
 
 const assignDelivererToOrder = async (order_id) => {
@@ -65,37 +69,48 @@ class DelivererHomeScreen extends Component {
   async componentDidMount() {
     this.refresh();
   }
+  
   async refresh() {
     console.log("Getting order list");
     const response = await trackerApi.get(
       "/allOrders"
-    );
-    //console.log("-----------------------");
-    console.log("-----------------------");
-    var dataset = response.data;
-    var stateUpdate = []
-    for (var i = 0; i < dataset.length; i++) {
-      if (dataset[i].status === "pending") {
-        console.log(dataset[i]);
-        stateUpdate.push ({
-          Id: i.toString(),
-          Secret: dataset[i].order_id,
-          Name: dataset[i].restaurant_name,
-          Orderer_Id: dataset[i].orderer_id,
-          Compensation: (dataset[i].total_price * 0.1).toFixed(2)
-        });
+    ).then( (response) => {
+      //console.log("-----------------------");
+      console.log("-----------------------");
+      var dataset = response.data;
+      var stateUpdate = []
+      for (var i = 0; i < dataset.length; i++) {
+        if (dataset[i].status === "pending") {
+          console.log(dataset[i]);
+          stateUpdate.push ({
+            Id: i.toString(),
+            Secret: dataset[i].order_id,
+            Name: dataset[i].restaurant_name,
+            Orderer_Id: dataset[i].orderer_id,
+            Compensation: (dataset[i].total_price * 0.1).toFixed(2)
+          });
+        }
       }
+      this.setState({Restaurants: stateUpdate});
+      console.log("Update complete");
     }
+    
+  );
+  
 
-    this.setState({Restaurants: stateUpdate});
-    console.log("Update complete");
-  }
+
+}
 
 
   async componentDidMount() {
     this.refresh()
   }
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.isFocused !== this.props.isFocused) {
+      this.refresh();
+    }
+  }
   render() {
     let view;
     console.log(this.state.errorMessage);
@@ -281,4 +296,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DelivererHomeScreen;
+export default withNavigationFocus(DelivererHomeScreen);

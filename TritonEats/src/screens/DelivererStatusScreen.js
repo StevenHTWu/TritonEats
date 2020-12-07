@@ -7,50 +7,20 @@ import { NativeModules } from "react-native";
 import { navigate } from "../navigationRef";
 import traffic from "../../assets/traffic.png";
 
-const getOrderStatus = async () => {
-    console.log("Calling getORderStatus");
-    const token = await AsyncStorage.getItem("token");
-    const headers = {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-    };
-
-    const response = await trackerApi.get("/orderer/orderInfoAsDeliverer", 
-        { 
-        order_id : order.orderer_id
-      },
-      { headers : headers 
-    
-    }).then((res) => {
-        var userInfo = res.data;
-        var info = userInfo[0];
-
-        var address = userInfo.address;
-        var residence = userInfo.residence;
-        var apartment = userInfo.apartment;
-
-        this.setState( {
-            address: address,
-            residence: residence,
-            apartment: apartment
-        });
-    
-    });
-  };
 
 class DelivererStatusScreen extends Component {
 
     // constructor that sets button text to picked up and initializes link
     constructor(props) {
-        console.log(order);
         super(props);
         this.state = {
             text: "",  
             link: "",
             address: "",
             apartment: "",
-            residence: "",
-            fake: order
+            status: "",
+    
+
         };
         //binding the two functions so they act on correct object
         this.status_update = this.status_update.bind(this);
@@ -59,6 +29,9 @@ class DelivererStatusScreen extends Component {
         //Update status in database to Pending and get directions to restaraunt.
         
     }
+
+
+    //set link to right address
     map_direction = ( ) => {
         switch (order.restaurant) {
             case ("Pines"):
@@ -79,18 +52,35 @@ class DelivererStatusScreen extends Component {
         
     }
 
-    orderer_direction = async ( text ) => {
+    //set the order status as it should be
+    getOrderStatus = async () => {
+        const token = await AsyncStorage.getItem("token");
+        const headers = {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+        };
+        console.log("Trying to get ORDER INFO ");
+        const response = await trackerApi.get(`/orderer/orderInfoAsDeliverer/${order.order_id}`, 
+        
+          { headers : headers 
+        
+        }).then((res) => {
+            console.log("GOT order info")
+            this.setState ( { status : res.data.status });
+        });
+      };
+
+    //get the directions for a given orderer
+    orderer_direction = async ( ) => {
         
         const token = await AsyncStorage.getItem("token");
         const headers = {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
         };
+        console.log("Getting User Info...");
 
-        const response = await trackerApi.get("/auth/orderer/getUserInfoAsDeliverer", 
-            { 
-            order_id : order.orderer_id
-          },
+        const response = await trackerApi.get(`/orderer/userInfoAsDeliverer/${order.orderer_id}`, 
           { headers : headers 
         
         }).then((res) => {
@@ -100,10 +90,9 @@ class DelivererStatusScreen extends Component {
             var address = userInfo.address;
             var residence = userInfo.residence;
             var apartment = userInfo.apartment;
-
+            this.getOrderStatus();
             this.setState( {
-                address: address,
-                residence: residence,
+                link: `https://www.google.com/maps/place/${residence.replace(/\s+/g, '+')}+${address.replace(/\s+/g, '+')}`,
                 apartment: apartment
             });
         
@@ -111,31 +100,32 @@ class DelivererStatusScreen extends Component {
 
 
     }
+
+    //update the status within
     status_update = async ( text ) => {
-        console.log("Calling update...");
         const token = await AsyncStorage.getItem("token");
         const headers = {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
         };
+        console.log("Attempting to update delivery status to " + text);
         const response = await trackerApi.patch("/auth/deliveryStatusUpdate", 
             { 
-            status: this.state.text,
+            status: text,
             order_id : order.order_id
           },
           { headers : headers 
         
         }).then ( (res) => {
-                if( this.state.text == "Delivered") {
+
+                console.log("Finished updating..");
+                if( text === "Delivered") {
                     navigate("DelivererHomeScreen");
                 }
-                if( text === "Picked Up" ) {
-                    
-                    this.setState({text: "Delivered"});
+                else if( text === "Picked Up" ) {
                     this.orderer_direction();
-                    this.setState({text: text});
                 } 
-                this.map_direction();
+                
           });
     };
 
@@ -143,18 +133,18 @@ class DelivererStatusScreen extends Component {
 
 
     componentDidMount = () => {
-        this.state.text = getOrderStatus();
+        this.getOrderStatus(); //set status
         this.map_direction();
+
     }
 
-
-    render() {
-        console.log("===================");
-        //On click of the url the link would open.
-        //On clicking of the button the text would change to delivered and the status would be updated to Picked up.
-        //On clicking of button second time database would be notified of complete delivery and you would be redirected to home page.
-        console.log("STATE: " + this.state.text);
-        if (this.state.text === "Pending") {
+    screenGenerator = () => {
+        console.log("=======================");
+        console.log("Generating screen");
+        console.log(this.state.status);
+        if (this.state.status == "pending" || this.state.status == "") {
+            console.log("Checked pending!");
+            
             var display = (
 
 
@@ -176,7 +166,7 @@ class DelivererStatusScreen extends Component {
             <TouchableOpacity
                 onPress={() => {
                     console.log("Picked up!");
-
+                    
                     this.status_update("Picked Up");
                 }}
                 style={styles.StatusBtn} >
@@ -185,15 +175,16 @@ class DelivererStatusScreen extends Component {
             </View>
 
             );
-        } else if (this.state.text === "Picked Up") {
+        } else if (this.state.text === "Picked Up" || this.state.status === "Picked Up") {
             console.log("Successfully changed...");
+            
             var display = (
 
 
                 <View style={styles.MainContainer}>
                     <View style={ { padding: 20} }>
                         <Text style={ {fontSize: 30} }>Deliver To {this.state.apartment} {this.state.residence} </Text>
-    
+
                     </View>
                     <TouchableOpacity 
                         onPress={()=> Linking.openURL(this.state.residence + this.state.address)}
@@ -208,20 +199,31 @@ class DelivererStatusScreen extends Component {
                 <TouchableOpacity
                     onPress={() => {
                         console.log("Delivered!");
-    
+
                         this.status_update("Delivered");
                     }}
                     style={styles.StatusBtn} >
                     <Text style={styles.ButtonText}>Delivered?</Text>
                 </TouchableOpacity>
                 </View>
-    
+
                 );
         }
+        else {
+            console.log("FAIL!");
+            console.log(this.state.text);
+        }
+
+        return display;
+    }
+
+
+    render() {
+        
 
         return (
             <View>
-            {display}
+            {this.screenGenerator()}
             </View>
         );
     }
