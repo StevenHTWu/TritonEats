@@ -5,7 +5,7 @@ var CurrentCart = require("../Components/Cart");
 
 const LandingScreen = ({ navigation }) => {
   CurrentCart.restaurant_name= "";
-  CurrentCard.order_arr= [];
+  CurrentCart.order_arr= [];
   CurrentCart.viewing_restaurant= "";
   return (
     <>
