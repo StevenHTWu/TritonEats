@@ -94,8 +94,9 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   TitleFont: {
-    fontSize: 45,
+    fontSize: 50,
     fontFamily: "Unica One",
+    fontWeight: "bold",
     paddingLeft: "33%",
     marginTop: "65%",
     marginBottom: 60,

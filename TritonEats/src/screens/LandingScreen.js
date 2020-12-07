@@ -43,8 +43,9 @@ LandingScreen.navigationOptions = () => {
 
 const styles = StyleSheet.create({
   LogoFont: {
-    fontSize: 55,
+    fontSize: 57,
     fontFamily: "Unica One",
+    fontWeight: "bold",
     paddingLeft: 20,
   },
   Container: {
@@ -62,10 +63,11 @@ const styles = StyleSheet.create({
     height: 300,
     alignSelf: "center",
     marginTop: "20%",
+    marginBottom: "10%",
   },
   LogoImg: {
-    width: 50,
-    height: 50,
+    width: 60,
+    height: 60,
     marginBottom: "10%",
   },
   SignUpBtn: {
