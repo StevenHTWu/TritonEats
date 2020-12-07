@@ -81,6 +81,16 @@ const PaymentScreen = ({ navigation }) => {
         />
         <View style={styles.layer1}>
           <View>
+            <Text
+              style={{
+                fontSize: 30,
+                fontFamily: "Unica One",
+                color: "#0a2657",
+                alignSelf: "center"
+              }}
+            >
+              Select or Add Card
+            </Text>
             <Picker
               selectedValue={selectedValue}
               mode="dropdown"
@@ -103,31 +113,42 @@ const PaymentScreen = ({ navigation }) => {
           </View>
 
           <View style={styles.layer2}>
-            <TouchableOpacity
-              onPress={() => {
-                makeOrder(
-                  navigation.getParam("res_name"),
-                  navigation.getParam("order_array"),
-                  navigation.getParam("total_price")
-                );
-                navigation.navigate("OrderStatusScreen");
-              }}
-              style={styles.PaymentBtn}
-            >
-              <Text style={styles.ButtonText}>Pay</Text>
-            </TouchableOpacity>
-            <Text
-              style={{
-                fontSize: 30,
-                fontFamily: "Unica One",
-                marginLeft: 250,
-                position: "absolute",
-                top: 35,
-                color: "#FFD700",
-              }}
-            >
-              {"$" + navigation.getParam("total_price")}
-            </Text>
+            
+            <View style={{ flex: 1, flexDirection: "row", paddingLeft: "8%", paddingTop: "8%"}}>
+              <View style={{ width: 220, height: 35 }}>
+              <TouchableOpacity
+                onPress={() => {
+                  makeOrder(
+                    navigation.getParam("res_name"),
+                    navigation.getParam("order_array"),
+                    navigation.getParam("total_price")
+                  );
+                  navigation.navigate("OrderStatusScreen");
+                }}
+                style={styles.PaymentBtn}
+              >
+                <Text style={styles.ButtonText}>Pay</Text>
+              </TouchableOpacity>
+              </View>
+              <View style={{ width: 50, height: 45, paddingTop: "2%" }}>
+                  <Image
+                style={styles.CardImgVisa}
+                source={require("../../assets/visa.png")}
+              />
+              </View>
+              <View style={{ width: 100, height: 45, paddingTop: "2%" }}>
+              <Text
+                style={{
+                  fontSize: 30,
+                  fontFamily: "Unica One",
+                  color: "#FFD700",
+                }}
+              >
+                {"$" + navigation.getParam("total_price")}
+              </Text>
+              </View>
+            </View>
+            
           </View>
         </View>
       </View>
@@ -144,25 +165,22 @@ const styles = StyleSheet.create({
   CardImg: {
     width: 120,
     height: 120,
-    marginLeft: 125,
-    marginTop: 50,
-    marginBottom: 30,
     zIndex: 1,
+    alignSelf: "center",
+    justifyContent: "center"
   },
   CardImgVisa: {
-    width: 50,
-    height: 40,
-    marginLeft: 20,
-    position: "absolute",
-    bottom: 9,
+    width: 35,
+    height: 35,
+    zIndex: 1,
   },
   layer1: {
     borderRadius: 50,
-    height: 450,
+    height: "100%",
     backgroundColor: "#ffffff",
-    paddingTop: 50,
     position: "absolute",
-    top: 230,
+    paddingTop: "15%",
+    top: "30%",
     width: "100%",
   },
   layer2: {
@@ -170,8 +188,8 @@ const styles = StyleSheet.create({
     height: 150,
     width: "100%",
     backgroundColor: "#0a2657",
-    position: "absolute",
-    top: 325,
+    marginTop: "5%",
+    zIndex: 1
   },
   AddCardBtn: {
     backgroundColor: "#FFD700",
@@ -179,7 +197,7 @@ const styles = StyleSheet.create({
     width: 120,
     borderRadius: 50,
     height: 45,
-    marginTop: 32,
+    marginTop: "15%",
     alignSelf: "center",
   },
   PaymentBtn: {
@@ -188,8 +206,6 @@ const styles = StyleSheet.create({
     width: 120,
     borderRadius: 50,
     height: 45,
-    marginTop: 32,
-    marginLeft: 36,
   },
   ButtonText: {
     fontSize: 23,
@@ -198,28 +214,6 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     textTransform: "uppercase",
     fontFamily: "Unica One",
-  },
-  selectCard: {
-    backgroundColor: "#f1f2f6",
-    height: 60,
-    width: 330,
-    marginLeft: 20,
-    borderRadius: 10,
-    marginTop: 15,
-    paddingTop: 20,
-    paddingLeft: 3,
-  },
-  selectCardPress: {
-    flex: 1,
-    flexDirection: "row",
-    borderWidth: 3,
-    borderColor: "#0a2657",
-    borderRadius: 6,
-    height: 60,
-    width: 330,
-    position: "absolute",
-    top: 0,
-    paddingTop: 17,
   },
   textIn: {
     marginLeft: 10,

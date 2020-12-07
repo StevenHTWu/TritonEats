@@ -39,7 +39,7 @@ switch (CurrentCart.restaurant_name) {
     var title_image = require("../../assets/OVpizza.jpg");
     break;
   default:
-    var title_image = require("../../assets/muffins.jpg");
+    var title_image = require("../../assets/salmon.jpg");
 }
 
 function sum(obj) {
@@ -69,7 +69,7 @@ class ShoppingCartScreen extends React.Component {
             justifyContent: "center",
             alignItems: "center",
           }}
-          source={title_image}
+          source={title_image} imageStyle={{opacity:0.7}}
         >
           <View
             style={{
@@ -80,8 +80,16 @@ class ShoppingCartScreen extends React.Component {
             }}
           >
             <Text style={styles.titleText}>
-              Your Order From {CurrentCart.restaurant_name}
+              Your Order From  <Text style={{
+                color: "#0a2657",
+                fontSize: 35,
+                fontWeight: "bold",
+                textAlign: "center",
+                paddingHorizontal: "10%"
+              }}>{CurrentCart.viewing_restaurant}
             </Text>
+            </Text>
+            
           </View>
         </ImageBackground>
 
@@ -113,31 +121,6 @@ class ShoppingCartScreen extends React.Component {
                   <Text style={styles.item}>{item.key}</Text>
 
                   <TouchableOpacity
-                    style={styles.quantityButton}
-                    onPress={() => {
-                      CurrentCart.addToOrderArr({
-                        key: item.key,
-                        quantity: item.quantity,
-                        value: item.value,
-                      });
-                      this.setState({ state: this.state });
-                    }}
-                    underlayColor="#fff"
-                  >
-                    <Text style={styles.quantityText}>+</Text>
-                  </TouchableOpacity>
-                  <Text
-                    style={{
-                      fontSize: 20,
-                      borderWidth: 0.5,
-                      borderColor: "grey",
-                      borderRadius: 4,
-                      padding: 6,
-                    }}
-                  >
-                    {item.quantity}
-                  </Text>
-                  <TouchableOpacity
                     style={styles.quantityButtonRight}
                     onPress={() => {
                       CurrentCart.removeFromOrderArr({
@@ -151,6 +134,32 @@ class ShoppingCartScreen extends React.Component {
                   >
                     <Text style={styles.quantityText}>-</Text>
                   </TouchableOpacity>
+                  <Text
+                    style={{
+                      fontSize: 20,
+                      borderWidth: 0.5,
+                      borderColor: "grey",
+                      borderRadius: 4,
+                      padding: 6,
+                    }}
+                  >
+                    {item.quantity}
+                  </Text>
+                  <TouchableOpacity
+                    style={styles.quantityButton}
+                    onPress={() => {
+                      CurrentCart.addToOrderArr({
+                        key: item.key,
+                        quantity: item.quantity,
+                        value: item.value,
+                      });
+                      this.setState({ state: this.state });
+                    }}
+                    underlayColor="#fff"
+                  >
+                    <Text style={styles.quantityText}>+</Text>
+                  </TouchableOpacity>
+                  
                 </View>
                 <Text style={styles.item}>
                   {" "}
@@ -223,14 +232,17 @@ const styles = StyleSheet.create({
     fontSize: 18,
     height: 44,
     justifyContent: "center",
+    fontFamily: "Unica One",
   },
   titleText: {
-    color: "#FFD700",
+    color: "#0a2657",
     fontSize: 35,
+    width: "90%",
     fontWeight: "bold",
     textAlign: "center",
-    paddingBottom: "25%",
     paddingHorizontal: "10%",
+    borderWidth: 2,
+    borderColor: '#0a2657'
   },
   listView: {
     flex: 1,
@@ -271,6 +283,7 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     paddingRight: 10,
     fontSize: 15,
+    fontFamily: "Unica One",
   },
   clearButton: {
     marginRight: "3%",

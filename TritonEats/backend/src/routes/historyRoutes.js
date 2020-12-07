@@ -16,15 +16,16 @@ router.route("/auth/history").get(function (req, res) {
   });
 });
 
-router.route("/complete").post(function (req, res) {
-  deliverer_id = req._id;
-  orders.find({ deliverer_id: _id }, async function (err, result) {
+router.route("/auth/complete").post(function (req, res) {
+  orderer_id = req._id;
+  console.log(orderer_id);
+  orders.find({ orderer_id: orderer_id }, async function (err, result) {
     if (err) {
       console.log(err);
       res.send(err);
     } else {
       if (result.length == 0) {
-        res.status(400).send("No order exists for deliverer " + _id + " .");
+        res.status(400).send("No order exists for orderer " + orderer_id + " .");
       } else {
         console.log("Creating history document.");
         obj = result.entries().next().value[1];
@@ -54,7 +55,7 @@ router.route("/complete").post(function (req, res) {
             total_price,
           });
           await completed_order.save();
-          await orders.deleteOne({ order_id: this_order_id });
+          await orders.deleteOne({ order_id: order_id });
 
           res.status(200).send("Order was completed successfully.");
         } catch (err) {
