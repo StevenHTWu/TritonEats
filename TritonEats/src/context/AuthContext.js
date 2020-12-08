@@ -54,6 +54,51 @@ const signup = (dispatch) => {
         password,
         is_deliverer,
       });
+      
+      if(!name){
+        dispatch({
+          type: "add_error",
+          payload: "Name cannot be empty!",
+        });
+        return;
+     }
+
+     if(typeof name !== "undefined"){
+        if(!name.match(/^[a-zA-Z]+$/)){
+          dispatch({
+            type: "add_error",
+            payload: "Name must only have letters!",
+          });
+          return;
+        }        
+     }
+
+     if(!email){
+      dispatch({
+        type: "add_error",
+        payload: "Email cannot be empty!",
+      });
+      return;
+   }
+     if(typeof email !== "undefined"){
+      if(!email.match(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/)){
+        dispatch({
+          type: "add_error",
+          payload: "Email is not valid!",
+        });
+        return;
+      }        
+   }
+   if(!password){
+    dispatch({
+      type: "add_error",
+      payload: "Password cannot be empty!",
+    });
+    return;
+ }
+
+
+
       await AsyncStorage.setItem("token", response.data.token);
       dispatch({ type: "signin", payload: response.data.token });
 
@@ -65,7 +110,7 @@ const signup = (dispatch) => {
     } catch (err) {
       dispatch({
         type: "add_error",
-        payload: "Something went wrong with sign up",
+        payload: "User exists or server is down..",
       });
     }
   };

@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { View, StyleSheet, Text, Button } from "react-native";
+import { View, StyleSheet, Text, Button, TouchableWithoutFeedback } from "react-native";
 import { NavigationEvents } from "react-navigation";
 import AuthForm from "../Components/AuthForm";
 import NavLink from "../Components/NavLink";
@@ -10,6 +10,9 @@ const SignInScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()} style={ {}}>
+      
+        <View>
       <NavigationEvents onWillFocus={clearErrorMessage} />
       <AuthForm
         headerText="Sign In"
@@ -24,6 +27,9 @@ const SignInScreen = ({ navigation }) => {
         routeName="SignUpScreen"
       />
     </View>
+      
+      </TouchableWithoutFeedback>
+      </View>
   );
 };
 

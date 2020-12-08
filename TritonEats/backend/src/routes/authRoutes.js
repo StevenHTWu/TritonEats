@@ -11,10 +11,13 @@ const router = express.Router();
 
 router.post("/signup", async (req, res) => {
   const { name, email, password, is_deliverer } = req.body;
+  const first_name = name;
   try {
     console.log(is_deliverer);
-    const user = new userAuth({ name, email, password, is_deliverer });
+    const user = new userAuth({ first_name, email, password, is_deliverer });
+    console.log(user);
     await user.save();
+   
 
     var profile = null;
     x = req.body.is_deliverer;
