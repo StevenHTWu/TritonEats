@@ -5,9 +5,12 @@ const ResolveAuthScreen = () => {
   const { tryLocalSignin } = useContext(AuthContext);
 
   // call the function exactly once using the useEffect hook from react and passing in [] as second param
+  //removed because local SIGNIN is not working!
+  /*
   useEffect(() => {
     tryLocalSignin();
   }, []);
+  */
 
   return null;
 };
