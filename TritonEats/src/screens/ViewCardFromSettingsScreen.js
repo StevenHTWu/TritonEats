@@ -104,6 +104,7 @@ class AddCardScreen extends Component {
               </Text>
               <TextInput
                 label="Card Number"
+                editable={false}
                 //value={cardNum}
                 maxLength={16}
                 onChangeText={(cardNum) =>  { 
@@ -165,6 +166,7 @@ class AddCardScreen extends Component {
                   Expiry Month
                 </Text>
                 <TextInput
+                  editable={false}  
                   label="Exp. Month"
                   //value={date}
                   onChangeText={(month) => this.setState({ date: month+this.state.date.substring(3,5) })}
@@ -221,6 +223,7 @@ class AddCardScreen extends Component {
                   Expiry Year
                 </Text>
                 <TextInput
+                  editable={false}
                   label="Exp. Year"
                   //value={date}
                   onChangeText={(year) => this.setState({ date: this.state.date.substring(0,2) + year })}
@@ -277,6 +280,7 @@ class AddCardScreen extends Component {
                   CVV
                 </Text>
                 <TextInput
+                  editable={false}
                   label="CVV"
                   //value={cvv}
                   maxLength={3}
@@ -333,6 +337,7 @@ class AddCardScreen extends Component {
                 Name
               </Text>
               <TextInput
+                editable={false}
                 label="Name"
                 //value={name}
                 onChangeText={(name) => this.setState({ name })}

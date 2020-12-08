@@ -20,7 +20,7 @@ const menu = [
   { key: "My Profile", nav: "ProfileScreen" },
   { key: "Manage Address", nav: "AddressScreen" },
   { key: "Add Payment Method", nav: "AddCardFromSettingsScreen" },
-  { key: "Manage Payment Method(s)", nav: "ManagePaymentScreen" },
+  { key: "View Payment Method(s)", nav: "ManagePaymentScreen" },
   { key: "Change Password", nav: "PasswordScreen" },
 ];
 

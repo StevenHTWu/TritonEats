@@ -146,12 +146,14 @@ router.route("/auth/assignDeliverer").patch(async function (req, res) {
   console.log("DELIVERER " + set_deliverer_id);
 
 
+
   const my_orderer = await orders.findOneAndUpdate(
     { order_id: order_set },
 
     {
       $set: {
         deliverer_id: set_deliverer_id,
+
       },
     },
     (err, response) => {

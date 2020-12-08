@@ -23,6 +23,7 @@ import { setNavigator } from "./src/navigationRef";
 import ResolveAuthScreen from "./src/screens/ResolveAuthScreen";
 import MenuScreen from "./src/screens/MenuScreen";
 import AddCardFromSettingsScreen from "./src/screens/AddCardFromSettingsScreen";
+import ViewCardFromSettingsScreen from "./src/screens/ViewCardFromSettingsScreen";
 import ManagePaymentScreen from "./src/screens/ManagePaymentScreen";
 import ProfileScreen from "./src/screens/ProfileScreen";
 import AddressScreen from "./src/screens/AddressScreen";
@@ -34,6 +35,7 @@ import DelivererHomeScreen from "./src/screens/DelivererHomeScreen";
 import DelivererJobHistoryScreen from "./src/screens/DelivererJobHistoryScreen";
 import DelivererSettingsScreen from "./src/screens/DelivererSettingsScreen";
 import DelivererStatusScreen from "./src/screens/DelivererStatusScreen";
+import { View } from "react-native";
 
 console.disableYellowBox = true;
 
@@ -75,6 +77,7 @@ const switchNavigator = createSwitchNavigator({
         AddCardFromSettingsScreen: AddCardFromSettingsScreen,
         ManagePaymentScreen: ManagePaymentScreen,
         PasswordScreen: PasswordScreen,
+        ViewCardFromSettingsScreen: ViewCardFromSettingsScreen,
       }),
     },
     {

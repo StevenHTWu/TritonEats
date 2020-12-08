@@ -102,12 +102,14 @@ const signup = (dispatch) => {
       await AsyncStorage.setItem("token", response.data.token);
       dispatch({ type: "signin", payload: response.data.token });
 
+
       if (is_deliverer) {
         navigate("DelivererMainFlow");
       } else {
         navigate("HomeScreen");
       }
     } catch (err) {
+      console.log(err);
       dispatch({
         type: "add_error",
         payload: "User exists or server is down..",
