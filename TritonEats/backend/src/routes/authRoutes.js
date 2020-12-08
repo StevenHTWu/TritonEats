@@ -10,10 +10,10 @@ const jwt = require("jsonwebtoken");
 const router = express.Router();
 
 router.post("/signup", async (req, res) => {
-  const { email, password, is_deliverer } = req.body;
+  const { name, email, password, is_deliverer } = req.body;
   try {
     console.log(is_deliverer);
-    const user = new userAuth({ email, password, is_deliverer });
+    const user = new userAuth({ name, email, password, is_deliverer });
     await user.save();
 
     var profile = null;
@@ -21,7 +21,7 @@ router.post("/signup", async (req, res) => {
     if (x) {
       const _id = new ObjectID();
       const deliverer_id = new ObjectID();
-      const name = "";
+      const name = req.body.name;
       const email = req.body.email;
       const phone_num = "";
       const registration_date = new Date();
@@ -44,7 +44,7 @@ router.post("/signup", async (req, res) => {
     if (!x) {
       const _id = new ObjectID();
       const orderer_id = new ObjectID();
-      const name = "";
+      const name = req.body.name;
       const email = req.body.email;
       const residence = "";
       const address = "";

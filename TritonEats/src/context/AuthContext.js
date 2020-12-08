@@ -20,23 +20,28 @@ const authReducer = (state, action) => {
   }
 };
 
+//This method does NOT work well!
 const tryLocalSignin = (dispatch) => async () => {
   const token = await AsyncStorage.getItem("token");
-
+  /*
   if (token) {
     dispatch({ type: "signin", payload: token });
     navigate("HomeScreen");
   } else {
-    navigate("LandingScreen");
+    
   }
+  */
+//remembering token doesn't seem to work...
+ navigate("LandingScreen");
 };
+
 
 const clearErrorMessage = (dispatch) => () => {
   dispatch({ type: "clear_error_message" });
 };
 
 const signup = (dispatch) => {
-  return async ({ email, password, is_deliverer }) => {
+  return async ({ name, email, password, is_deliverer }) => {
     // make api request to sign up with that email and password
     // if we sign up, modify our state, and say that we are authenticated
     // if signing up fails, we probably need to reflect an error message somewhere
@@ -44,6 +49,7 @@ const signup = (dispatch) => {
       is_deliverer = false;
 
       const response = await trackerApi.post("/signup", {
+        name,
         email,
         password,
         is_deliverer,
@@ -66,7 +72,7 @@ const signup = (dispatch) => {
 };
 
 const signupDeliv = (dispatch) => {
-  return async ({ email, password, is_deliverer }) => {
+  return async ({ name, email, password, is_deliverer }) => {
     // make api request to sign up with that email and password
     // if we sign up, modify our state, and say that we are authenticated
     // if signing up fails, we probably need to reflect an error message somewhere
@@ -74,6 +80,7 @@ const signupDeliv = (dispatch) => {
       is_deliverer = true;
 
       const response = await trackerApi.post("/signup", {
+        name,
         email,
         password,
         is_deliverer,

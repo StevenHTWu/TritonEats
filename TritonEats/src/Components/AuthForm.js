@@ -18,18 +18,28 @@ const AuthForm = ({
 }) => {
   const [value1, onChangeText1] = React.useState(" Email");
   const [value2, onChangeText2] = React.useState(" Password");
-  const [value3, onChangeText3] = React.useState(" isDeliverer");
+  const [value3, onChangeText3] = React.useState("Name");
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   var [is_deliverer, setIsDeliverer] = useState("");
-
-  var Falsity = "false";
-  var Truth = "true";
+  const [name, setName] = useState("");
   return (
     <>
       <Text style={styles.TitleFont}>{headerText}</Text>
       <View style={styles.LogoRow}>
+
+      <TextInput
+        secureTextEntry
+        label="Name"
+        value={name}
+        onChangeText={setName}
+        autoCapitalize="none"
+        autoCorrect={false}
+        placeholder={value3}
+        style={styles.textInput}
+      />
+
         <TextInput
           label="Email"
           value={email}
@@ -50,13 +60,16 @@ const AuthForm = ({
         placeholder={value2}
         style={styles.textInput}
       />
+
+    
+
       {errorMessage ? (
         <Text style={styles.errorMessage}>{errorMessage}</Text>
       ) : null}
       {submitButtonText == "Sign Up" ? (
         <TouchableOpacity
           onPress={() => {
-            onSubmitAlt({ email, password, is_deliverer });
+            onSubmitAlt({ name, email, password, is_deliverer });
           }}
           style={styles.SignUpBtnDeliv}
         >
@@ -67,7 +80,7 @@ const AuthForm = ({
       {submitButtonText == "Sign Up" ? (
         <TouchableOpacity
           onPress={() => {
-            onSubmit({ email, password, is_deliverer });
+            onSubmit({ name, email, password, is_deliverer });
           }}
           style={styles.SignUpBtn}
         >
