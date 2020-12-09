@@ -168,9 +168,7 @@ class OrderStatusScreen extends Component {
               <Text style={styles.delivererInfo}>
                 Deliverer name: {this.state.delivererName}
               </Text>
-              <Text style={styles.delivererInfo}>
-                Deliverer phone: {this.state.delivererPhone}
-              </Text>
+              
             </View>
             {this.state.status == "Delivered" ? (
               <TouchableOpacity

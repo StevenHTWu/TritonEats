@@ -99,17 +99,18 @@ class DelivererStatusScreen extends Component {
         var address = userInfo.address;
         var residence = userInfo.residence;
         var apartment = userInfo.apartment;
+        console.log("Delivering to " + address);
+        
+        const args = residence.split(" ");
+        
 
-        this.getOrderStatus();
         this.setState({
-          link: `https://www.google.com/maps/place/${residence.replace(
-            /\s+/g,
-            "+"
-          )}+${address.replace(/\s+/g, "+")}`,
+          link: `https://www.google.com/maps/search/?api=1&query=${args[0]}+UCSD`,
           apartment: apartment,
           residence: residence,
           address: address,
         });
+        this.getOrderStatus();
       });
   };
 
@@ -145,8 +146,19 @@ class DelivererStatusScreen extends Component {
   };
 
   componentDidMount = () => {
-    this.map_direction();
-    this.getOrderStatus(); //set status
+    
+    this.getOrderStatus().then(() => { //set status
+      if (this.state.text === "Picked Up" ||
+      this.state.status === "Picked Up") {
+        console.log("Generating order directions");
+        this.orderer_direction();
+      }
+      else if (
+        this.state.text === "Picked Up" ||
+        this.state.status === "Picked Up") {
+        this.map_direction();
+      }
+    });
   };
 
   screenGenerator = () => {
@@ -190,7 +202,7 @@ class DelivererStatusScreen extends Component {
       console.log("Successfully changed...");
       console.log(this.state.apartment);
       console.log(this.state.residence);
-
+      console.log(this.state.link);
       var display = (
         <View style={styles.MainContainer}>
           <View style={{ padding: 10 }}>
@@ -200,7 +212,7 @@ class DelivererStatusScreen extends Component {
           </View>
           <TouchableOpacity
             onPress={() =>
-              Linking.openURL(this.state.residence + this.state.address)
+              Linking.openURL(this.state.link)
             }
             style={styles.directionStyle}
           >
