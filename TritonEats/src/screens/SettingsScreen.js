@@ -144,7 +144,9 @@ export const setUserAddress = async (address, apartment, residence) => {
       });
     }
 
-    if (ordererAddressInfo.residence) {
+    console.log(userAddressInfo.residence);
+    console.log(residence);
+    if (ordererAddressInfo.residence != residence) {
       const responseRes = trackerApi
       .patch(
         "/auth/orderer/userResidenceUpdate",
@@ -159,7 +161,7 @@ export const setUserAddress = async (address, apartment, residence) => {
       .then((res) => {
         console.log("Updated...");
         getUserInfo();
-        return;
+      
       })
       .catch(function (error) {
         console.log("error");

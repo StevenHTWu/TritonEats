@@ -1,7 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const orderer = mongoose.model("orderers");
-const deliverer = mongoose.model("delivererInfo");
+const deliverer = mongoose.model("deliverers");
 
 const router = express.Router();
 
@@ -12,6 +12,16 @@ router.get("/auth/orderer/userInfo", async (req, res) => {
   res.json(ordererObj);
 
 });
+
+
+router.get("/auth/deliverer/userInfo", async (req, res) => {
+  const delivererObj = await deliverer.findOne({ deliverer_id: req._id });
+  console.log(delivererObj);
+
+  res.json(delivererObj);
+
+});
+
 
 router.get("/orderer/userInfoAsDeliverer/:orderer_id", async (req, res) => {
   console.log("ORDERER ID");
@@ -121,6 +131,30 @@ router.patch("/auth/orderer/userProfileUpdate", async (req, res) => {
   let user_id = ordererObj.orderer_id;
   const my_orderer = await orderer.findOneAndUpdate(
     { orderer_id: user_id },
+
+    {
+      $set: {
+        name: name,
+      },
+    },
+    (err, response) => {
+      if (err) res.send(err);
+      else {
+        res.send("Updated successfully!");
+      }
+    }
+  );
+});
+
+router.patch("/auth/orderer/delivererProfileUpdate", async (req, res) => {
+  const delivererObj = await deliverer.findOne({ deliverer_id: req._id });
+  var parameters = req.body;
+
+  var name = parameters.name;
+
+  let user_id = delivererObj.orderer_id;
+  const tmp = await deliverer.findOneAndUpdate(
+    { deliverer_id: user_id },
 
     {
       $set: {

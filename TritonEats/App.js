@@ -34,6 +34,7 @@ import DelivererJobHistoryScreen from "./src/screens/DelivererJobHistoryScreen";
 import DelivererSettingsScreen from "./src/screens/DelivererSettingsScreen";
 import DelivererStatusScreen from "./src/screens/DelivererStatusScreen";
 import { View } from "react-native";
+import DelivererProfileScreen from "./src/screens/DelivererProfileScreen";
 
 console.disableYellowBox = true;
 
@@ -113,12 +114,10 @@ const switchNavigator = createSwitchNavigator({
           title: "Job History",
         },
       },
-      DelivererSettingsScreen: {
-        screen: DelivererSettingsScreen,
-        navigationOptions: {
-          title: "Settings",
-        },
-      },
+      DelivererSettings: createStackNavigator({
+        DelivererSettingsScreen: DelivererSettingsScreen,
+        DelivererProfileScreen: DelivererProfileScreen
+      })
     }
     // {
     //   defaultNavigationOptions: ({ navigation }) => ({

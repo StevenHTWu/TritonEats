@@ -39,10 +39,16 @@ class ProfileScreen extends Component {
     return (
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <View style={styles.container}>
-          <Image
-            style={styles.CardImg}
-            source={require("../../assets/CardImg.png")}
-          />
+        <Text
+            style={{
+              fontSize: 30,
+              fontFamily: "Unica One",
+              paddingLeft: "30%",
+              color: "white"
+            }}
+          >
+            User Profile
+          </Text>
           <View style={styles.layer1}>
             <Text
               style={{
@@ -72,7 +78,7 @@ class ProfileScreen extends Component {
                   ordererProfileInfo.name = this.state.name;
 
                   
-                  setUserProfile(this.state.name, this.state.email);
+                  setUserProfile(this.state.name);
                   navigate("SettingsScreen");
 
                 }}
