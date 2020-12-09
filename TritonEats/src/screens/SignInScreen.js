@@ -4,6 +4,7 @@ import { NavigationEvents } from "react-navigation";
 import AuthForm from "../Components/AuthForm";
 import NavLink from "../Components/NavLink";
 import { Context } from "../context/AuthContext";
+import { Keyboard } from 'react-native'
 
 const SignInScreen = ({ navigation }) => {
   const { state, signin, clearErrorMessage } = useContext(Context);

@@ -27,7 +27,6 @@ import ViewCardFromSettingsScreen from "./src/screens/ViewCardFromSettingsScreen
 import ManagePaymentScreen from "./src/screens/ManagePaymentScreen";
 import ProfileScreen from "./src/screens/ProfileScreen";
 import AddressScreen from "./src/screens/AddressScreen";
-import PasswordScreen from "./src/screens/PasswordScreen";
 import OrderStatusScreen from "./src/screens/OrderStatusScreen";
 
 // Deliver Side Imports
@@ -76,7 +75,6 @@ const switchNavigator = createSwitchNavigator({
         AddressScreen: AddressScreen,
         AddCardFromSettingsScreen: AddCardFromSettingsScreen,
         ManagePaymentScreen: ManagePaymentScreen,
-        PasswordScreen: PasswordScreen,
         ViewCardFromSettingsScreen: ViewCardFromSettingsScreen,
       }),
     },

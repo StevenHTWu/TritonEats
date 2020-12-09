@@ -11,9 +11,9 @@ import {
   TouchableWithoutFeedback,
 } from "react-native";
 import { navigate } from "../navigationRef";
-
+import { setUserProfile, getUserInfo } from "./SettingsScreen";
 const ten = 10;
-
+import { withNavigationFocus } from "react-navigation";
 class ProfileScreen extends Component {
   //= ({ navigation }, props) => {
   /*
@@ -31,9 +31,7 @@ class ProfileScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: object.name,
-      email: object.email,
-      phone_num: object.phone_num,
+      name: ordererProfileInfo.name,
     };
   }
 
@@ -64,70 +62,19 @@ class ProfileScreen extends Component {
               autoCorrect={false}
               style={styles.textIn}
               placeholder={"Name"}
-              defaultValue={object.name}
+              defaultValue={this.state.name}
             />
 
-            <Text
-              style={{
-                fontSize: 20,
-                fontFamily: "Unica One",
-                paddingTop: 5,
-                paddingLeft: 10,
-              }}
-            >
-              Email
-            </Text>
-            <TextInput
-              label="Email"
-              //value={date}
-              onChangeText={(email) => this.setState({ email })}
-              autoCapitalize="none"
-              autoCorrect={false}
-              style={styles.textIn}
-              placeholder={"example@ucsd.edu"}
-              keyboardType="email-address"
-              defaultValue={object.email}
-            />
-
-            <Text
-              style={{
-                fontSize: 20,
-                fontFamily: "Unica One",
-                paddingLeft: 10,
-              }}
-            >
-              Phone Number
-            </Text>
-            <TextInput
-              label="Phone Number"
-              //value={name}
-              onChangeText={(phone_num) => this.setState({ phone_num })}
-              autoCapitalize="none"
-              autoCorrect={false}
-              style={styles.textIn}
-              placeholder={"1234567890"}
-              defaultValue={object.phone_num}
-              keyboardType="phone-pad"
-              maxLength={ten}
-            />
 
             <View style={styles.layer2}>
               <TouchableOpacity
                 onPress={() => {
-                  object.name = this.state.name;
-                  object.email = this.state.email;
-                  object.phone_num = this.state.phone_num;
-                  if (
-                    object.phone_num.length !== 10 ||
-                    !digitsOnly(object.phone_num) ||
-                    !validEmail(object.email) ||
-                    object.name.length === 0
-                  ) {
-                    Alert.alert("Error! Please fill in the details correctly.");
-                  } else {
-                    //make api call to save data
-                    navigate("SettingsScreen");
-                  }
+                  ordererProfileInfo.name = this.state.name;
+
+                  
+                  setUserProfile(this.state.name, this.state.email);
+                  navigate("SettingsScreen");
+
                 }}
                 style={styles.AddCardBtn}
               >
@@ -236,4 +183,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ProfileScreen;
+export default withNavigationFocus(ProfileScreen);

@@ -1,24 +1,16 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const orderer = mongoose.model("ordererInfo");
+const orderer = mongoose.model("orderers");
 const deliverer = mongoose.model("delivererInfo");
 
 const router = express.Router();
 
 router.get("/auth/orderer/userInfo", async (req, res) => {
   const ordererObj = await orderer.findOne({ orderer_id: req._id });
+  console.log(ordererObj);
 
-  let user_id = ordererObj.orderer_id;
-  console.log(user_id + "123");
-  const info = await orderer.find({ orderer_id: user_id }, (err, result) => {
-    if (err) {
-      res.send(err);
-    } else {
-      res.status(200).send({
-        address: ordererObj.address,
-      });
-    }
-  });
+  res.json(ordererObj);
+
 });
 
 router.get("/orderer/userInfoAsDeliverer/:orderer_id", async (req, res) => {
@@ -31,12 +23,44 @@ router.get("/orderer/userInfoAsDeliverer/:orderer_id", async (req, res) => {
 });
 
 router.patch("/auth/orderer/userAddressUpdate", async (req, res) => {
-  const ordererObj = await orderer.findOne({ orderer_id: req._id });
   var parameters = req.body;
 
   var address = parameters.address;
-  var apartment = parameters.apartment;
+  var apartment = "" + parameters.apartment;
   var residence = parameters.residence;
+  console.log(apartment);
+  console.log(address);
+  console.log(residence);
+  const my_orderer = await orderer.findOneAndUpdate(
+    { orderer_id: req._id },
+
+    {$set:
+      {
+        apartment: apartment,
+        residence: residence,
+        address: address
+
+
+
+      },
+      
+  }, {new: true},
+    (err, response) => {
+
+      if (err) res.send(err);
+      else {
+        response.save();
+        res.send("Update complete");
+      }
+    })
+      
+});
+
+router.patch("/auth/orderer/userProfileUpdate", async (req, res) => {
+  const ordererObj = await orderer.findOne({ orderer_id: req._id });
+  var parameters = req.body;
+
+  var name = parameters.name;
 
   let user_id = ordererObj.orderer_id;
   const my_orderer = await orderer.findOneAndUpdate(
@@ -44,9 +68,7 @@ router.patch("/auth/orderer/userAddressUpdate", async (req, res) => {
 
     {
       $set: {
-        address: address,
-        apartment: apartment,
-        residence: residence,
+        name: name,
       },
     },
     (err, response) => {
@@ -57,6 +79,7 @@ router.patch("/auth/orderer/userAddressUpdate", async (req, res) => {
     }
   );
 });
+
 
 router.patch("/userInfo/:user_id/:isDeliverer", async (req, res) => {
   let user_id = req.params.user_id;

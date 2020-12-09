@@ -10,12 +10,12 @@ import {
   Picker,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { getUserInfo } from "./SettingsScreen";
 
 const ManagePaymentScreen = ({ navigation }) => {
   //const [response, setResponse] = useState();
-
-  const [selectedValue, setSelectedValue] = useState(cards[0]);
-  const [alternateSelect, setAlternateSelect] = useState(true);
+  
+  
 
   const changeSelect = () => {
     setAlternateSelect((alternateSelect) => !alternateSelect);
@@ -29,8 +29,9 @@ const ManagePaymentScreen = ({ navigation }) => {
 */
   var cardNum = null;
 
+  getUserInfo();
   if (cards[0].card_number != null) {
-    cardNum = "xxxx-xxxx-xxxx-" + cards[0].card_number.substring(12, 16);
+    cardNum = "xxxx-xxxx-xxxx-" + global.cards[0].card_number.substring(12, 16);
   }
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -78,7 +79,7 @@ const ManagePaymentScreen = ({ navigation }) => {
                   setSelectedValue(itemValue)
                 }
               >
-                {cards.map((arr) => (
+                {global.cards.map((arr) => (
                   <Picker.Item
                     label={arr.card_number}
                     value={arr.card_number}
@@ -89,7 +90,7 @@ const ManagePaymentScreen = ({ navigation }) => {
               <TouchableOpacity
                 onPress={() => {
                   global.card = { cardNum: "", expiry: "", cvv: "", name: "" };
-                  navigation.navigate("AddCardFromSettingsScreen");
+                  navigation.navigate("ViewCardFromSettingsScreen");
                 }}
                 style={styles.AddCardBtn}
               >
@@ -102,11 +103,11 @@ const ManagePaymentScreen = ({ navigation }) => {
             <TouchableOpacity
               onPress={() => {
                 global.card = selectedValue;
-                navigation.navigate("AddCardFromSettingsScreen");
+                navigation.navigate("ViewCardFromSettingsScreen");
               }}
               style={styles.PaymentBtn}
             >
-              <Text style={styles.ButtonText}>View/Edit</Text>
+              <Text style={styles.ButtonText}>View</Text>
             </TouchableOpacity>
           </View>
         </View>

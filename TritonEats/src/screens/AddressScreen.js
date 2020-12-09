@@ -13,162 +13,170 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { setUserAddress, getUserInfo } from "./SettingsScreen";
+import { navigate } from "../navigationRef"
 const residences = [
-  "Revelle: Argo Hall",
-  "Revelle: Blake Hall",
-  "Revelle: Atlantis Hall",
-  "Revelle: Beagle Hall",
-  "Revelle: Challenger Hall",
-  "Revelle: Discovery Hall",
-  "Revelle: Galathea Hall",
-  "Revelle: Meteor Hall",
-  "Revelle: Keeling Apartments",
-  "Muir: Tenaya",
-  "Muir: Tioga",
-  "Muir: Tuolumne",
-  "Muir: Tamarack",
-  "Marshall: Lower Apartments",
-  "Marshall: Upper Apartments",
-  "Marshall: Residential Halls",
-  "Warren: Frankfurter",
-  "Warren: Harlan",
-  "Warren: Stewart",
-  "Warren: Black",
-  "Warren: Brennan",
-  "Warren: Douglas",
-  "Warren: Goldberg",
-  "Warren: Bates",
-  "Warren: Brown",
-  "ERC: North America",
-  "ERC: Latin America",
-  "ERC: Europe",
-  "ERC: Asia",
-  "ERC: Africa",
-  "ERC: Earth Hall North",
-  "ERC: Earth Hall South",
-  "ERC: Oceania",
-  "ERC: Middle East",
-  "ERC: Mesa Verde",
-  "I-House: Geneva",
-  "I-House: Kathmandu",
-  "I-House: Cuzco",
-  "I-House: Asante",
-  "Sixth: Catalyst",
-  "Sixth: Kaleidoscope",
-  "Sixth: Tapestry",
-  "Village: West Building (1-8)",
-  "Village: East Building (1-5)",
+  "Revelle Argo Hall",
+  "Revelle Blake Hall",
+  "Revelle Atlantis Hall",
+  "Revelle Beagle Hall",
+  "Revelle Challenger Hall",
+  "Revelle Discovery Hall",
+  "Revelle Galathea Hall",
+  "Revelle Meteor Hall",
+  "Revelle Keeling Apartments",
+  "Muir Tenaya",
+  "Muir Tioga",
+  "Muir Tuolumne",
+  "Muir Tamarack",
+  "Marshall Lower Apartments",
+  "Marshall Upper Apartments",
+  "Marshall Residential Halls",
+  "Warren Frankfurter",
+  "Warren Harlan",
+  "Warren Stewart",
+  "Warren Black",
+  "Warren Brennan",
+  "Warren Douglas",
+  "Warren Goldberg",
+  "Warren Bates",
+  "Warren Brown",
+  "ERC North America",
+  "ERC Latin America",
+  "ERC Europe",
+  "ERC Asia",
+  "ERC Africa",
+  "ERC Earth Hall North",
+  "ERC Earth Hall South",
+  "ERC Oceania",
+  "ERC Middle East",
+  "ERC Mesa Verde",
+  "I-House Geneva",
+  "I-House Kathmandu",
+  "I-House Cuzco",
+  "I-House Asante",
+  "Sixth Catalyst",
+  "Sixth Kaleidoscope",
+  "Sixth Tapestry",
+  "Village West Building (1-8)",
+  "Village East Building (1-5)",
 ];
 
-const AddressScreen = ({ navigation }) => {
+class AddressScreen extends React.Component{
   //const [response, setResponse] = useState();
+  constructor() {
+    super();
 
-  const [selectedValue, setSelectedValue] = useState(object.residence);
-  const [alternateSelect, setAlternateSelect] = useState(true);
-  const [apartmentValue, setApartmentValue] = useState(object.apartment);
-  const [addressValue, setAddressValue] = useState(object.address);
+    this.state = {
+      selectedValue : ordererAddressInfo.residence,
+    alternateSelect : true,
+    apartmentValue : ordererAddressInfo.apartment,
+   addressValue : ordererAddressInfo
 
-  const changeSelect = () => {
-    setAlternateSelect((alternateSelect) => !alternateSelect);
-  };
+  
+  }
+}
+  render() {
+    
 
-  return (
-    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-      <View style={styles.container}>
-        <Image
-          style={styles.CardImg}
-          source={require("../../assets/pay.png")}
-        />
-        <View style={styles.layer1}>
-          <Text
-            style={{
-              fontSize: 20,
-              fontFamily: "Unica One",
-              paddingTop: 5,
-              paddingLeft: 10,
-            }}
-          >
-            Apartment Number
-          </Text>
-          <TextInput
-            label="Apartment Number"
-            onChangeText={(apartment) => {
-              setApartmentValue(apartment);
-            }}
-            autoCapitalize="none"
-            autoCorrect={false}
-            style={styles.textIn}
-            placeholder={"Apartment Number"}
-            defaultValue={object.apartment}
+    return (
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+        <View style={styles.container}>
+          <Image
+            style={styles.CardImg}
+            source={require("../../assets/pay.png")}
           />
-          <Text
-            style={{
-              fontSize: 20,
-              fontFamily: "Unica One",
-              paddingTop: 5,
-              paddingLeft: 10,
-            }}
-          >
-            Address
-          </Text>
-          <TextInput
-            label="Address"
-            onChangeText={(address) => {
-              setAddressValue(address);
-            }}
-            autoCapitalize="none"
-            autoCorrect={false}
-            style={styles.textIn}
-            placeholder={"Address"}
-            defaultValue={object.address}
-          />
-          <Text
-            style={{
-              fontSize: 20,
-              fontFamily: "Unica One",
-              paddingTop: 5,
-              paddingLeft: 10,
-            }}
-          >
-            Residence
-          </Text>
-          <Picker
-            style={styles.selectCard}
-            selectedValue={selectedValue}
-            mode="dropdown"
-            style={{ height: 20, width: 400, flex: 1 }}
-            onValueChange={(itemValue, itemIndex) =>
-              setSelectedValue(itemValue)
-            }
-          >
-            {residences.map((residence) => (
-              <Picker.Item
-                style={{ flex: 1 }}
-                label={residence}
-                value={residence}
-              />
-            ))}
-          </Picker>
-          <View style={styles.layer2}>
-            <TouchableOpacity
-              onPress={() => {
-                if (apartmentValue.length === 0 || addressValue.length === 0) {
-                  Alert.alert("Error! Please enter valid information.");
-                } else {
-                  setUserAddress(addressValue, apartmentValue, selectedValue);
-                  // make api call to save data
-                  navigation.navigate("SettingsScreen");
-                }
+          <View style={styles.layer1}>
+            <Text
+              style={{
+                fontSize: 20,
+                fontFamily: "Unica One",
+                paddingTop: 5,
+                paddingLeft: 10,
               }}
-              style={styles.PaymentBtn}
             >
-              <Text style={styles.ButtonText}>Save</Text>
-            </TouchableOpacity>
+              Apartment Number
+            </Text>
+            <TextInput
+              label="Apartment Number"
+              onChangeText={(apartment) => {
+                this.setState( { apartmentValue : apartment });
+              }}
+              autoCapitalize="none"
+              autoCorrect={false}
+              style={styles.textIn}
+              placeholder={"Apartment Number"}
+              defaultValue={ordererAddressInfo.apartment}
+            />
+            <Text
+              style={{
+                fontSize: 20,
+                fontFamily: "Unica One",
+                paddingTop: 5,
+                paddingLeft: 10,
+              }}
+            >
+              Address
+            </Text>
+            <TextInput
+              label="Address"
+              onChangeText={(address) => {
+                this.setState( { addressValue : address } );
+              }}
+              autoCapitalize="none"
+              autoCorrect={false}
+              style={styles.textIn}
+              placeholder={"Address"}
+              defaultValue={ordererAddressInfo.address}
+            />
+            <Text
+              style={{
+                fontSize: 20,
+                fontFamily: "Unica One",
+                paddingTop: 5,
+                paddingLeft: 10,
+              }}
+            >
+              Residence
+            </Text>
+            <Picker
+              style={styles.selectCard}
+              selectedValue={this.state.selectedValue}
+              mode="dropdown"
+              style={{ height: 20, width: 400, flex: 1 }}
+              onValueChange={(itemValue, itemIndex) =>
+                this.setState( { selectedValue : itemValue } )
+              }
+            >
+              {residences.map((residence) => (
+                <Picker.Item
+                  style={{ flex: 1 }}
+                  label={residence}
+                  value={residence}
+                />
+              ))}
+            </Picker>
+            <View style={styles.layer2}>
+              <TouchableOpacity
+                onPress={() => {
+                  if (this.state.apartmentValue.length === 0 || this.state.addressValue.length === 0) {
+                    Alert.alert("Error! Please enter valid information.");
+                  } else {
+                    console.log(this.state.addressValue);
+                    setUserAddress(this.state.addressValue, this.state.apartmentValue, this.state.selectedValue);
+                    // make api call to save data
+                    navigate("SettingsScreen");
+                  }
+                }}
+                style={styles.PaymentBtn}
+              >
+                <Text style={styles.ButtonText}>Save</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
-      </View>
-    </TouchableWithoutFeedback>
-  );
+      </TouchableWithoutFeedback>
+    );
+              }
 };
 AddressScreen.navigationOptions = () => {
   return {

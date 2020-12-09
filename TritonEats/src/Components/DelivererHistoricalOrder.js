@@ -108,16 +108,7 @@ class HistoricalOrder extends React.Component {
               </Text>
             </View>
           </View>
-          <TouchableOpacity
-            color="#FFD700"
-            accessibilityLabel="Add to cart"
-            onPress={() => {
-              CurrentCart.emptyOrderArr();
-              CurrentCart.order_arr = this.props.items;
-              console.log(CurrentCart.order_arr);
-              navigate("ShoppingCartScreen");
-            }}
-          ></TouchableOpacity>
+        
         </ScrollView>
       </View>
     );
