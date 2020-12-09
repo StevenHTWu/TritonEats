@@ -35,7 +35,7 @@ const addCard = async (card_number, cvv, expiration_date) => {
   );
 };
 
-class AddCardScreen extends Component {
+class AddCardFromSettingsScreen extends Component {
   //= ({ navigation }, props) => {
   /*
   const [name1, onChangeText1] = React.useState(' CardHolder Name');
@@ -49,23 +49,21 @@ class AddCardScreen extends Component {
 
   const data = {name:"hello", age:"15"}
   */
-  constructor(props) {
-    super(props);
-    this.state = {
-      cardNum: global.card.cardNum,
-      wrongCardNum: false,
-      wrongDate: false,
-      wrongCVV: false,
-      wrongName: false,
-      shortCardNum: false,
-      wrongLengthDate: false,
-      wrongLengthCVV: false,
-      date: global.card.expiry,
-      cvv: global.card.cvv,
-      name: global.card.name
+ constructor(props) {
+  super(props);
+  this.state = {
+    cardNum: "",
+    wrongCardNum: false,
+    wrongDate: false,
+    wrongCVV: false,
+    wrongName: false,
+    shortCardNum: false,
+    wrongLengthDate: false,
+    wrongLengthCVV: false,
+    date: "    "
 
-    };
-  }
+  };
+}
 
   normalizeInput = (value, previousValue) => {
     console.log("Normalizing...");
@@ -427,7 +425,7 @@ class AddCardScreen extends Component {
   }
 }
 
-AddCardScreen.navigationOptions = () => {
+AddCardFromSettingsScreen.navigationOptions = () => {
   return {
     header: () => false,
   };
@@ -517,4 +515,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AddCardScreen;
+export default AddCardFromSettingsScreen;

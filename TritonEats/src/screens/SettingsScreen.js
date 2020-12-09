@@ -94,28 +94,79 @@ export const setUserAddress = async (address, apartment, residence) => {
     Authorization: `Bearer ${token}`,
   };
 
-  const response = trackerApi
-    .patch(
-      "/auth/orderer/userAddressUpdate",
-      {
-        address,
-        apartment,
-        residence,
-      },
-      {
-        headers: headers,
-      }
-    )
-    .then((res) => {
-      console.log("Updated...");
-      getUserInfo();
-      return;
-    })
-    .catch(function (error) {
-      console.log("error");
-      console.log(error);
-      return null;
-    });
+  if (ordererAddressInfo.address != address) {
+    const responseAddr = trackerApi
+      .patch(
+        "/auth/orderer/userAddressUpdate",
+        {
+          address,
+
+        },
+        {
+          headers: headers,
+        }
+      )
+      .then((res) => {
+        console.log("Updated...");
+        getUserInfo();
+
+      })
+      .catch(function (error) {
+        console.log("error");
+        console.log(error);
+        return null;
+      });
+    }
+
+
+    if (ordererAddressInfo.apartment != apartment) {
+      const responseApt = trackerApi
+      .patch(
+        "/auth/orderer/userApartmentUpdate",
+        {
+
+          apartment,
+
+        },
+        {
+          headers: headers,
+        }
+      )
+      .then((res) => {
+        console.log("Updated...");
+        getUserInfo();
+
+      })
+      .catch(function (error) {
+        console.log("error");
+        console.log(error);
+        return null;
+      });
+    }
+
+    if (ordererAddressInfo.residence) {
+      const responseRes = trackerApi
+      .patch(
+        "/auth/orderer/userResidenceUpdate",
+        {
+
+          residence,
+        },
+        {
+          headers: headers,
+        }
+      )
+      .then((res) => {
+        console.log("Updated...");
+        getUserInfo();
+        return;
+      })
+      .catch(function (error) {
+        console.log("error");
+        console.log(error);
+        return null;
+      });
+    }
 };
 
 

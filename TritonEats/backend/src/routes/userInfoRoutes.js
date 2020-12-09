@@ -26,18 +26,13 @@ router.patch("/auth/orderer/userAddressUpdate", async (req, res) => {
   var parameters = req.body;
 
   var address = parameters.address;
-  var apartment = "" + parameters.apartment;
-  var residence = parameters.residence;
-  console.log(apartment);
-  console.log(address);
-  console.log(residence);
+  console.log("Updating address...");
   const my_orderer = await orderer.findOneAndUpdate(
     { orderer_id: req._id },
 
     {$set:
       {
-        apartment: apartment,
-        residence: residence,
+
         address: address
 
 
@@ -55,6 +50,67 @@ router.patch("/auth/orderer/userAddressUpdate", async (req, res) => {
     })
       
 });
+
+router.patch("/auth/orderer/userResidenceUpdate", async (req, res) => {
+  var parameters = req.body;
+  console.log("Updating residence...");
+  var residence = parameters.residence;
+
+  const my_orderer = await orderer.findOneAndUpdate(
+    { orderer_id: req._id },
+
+    {$set:
+      {
+
+        residence: residence,
+
+
+
+
+      },
+      
+  }, {new: true},
+    (err, response) => {
+
+      if (err) res.send(err);
+      else {
+        response.save();
+        res.send("Update complete");
+      }
+    })
+      
+});
+
+router.patch("/auth/orderer/userApartmentUpdate", async (req, res) => {
+  var parameters = req.body;
+  console.log("Updating apartment...");
+  var apartment = "" + parameters.apartment;
+
+  console.log(apartment);
+
+  const my_orderer = await orderer.findOneAndUpdate(
+    { orderer_id: req._id },
+
+    {$set:
+      {
+        apartment: apartment,
+
+
+
+      },
+      
+  }, {new: true},
+    (err, response) => {
+
+      if (err) res.send(err);
+      else {
+        response.save();
+        res.send("Update complete");
+      }
+    })
+      
+});
+
 
 router.patch("/auth/orderer/userProfileUpdate", async (req, res) => {
   const ordererObj = await orderer.findOne({ orderer_id: req._id });
