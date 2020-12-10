@@ -70,7 +70,7 @@ class AddressScreen extends React.Component{
       selectedValue : ordererAddressInfo.residence,
     alternateSelect : true,
     apartmentValue : ordererAddressInfo.apartment,
-   addressValue : ordererAddressInfo
+   addressValue : ordererAddressInfo.address
 
   
   }
@@ -162,7 +162,7 @@ class AddressScreen extends React.Component{
                     Alert.alert("Error! Please enter valid information.");
                   } else {
                     console.log(this.state.addressValue);
-                    setUserAddress(this.state.addressValue, this.state.apartmentValue, this.state.selectedValue);
+                    setUserAddress(this.state.addressValue, this.state.apartmentValue, this.state.selectedValue).then(getUserInfo());
                     // make api call to save data
                     navigate("SettingsScreen");
                   }

@@ -108,13 +108,12 @@ export const setUserAddress = async (address, apartment, residence) => {
       )
       .then((res) => {
         console.log("Updated...");
-        getUserInfo();
+
 
       })
       .catch(function (error) {
         console.log("error");
         console.log(error);
-        return null;
       });
     }
 
@@ -134,19 +133,20 @@ export const setUserAddress = async (address, apartment, residence) => {
       )
       .then((res) => {
         console.log("Updated...");
-        getUserInfo();
+
 
       })
       .catch(function (error) {
         console.log("error");
         console.log(error);
-        return null;
+
       });
     }
 
-    console.log(userAddressInfo.residence);
+    console.log(ordererAddressInfo.residence);
     console.log(residence);
     if (ordererAddressInfo.residence != residence) {
+      console.log("Changing residence...");
       const responseRes = trackerApi
       .patch(
         "/auth/orderer/userResidenceUpdate",
@@ -160,13 +160,13 @@ export const setUserAddress = async (address, apartment, residence) => {
       )
       .then((res) => {
         console.log("Updated...");
-        getUserInfo();
+
       
       })
       .catch(function (error) {
         console.log("error");
         console.log(error);
-        return null;
+
       });
     }
 };
