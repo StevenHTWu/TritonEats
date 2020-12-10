@@ -153,9 +153,7 @@ class DelivererStatusScreen extends Component {
         console.log("Generating order directions");
         this.orderer_direction();
       }
-      else if (
-        this.state.text === "Picked Up" ||
-        this.state.status === "Picked Up") {
+      else {
         this.map_direction();
       }
     });
