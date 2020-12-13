@@ -192,6 +192,7 @@ class ShoppingCartScreen extends React.Component {
             style={styles.clearButton}
             onPress={() => {
               CurrentCart.emptyOrderArr();
+              CurrentCart.restaurant_name = "";
               this.setState({ state: this.state });
             }}
             underlayColor="#fff"

@@ -21,7 +21,8 @@ class MenuScreen extends Component {
     this.state = {
       isLoading: true,
       RestaurantMenu: [],
-      errorMessage: true,
+      errorMessage: false,
+      viewing_restaurant: CurrentCart.viewing_restaurant
     };
   }
 
@@ -53,6 +54,7 @@ class MenuScreen extends Component {
   }
 
   render() {
+    console.log("CALLING RENDER");
     let view;
     //console.log(this.errorMessage);
     if (this.state.errorMessage === true) {
@@ -111,12 +113,14 @@ class MenuScreen extends Component {
                             color="#FFD700"
                             accessibilityLabel="Add to cart"
                             onPress={() => {
+                              console.log("RESTAURANT NAME");
+                              console.log(CurrentCart.restaurant_name);
+                              console.log("VIEW NAME");
+                              console.log(CurrentCart.viewing_restaurant);
                               if (CurrentCart.viewing_restaurant === CurrentCart.restaurant_name || CurrentCart.restaurant_name === "") {
                                 CurrentCart.restaurant_name = CurrentCart.viewing_restaurant;
                                 console.log("RESTAURANT NAME");
                                 console.log(CurrentCart.restaurant_name);
-                                console.log("VIEW NAME");
-                                console.log(CurrentCart.viewing_restaurant);
                                 var tmpArr = Object.assign([], CurrentCart.order_arr);
                                 CurrentCart.emptyOrderArr();
                                 CurrentCart.order_arr = tmpArr;
@@ -128,7 +132,7 @@ class MenuScreen extends Component {
                               }
                               else {
                                 console.log("ERROR!");
-                                this.state.errorMessage = true;
+                                this.setState ({ errorMessage : true });
                               }
                             }}
                           >

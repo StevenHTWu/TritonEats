@@ -33,6 +33,7 @@ var CurrentCart = {
 
   emptyOrderArr: function () {
     this.order_arr = [];
+    
   },
 };
 module.exports = CurrentCart;

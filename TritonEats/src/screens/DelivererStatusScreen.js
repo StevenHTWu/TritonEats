@@ -301,7 +301,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     paddingTop: "1%",
     paddingBottom: "1%",
-    marginTop: "30%",
+    marginTop: "50%",
     marginBottom: "-200%",
   },
 });
