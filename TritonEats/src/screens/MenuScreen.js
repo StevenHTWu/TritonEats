@@ -109,14 +109,19 @@ class MenuScreen extends Component {
                             color="#FFD700"
                             accessibilityLabel="Add to cart"
                             onPress={() => {
-                              var tmpArr = Object.assign([], CurrentCart.order_arr);
-                              CurrentCart.emptyOrderArr();
-                              CurrentCart.order_arr = tmpArr;
-                              CurrentCart.addToOrderArr({
-                                key: item.name,
-                                quantity: 1,
-                                value: parseFloat(item.price.substring(1)),
-                              });
+                              if (CurrentCart.viewing_restaurant === CurrentCart.restaurant_name || CurrentCart.restaurant_name === "") {
+                                var tmpArr = Object.assign([], CurrentCart.order_arr);
+                                CurrentCart.emptyOrderArr();
+                                CurrentCart.order_arr = tmpArr;
+                                CurrentCart.addToOrderArr({
+                                  key: item.name,
+                                  quantity: 1,
+                                  value: parseFloat(item.price.substring(1)),
+                                });
+                              }
+                              else {
+                                this.state.errorMessage = true;
+                              }
                             }}
                           >
                             <Text style={styles.addToCartText}>Add to cart</Text>
