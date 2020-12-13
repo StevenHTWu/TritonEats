@@ -11,7 +11,7 @@ router.route("/restaurantMenu/:id").get(async function (req, res) {
   const rnf = await resMenu.findOne({ restaurant_name });
   var curr = new Date();
   var cDate = curr.getDate();
-  var cHours = curr.getHours();
+  var cHours = (curr.getHours() - 8) % 24;
   var cMins = curr.getMinutes();
   var cDay = curr.getDay();
   var menu;

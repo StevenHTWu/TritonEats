@@ -44,7 +44,7 @@ class OrderStatusScreen extends Component {
     };
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     const getDelivererStatus = async () => {
       console.log("get mount");
       this.setState({ isLoading: true });
@@ -89,7 +89,7 @@ class OrderStatusScreen extends Component {
         var statusText = "Waiting for Tritons to pick up!";
         var progressBar = 0.33;
         break;
-      case "Picked up":
+      case "Picked Up":
         var statusText =
           "Your food has been Picked up! It will arrive in 20 minutes";
         var progressBar = 0.66;
@@ -167,9 +167,6 @@ class OrderStatusScreen extends Component {
               </View>
               <Text style={styles.delivererInfo}>
                 Deliverer name: {this.state.delivererName}
-              </Text>
-              <Text style={styles.delivererInfo}>
-                Deliverer phone: {this.state.delivererPhone}
               </Text>
             </View>
             {this.state.status == "Delivered" ? (

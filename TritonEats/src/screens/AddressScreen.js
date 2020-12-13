@@ -13,176 +13,186 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { setUserAddress, getUserInfo } from "./SettingsScreen";
+import { navigate } from "../navigationRef";
 const residences = [
-  "Revelle: Argo Hall",
-  "Revelle: Blake Hall",
-  "Revelle: Atlantis Hall",
-  "Revelle: Beagle Hall",
-  "Revelle: Challenger Hall",
-  "Revelle: Discovery Hall",
-  "Revelle: Galathea Hall",
-  "Revelle: Meteor Hall",
-  "Revelle: Keeling Apartments",
-  "Muir: Tenaya",
-  "Muir: Tioga",
-  "Muir: Tuolumne",
-  "Muir: Tamarack",
-  "Marshall: Lower Apartments",
-  "Marshall: Upper Apartments",
-  "Marshall: Residential Halls",
-  "Warren: Frankfurter",
-  "Warren: Harlan",
-  "Warren: Stewart",
-  "Warren: Black",
-  "Warren: Brennan",
-  "Warren: Douglas",
-  "Warren: Goldberg",
-  "Warren: Bates",
-  "Warren: Brown",
-  "ERC: North America",
-  "ERC: Latin America",
-  "ERC: Europe",
-  "ERC: Asia",
-  "ERC: Africa",
-  "ERC: Earth Hall North",
-  "ERC: Earth Hall South",
-  "ERC: Oceania",
-  "ERC: Middle East",
-  "ERC: Mesa Verde",
-  "I-House: Geneva",
-  "I-House: Kathmandu",
-  "I-House: Cuzco",
-  "I-House: Asante",
-  "Sixth: Catalyst",
-  "Sixth: Kaleidoscope",
-  "Sixth: Tapestry",
-  "Village: West Building (1-8)",
-  "Village: East Building (1-5)",
+  "Revelle Argo Hall",
+  "Revelle Blake Hall",
+  "Revelle Atlantis Hall",
+  "Revelle Beagle Hall",
+  "Revelle Challenger Hall",
+  "Revelle Discovery Hall",
+  "Revelle Galathea Hall",
+  "Revelle Meteor Hall",
+  "Revelle Keeling Apartments",
+  "Muir Tenaya",
+  "Muir Tioga",
+  "Muir Tuolumne",
+  "Muir Tamarack",
+  "Marshall Lower Apartments",
+  "Marshall Upper Apartments",
+  "Marshall Residential Halls",
+  "Warren Frankfurter",
+  "Warren Harlan",
+  "Warren Stewart",
+  "Warren Black",
+  "Warren Brennan",
+  "Warren Douglas",
+  "Warren Goldberg",
+  "Warren Bates",
+  "Warren Brown",
+  "ERC North America",
+  "ERC Latin America",
+  "ERC Europe",
+  "ERC Asia",
+  "ERC Africa",
+  "ERC Earth Hall North",
+  "ERC Earth Hall South",
+  "ERC Oceania",
+  "ERC Middle East",
+  "ERC Mesa Verde",
+  "I-House Geneva",
+  "I-House Kathmandu",
+  "I-House Cuzco",
+  "I-House Asante",
+  "Sixth Catalyst",
+  "Sixth Kaleidoscope",
+  "Sixth Tapestry",
+  "Village West Building (1-8)",
+  "Village East Building (1-5)",
 ];
 
-const AddressScreen = ({ navigation }) => {
+class AddressScreen extends React.Component {
   //const [response, setResponse] = useState();
+  constructor() {
+    super();
 
-  const [selectedValue, setSelectedValue] = useState(object.residence);
-  const [alternateSelect, setAlternateSelect] = useState(true);
-  const [apartmentValue, setApartmentValue] = useState(object.apartment);
-  const [addressValue, setAddressValue] = useState(object.address);
-
-  const changeSelect = () => {
-    setAlternateSelect((alternateSelect) => !alternateSelect);
-  };
-
-  return (
-    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-      <View style={styles.container}>
-        <Image
-          style={styles.CardImg}
-          source={require("../../assets/pay.png")}
-        />
-        <View style={styles.layer1}>
-          <Text
-            style={{
-              fontSize: 20,
-              fontFamily: "Unica One",
-              paddingTop: 5,
-              paddingLeft: 10,
-            }}
-          >
-            Apartment Number
-          </Text>
-          <TextInput
-            label="Apartment Number"
-            onChangeText={(apartment) => {
-              setApartmentValue(apartment);
-            }}
-            autoCapitalize="none"
-            autoCorrect={false}
-            style={styles.textIn}
-            placeholder={"Apartment Number"}
-            defaultValue={object.apartment}
+    this.state = {
+      selectedValue: ordererAddressInfo.residence,
+      alternateSelect: true,
+      apartmentValue: ordererAddressInfo.apartment,
+      addressValue: ordererAddressInfo.address,
+    };
+  }
+  render() {
+    return (
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+        <View style={styles.container}>
+          <Image
+            style={styles.CardImg}
+            source={require("../../assets/map.png")}
           />
-          <Text
-            style={{
-              fontSize: 20,
-              fontFamily: "Unica One",
-              paddingTop: 5,
-              paddingLeft: 10,
-            }}
-          >
-            Address
-          </Text>
-          <TextInput
-            label="Address"
-            onChangeText={(address) => {
-              setAddressValue(address);
-            }}
-            autoCapitalize="none"
-            autoCorrect={false}
-            style={styles.textIn}
-            placeholder={"Address"}
-            defaultValue={object.address}
-          />
-          <Text
-            style={{
-              fontSize: 20,
-              fontFamily: "Unica One",
-              paddingTop: 5,
-              paddingLeft: 10,
-            }}
-          >
-            Residence
-          </Text>
-          <Picker
-            style={styles.selectCard}
-            selectedValue={selectedValue}
-            mode="dropdown"
-            style={{ height: 20, width: 400, flex: 1 }}
-            onValueChange={(itemValue, itemIndex) =>
-              setSelectedValue(itemValue)
-            }
-          >
-            {residences.map((residence) => (
-              <Picker.Item
-                style={{ flex: 1 }}
-                label={residence}
-                value={residence}
-              />
-            ))}
-          </Picker>
-          <View style={styles.layer2}>
-            <TouchableOpacity
-              onPress={() => {
-                if (apartmentValue.length === 0 || addressValue.length === 0) {
-                  Alert.alert("Error! Please enter valid information.");
-                } else {
-                  setUserAddress(addressValue, apartmentValue, selectedValue);
-                  // make api call to save data
-                  navigation.navigate("SettingsScreen");
-                }
+          <View style={styles.layer1}>
+            <Text
+              style={{
+                fontSize: 20,
+                fontFamily: "Unica One",
+                paddingTop: 5,
+                paddingLeft: 10,
               }}
-              style={styles.PaymentBtn}
             >
-              <Text style={styles.ButtonText}>Save</Text>
-            </TouchableOpacity>
+              Apartment Number
+            </Text>
+            <TextInput
+              label="Apartment Number"
+              onChangeText={(apartment) => {
+                this.setState({ apartmentValue: apartment });
+              }}
+              autoCapitalize="none"
+              autoCorrect={false}
+              style={styles.textIn}
+              placeholder={"Apartment Number"}
+              defaultValue={ordererAddressInfo.apartment}
+            />
+            <Text
+              style={{
+                fontSize: 20,
+                fontFamily: "Unica One",
+                paddingTop: 5,
+                paddingLeft: 10,
+              }}
+            >
+              Address
+            </Text>
+            <TextInput
+              label="Address"
+              onChangeText={(address) => {
+                this.setState({ addressValue: address });
+              }}
+              autoCapitalize="none"
+              autoCorrect={false}
+              style={styles.textIn}
+              placeholder={"Address"}
+              defaultValue={ordererAddressInfo.address}
+            />
+            <Text
+              style={{
+                fontSize: 20,
+                fontFamily: "Unica One",
+                paddingTop: 5,
+                paddingLeft: 10,
+              }}
+            >
+              Residence
+            </Text>
+            <Picker
+              style={styles.selectCard}
+              selectedValue={this.state.selectedValue}
+              mode="dropdown"
+              style={{ height: 20, width: 400, flex: 1 }}
+              onValueChange={(itemValue, itemIndex) =>
+                this.setState({ selectedValue: itemValue })
+              }
+            >
+              {residences.map((residence) => (
+                <Picker.Item
+                  style={{ flex: 1 }}
+                  label={residence}
+                  value={residence}
+                />
+              ))}
+            </Picker>
+            <View style={styles.layer2}>
+              <TouchableOpacity
+                onPress={() => {
+                  if (
+                    this.state.apartmentValue.length === 0 ||
+                    this.state.addressValue.length === 0
+                  ) {
+                    Alert.alert("Error! Please enter valid information.");
+                  } else {
+                    console.log(this.state.addressValue);
+                    setUserAddress(
+                      this.state.addressValue,
+                      this.state.apartmentValue,
+                      this.state.selectedValue
+                    ).then(getUserInfo());
+                    // make api call to save data
+                    navigate("SettingsScreen");
+                  }
+                }}
+                style={styles.PaymentBtn}
+              >
+                <Text style={styles.ButtonText}>Save</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
-      </View>
-    </TouchableWithoutFeedback>
-  );
-};
+      </TouchableWithoutFeedback>
+    );
+  }
+}
 AddressScreen.navigationOptions = () => {
   return {
     header: () => false,
   };
 };
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#0a2657", paddingTop: 100 },
+  container: { flex: 1, backgroundColor: "#0a2657", paddingTop: "20%" },
   CardImg: {
     width: 120,
     height: 120,
     //marginLeft: 125,
     alignSelf: "center",
-    marginTop: 50,
     marginBottom: 30,
     zIndex: 1,
   },
@@ -195,20 +205,23 @@ const styles = StyleSheet.create({
   },
   layer1: {
     borderRadius: 50,
-    height: 500,
+    height: "91%",
     backgroundColor: "#ffffff",
     paddingTop: 50,
     position: "absolute",
-    top: 230,
+    top: "30%",
     width: "100%",
   },
   layer2: {
     borderRadius: 50,
-    height: 50,
+    height: "50%",
     width: "100%",
     backgroundColor: "#0a2657",
     position: "absolute",
-    bottom: "0%",
+    top: "95%",
+    zIndex: 1,
+    shadowOpacity: 0.5,
+    shadowRadius: 2,
   },
   AddCardBtn: {
     backgroundColor: "#FFD700",

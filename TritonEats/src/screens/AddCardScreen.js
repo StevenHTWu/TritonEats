@@ -60,8 +60,36 @@ class AddCardScreen extends Component {
       shortCardNum: false,
       wrongLengthDate: false,
       wrongLengthCVV: false,
+      date: "    ",
     };
   }
+
+  normalizeInput = (value, previousValue) => {
+    console.log("Normalizing...");
+    if (!value) return value;
+    const currentValue = value.replace(/[^\d]/g, "");
+    const cvLength = currentValue.length;
+
+    if (!previousValue || value.length > previousValue.length) {
+      if (cvLength < 4) return currentValue;
+      if (cvLength < 8)
+        return `${currentValue.slice(0, 4)}-${currentValue.slice(4)}`;
+      if (cvLength < 12)
+        return `${currentValue.slice(0, 4)}-${currentValue.slice(
+          4,
+          8
+        )}}-${currentValue.slice(8)}`;
+      if (cvLength < 16)
+        return `${currentValue.slice(0, 4)}-${currentValue.slice(
+          4,
+          8
+        )}}-${currentValue.slice(8, 12)}}-${currentValue.slice(12)}`;
+      return `${currentValue.slice(0, 4)}-${currentValue.slice(
+        4,
+        8
+      )}}-${currentValue.slice(8, 12)}}-${currentValue.slice(12)}`;
+    }
+  };
 
   render() {
     return (
@@ -85,7 +113,10 @@ class AddCardScreen extends Component {
               <TextInput
                 label="Card Number"
                 //value={cardNum}
-                onChangeText={(cardNum) => this.setState({ cardNum })}
+                maxLength={16}
+                onChangeText={(cardNum) => {
+                  this.setState({ cardNum });
+                }}
                 autoCapitalize="none"
                 secureTextEntry={true}
                 autoCorrect={false}
@@ -130,7 +161,7 @@ class AddCardScreen extends Component {
             <View
               style={{ flexDirection: "row", height: "12%", marginTop: "4%" }}
             >
-              <View style={{ width: "60%", height: "40%" }}>
+              <View style={{ width: "30%", height: "40%" }}>
                 <Text
                   style={{
                     fontSize: 20,
@@ -139,17 +170,22 @@ class AddCardScreen extends Component {
                     paddingLeft: 10,
                   }}
                 >
-                  Expiry Date
+                  Expiry Month
                 </Text>
                 <TextInput
-                  label="Exp. Date"
+                  label="Exp. Month"
                   //value={date}
-                  onChangeText={(date) => this.setState({ date })}
+                  onChangeText={(month) =>
+                    this.setState({
+                      date: month + this.state.date.substring(3, 5),
+                    })
+                  }
                   autoCapitalize="none"
                   autoCorrect={false}
                   style={styles.textInEXP}
-                  placeholder={"MM/YY"}
+                  placeholder={"MM"}
                   keyboardType="number-pad"
+                  maxLength={2}
                 />
                 {this.state.wrongDate == true ? (
                   <Text
@@ -161,7 +197,7 @@ class AddCardScreen extends Component {
                       marginTop: "1%",
                     }}
                   >
-                    Expiry Date is not entered.
+                    Expiry Month is not entered.
                   </Text>
                 ) : (
                   <></>
@@ -177,12 +213,72 @@ class AddCardScreen extends Component {
                       marginTop: "1%",
                     }}
                   >
-                    Expiry Date should be 4 digits MM/YY.
+                    2 digits MM.
                   </Text>
                 ) : (
                   <></>
                 )}
               </View>
+
+              <View style={{ width: "30%", height: "40%" }}>
+                <Text
+                  style={{
+                    fontSize: 20,
+                    fontFamily: "Unica One",
+                    paddingTop: 5,
+                    paddingLeft: 10,
+                  }}
+                >
+                  Expiry Year
+                </Text>
+                <TextInput
+                  label="Exp. Year"
+                  //value={date}
+                  onChangeText={(year) =>
+                    this.setState({
+                      date: this.state.date.substring(0, 2) + year,
+                    })
+                  }
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  style={styles.textInEXP}
+                  placeholder={"YY"}
+                  keyboardType="number-pad"
+                  maxLength={2}
+                />
+                {this.state.wrongDate == true ? (
+                  <Text
+                    style={{
+                      fontSize: 15,
+                      fontFamily: "Unica One",
+                      color: "red",
+                      marginLeft: "3.5%",
+                      marginTop: "1%",
+                    }}
+                  >
+                    Expiry Year is not entered.
+                  </Text>
+                ) : (
+                  <></>
+                )}
+
+                {this.state.wrongLengthDate == true ? (
+                  <Text
+                    style={{
+                      fontSize: 15,
+                      fontFamily: "Unica One",
+                      color: "red",
+                      marginLeft: "2.1%",
+                      marginTop: "1%",
+                    }}
+                  >
+                    2 digits YY.
+                  </Text>
+                ) : (
+                  <></>
+                )}
+              </View>
+
               <View style={{ width: "40%", height: "40%" }}>
                 <Text
                   style={{
@@ -197,6 +293,7 @@ class AddCardScreen extends Component {
                 <TextInput
                   label="CVV"
                   //value={cvv}
+                  maxLength={3}
                   keyboardType="number-pad"
                   secureTextEntry={true}
                   onChangeText={(cvv) => this.setState({ cvv })}
@@ -290,7 +387,9 @@ class AddCardScreen extends Component {
                   } else if (this.state.cardNum.length < 16) {
                     this.setState({ shortCardNum: true });
                   }
-                  if (this.state.date == null) {
+                  console.log("DATE");
+                  console.log(this.state.date);
+                  if (this.state.date.includes(" ")) {
                     this.setState({ wrongDate: true });
                   } else if (
                     this.state.date.length < 4 ||
@@ -319,6 +418,7 @@ class AddCardScreen extends Component {
                     this.state.cvv.length == 3 &&
                     this.state.date.length == 4
                   ) {
+                    console.log(this.state.date);
                     addCard(
                       this.state.cardNum,
                       this.state.cvv,
@@ -371,6 +471,8 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: "74%",
     zIndex: 1,
+    shadowOpacity: 0.5,
+    shadowRadius: 2,
   },
   AddCardBtn: {
     backgroundColor: "#FFD700",

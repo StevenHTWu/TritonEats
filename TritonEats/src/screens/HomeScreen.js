@@ -190,7 +190,7 @@ const styles = StyleSheet.create({
     width: "30%",
     height: 75,
     marginLeft: "5%",
-    marginRight: "5%",
+    marginRight: "1%",
     color: "white",
     textAlign: "left",
     fontFamily: "Unica One",
@@ -203,7 +203,7 @@ const styles = StyleSheet.create({
     marginRight: "20%",
   },
   List: {
-    paddingBottom: 200,
+    paddingBottom: 217,
   },
   icon: {
     width: "22%",
@@ -213,10 +213,16 @@ const styles = StyleSheet.create({
   restaurant: {
     backgroundColor: "#0a2657",
     paddingVertical: "5%",
-    width: 375,
-    marginTop: 0,
+    // width: 375,
+    marginTop: 5,
     flexDirection: "row",
-    marginBottom: 5,
+    marginBottom: 3,
+    borderRadius: 10,
+    marginRight: 3,
+    marginLeft: 3,
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    shadowOffset: { width: 0, height: 2 },
   },
   LogoFont: {
     fontSize: 55,

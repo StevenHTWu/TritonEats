@@ -26,7 +26,6 @@ import AddCardFromSettingsScreen from "./src/screens/AddCardFromSettingsScreen";
 import ManagePaymentScreen from "./src/screens/ManagePaymentScreen";
 import ProfileScreen from "./src/screens/ProfileScreen";
 import AddressScreen from "./src/screens/AddressScreen";
-import PasswordScreen from "./src/screens/PasswordScreen";
 import OrderStatusScreen from "./src/screens/OrderStatusScreen";
 
 // Deliver Side Imports
@@ -34,6 +33,8 @@ import DelivererHomeScreen from "./src/screens/DelivererHomeScreen";
 import DelivererJobHistoryScreen from "./src/screens/DelivererJobHistoryScreen";
 import DelivererSettingsScreen from "./src/screens/DelivererSettingsScreen";
 import DelivererStatusScreen from "./src/screens/DelivererStatusScreen";
+import { View } from "react-native";
+import DelivererProfileScreen from "./src/screens/DelivererProfileScreen";
 
 console.disableYellowBox = true;
 
@@ -74,7 +75,6 @@ const switchNavigator = createSwitchNavigator({
         AddressScreen: AddressScreen,
         AddCardFromSettingsScreen: AddCardFromSettingsScreen,
         ManagePaymentScreen: ManagePaymentScreen,
-        PasswordScreen: PasswordScreen,
       }),
     },
     {
@@ -114,33 +114,29 @@ const switchNavigator = createSwitchNavigator({
           title: "Job History",
         },
       },
-      DelivererSettingsScreen: {
-        screen: DelivererSettingsScreen,
-        navigationOptions: {
-          title: "Settings",
+      Settings: createStackNavigator({
+        DelivererSettingsScreen: DelivererSettingsScreen,
+        DelivererProfileScreen: DelivererProfileScreen
+      })
+    },
+    {
+      defaultNavigationOptions: ({ navigation }) => ({
+        tabBarIcon: ({ focused, horizontal, tintColor }) => {
+          const { routeName } = navigation.state;
+          if (routeName === "Home") {
+            return <Feather name="home" size={24} color="black" />;
+          } else if (routeName === "DelivererJobHistoryScreen") {
+            return <MaterialIcons name="history" size={24} color="black" />;
+          } else {
+            return <Feather name="settings" size={24} color="black" />;
+          }
         },
+      }),
+      tabBarOptions: {
+        activeTintColor: "#FF6F00",
+        inactiveTintColor: "#263238",
       },
     }
-    // {
-    //   defaultNavigationOptions: ({ navigation }) => ({
-    //     tabBarIcon: ({ focused, horizontal, tintColor }) => {
-    //       const { routeName } = navigation.state;
-    //       if (routeName === "HomeScreen") {
-    //         return <Feather name="home" size={24} color="black" />;
-    //       } else if (routeName === "OrderHistoryScreen") {
-    //         return <MaterialIcons name="history" size={24} color="black" />;
-    //       } else if (routeName === "ShoppingCartScreen") {
-    //         return <AntDesign name="shoppingcart" size={24} color="black" />;
-    //       } else {
-    //         return <Feather name="settings" size={24} color="black" />;
-    //       }
-    //     },
-    //   }),
-    //   tabBarOptions: {
-    //     activeTintColor: "#FF6F00",
-    //     inactiveTintColor: "#263238",
-    //   },
-    // }
   ),
 });
 

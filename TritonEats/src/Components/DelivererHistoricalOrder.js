@@ -8,11 +8,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { SafeAreaView } from "react-navigation";
-var CurrentCart = require("../Components/Cart");
-import { navigate } from "../navigationRef";
-
 class HistoricalOrder extends React.Component {
-  /*<*/
   render() {
     return (
       <View style={styles.main}>
@@ -116,26 +112,6 @@ class HistoricalOrder extends React.Component {
               </Text>
             </View>
           </View>
-          <Text style={styles.textDeliverer}>
-            Deliverer: {this.props.deliverer}
-          </Text>
-          <TouchableOpacity
-            color="#FFD700"
-            accessibilityLabel="Add to cart"
-            onPress={() => {
-              CurrentCart.emptyOrderArr();
-              CurrentCart.order_arr = this.props.items;
-              CurrentCart.restaurant_name = this.props.restaurant;
-              CurrentCart.viewing_restaurant = this.props.restaurant;
-              console.log(CurrentCart.restaurant_name);
-              console.log(CurrentCart.order_arr);
-              navigate("ShoppingCartScreen");
-            }}
-          >
-            <View style={styles.reorderBtn}>
-              <Text style={styles.textReorder}>Again!</Text>
-            </View>
-          </TouchableOpacity>
         </ScrollView>
       </View>
     );
@@ -195,4 +171,3 @@ const styles = StyleSheet.create({
 });
 
 export default HistoricalOrder;
-//<Text style={styles.text}>Order Id: {this.props.orderId}</Text>

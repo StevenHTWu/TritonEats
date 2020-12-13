@@ -35,7 +35,7 @@ switch (CurrentCart.restaurant_name) {
   case "Pines":
     var title_image = require("../../assets/64burrito.jpg");
     break;
-  case "Oceanview":
+  case "OceanView":
     var title_image = require("../../assets/OVpizza.jpg");
     break;
   default:
@@ -57,20 +57,6 @@ class ShoppingCartScreen extends React.Component {
     this.state = { refresh: false, data: CurrentCart.order_arr };
   }
 
-  componentDidUpdate(prevProps) {
-    if (
-      prevProps.isFocused !== this.props.isFocused &&
-      this.props.isFocused == true
-    ) {
-      setTimeout(() => {
-        if (this.timerFlatlistRef)
-          this.timerFlatlistRef.scrollToIndex({
-            animated: false,
-            index: 0,
-          });
-      }, 10);
-    }
-  }
   render() {
     return (
       <View style={styles.container}>
@@ -87,25 +73,18 @@ class ShoppingCartScreen extends React.Component {
         >
           <View
             style={{
-              flex: 1,
               justifyContent: "center",
               alignItems: "center",
-              width: "100%",
+              width: "90%",
+              height: "40%",
+              borderWidth: 2,
+              borderColor: "#FFD700",
+              backgroundColor: "#0a2657",
+              paddingHorizontal: "6%",
             }}
           >
             <Text style={styles.titleText}>
-              Your Order From{" "}
-              <Text
-                style={{
-                  color: "#0a2657",
-                  fontSize: 35,
-                  fontWeight: "bold",
-                  textAlign: "center",
-                  paddingHorizontal: "10%",
-                }}
-              >
-                {CurrentCart.viewing_restaurant}
-              </Text>
+              Your Order From {CurrentCart.restaurant_name}
             </Text>
           </View>
         </ImageBackground>
@@ -210,6 +189,7 @@ class ShoppingCartScreen extends React.Component {
             style={styles.clearButton}
             onPress={() => {
               CurrentCart.emptyOrderArr();
+              CurrentCart.restaurant_name = "";
               this.setState({ state: this.state });
             }}
             underlayColor="#fff"
@@ -226,7 +206,7 @@ class ShoppingCartScreen extends React.Component {
               return sum + current.quantity * current.value;
             }, 0)
           ).toFixed(2)}
-          resName={CurrentCart.viewing_restaurant}
+          resName={CurrentCart.restaurant_name}
         />
       </View>
     );
@@ -251,14 +231,10 @@ const styles = StyleSheet.create({
     fontFamily: "Unica One",
   },
   titleText: {
-    color: "#0a2657",
+    color: "#FFD700",
     fontSize: 35,
-    width: "90%",
     fontWeight: "bold",
     textAlign: "center",
-    paddingHorizontal: "10%",
-    borderWidth: 2,
-    borderColor: "#0a2657",
   },
   listView: {
     flex: 1,

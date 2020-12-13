@@ -20,23 +20,28 @@ const authReducer = (state, action) => {
   }
 };
 
+//This method does NOT work well!
 const tryLocalSignin = (dispatch) => async () => {
   const token = await AsyncStorage.getItem("token");
-
+  /*
   if (token) {
     dispatch({ type: "signin", payload: token });
     navigate("HomeScreen");
   } else {
-    navigate("LandingScreen");
+    
   }
+  */
+//remembering token doesn't seem to work...
+ navigate("LandingScreen");
 };
+
 
 const clearErrorMessage = (dispatch) => () => {
   dispatch({ type: "clear_error_message" });
 };
 
 const signup = (dispatch) => {
-  return async ({ email, password, is_deliverer }) => {
+  return async ({ name, email, password, is_deliverer }) => {
     // make api request to sign up with that email and password
     // if we sign up, modify our state, and say that we are authenticated
     // if signing up fails, we probably need to reflect an error message somewhere
@@ -44,12 +49,59 @@ const signup = (dispatch) => {
       is_deliverer = false;
 
       const response = await trackerApi.post("/signup", {
+        name,
         email,
         password,
         is_deliverer,
       });
+      
+      if(!name){
+        dispatch({
+          type: "add_error",
+          payload: "Name cannot be empty!",
+        });
+        return;
+     }
+
+     if(typeof name !== "undefined"){
+        if(!name.match(/^[a-zA-Z]+$/)){
+          dispatch({
+            type: "add_error",
+            payload: "Name must only have letters!",
+          });
+          return;
+        }        
+     }
+
+     if(!email){
+      dispatch({
+        type: "add_error",
+        payload: "Email cannot be empty!",
+      });
+      return;
+   }
+     if(typeof email !== "undefined"){
+      if(!email.match(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/)){
+        dispatch({
+          type: "add_error",
+          payload: "Email is not valid!",
+        });
+        return;
+      }        
+   }
+   if(!password){
+    dispatch({
+      type: "add_error",
+      payload: "Password cannot be empty!",
+    });
+    return;
+ }
+
+
+
       await AsyncStorage.setItem("token", response.data.token);
       dispatch({ type: "signin", payload: response.data.token });
+
 
       if (is_deliverer) {
         navigate("DelivererMainFlow");
@@ -57,16 +109,17 @@ const signup = (dispatch) => {
         navigate("HomeScreen");
       }
     } catch (err) {
+      console.log(err);
       dispatch({
         type: "add_error",
-        payload: "Something went wrong with sign up",
+        payload: "User exists or server is down..",
       });
     }
   };
 };
 
 const signupDeliv = (dispatch) => {
-  return async ({ email, password, is_deliverer }) => {
+  return async ({ name, email, password, is_deliverer }) => {
     // make api request to sign up with that email and password
     // if we sign up, modify our state, and say that we are authenticated
     // if signing up fails, we probably need to reflect an error message somewhere
@@ -74,6 +127,7 @@ const signupDeliv = (dispatch) => {
       is_deliverer = true;
 
       const response = await trackerApi.post("/signup", {
+        name,
         email,
         password,
         is_deliverer,

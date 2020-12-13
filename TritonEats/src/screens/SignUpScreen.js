@@ -1,9 +1,11 @@
 import React, { useContext } from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text, TouchableWithoutFeedback } from "react-native";
 import { NavigationEvents } from "react-navigation";
 import { Context as AuthContext } from "../context/AuthContext";
 import AuthForm from "../Components/AuthForm";
 import NavLink from "../Components/NavLink";
+
+import { Keyboard } from "react-native";
 
 const SignUpScreen = ({ navigation }) => {
   const { state, signup, clearErrorMessage, signupDeliv } = useContext(
@@ -11,23 +13,25 @@ const SignUpScreen = ({ navigation }) => {
   );
 
   return (
-    <>
-      <View style={styles.container}>
-        <NavigationEvents onWillFocus={clearErrorMessage} />
-        <AuthForm
-          headerText="Sign Up"
-          errorMessage={state.errorMessage}
-          submitButtonText="Sign Up"
-          deliverCheck="false"
-          onSubmit={signup}
-          onSubmitAlt={signupDeliv}
-        />
-        <NavLink
-          routeName="SignInScreen"
-          text="Already have an account? Sign in instead!"
-        />
-      </View>
-    </>
+    <View style={styles.container}>
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()} style={{}}>
+        <View>
+          <NavigationEvents onWillFocus={clearErrorMessage} />
+          <AuthForm
+            headerText="Sign Up"
+            errorMessage={state.errorMessage}
+            submitButtonText="Sign Up"
+            deliverCheck="false"
+            onSubmit={signup}
+            onSubmitAlt={signupDeliv}
+          />
+          <NavLink
+            routeName="SignInScreen"
+            text="Already have an account? Sign in instead!"
+          />
+        </View>
+      </TouchableWithoutFeedback>
+    </View>
   );
 };
 

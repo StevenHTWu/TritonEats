@@ -11,16 +11,30 @@ import {
   TouchableWithoutFeedback,
 } from "react-native";
 import { navigate } from "../navigationRef";
-
+import {
+  setDelivererProfile,
+  getDelivererInfo,
+} from "./DelivererSettingsScreen";
 const ten = 10;
-
+import { withNavigationFocus } from "react-navigation";
 class DelivererProfileScreen extends Component {
+  //= ({ navigation }, props) => {
+  /*
+  const [name1, onChangeText1] = React.useState(' CardHolder Name');
+  const [cardnum, onChangeText2] = React.useState(' 1234-5678-1234-5678');
+  const [date1, onChangeText3] = React.useState(' MM/YY');
+  const [cvv1, onChangeText4] = React.useState(' CVV');
+  const [name, setName] = useState("");
+  const [cardNum, setCardNum] = useState("");
+  const [date, setDate] = useState("");
+  const [cvv, setCvv] = useState("");
+
+  const data = {name:"hello", age:"15"}
+  */
   constructor(props) {
     super(props);
     this.state = {
-      name: object.name,
-      email: object.email,
-      phone_num: object.phone_num,
+      name: delivererProfileInfo.name,
     };
   }
 
@@ -28,9 +42,19 @@ class DelivererProfileScreen extends Component {
     return (
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <View style={styles.container}>
+          <Text
+            style={{
+              fontSize: 30,
+              fontFamily: "Unica One",
+              paddingLeft: "30%",
+              color: "white",
+            }}
+          >
+            User Profile
+          </Text>
           <Image
             style={styles.CardImg}
-            source={require("../../assets/CardImg.png")}
+            source={require("../../assets/profile.png")}
           />
           <View style={styles.layer1}>
             <Text
@@ -51,95 +75,16 @@ class DelivererProfileScreen extends Component {
               autoCorrect={false}
               style={styles.textIn}
               placeholder={"Name"}
-              defaultValue={object.name}
+              defaultValue={this.state.name}
             />
-
-            <Text
-              style={{
-                fontSize: 20,
-                fontFamily: "Unica One",
-                paddingTop: 5,
-                paddingLeft: 10,
-              }}
-            >
-              Email
-            </Text>
-            <TextInput
-              label="Email"
-              //value={date}
-              onChangeText={(email) => this.setState({ email })}
-              autoCapitalize="none"
-              autoCorrect={false}
-              style={styles.textIn}
-              placeholder={"example@ucsd.edu"}
-              keyboardType="email-address"
-              defaultValue={object.email}
-            />
-
-            <View style={{ flex: 1, flexDirection: "row" }}>
-              <View style={{ width: 250, height: 35 }}>
-                <Text
-                  style={{
-                    fontSize: 20,
-                    fontFamily: "Unica One",
-                    paddingLeft: 10,
-                  }}
-                >
-                  Phone Number
-                </Text>
-                <TextInput
-                  label="Phone Number"
-                  //value={name}
-                  onChangeText={(phone_num) => this.setState({ phone_num })}
-                  autoCapitalize="none"
-                  autoCorrect={false}
-                  style={styles.textIn}
-                  placeholder={"1234567890"}
-                  defaultValue={object.phone_num}
-                  keyboardType="phone-pad"
-                  maxLength={ten}
-                />
-              </View>
-              <View style={{ width: 160, height: 35 }}>
-                <Text
-                  style={{
-                    fontSize: 20,
-                    fontFamily: "Unica One",
-                    paddingLeft: 10,
-                  }}
-                >
-                  Balance
-                </Text>
-                <TextInput
-                  label="Balance"
-                  //value={name}
-                  autoCapitalize="none"
-                  autoCorrect={false}
-                  style={styles.textIn}
-                  placeholder={"balance"}
-                  defaultValue={"$" + object.balance.toString()}
-                  editable={false}
-                />
-              </View>
-            </View>
 
             <View style={styles.layer2}>
               <TouchableOpacity
                 onPress={() => {
-                  object.name = this.state.name;
-                  object.email = this.state.email;
-                  object.phone_num = this.state.phone_num;
-                  if (
-                    object.phone_num.length !== 10 ||
-                    !digitsOnly(object.phone_num) ||
-                    !validEmail(object.email) ||
-                    object.name.length === 0
-                  ) {
-                    Alert.alert("Error! Please fill in the details correctly.");
-                  } else {
-                    //make api call to save data
-                    navigate("DelivererSettingsScreen");
-                  }
+                  ordererProfileInfo.name = this.state.name;
+
+                  setDelivererProfile(this.state.name);
+                  navigate("DelivererSettingsScreen");
                 }}
                 style={styles.AddCardBtn}
               >
@@ -170,7 +115,7 @@ const styles = StyleSheet.create({
     height: 120,
     //marginLeft: 125,
     alignSelf: "center",
-    marginTop: 50,
+    marginTop: 30,
     marginBottom: 30,
     zIndex: 1,
   },
@@ -248,4 +193,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DelivererProfileScreen;
+export default withNavigationFocus(DelivererProfileScreen);

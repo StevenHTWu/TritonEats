@@ -50,6 +50,7 @@ const PaymentScreen = ({ navigation }) => {
         headers: headers,
       })
       .then((res) => {
+        setNoCards(false);
         setSelectedCards(res.data);
       })
       .catch(function (error) {
@@ -170,7 +171,7 @@ const PaymentScreen = ({ navigation }) => {
                   <TouchableOpacity
                     onPress={() => {
                       setNoCards(false);
-                      if (selectedValue == "") {
+                      if (cardNum == "") {
                         setNoCards(true);
                       } else {
                         makeOrder(
@@ -196,22 +197,38 @@ const PaymentScreen = ({ navigation }) => {
                   </TouchableOpacity>
                 )}
               </View>
-              <View style={{ width: 50, height: 45, paddingTop: "2%" }}>
-                <Image
-                  style={styles.CardImgVisa}
-                  source={require("../../assets/visa.png")}
-                />
-              </View>
-              <View style={{ width: 100, height: 45, paddingTop: "2%" }}>
-                <Text
+              <View
+                style={{
+                  flex: 1,
+                  flexDirection: "row",
+                  position: "absolute",
+                  left: "65%",
+                  top: "12%",
+                }}
+              >
+                <View style={{ width: 50, height: 45, paddingTop: "2%" }}>
+                  <Image
+                    style={styles.CardImgVisa}
+                    source={require("../../assets/CardImg.png")}
+                  />
+                </View>
+                <View
                   style={{
-                    fontSize: 30,
-                    fontFamily: "Unica One",
-                    color: "#FFD700",
+                    width: 100,
+                    height: 45,
+                    paddingTop: "2%",
                   }}
                 >
-                  {"$" + navigation.getParam("total_price")}
-                </Text>
+                  <Text
+                    style={{
+                      fontSize: 30,
+                      fontFamily: "Unica One",
+                      color: "#FFD700",
+                    }}
+                  >
+                    {"$" + navigation.getParam("total_price")}
+                  </Text>
+                </View>
               </View>
             </View>
           </View>
@@ -256,6 +273,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#0a2657",
     marginTop: "5%",
     zIndex: 1,
+    shadowOpacity: 0.5,
+    shadowRadius: 2,
   },
   AddCardBtn: {
     backgroundColor: "#FFD700",

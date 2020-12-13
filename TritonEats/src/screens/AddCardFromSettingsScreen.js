@@ -1,5 +1,4 @@
 import React, { useState, useContext, Component } from "react";
-import { Alert } from "react-native";
 import {
   StyleSheet,
   View,
@@ -10,11 +9,31 @@ import {
   Keyboard,
   TouchableWithoutFeedback,
 } from "react-native";
+import axios from "axios";
+import trackerApi from "../api/tracker";
 import { navigate } from "../navigationRef";
+import { AsyncStorage } from "react-native";
 
-const three = 3;
-const four = 4;
-const sixteen = 16;
+const addCard = async (card_number, cvv, expiration_date) => {
+  const token = await AsyncStorage.getItem("token");
+
+  const headers = {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${token}`,
+  };
+
+  const response = await trackerApi.post(
+    "/auth/customerPayment",
+    {
+      card_number,
+      cvv,
+      expiration_date,
+    },
+    {
+      headers: headers,
+    }
+  );
+};
 
 class AddCardFromSettingsScreen extends Component {
   //= ({ navigation }, props) => {
@@ -33,12 +52,44 @@ class AddCardFromSettingsScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      cardNum: card.card_number,
-      cvv: card.cvv,
-      name: card.name,
-      expiration_date: card.expiration_date,
+      cardNum: "",
+      wrongCardNum: false,
+      wrongDate: false,
+      wrongCVV: false,
+      wrongName: false,
+      shortCardNum: false,
+      wrongLengthDate: false,
+      wrongLengthCVV: false,
+      date: "    ",
     };
   }
+
+  normalizeInput = (value, previousValue) => {
+    console.log("Normalizing...");
+    if (!value) return value;
+    const currentValue = value.replace(/[^\d]/g, "");
+    const cvLength = currentValue.length;
+
+    if (!previousValue || value.length > previousValue.length) {
+      if (cvLength < 4) return currentValue;
+      if (cvLength < 8)
+        return `${currentValue.slice(0, 4)}-${currentValue.slice(4)}`;
+      if (cvLength < 12)
+        return `${currentValue.slice(0, 4)}-${currentValue.slice(
+          4,
+          8
+        )}}-${currentValue.slice(8)}`;
+      if (cvLength < 16)
+        return `${currentValue.slice(0, 4)}-${currentValue.slice(
+          4,
+          8
+        )}}-${currentValue.slice(8, 12)}}-${currentValue.slice(12)}`;
+      return `${currentValue.slice(0, 4)}-${currentValue.slice(
+        4,
+        8
+      )}}-${currentValue.slice(8, 12)}}-${currentValue.slice(12)}`;
+    }
+  };
 
   render() {
     return (
@@ -49,31 +100,68 @@ class AddCardFromSettingsScreen extends Component {
             source={require("../../assets/CardImg.png")}
           />
           <View style={styles.layer1}>
-            <Text
-              style={{
-                fontSize: 20,
-                fontFamily: "Unica One",
-                paddingTop: 5,
-                paddingLeft: 10,
-              }}
-            >
-              Card Number
-            </Text>
-            <TextInput
-              label="Card Number"
-              //value={cardNum}
-              onChangeText={(cardNum) => this.setState({ cardNum })}
-              autoCapitalize="none"
-              autoCorrect={false}
-              maxLength={sixteen}
-              style={styles.textIn}
-              placeholder={"1234567812345678"}
-              keyboardType="number-pad"
-              defaultValue={card.card_number}
-            />
+            <View>
+              <Text
+                style={{
+                  fontSize: 20,
+                  fontFamily: "Unica One",
+                  paddingLeft: 10,
+                }}
+              >
+                Card Number
+              </Text>
+              <TextInput
+                label="Card Number"
+                //value={cardNum}
+                maxLength={16}
+                onChangeText={(cardNum) => {
+                  this.setState({ cardNum });
+                }}
+                autoCapitalize="none"
+                secureTextEntry={true}
+                autoCorrect={false}
+                style={styles.textIn}
+                require
+                placeholder={"1234-5678-1234-5678"}
+                keyboardType="number-pad"
+              />
+              {this.state.wrongCardNum == true ? (
+                <Text
+                  style={{
+                    fontSize: 15,
+                    fontFamily: "Unica One",
+                    color: "red",
+                    marginLeft: "2%",
+                    marginTop: "1%",
+                  }}
+                >
+                  Card number is not entered.
+                </Text>
+              ) : (
+                <></>
+              )}
 
-            <View style={{ flex: 1, flexDirection: "row" }}>
-              <View style={{ width: 275, height: 35 }}>
+              {this.state.shortCardNum == true ? (
+                <Text
+                  style={{
+                    fontSize: 15,
+                    fontFamily: "Unica One",
+                    color: "red",
+                    marginLeft: "2%",
+                    marginTop: "1%",
+                  }}
+                >
+                  Card number should be 16 digits.
+                </Text>
+              ) : (
+                <></>
+              )}
+            </View>
+
+            <View
+              style={{ flexDirection: "row", height: "12%", marginTop: "4%" }}
+            >
+              <View style={{ width: "30%", height: "40%" }}>
                 <Text
                   style={{
                     fontSize: 20,
@@ -82,24 +170,116 @@ class AddCardFromSettingsScreen extends Component {
                     paddingLeft: 10,
                   }}
                 >
-                  Expiry Date
+                  Expiry Month
                 </Text>
                 <TextInput
-                  label="Exp. Date"
+                  label="Exp. Month"
                   //value={date}
-                  onChangeText={(expiration_date) =>
-                    this.setState({ expiration_date })
+                  onChangeText={(month) =>
+                    this.setState({
+                      date: month + this.state.date.substring(3, 5),
+                    })
                   }
                   autoCapitalize="none"
                   autoCorrect={false}
-                  maxLength={four}
                   style={styles.textInEXP}
-                  placeholder={"MMYY"}
+                  placeholder={"MM"}
                   keyboardType="number-pad"
-                  defaultValue={card.expiration_date}
+                  maxLength={2}
                 />
+                {this.state.wrongDate == true ? (
+                  <Text
+                    style={{
+                      fontSize: 15,
+                      fontFamily: "Unica One",
+                      color: "red",
+                      marginLeft: "3.5%",
+                      marginTop: "1%",
+                    }}
+                  >
+                    Expiry Month is not entered.
+                  </Text>
+                ) : (
+                  <></>
+                )}
+
+                {this.state.wrongLengthDate == true ? (
+                  <Text
+                    style={{
+                      fontSize: 15,
+                      fontFamily: "Unica One",
+                      color: "red",
+                      marginLeft: "2.1%",
+                      marginTop: "1%",
+                    }}
+                  >
+                    2 digits MM.
+                  </Text>
+                ) : (
+                  <></>
+                )}
               </View>
-              <View style={{ width: 100, height: 35 }}>
+
+              <View style={{ width: "30%", height: "40%" }}>
+                <Text
+                  style={{
+                    fontSize: 20,
+                    fontFamily: "Unica One",
+                    paddingTop: 5,
+                    paddingLeft: 10,
+                  }}
+                >
+                  Expiry Year
+                </Text>
+                <TextInput
+                  label="Exp. Year"
+                  //value={date}
+                  onChangeText={(year) =>
+                    this.setState({
+                      date: this.state.date.substring(0, 2) + year,
+                    })
+                  }
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  style={styles.textInEXP}
+                  placeholder={"YY"}
+                  keyboardType="number-pad"
+                  maxLength={2}
+                />
+                {this.state.wrongDate == true ? (
+                  <Text
+                    style={{
+                      fontSize: 15,
+                      fontFamily: "Unica One",
+                      color: "red",
+                      marginLeft: "3.5%",
+                      marginTop: "1%",
+                    }}
+                  >
+                    Expiry Year is not entered.
+                  </Text>
+                ) : (
+                  <></>
+                )}
+
+                {this.state.wrongLengthDate == true ? (
+                  <Text
+                    style={{
+                      fontSize: 15,
+                      fontFamily: "Unica One",
+                      color: "red",
+                      marginLeft: "2.1%",
+                      marginTop: "1%",
+                    }}
+                  >
+                    2 digits YY.
+                  </Text>
+                ) : (
+                  <></>
+                )}
+              </View>
+
+              <View style={{ width: "40%", height: "40%" }}>
                 <Text
                   style={{
                     fontSize: 20,
@@ -113,76 +293,143 @@ class AddCardFromSettingsScreen extends Component {
                 <TextInput
                   label="CVV"
                   //value={cvv}
-                  maxLength={three}
+                  maxLength={3}
+                  keyboardType="number-pad"
                   secureTextEntry={true}
                   onChangeText={(cvv) => this.setState({ cvv })}
                   autoCapitalize="none"
                   autoCorrect={false}
                   style={styles.textInCVV}
-                  placeholder={"123"}
-                  keyboardType="number-pad"
-                  defaultValue={card.cvv}
+                  placeholder={"CVV"}
                 />
+                {this.state.wrongCVV == true ? (
+                  <Text
+                    style={{
+                      fontSize: 15,
+                      fontFamily: "Unica One",
+                      color: "red",
+                      marginLeft: "5%",
+                      marginTop: "1%",
+                    }}
+                  >
+                    CVV is not entered.
+                  </Text>
+                ) : (
+                  <></>
+                )}
+
+                {this.state.wrongLengthCVV == true ? (
+                  <Text
+                    style={{
+                      fontSize: 15,
+                      fontFamily: "Unica One",
+                      color: "red",
+                      marginLeft: "5%",
+                      marginTop: "1%",
+                    }}
+                  >
+                    CVV should be 3 digits.
+                  </Text>
+                ) : (
+                  <></>
+                )}
               </View>
             </View>
-            <View
-              style={{
-                flex: 1,
-                flexDirection: "row",
-                position: "absolute",
-                top: 200,
-              }}
-            >
-              <View style={{ width: 380, height: 35 }}>
+
+            <View style={{ width: "100%", height: "15%", marginTop: "6%" }}>
+              <Text
+                style={{
+                  fontSize: 20,
+                  fontFamily: "Unica One",
+                  paddingLeft: 10,
+                }}
+              >
+                Name
+              </Text>
+              <TextInput
+                label="Name"
+                //value={name}
+                onChangeText={(name) => this.setState({ name })}
+                autoCapitalize="none"
+                autoCorrect={false}
+                style={styles.textIn}
+                placeholder={"CardHolder Name"}
+              />
+              {this.state.wrongName == true ? (
                 <Text
                   style={{
-                    fontSize: 20,
+                    fontSize: 15,
                     fontFamily: "Unica One",
-                    paddingLeft: 10,
+                    color: "red",
+                    marginLeft: "2.1%",
+                    marginTop: "1%",
                   }}
                 >
-                  CardHolder Name
+                  Cardholder Name is not entered.
                 </Text>
-                <TextInput
-                  label="CardHolder Name"
-                  //value={name}
-                  onChangeText={(name) => this.setState({ name })}
-                  autoCapitalize="none"
-                  autoCorrect={false}
-                  style={styles.textIn}
-                  placeholder={"CardHolder Name"}
-                  defaultValue={card.name}
-                />
-              </View>
+              ) : (
+                <></>
+              )}
             </View>
 
             <View style={styles.layer2}>
               <TouchableOpacity
                 onPress={() => {
-                  let newCard = {
-                    card_number: this.state.cardNum,
-                    cvv: this.state.cvv,
-                    expiration_date: this.state.expiration_date,
-                    name: this.state.name,
-                  };
-                  if (
-                    newCard.card_number.length !== 16 ||
-                    newCard.cvv.length !== 3 ||
-                    newCard.expiration_date.length !== 4 ||
-                    newCard.name.length === 0 ||
-                    !digitsOnly(newCard.card_number) ||
-                    !digitsOnly(newCard.cvv) ||
-                    !digitsOnly(newCard.expiration_date)
+                  this.setState({ wrongCardNum: false });
+                  this.setState({ wrongDate: false });
+                  this.setState({ wrongCVV: false });
+                  this.setState({ wrongName: false });
+                  this.setState({ shortCardNum: false });
+                  this.setState({ wrongLengthDate: false });
+                  this.setState({ wrongLengthCVV: false });
+                  if (this.state.cardNum == "") {
+                    this.setState({ wrongCardNum: true });
+                  } else if (this.state.cardNum.length < 16) {
+                    this.setState({ shortCardNum: true });
+                  }
+                  console.log("DATE");
+                  console.log(this.state.date);
+                  if (this.state.date.includes(" ")) {
+                    this.setState({ wrongDate: true });
+                  } else if (
+                    this.state.date.length < 4 ||
+                    this.state.date.length > 4
                   ) {
-                    Alert.alert("Error! Please fill in the details correctly.");
-                  } else {
-                    //make api call to save data
+                    this.setState({ wrongLengthDate: true });
+                  }
+                  if (this.state.cvv == null) {
+                    this.setState({ wrongCVV: true });
+                  } else if (
+                    this.state.cvv.length < 3 ||
+                    this.state.cvv.length > 3
+                  ) {
+                    this.setState({ wrongLengthCVV: true });
+                  }
+                  if (this.state.name == null) {
+                    this.setState({ wrongName: true });
+                  }
+
+                  if (
+                    this.state.cardNum != null &&
+                    this.state.date != null &&
+                    this.state.cvv != null &&
+                    this.state.name != null &&
+                    this.state.cardNum.length == 16 &&
+                    this.state.cvv.length == 3 &&
+                    this.state.date.length == 4
+                  ) {
+                    console.log(this.state.date);
+                    addCard(
+                      this.state.cardNum,
+                      this.state.cvv,
+                      this.state.date
+                    );
                     navigate("SettingsScreen");
                   }
                 }}
                 style={styles.AddCardBtn}
               >
-                <Text style={styles.ButtonText}>Save</Text>
+                <Text style={styles.ButtonText}>Add Card</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -192,9 +439,6 @@ class AddCardFromSettingsScreen extends Component {
   }
 }
 
-const digitsOnly = (string) =>
-  [...string].every((c) => "0123456789".includes(c));
-
 AddCardFromSettingsScreen.navigationOptions = () => {
   return {
     header: () => false,
@@ -202,23 +446,21 @@ AddCardFromSettingsScreen.navigationOptions = () => {
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#0a2657", paddingTop: 100 },
+  container: { flex: 1, backgroundColor: "#0a2657" },
   CardImg: {
     width: 120,
     height: 120,
-    //marginLeft: 125,
-    alignSelf: "center",
-    marginTop: 50,
-    marginBottom: 30,
+    marginTop: "25%",
     zIndex: 1,
+    alignSelf: "center",
   },
   layer1: {
     borderRadius: 50,
-    height: 450,
+    height: "100%",
     backgroundColor: "#ffffff",
-    paddingTop: 50,
     position: "absolute",
-    top: 230,
+    paddingTop: "20%",
+    top: "26%",
     width: "100%",
   },
   layer2: {
@@ -227,7 +469,10 @@ const styles = StyleSheet.create({
     width: "100%",
     backgroundColor: "#0a2657",
     position: "absolute",
-    top: 360,
+    top: "74%",
+    zIndex: 1,
+    shadowOpacity: 0.5,
+    shadowRadius: 2,
   },
   AddCardBtn: {
     backgroundColor: "#FFD700",
@@ -235,7 +480,7 @@ const styles = StyleSheet.create({
     width: 120,
     borderRadius: 50,
     height: 45,
-    marginTop: 32,
+    marginTop: "8%",
     alignSelf: "center",
   },
   ButtonText: {

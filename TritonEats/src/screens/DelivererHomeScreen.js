@@ -64,26 +64,41 @@ class DelivererHomeScreen extends Component {
 
   async refresh() {
     console.log("Getting order list");
-    const response = await trackerApi.get("/allOrders").then((response) => {
-      //console.log("-----------------------");
-      console.log("-----------------------");
-      var dataset = response.data;
-      var stateUpdate = [];
-      for (var i = 0; i < dataset.length; i++) {
-        if (dataset[i].status === "pending") {
-          console.log(dataset[i]);
-          stateUpdate.push({
-            Id: i.toString(),
-            Secret: dataset[i].order_id,
-            Name: dataset[i].restaurant_name,
-            Orderer_Id: dataset[i].orderer_id,
-            Compensation: (dataset[i].total_price * 0.1).toFixed(2),
-          });
-        }
-      }
-      this.setState({ Restaurants: stateUpdate });
-      console.log("Update complete");
-    });
+    const token = await AsyncStorage.getItem("token");
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    };
+    const id = await trackerApi
+      .get("/auth/deliverer_id", { headers: headers })
+      .then((res) => {
+        const response = trackerApi.get("/allOrders").then((response) => {
+          //console.log("-----------------------");
+          console.log("-----------------------");
+
+          var dataset = response.data;
+          var stateUpdate = [];
+          for (var i = 0; i < dataset.length; i++) {
+            console.log(res.data);
+            if (
+              dataset[i].status === "pending" ||
+              (dataset[i].status === "Picked Up" &&
+                dataset[i].deliverer_id === res.data)
+            ) {
+              console.log(dataset[i]);
+              stateUpdate.push({
+                Id: i.toString(),
+                Secret: dataset[i].order_id,
+                Name: dataset[i].restaurant_name,
+                Orderer_Id: dataset[i].orderer_id,
+                Compensation: (dataset[i].total_price * 0.1).toFixed(2),
+              });
+            }
+          }
+          this.setState({ Restaurants: stateUpdate });
+          console.log("Update complete");
+        });
+      });
   }
 
   async componentDidMount() {
@@ -215,6 +230,7 @@ const styles = StyleSheet.create({
     width: 25,
     height: 25,
     marginVertical: 5,
+    marginBottom: 30,
   },
   refreshText: {
     fontFamily: "Unica One",
@@ -250,9 +266,12 @@ const styles = StyleSheet.create({
   restaurant: {
     backgroundColor: "#0a2657",
     paddingVertical: "5%",
-    width: 375,
+    width: "100%",
     marginTop: 0,
-    marginBottom: 5,
+    marginBottom: 10,
+    shadowOpacity: 0.6,
+    shadowRadius: 2,
+    shadowOffset: { width: 0, height: 2 },
   },
   LogoFont: {
     fontSize: 55,

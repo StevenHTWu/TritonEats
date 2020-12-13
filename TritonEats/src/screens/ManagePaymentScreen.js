@@ -1,7 +1,8 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import {
   StyleSheet,
   View,
+  TextInput,
   Text,
   Image,
   TouchableOpacity,
@@ -9,104 +10,149 @@ import {
   TouchableWithoutFeedback,
   Picker,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import trackerApi from "../api/tracker";
+import { AsyncStorage } from "react-native";
+import Loader from "../Components/Loader";
 
 const ManagePaymentScreen = ({ navigation }) => {
-  //const [response, setResponse] = useState();
+  const [selectedValue, setSelectedValue] = useState("");
+  const [selectedCards, setSelectedCards] = useState("");
+  const [noCards, setNoCards] = useState(false);
+  const [userInfo, setUserInfo] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  const [selectedValue, setSelectedValue] = useState(cards[0]);
-  const [alternateSelect, setAlternateSelect] = useState(true);
+  const makeOrder = async (restaurant_name, order_items, total_price) => {
+    const token = await AsyncStorage.getItem("token");
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    };
 
-  const changeSelect = () => {
-    setAlternateSelect((alternateSelect) => !alternateSelect);
+    const response = await trackerApi.post(
+      "/auth/makeOrder",
+      { restaurant_name, order_items, total_price },
+      {
+        headers: headers,
+      }
+    );
   };
-  /*
-  const array = [
-      {cardNum: navigation.getParam('cardNum')},
-      {cardNum: "xxxx-xxxx-xxxx-8976"},
-      {cardNum: "xxxx-xxxx-xxxx-3421"},
-  ]
-*/
-  var cardNum = null;
 
-  if (cards[0].card_number != null) {
-    cardNum = "xxxx-xxxx-xxxx-" + cards[0].card_number.substring(12, 16);
+  const getCard = async () => {
+    const token = await AsyncStorage.getItem("token");
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    };
+
+    console.log(noCards);
+    trackerApi
+      .get("/auth/customerPayment", {
+        headers: headers,
+      })
+      .then((res) => {
+        setSelectedCards(res.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+
+  const getUserInfo = async () => {
+    const token = await AsyncStorage.getItem("token");
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    };
+    setIsLoading(true);
+
+    trackerApi
+      .get("/auth/orderer/userInfo", {
+        headers: headers,
+      })
+      .then((res) => {
+        setUserInfo(res.data.address);
+        setIsLoading(false);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+
+  const refresh = navigation.addListener("didFocus", () => {
+    /*
+    console.log(typeof selectedValue);
+    if(selectedCards == "") {
+      setNoCards(true);
+    }*/
+    getCard();
+    getUserInfo();
+  });
+
+  var array = selectedCards;
+  var cardNum = [];
+
+  for (var i = 0; i < array.length; i++) {
+    if (array[i].card_number != null) {
+      cardNum[i] = "xxxx-xxxx-xxxx-" + array[i].card_number.substring(12, 16);
+    }
   }
+
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View style={styles.container}>
+        <Loader loading={isLoading} />
         <Image
           style={styles.CardImg}
           source={require("../../assets/pay.png")}
         />
         <View style={styles.layer1}>
           <View>
-            {cardNum != null ? (
-              /*<TouchableOpacity style={styles.selectCard} onPress={changeSelect}>
-                  {alternateSelect && <View style={{flex: 1, flexDirection: 'row'}}>
-                    <View style={{width: 70, height: 40}} >
-                    <Image
-                                style={styles.CardImgVisa}
-                                source={require("../../assets/visa.png")}
-                            />
-                    </View>
-                    <View style={{width: 400, height: 40}} >
-                        <Text style={{ fontSize: 20, fontFamily: "Unica One", marginLeft: 20, color: "#0a2657"}}>{cardNum}</Text>
-                    </View>
-                    
-                  </View>}
-                  {!alternateSelect && 
-                  <View style={styles.selectCardPress}>
-                    <View style={{width: 70, height: 40}} >
-                    <Image
-                                style={styles.CardImgVisa}
-                                source={require("../../assets/visa.png")}
-                            />
-                    </View>
-                    <View style={{width: 400, height: 40}} >
-                        <Text style={{ fontSize: 20, fontFamily: "Unica One", marginLeft: 20, color: "#0a2657"}}>{cardNum}</Text>
-                    </View>
-                    
-                  </View>}
-             </TouchableOpacity>*/
-              <Picker
-                style={styles.selectCard}
-                selectedValue={selectedValue}
-                mode="dropdown"
-                //style={{ height: 50, width: 400}}
-                onValueChange={(itemValue, itemIndex) =>
-                  setSelectedValue(itemValue)
-                }
-              >
-                {cards.map((arr) => (
-                  <Picker.Item
-                    label={arr.card_number}
-                    value={arr.card_number}
-                  />
-                ))}
-              </Picker>
-            ) : (
-              <TouchableOpacity
-                onPress={() => {
-                  global.card = { cardNum: "", expiry: "", cvv: "", name: "" };
-                  navigation.navigate("AddCardFromSettingsScreen");
+            <Text
+              style={{
+                fontSize: 30,
+                fontFamily: "Unica One",
+                color: "#0a2657",
+                alignSelf: "center",
+              }}
+            >
+              Select or Add Card
+            </Text>
+            {noCards == true ? (
+              <Text
+                style={{
+                  fontSize: 15,
+                  fontFamily: "Unica One",
+                  color: "red",
+                  alignSelf: "center",
+                  marginTop: "3%",
                 }}
-                style={styles.AddCardBtn}
               >
-                <Text style={styles.ButtonText}>Add Card</Text>
-              </TouchableOpacity>
+                No card is currently available in your account.
+              </Text>
+            ) : (
+              <></>
             )}
-          </View>
+            <Picker
+              selectedValue={selectedValue}
+              mode="dropdown"
+              style={{ height: 180, width: 300, alignSelf: "center" }}
+              onValueChange={(itemValue, itemIndex) =>
+                setSelectedValue(itemValue)
+              }
+            >
+              {cardNum.map((item, idx) => (
+                <Picker.Item label={item} value={item} key={idx} />
+              ))}
+            </Picker>
 
-          <View style={styles.layer2}>
             <TouchableOpacity
               onPress={() => {
-                global.card = selectedValue;
+                setNoCards(false);
                 navigation.navigate("AddCardFromSettingsScreen");
               }}
-              style={styles.PaymentBtn}
+              style={styles.AddCardBtn}
             >
-              <Text style={styles.ButtonText}>View/Edit</Text>
+              <Text style={styles.ButtonText}>Add Card</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -124,54 +170,57 @@ const styles = StyleSheet.create({
   CardImg: {
     width: 120,
     height: 120,
-    //marginLeft: 125,
-    alignSelf: "center",
-    marginTop: 50,
-    marginBottom: 30,
     zIndex: 1,
+    alignSelf: "center",
+    justifyContent: "center",
   },
   CardImgVisa: {
-    width: 50,
-    height: 40,
-    marginLeft: 20,
-    position: "absolute",
-    bottom: 9,
+    width: 35,
+    height: 35,
+    zIndex: 1,
   },
   layer1: {
     borderRadius: 50,
-    height: 450,
+    height: "100%",
     backgroundColor: "#ffffff",
-    paddingTop: 50,
     position: "absolute",
-    top: 230,
+    paddingTop: "15%",
+    top: "30%",
     width: "100%",
   },
   layer2: {
     borderRadius: 50,
     height: 150,
     width: "100%",
+    height: "50%",
     backgroundColor: "#0a2657",
-    position: "absolute",
-    top: 325,
+    marginTop: "5%",
+    zIndex: 1,
+    shadowOpacity: 0.5,
+    shadowRadius: 2,
   },
   AddCardBtn: {
     backgroundColor: "#FFD700",
     paddingVertical: 8,
-    width: 160,
+    width: 120,
     borderRadius: 50,
     height: 45,
-    marginTop: 32,
-    marginLeft: 125,
+    marginTop: "9%",
+    alignSelf: "center",
   },
   PaymentBtn: {
+    backgroundColor: "#FFD700",
+    paddingVertical: 8,
+    width: 120,
+    borderRadius: 50,
+    height: 45,
+  },
+  AddrBtn: {
     backgroundColor: "#FFD700",
     paddingVertical: 8,
     width: 170,
     borderRadius: 50,
     height: 45,
-    marginTop: 32,
-    //marginLeft: 36,
-    alignSelf: "center",
   },
   ButtonText: {
     fontSize: 23,
@@ -180,29 +229,6 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     textTransform: "uppercase",
     fontFamily: "Unica One",
-  },
-  selectCard: {
-    backgroundColor: "#f1f2f6",
-    height: 60,
-    width: 330,
-    //marginLeft: 30,
-    borderRadius: 10,
-    marginTop: 15,
-    paddingTop: 20,
-    paddingLeft: 3,
-    alignSelf: "center",
-  },
-  selectCardPress: {
-    flex: 1,
-    flexDirection: "row",
-    borderWidth: 3,
-    borderColor: "#0a2657",
-    borderRadius: 6,
-    height: 60,
-    width: 330,
-    position: "absolute",
-    top: 0,
-    paddingTop: 17,
   },
   textIn: {
     marginLeft: 10,

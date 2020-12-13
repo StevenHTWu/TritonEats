@@ -1,7 +1,12 @@
 import React from "react";
 import { View, StyleSheet, Text, Image, TouchableOpacity } from "react-native";
 
+var CurrentCart = require("../Components/Cart");
+
 const LandingScreen = ({ navigation }) => {
+  CurrentCart.restaurant_name = "";
+  CurrentCart.order_arr = [];
+  CurrentCart.viewing_restaurant = "";
   return (
     <>
       <View style={styles.Container}>
@@ -35,14 +40,22 @@ const LandingScreen = ({ navigation }) => {
   );
 };
 
+LandingScreen.navigationOptions = () => {
+  return {
+    header: () => false,
+  };
+};
+
 const styles = StyleSheet.create({
   LogoFont: {
-    fontSize: 55,
+    fontSize: 57,
     fontFamily: "Unica One",
+    fontWeight: "bold",
     paddingLeft: 20,
   },
   Container: {
     backgroundColor: "white",
+    justifyContent: "center",
     flex: 1,
   },
   LogoRow: {
@@ -54,10 +67,12 @@ const styles = StyleSheet.create({
     width: 300,
     height: 300,
     alignSelf: "center",
+    marginTop: "20%",
+    marginBottom: "10%",
   },
   LogoImg: {
-    width: 50,
-    height: 50,
+    width: 60,
+    height: 60,
     marginBottom: "10%",
   },
   SignUpBtn: {

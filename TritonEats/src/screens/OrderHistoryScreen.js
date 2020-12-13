@@ -70,7 +70,7 @@ class OrderHistoryScreen extends React.Component {
               onPress={() => {
                 navigate("OrderStatusScreen");
               }}
-              style={styles.curStatusBtn}
+              style={styles.curStatusBtn1}
             >
               <Image
                 style={styles.statusIcon}
@@ -142,6 +142,12 @@ const styles = StyleSheet.create({
     height: 40,
   },
   curStatusBtn: {
+    padding: 30,
+    position: "absolute",
+    left: "75%",
+  },
+  curStatusBtn1: {
+    marginTop: 40,
     padding: 30,
     position: "absolute",
     left: "75%",

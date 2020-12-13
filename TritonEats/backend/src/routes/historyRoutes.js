@@ -69,6 +69,19 @@ router.route("/auth/complete").post(function (req, res) {
   });
 });
 
+router.route("/auth/delivererHistory").get(function (req, res) {
+  deliverer_id = req._id;
+  console.log("THIS IS THE DELIVERER ID: ", deliverer_id);
+  history.find({ deliverer_id: deliverer_id }, function (err, result) {
+    if (err) {
+      res.send(err);
+    } else {
+      console.log("THIS IS THE RESULT =>", result);
+      res.json(result);
+    }
+  });
+});
+
 // router.route("/history/:orderer_id").get(function (req, res) {
 //   orderer_id = req.params.orderer_id;
 //   history.find({ orderer_id: orderer_id }, function (err, result) {

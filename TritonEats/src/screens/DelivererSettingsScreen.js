@@ -10,82 +10,114 @@ import {
   Dimensions,
   FlatList,
 } from "react-native";
-import { Context as AuthContext } from "../context/AuthContext";
+import { Context } from "../context/AuthContext";
 import { SafeAreaView } from "react-navigation";
+import { AsyncStorage } from "react-native";
+import trackerApi from "../api/tracker";
+import { get } from "mongoose";
 
-const menu = [
-  { key: "My Profile", nav: "DelivererProfileScreen" },
-  { key: "Add Payment Method", nav: "DelivererAddCardFromSettingsScreen" },
-  { key: "Manage Payment Method(s)", nav: "DelivererManagePaymentScreen" },
-  { key: "Change Password", nav: "DelivererPasswordScreen" },
-];
+import { navigate } from "../navigationRef";
 
-global.object = {
-  name: "mudit",
-  email: "example@ucsd.edu",
-  phone_num: "1234567890",
-  balance: "30",
-  payment_methods: [
-    {
-      card_number: "1234567812345678",
-      cvv: "456",
-      expiration_date: "5678",
-      name: "Card 1",
-    },
-    {
-      card_number: "1234567812341111",
-      cvv: "123",
-      expiration_date: "1234",
-      name: "Card 2",
-    },
-  ],
-  apartment: "212",
-  residence: "ERC Building 1",
-  address: "Gilman Drive",
-  password: "1234",
-  password1: "",
-  password2: "",
-};
+const menu = [{ key: "My Profile", nav: "DelivererProfileScreen" }];
 
-global.cards = object.payment_methods;
 //global.cards = [{}]
-
-const DelivererSettingsScreen = ({ navigation }) => {
-  const { signout } = useContext(AuthContext);
-
-  return (
-    <SafeAreaView forceInset={{ top: "always" }}>
-      <Text
-        style={{
-          fontSize: 49,
-          paddingTop: 40,
-          fontFamily: "Unica One",
-          textAlign: "center",
-        }}
-      >
-        Settings
-      </Text>
-
-      <FlatList
-        style={styles.list}
-        data={menu}
-        renderItem={({ item }) => (
-          <Text
-            style={styles.text}
-            onPress={() => {
-              global.card = { cardNum: "", expiry: "", cvv: "", name: "" };
-              navigation.navigate(item.nav);
-            }}
-          >
-            {item.key}
-          </Text>
-        )}
-      />
-
-      <Button title="Sign Out" onPress={signout} />
-    </SafeAreaView>
-  );
+global.delivererProfileInfo = {
+  name: "tmp",
 };
+
+export const getDelivererInfo = async () => {
+  console.log("in getuserinfo");
+  const token = await AsyncStorage.getItem("token");
+  const headers = {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${token}`,
+  };
+  const response = trackerApi
+    .get("/auth/deliverer/userInfo", {
+      headers: headers,
+    })
+    .then((res) => {
+      var info = res.data;
+      console.log(info);
+      delivererProfileInfo.name = info.name;
+      return info;
+    })
+    .catch(function (error) {
+      console.log(error);
+      return null;
+    });
+};
+
+export const setDelivererProfile = async (name) => {
+  console.log("in setDelivererProfile");
+  const token = await AsyncStorage.getItem("token");
+  const headers = {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${token}`,
+  };
+  const response = trackerApi
+    .patch(
+      "/auth/deliverer/userProfileUpdate",
+      {
+        name,
+      },
+      {
+        headers: headers,
+      }
+    )
+    .then((res) => {
+      console.log("Updated...");
+      getDelivererInfo();
+      return;
+    })
+    .catch(function (error) {
+      console.log("error");
+      console.log(error);
+      return null;
+    });
+};
+
+class DelivererSettingsScreen extends React.Component {
+  static contextType = Context;
+  constructor() {
+    super();
+  }
+  render() {
+    const { signout } = this.context;
+    getDelivererInfo();
+    return (
+      <SafeAreaView forceInset={{ top: "always" }}>
+        <Text
+          style={{
+            fontSize: 49,
+            paddingTop: 40,
+            fontFamily: "Unica One",
+            textAlign: "center",
+          }}
+        >
+          Settings
+        </Text>
+
+        <FlatList
+          style={styles.list}
+          data={menu}
+          renderItem={({ item }) => (
+            <Text
+              style={styles.text}
+              onPress={() => {
+                navigate(item.nav);
+              }}
+            >
+              {item.key}
+            </Text>
+          )}
+        />
+
+        <Button title="Sign Out" onPress={signout} />
+      </SafeAreaView>
+    );
+  }
+}
 
 DelivererSettingsScreen.navigationOptions = () => {
   return {

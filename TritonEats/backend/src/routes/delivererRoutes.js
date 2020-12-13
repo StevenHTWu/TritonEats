@@ -91,4 +91,9 @@ router.route("/auth/delivererPay").get(async function (req, res) {
   }
 });
 
+router.route("/auth/deliverer_id").get(async function (req, res) {
+  var _id = req._id;
+  res.send(_id);
+});
+
 module.exports = router;

@@ -10,39 +10,41 @@ import {
   Dimensions,
   FlatList,
 } from "react-native";
-import { Context as AuthContext } from "../context/AuthContext";
+import { Context } from "../context/AuthContext";
 import { SafeAreaView } from "react-navigation";
 import { AsyncStorage } from "react-native";
 import trackerApi from "../api/tracker";
 import { get } from "mongoose";
 
+import { navigate } from "../navigationRef";
+
 const menu = [
   { key: "My Profile", nav: "ProfileScreen" },
   { key: "Manage Address", nav: "AddressScreen" },
   { key: "Add Payment Method", nav: "AddCardFromSettingsScreen" },
-  { key: "Manage Payment Method(s)", nav: "ManagePaymentScreen" },
-  { key: "Change Password", nav: "PasswordScreen" },
+  { key: "View Payment Method(s)", nav: "ManagePaymentScreen" },
 ];
 
 //global.cards = [{}]
-global.object = {
+global.ordererProfileInfo = {
   name: "tmp",
   email: "tmp",
-  phone_num: "1234567890",
-  payment_methods: [
-    {
-      card_number: "1234567812345678",
-      cvv: "456",
-      expiration_date: "5678",
-      name: "Card 1",
-    },
-    {
-      card_number: "1234567812341111",
-      cvv: "123",
-      expiration_date: "1234",
-      name: "Card 2",
-    },
-  ],
+};
+global.ordererPaymentMethods = [
+  {
+    card_number: "1234567812345678",
+    cvv: "456",
+    expiration_date: "5678",
+    name: "Card 1",
+  },
+  {
+    card_number: "1234567812341111",
+    cvv: "123",
+    expiration_date: "1234",
+    name: "Card 2",
+  },
+];
+global.ordererAddressInfo = {
   apartment: "100",
   residence: "ERC Building 1",
   address: "Gilman Drive",
@@ -50,7 +52,6 @@ global.object = {
   password1: "",
   password2: "",
 };
-global.cards = object.payment_methods;
 
 export const getUserInfo = async () => {
   console.log("in getuserinfo");
@@ -64,19 +65,15 @@ export const getUserInfo = async () => {
       headers: headers,
     })
     .then((res) => {
-      var userInfo = res.data;
-      var info = userInfo[0];
-      object.name = info.name;
-      object.email = info.email;
-      object.phone_num = info.phone_num;
-      object.payment_methods = info.payment_methods;
-      object.password = object.password; //fix this!
-      object.password1 = object.password1; //fix this!
-      object.password2 = object.password2; //fix this!
-      object.address = info.address;
-      object.residence = info.residence;
-      object.apartment = info.apartment;
-      return userInfo;
+      var info = res.data;
+      console.log(info);
+      ordererProfileInfo.name = info.name;
+      ordererProfileInfo.email = info.email;
+      ordererPaymentMethods.payment_methods = info.payment_methods;
+      ordererAddressInfo.address = info.address;
+      ordererAddressInfo.residence = info.residence;
+      ordererAddressInfo.apartment = info.apartment;
+      return info;
     })
     .catch(function (error) {
       console.log(error);
@@ -86,6 +83,81 @@ export const getUserInfo = async () => {
 
 export const setUserAddress = async (address, apartment, residence) => {
   console.log("in setUserAddress");
+  console.log(address);
+  console.log(apartment);
+  console.log(residence);
+  const token = await AsyncStorage.getItem("token");
+  const headers = {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${token}`,
+  };
+
+  if (ordererAddressInfo.address != address) {
+    const responseAddr = trackerApi
+      .patch(
+        "/auth/orderer/userAddressUpdate",
+        {
+          address,
+        },
+        {
+          headers: headers,
+        }
+      )
+      .then((res) => {
+        console.log("Updated...");
+      })
+      .catch(function (error) {
+        console.log("error");
+        console.log(error);
+      });
+  }
+
+  if (ordererAddressInfo.apartment != apartment) {
+    const responseApt = trackerApi
+      .patch(
+        "/auth/orderer/userApartmentUpdate",
+        {
+          apartment,
+        },
+        {
+          headers: headers,
+        }
+      )
+      .then((res) => {
+        console.log("Updated...");
+      })
+      .catch(function (error) {
+        console.log("error");
+        console.log(error);
+      });
+  }
+
+  console.log(ordererAddressInfo.residence);
+  console.log(residence);
+  if (ordererAddressInfo.residence != residence) {
+    console.log("Changing residence...");
+    const responseRes = trackerApi
+      .patch(
+        "/auth/orderer/userResidenceUpdate",
+        {
+          residence,
+        },
+        {
+          headers: headers,
+        }
+      )
+      .then((res) => {
+        console.log("Updated...");
+      })
+      .catch(function (error) {
+        console.log("error");
+        console.log(error);
+      });
+  }
+};
+
+export const setUserProfile = async (name) => {
+  console.log("in setUserProfileInfo");
   const token = await AsyncStorage.getItem("token");
   const headers = {
     "Content-Type": "application/json",
@@ -93,11 +165,9 @@ export const setUserAddress = async (address, apartment, residence) => {
   };
   const response = trackerApi
     .patch(
-      "/auth/orderer/userAddressUpdate",
+      "/auth/orderer/userProfileUpdate",
       {
-        address,
-        apartment,
-        residence,
+        name,
       },
       {
         headers: headers,
@@ -115,42 +185,47 @@ export const setUserAddress = async (address, apartment, residence) => {
     });
 };
 
-const SettingsScreen = ({ navigation }) => {
-  const { signout } = useContext(AuthContext);
-  getUserInfo();
-  return (
-    <SafeAreaView forceInset={{ top: "always" }}>
-      <Text
-        style={{
-          fontSize: 49,
-          paddingTop: 40,
-          fontFamily: "Unica One",
-          textAlign: "center",
-        }}
-      >
-        Settings
-      </Text>
+class SettingsScreen extends React.Component {
+  static contextType = Context;
+  constructor() {
+    super();
+  }
+  render() {
+    const { signout } = this.context;
+    getUserInfo();
+    return (
+      <SafeAreaView forceInset={{ top: "always" }}>
+        <Text
+          style={{
+            fontSize: 49,
+            paddingTop: 40,
+            fontFamily: "Unica One",
+            textAlign: "center",
+          }}
+        >
+          Settings
+        </Text>
 
-      <FlatList
-        style={styles.list}
-        data={menu}
-        renderItem={({ item }) => (
-          <Text
-            style={styles.text}
-            onPress={() => {
-              global.card = { cardNum: "", expiry: "", cvv: "", name: "" };
-              navigation.navigate(item.nav);
-            }}
-          >
-            {item.key}
-          </Text>
-        )}
-      />
+        <FlatList
+          style={styles.list}
+          data={menu}
+          renderItem={({ item }) => (
+            <Text
+              style={styles.text}
+              onPress={() => {
+                navigate(item.nav);
+              }}
+            >
+              {item.key}
+            </Text>
+          )}
+        />
 
-      <Button title="Sign Out" onPress={signout} />
-    </SafeAreaView>
-  );
-};
+        <Button title="Sign Out" onPress={signout} />
+      </SafeAreaView>
+    );
+  }
+}
 
 SettingsScreen.navigationOptions = () => {
   return {
@@ -166,6 +241,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#0a2657",
     color: "#FFD700",
     marginBottom: 1,
+    fontFamily: "Unica One",
   },
   list: {
     paddingTop: 30,
