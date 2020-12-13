@@ -49,6 +49,10 @@ class DelivererProfileScreen extends Component {
           >
             User Profile
           </Text>
+          <Image
+            style={styles.CardImg}
+            source={require("../../assets/profile.png")}
+          />
           <View style={styles.layer1}>
             <Text
               style={{
@@ -111,7 +115,7 @@ const styles = StyleSheet.create({
     height: 120,
     //marginLeft: 125,
     alignSelf: "center",
-    marginTop: 50,
+    marginTop: 30,
     marginBottom: 30,
     zIndex: 1,
   },

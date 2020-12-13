@@ -263,9 +263,12 @@ const styles = StyleSheet.create({
   restaurant: {
     backgroundColor: "#0a2657",
     paddingVertical: "5%",
-    width: 375,
+    width: "100%",
     marginTop: 0,
-    marginBottom: 5,
+    marginBottom: 10,
+    shadowOpacity: 0.6,
+    shadowRadius: 2,
+    shadowOffset: { width: 0, height: 2 }
   },
   LogoFont: {
     fontSize: 55,

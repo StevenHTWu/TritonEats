@@ -83,7 +83,7 @@ class AddressScreen extends React.Component{
         <View style={styles.container}>
           <Image
             style={styles.CardImg}
-            source={require("../../assets/pay.png")}
+            source={require("../../assets/map.png")}
           />
           <View style={styles.layer1}>
             <Text
@@ -184,13 +184,12 @@ AddressScreen.navigationOptions = () => {
   };
 };
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#0a2657", paddingTop: 100 },
+  container: { flex: 1, backgroundColor: "#0a2657", paddingTop: "20%" },
   CardImg: {
     width: 120,
     height: 120,
     //marginLeft: 125,
     alignSelf: "center",
-    marginTop: 50,
     marginBottom: 30,
     zIndex: 1,
   },
@@ -207,7 +206,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffffff",
     paddingTop: 50,
     position: "absolute",
-    top: 230,
+    top: "30%",
     width: "100%",
   },
   layer2: {
@@ -217,6 +216,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#0a2657",
     position: "absolute",
     bottom: "0%",
+    zIndex: 1
   },
   AddCardBtn: {
     backgroundColor: "#FFD700",

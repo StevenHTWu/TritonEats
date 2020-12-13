@@ -198,6 +198,9 @@ const styles = StyleSheet.create({
     marginRight: 5,
     marginLeft: 5,
     marginTop: 0,
+    shadowOpacity: 0.6,
+    shadowRadius: 2,
+    shadowOffset: { width: 0, height: 2 }
   },
   addToCartButton: {
     paddingLeft: 12,

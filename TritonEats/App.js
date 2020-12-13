@@ -114,31 +114,29 @@ const switchNavigator = createSwitchNavigator({
           title: "Job History",
         },
       },
-      DelivererSettings: createStackNavigator({
+      Settings: createStackNavigator({
         DelivererSettingsScreen: DelivererSettingsScreen,
         DelivererProfileScreen: DelivererProfileScreen
       })
+    },
+    {
+      defaultNavigationOptions: ({ navigation }) => ({
+        tabBarIcon: ({ focused, horizontal, tintColor }) => {
+          const { routeName } = navigation.state;
+          if (routeName === "Home") {
+            return <Feather name="home" size={24} color="black" />;
+          } else if (routeName === "DelivererJobHistoryScreen") {
+            return <MaterialIcons name="history" size={24} color="black" />;
+          } else {
+            return <Feather name="settings" size={24} color="black" />;
+          }
+        },
+      }),
+      tabBarOptions: {
+        activeTintColor: "#FF6F00",
+        inactiveTintColor: "#263238",
+      },
     }
-    // {
-    //   defaultNavigationOptions: ({ navigation }) => ({
-    //     tabBarIcon: ({ focused, horizontal, tintColor }) => {
-    //       const { routeName } = navigation.state;
-    //       if (routeName === "HomeScreen") {
-    //         return <Feather name="home" size={24} color="black" />;
-    //       } else if (routeName === "OrderHistoryScreen") {
-    //         return <MaterialIcons name="history" size={24} color="black" />;
-    //       } else if (routeName === "ShoppingCartScreen") {
-    //         return <AntDesign name="shoppingcart" size={24} color="black" />;
-    //       } else {
-    //         return <Feather name="settings" size={24} color="black" />;
-    //       }
-    //     },
-    //   }),
-    //   tabBarOptions: {
-    //     activeTintColor: "#FF6F00",
-    //     inactiveTintColor: "#263238",
-    //   },
-    // }
   ),
 });
 
