@@ -302,7 +302,7 @@ const styles = StyleSheet.create({
     paddingTop: "1%",
     paddingBottom: "1%",
     marginTop: "30%",
-    marginBottom: "-20%",
+    marginBottom: "-200%",
   },
 });
 
