@@ -20,13 +20,13 @@ class HistoricalOrder extends React.Component{
                 </View>
                 
                     <View style={{ flex: 1, flexDirection: "row", height: 30, width: "100%", alignItems: "center" }}>
-                        <View style={{ width: "40%", height: 35 }}>
+                        <View style={{ width: "60%", height: 35 }}>
                             <Text style={styles.text}>Item(s)</Text>
                         </View>
-                        <View style={{ width: "40%", height: 35 }}>
+                        <View style={{ width: "30%", height: 35 }}>
                             <Text style={styles.text}>Price</Text>
                         </View>
-                        <View style={{ width: "40%", height: 35 }}>
+                        <View style={{ width: "30%", height: 35 }}>
                             <Text style={styles.text}>Qty</Text>
                         </View>
                     </View>
@@ -35,13 +35,13 @@ class HistoricalOrder extends React.Component{
                                   <ScrollView style={{width: "100%"}}>
                                       
                                       <View style={{ flex: 1, flexDirection: "row", height: 30, width: "100%", alignItems: "center" }}>
-                                        <View style={{ width: "40%", height: 35 }}>
-                                            <Text style={styles.text}>- {item.key}</Text>
+                                        <View style={{ width: "60%", height: 35 }}>
+                                            <Text style={styles.text}>{item.key}</Text>
                                         </View>
-                                        <View style={{ width: "40%", height: 35 }}>
+                                        <View style={{ width: "30%", height: 35 }}>
                                             {item.value.toString().length > 3 ? (<Text style={styles.text}>${item.value}</Text>) : (<Text style={styles.text}>${item.value}.00</Text>)}
                                         </View>
-                                        <View style={{ width: "40%", height: 35 }}>
+                                        <View style={{ width: "30%", height: 35 }}>
                                             <Text style={styles.text}>{item.quantity}</Text>
                                         </View>
                                       </View>
@@ -93,6 +93,9 @@ const styles = StyleSheet.create({
         marginLeft:10,
         marginRight:10,
         padding: 15,
+        shadowOpacity: 0.8,
+        shadowRadius: 2,
+        shadowOffset: { width: 0, height: 2 }
     },
     text: {
         fontSize: 20,

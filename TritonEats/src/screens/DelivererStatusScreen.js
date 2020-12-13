@@ -169,28 +169,31 @@ class DelivererStatusScreen extends Component {
 
       var display = (
         <View style={styles.MainContainer}>
-          <View style={{ padding: 20 }}>
+          <View style={{ width: "100%", height: "10%"}}>
             <Text style={{ fontSize: 30, fontFamily: "Unica One" }}>
               Pick Up From {order.restaurant}
             </Text>
           </View>
-          <TouchableOpacity
-            onPress={() => Linking.openURL(this.state.link)}
-            style={styles.directionStyle}
-          >
-            <Text style={styles.TextStyle}>Directions</Text>
-          </TouchableOpacity>
+          <View style={{ width: "100%", height: "30%"}}>
+            <TouchableOpacity
+              onPress={() => Linking.openURL(this.state.link)}
+              style={styles.directionStyle}
+            >
+              <Text style={styles.TextStyle}>Directions</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={{ width: "100%", height: "50%"}}>
+            <TouchableOpacity
+              onPress={() => {
+                console.log("Picked up!");
 
-          <TouchableOpacity
-            onPress={() => {
-              console.log("Picked up!");
-
-              this.status_update("Picked Up");
-            }}
-            style={styles.StatusBtn}
-          >
-            <Text style={styles.ButtonText}>Picked up?</Text>
-          </TouchableOpacity>
+                this.status_update("Picked Up");
+              }}
+              style={styles.StatusBtn}
+            >
+              <Text style={styles.ButtonText}>Picked up?</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       );
     } else if (
@@ -203,7 +206,7 @@ class DelivererStatusScreen extends Component {
       console.log(this.state.link);
       var display = (
         <View style={styles.MainContainer}>
-          <View style={{ padding: 10 }}>
+          <View style={{ width: "100%", height: "20%"}}>
             <Text style={{ fontSize: 30, fontFamily: "Unica One", }}>
               Deliver To: 
             </Text>
@@ -211,25 +214,28 @@ class DelivererStatusScreen extends Component {
               {this.state.apartment} {this.state.residence}{" "}
             </Text>
           </View>
-          <TouchableOpacity
-            onPress={() =>
-              Linking.openURL(this.state.link)
-            }
-            style={styles.directionStyle}
-          >
-            <Text style={styles.TextStyle}>Directions</Text>
-          </TouchableOpacity>
+          <View style={{ width: "100%", height: "30%"}}>
+            <TouchableOpacity
+              onPress={() =>
+                Linking.openURL(this.state.link)
+              }
+              style={styles.directionStyle}
+            >
+              <Text style={styles.TextStyle}>Directions</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={{ width: "100%", height: "50%"}}>
+            <TouchableOpacity
+              onPress={() => {
+                console.log("Delivered!");
 
-          <TouchableOpacity
-            onPress={() => {
-              console.log("Delivered!");
-
-              this.status_update("Delivered");
-            }}
-            style={styles.StatusBtn}
-          >
-            <Text style={styles.ButtonText}>Delivered?</Text>
-          </TouchableOpacity>
+                this.status_update("Delivered");
+              }}
+              style={styles.StatusBtn}
+            >
+                <Text style={styles.ButtonText}>Delivered?</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       );
     } else {
@@ -253,21 +259,22 @@ DelivererStatusScreen.navigationOptions = () => {
 
 const styles = StyleSheet.create({
   MainContainer: {
-    flex: 1,
+    flex: 1, 
+    flexDirection: 'column',
     alignItems: "center",
     backgroundColor: "white",
-    paddingTop: "3%"
+    paddingTop: "10%",
+    justifyContent: "center",
+    alignContent: "center"
   },
   TextStyle: {
     fontSize: 23,
     color: "#FFD700",
     fontWeight: "bold",
-    alignSelf: "center",
     textTransform: "uppercase",
     fontFamily: "Unica One",
     backgroundColor: "#0a2657",
     margin: "10%",
-    marginBottom: "15%",
     padding: "6%",
     borderRadius: 50,
   },
@@ -280,7 +287,6 @@ const styles = StyleSheet.create({
   },
   StatusBtn: {
     backgroundColor: "#296906",
-    marginBottom: "40%",
     width: "70%",
     height: 200,
     paddingHorizontal: "10%",
@@ -297,12 +303,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     textTransform: "uppercase",
     fontFamily: "Unica One",
-    flex: 1,
     textAlign: "center",
-    paddingTop: "1%",
-    paddingBottom: "1%",
-    marginTop: "50%",
-    marginBottom: "-200%",
   },
 });
 

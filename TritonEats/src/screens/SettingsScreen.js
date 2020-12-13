@@ -263,6 +263,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#0a2657",
     color: "#FFD700",
     marginBottom: 1,
+    fontFamily: "Unica One",
   },
   list: {
     paddingTop: 30,
