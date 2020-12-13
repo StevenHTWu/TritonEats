@@ -50,6 +50,7 @@ const PaymentScreen = ({ navigation }) => {
         headers: headers,
       })
       .then((res) => {
+        setNoCards(false);
         setSelectedCards(res.data);
       })
       .catch(function (error) {
@@ -170,7 +171,7 @@ const PaymentScreen = ({ navigation }) => {
                   <TouchableOpacity
                     onPress={() => {
                       setNoCards(false);
-                      if (selectedValue == "") {
+                      if (cardNum == "") {
                         setNoCards(true);
                       } else {
                         makeOrder(

@@ -23,32 +23,39 @@ class DelivererJobHistoryScreen extends Component {
       isLoading: true,
       JobHistory: [],
     };
+    console.log("heyheyhey");
   }
 
   async componentDidMount() {
-    const token = await AsyncStorage.getItem("token");
-    const AuthStr = "Bearer ".concat(token);
+    const getOrderHistory = async () => {
+      const token = await AsyncStorage.getItem("token");
+      const AuthStr = "Bearer ".concat(token);
 
-    const response = await trackerApi.get("/auth/delivererHistory", {
-      headers: { Authorization: AuthStr },
-    });
-
-    // console.log("-----------------------");
-    // console.log(response.data);
-    // console.log("-----------------------");
-
-    if (response.data.length == 0) {
-      this.setState({
-        isLoading: false,
-        isEmpty: true,
+      const response = await trackerApi.get("/auth/delivererHistory", {
+        headers: { Authorization: AuthStr },
       });
-    } else {
-      this.setState({
-        isLoading: false,
-        isEmpty: false,
-        JobHistory: response.data,
-      });
+
+      // console.log("-----------------------");
+      // console.log(response.data);
+      // console.log("-----------------------");
+
+      if (response.data.length == 0) {
+        this.setState({
+          isLoading: false,
+          isEmpty: true,
+        });
+      } else {
+        this.setState({
+          isLoading: false,
+          isEmpty: false,
+          JobHistory: response.data,
+        });
+      }
     }
+    const { navigation } = this.props;
+    this.focusListener = navigation.addListener("didFocus", () => {
+      getOrderHistory();
+    });
   }
 
   render() {

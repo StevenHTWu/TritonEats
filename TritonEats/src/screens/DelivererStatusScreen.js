@@ -170,7 +170,7 @@ class DelivererStatusScreen extends Component {
       var display = (
         <View style={styles.MainContainer}>
           <View style={{ padding: 20 }}>
-            <Text style={{ fontSize: 30 }}>
+            <Text style={{ fontSize: 30, fontFamily: "Unica One" }}>
               Pick Up From {order.restaurant}
             </Text>
           </View>
@@ -204,8 +204,11 @@ class DelivererStatusScreen extends Component {
       var display = (
         <View style={styles.MainContainer}>
           <View style={{ padding: 10 }}>
-            <Text style={{ fontSize: 30 }}>
-              Deliver To {this.state.apartment} {this.state.residence}{" "}
+            <Text style={{ fontSize: 30, fontFamily: "Unica One", }}>
+              Deliver To: 
+            </Text>
+            <Text style={{ fontSize: 30, fontFamily: "Unica One", }}>
+              {this.state.apartment} {this.state.residence}{" "}
             </Text>
           </View>
           <TouchableOpacity
@@ -242,11 +245,18 @@ class DelivererStatusScreen extends Component {
   }
 }
 
+DelivererStatusScreen.navigationOptions = () => {
+  return {
+    header: () => false,
+  };
+};
+
 const styles = StyleSheet.create({
   MainContainer: {
     flex: 1,
     alignItems: "center",
-    marginTop: "10%",
+    backgroundColor: "white",
+    paddingTop: "3%"
   },
   TextStyle: {
     fontSize: 23,
