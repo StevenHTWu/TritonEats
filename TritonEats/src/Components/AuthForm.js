@@ -6,7 +6,7 @@ import {
   Button,
   TextInput,
   TouchableOpacity,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
 } from "react-native";
 
 const AuthForm = ({
@@ -26,23 +26,20 @@ const AuthForm = ({
   var [is_deliverer, setIsDeliverer] = useState("");
   const [name, setName] = useState("");
   return (
-    
-      <>
+    <>
       <Text style={styles.TitleFont}>{headerText}</Text>
       <View style={styles.LogoRow}>
-
-      {submitButtonText == "Sign Up" ? (
-        <TextInput
-        label="Name"
-        value={name}
-        onChangeText={setName}
-        autoCapitalize="none"
-        autoCorrect={false}
-        placeholder={value3}
-        style={styles.textInput}
-      />
-      ) : null}
-      
+        {submitButtonText == "Sign Up" ? (
+          <TextInput
+            label="Name"
+            value={name}
+            onChangeText={setName}
+            autoCapitalize="none"
+            autoCorrect={false}
+            placeholder={value3}
+            style={styles.textInput}
+          />
+        ) : null}
 
         <TextInput
           label="Email"
@@ -51,7 +48,7 @@ const AuthForm = ({
           autoCapitalize="none"
           autoCorrect={false}
           style={styles.textInput}
-          keyboardType='email-address'
+          keyboardType="email-address"
           placeholder={value1}
         />
       </View>
@@ -66,8 +63,6 @@ const AuthForm = ({
         style={styles.textInput}
       />
 
-    
-
       {errorMessage ? (
         <Text style={styles.errorMessage}>{errorMessage}</Text>
       ) : null}
@@ -81,7 +76,7 @@ const AuthForm = ({
         >
           <Text style={styles.ButtonText}>Sign Up As Orderer</Text>
         </TouchableOpacity>
-      ) : null} 
+      ) : null}
 
       {submitButtonText == "Sign Up" ? (
         <TouchableOpacity
@@ -94,8 +89,6 @@ const AuthForm = ({
         </TouchableOpacity>
       ) : null}
 
-      
-
       {submitButtonText == "Sign In" ? (
         <TouchableOpacity
           onPress={() => onSubmit({ email, password })}
@@ -104,8 +97,7 @@ const AuthForm = ({
           <Text style={styles.ButtonText}>Sign In</Text>
         </TouchableOpacity>
       ) : null}
-      </>
-
+    </>
   );
 };
 
@@ -132,8 +124,8 @@ const styles = StyleSheet.create({
     height: 60,
     marginBottom: 10,
     marginLeft: "20%",
-    
-    marginTop: 10
+
+    marginTop: 10,
   },
   SignUpBtnDeliv: {
     elevation: 8,
@@ -143,7 +135,6 @@ const styles = StyleSheet.create({
     width: 250,
     height: 60,
     marginLeft: "20%",
-
   },
   ButtonText: {
     fontSize: 23,

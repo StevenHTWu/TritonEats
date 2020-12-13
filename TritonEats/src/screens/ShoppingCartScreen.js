@@ -57,7 +57,6 @@ class ShoppingCartScreen extends React.Component {
     this.state = { refresh: false, data: CurrentCart.order_arr };
   }
 
- 
   render() {
     return (
       <View style={styles.container}>
@@ -82,13 +81,11 @@ class ShoppingCartScreen extends React.Component {
               borderColor: "#FFD700",
               backgroundColor: "#0a2657",
               paddingHorizontal: "6%",
-              
             }}
           >
             <Text style={styles.titleText}>
               Your Order From {CurrentCart.restaurant_name}
             </Text>
-            
           </View>
         </ImageBackground>
 

@@ -10,18 +10,14 @@ router.get("/auth/orderer/userInfo", async (req, res) => {
   console.log(ordererObj);
 
   res.json(ordererObj);
-
 });
-
 
 router.get("/auth/deliverer/userInfo", async (req, res) => {
   const delivererObj = await deliverer.findOne({ deliverer_id: req._id });
   console.log(delivererObj);
 
   res.json(delivererObj);
-
 });
-
 
 router.get("/orderer/userInfoAsDeliverer/:orderer_id", async (req, res) => {
   console.log("ORDERER ID");
@@ -40,25 +36,20 @@ router.patch("/auth/orderer/userAddressUpdate", async (req, res) => {
   const my_orderer = await orderer.findOneAndUpdate(
     { orderer_id: req._id },
 
-    {$set:
-      {
-
-        address: address
-
-
-
+    {
+      $set: {
+        address: address,
       },
-      
-  }, {new: true},
+    },
+    { new: true },
     (err, response) => {
-
       if (err) res.send(err);
       else {
         response.save();
         res.send("Update complete");
       }
-    })
-      
+    }
+  );
 });
 
 router.patch("/auth/orderer/userResidenceUpdate", async (req, res) => {
@@ -69,26 +60,20 @@ router.patch("/auth/orderer/userResidenceUpdate", async (req, res) => {
   const my_orderer = await orderer.findOneAndUpdate(
     { orderer_id: req._id },
 
-    {$set:
-      {
-
+    {
+      $set: {
         residence: residence,
-
-
-
-
       },
-      
-  }, {new: true},
+    },
+    { new: true },
     (err, response) => {
-
       if (err) res.send(err);
       else {
         response.save();
         res.send("Update complete");
       }
-    })
-      
+    }
+  );
 });
 
 router.patch("/auth/orderer/userApartmentUpdate", async (req, res) => {
@@ -101,26 +86,21 @@ router.patch("/auth/orderer/userApartmentUpdate", async (req, res) => {
   const my_orderer = await orderer.findOneAndUpdate(
     { orderer_id: req._id },
 
-    {$set:
-      {
+    {
+      $set: {
         apartment: apartment,
-
-
-
       },
-      
-  }, {new: true},
+    },
+    { new: true },
     (err, response) => {
-
       if (err) res.send(err);
       else {
         response.save();
         res.send("Update complete");
       }
-    })
-      
+    }
+  );
 });
-
 
 router.patch("/auth/orderer/userProfileUpdate", async (req, res) => {
   const ordererObj = await orderer.findOne({ orderer_id: req._id });
@@ -169,7 +149,6 @@ router.patch("/auth/orderer/delivererProfileUpdate", async (req, res) => {
     }
   );
 });
-
 
 router.patch("/userInfo/:user_id/:isDeliverer", async (req, res) => {
   let user_id = req.params.user_id;

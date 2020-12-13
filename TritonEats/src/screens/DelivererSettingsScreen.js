@@ -10,8 +10,7 @@ import {
   Dimensions,
   FlatList,
 } from "react-native";
-import { Context
- } from "../context/AuthContext";
+import { Context } from "../context/AuthContext";
 import { SafeAreaView } from "react-navigation";
 import { AsyncStorage } from "react-native";
 import trackerApi from "../api/tracker";
@@ -19,15 +18,12 @@ import { get } from "mongoose";
 
 import { navigate } from "../navigationRef";
 
-const menu = [
-  { key: "My Profile", nav: "DelivererProfileScreen" },
-];
+const menu = [{ key: "My Profile", nav: "DelivererProfileScreen" }];
 
 //global.cards = [{}]
 global.delivererProfileInfo = {
   name: "tmp",
-}
-
+};
 
 export const getDelivererInfo = async () => {
   console.log("in getuserinfo");
@@ -52,9 +48,6 @@ export const getDelivererInfo = async () => {
     });
 };
 
-
-
-
 export const setDelivererProfile = async (name) => {
   console.log("in setDelivererProfile");
   const token = await AsyncStorage.getItem("token");
@@ -67,7 +60,6 @@ export const setDelivererProfile = async (name) => {
       "/auth/deliverer/userProfileUpdate",
       {
         name,
-        
       },
       {
         headers: headers,
@@ -84,9 +76,6 @@ export const setDelivererProfile = async (name) => {
       return null;
     });
 };
-
-
-
 
 class DelivererSettingsScreen extends React.Component {
   static contextType = Context;
@@ -108,7 +97,7 @@ class DelivererSettingsScreen extends React.Component {
         >
           Settings
         </Text>
-  
+
         <FlatList
           style={styles.list}
           data={menu}
@@ -123,14 +112,12 @@ class DelivererSettingsScreen extends React.Component {
             </Text>
           )}
         />
-  
+
         <Button title="Sign Out" onPress={signout} />
       </SafeAreaView>
     );
-
   }
 }
-
 
 DelivererSettingsScreen.navigationOptions = () => {
   return {

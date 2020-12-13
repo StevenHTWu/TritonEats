@@ -18,19 +18,18 @@ router.route("/allOrders").get(function (req, res) {
   });
 });
 
-
-router.route("/orderer/orderInfoAsDeliverer/:order_id").get(async function (req, res) {
-  console.log("Calling the order getter");
-  console.log(req.params);
-  const orderObj = await orders.findOne({ order_id: req.params.order_id });
-  if (orderObj) {
-    res.json(orderObj);
-  }
-  else {
-    res.send("Fail!");
-  }
-
-});
+router
+  .route("/orderer/orderInfoAsDeliverer/:order_id")
+  .get(async function (req, res) {
+    console.log("Calling the order getter");
+    console.log(req.params);
+    const orderObj = await orders.findOne({ order_id: req.params.order_id });
+    if (orderObj) {
+      res.json(orderObj);
+    } else {
+      res.send("Fail!");
+    }
+  });
 
 router.route("/auth/orderStatus").get(async function (req, res) {
   const order = await orders.findOne({ orderer_id: req._id });
@@ -136,7 +135,6 @@ router.route("/auth/makeOrder").post(async function (req, res) {
   }
 });
 
-
 router.route("/auth/assignDeliverer").patch(async function (req, res) {
   var parameters = req.body;
   var set_deliverer_id = req._id;
@@ -145,15 +143,12 @@ router.route("/auth/assignDeliverer").patch(async function (req, res) {
   console.log("ORDER: " + order_set);
   console.log("DELIVERER " + set_deliverer_id);
 
-
-
   const my_orderer = await orders.findOneAndUpdate(
     { order_id: order_set },
 
     {
       $set: {
         deliverer_id: set_deliverer_id,
-
       },
     },
     (err, response) => {

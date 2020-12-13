@@ -49,37 +49,47 @@ class AddCardFromSettingsScreen extends Component {
 
   const data = {name:"hello", age:"15"}
   */
- constructor(props) {
-  super(props);
-  this.state = {
-    cardNum: "",
-    wrongCardNum: false,
-    wrongDate: false,
-    wrongCVV: false,
-    wrongName: false,
-    shortCardNum: false,
-    wrongLengthDate: false,
-    wrongLengthCVV: false,
-    date: "    "
-
-  };
-}
+  constructor(props) {
+    super(props);
+    this.state = {
+      cardNum: "",
+      wrongCardNum: false,
+      wrongDate: false,
+      wrongCVV: false,
+      wrongName: false,
+      shortCardNum: false,
+      wrongLengthDate: false,
+      wrongLengthCVV: false,
+      date: "    ",
+    };
+  }
 
   normalizeInput = (value, previousValue) => {
     console.log("Normalizing...");
     if (!value) return value;
-    const currentValue = value.replace(/[^\d]/g, '');
+    const currentValue = value.replace(/[^\d]/g, "");
     const cvLength = currentValue.length;
-    
+
     if (!previousValue || value.length > previousValue.length) {
       if (cvLength < 4) return currentValue;
-      if (cvLength < 8) return `${currentValue.slice(0, 4)}-${currentValue.slice(4)}`;
-      if (cvLength < 12) return `${currentValue.slice(0, 4)}-${currentValue.slice(4, 8)}}-${currentValue.slice(8)}`;
-      if (cvLength < 16) return `${currentValue.slice(0, 4)}-${currentValue.slice(4, 8)}}-${currentValue.slice(8, 12)}}-${currentValue.slice(12)}`;
-      return `${currentValue.slice(0, 4)}-${currentValue.slice(4, 8)}}-${currentValue.slice(8, 12)}}-${currentValue.slice(12)}`;
+      if (cvLength < 8)
+        return `${currentValue.slice(0, 4)}-${currentValue.slice(4)}`;
+      if (cvLength < 12)
+        return `${currentValue.slice(0, 4)}-${currentValue.slice(
+          4,
+          8
+        )}}-${currentValue.slice(8)}`;
+      if (cvLength < 16)
+        return `${currentValue.slice(0, 4)}-${currentValue.slice(
+          4,
+          8
+        )}}-${currentValue.slice(8, 12)}}-${currentValue.slice(12)}`;
+      return `${currentValue.slice(0, 4)}-${currentValue.slice(
+        4,
+        8
+      )}}-${currentValue.slice(8, 12)}}-${currentValue.slice(12)}`;
     }
   };
-  
 
   render() {
     return (
@@ -104,9 +114,9 @@ class AddCardFromSettingsScreen extends Component {
                 label="Card Number"
                 //value={cardNum}
                 maxLength={16}
-                onChangeText={(cardNum) =>  { 
-                  this.setState({ cardNum }) }
-              }
+                onChangeText={(cardNum) => {
+                  this.setState({ cardNum });
+                }}
                 autoCapitalize="none"
                 secureTextEntry={true}
                 autoCorrect={false}
@@ -165,7 +175,11 @@ class AddCardFromSettingsScreen extends Component {
                 <TextInput
                   label="Exp. Month"
                   //value={date}
-                  onChangeText={(month) => this.setState({ date: month+this.state.date.substring(3,5) })}
+                  onChangeText={(month) =>
+                    this.setState({
+                      date: month + this.state.date.substring(3, 5),
+                    })
+                  }
                   autoCapitalize="none"
                   autoCorrect={false}
                   style={styles.textInEXP}
@@ -199,13 +213,12 @@ class AddCardFromSettingsScreen extends Component {
                       marginTop: "1%",
                     }}
                   >
-                   2 digits MM.
+                    2 digits MM.
                   </Text>
                 ) : (
                   <></>
                 )}
               </View>
-
 
               <View style={{ width: "30%", height: "40%" }}>
                 <Text
@@ -221,7 +234,11 @@ class AddCardFromSettingsScreen extends Component {
                 <TextInput
                   label="Exp. Year"
                   //value={date}
-                  onChangeText={(year) => this.setState({ date: this.state.date.substring(0,2) + year })}
+                  onChangeText={(year) =>
+                    this.setState({
+                      date: this.state.date.substring(0, 2) + year,
+                    })
+                  }
                   autoCapitalize="none"
                   autoCorrect={false}
                   style={styles.textInEXP}
@@ -261,7 +278,6 @@ class AddCardFromSettingsScreen extends Component {
                   <></>
                 )}
               </View>
-
 
               <View style={{ width: "40%", height: "40%" }}>
                 <Text
@@ -338,7 +354,6 @@ class AddCardFromSettingsScreen extends Component {
                 autoCorrect={false}
                 style={styles.textIn}
                 placeholder={"CardHolder Name"}
-                
               />
               {this.state.wrongName == true ? (
                 <Text
@@ -375,7 +390,6 @@ class AddCardFromSettingsScreen extends Component {
                   console.log("DATE");
                   console.log(this.state.date);
                   if (this.state.date.includes(" ")) {
-                    
                     this.setState({ wrongDate: true });
                   } else if (
                     this.state.date.length < 4 ||
@@ -457,6 +471,8 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: "74%",
     zIndex: 1,
+    shadowOpacity: 0.5,
+    shadowRadius: 2,
   },
   AddCardBtn: {
     backgroundColor: "#FFD700",

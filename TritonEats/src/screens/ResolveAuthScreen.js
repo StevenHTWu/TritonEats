@@ -6,11 +6,9 @@ const ResolveAuthScreen = () => {
 
   // call the function exactly once using the useEffect hook from react and passing in [] as second param
 
-  
   useEffect(() => {
     tryLocalSignin();
   }, []);
-  
 
   return null;
 };

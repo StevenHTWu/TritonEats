@@ -51,7 +51,7 @@ class DelivererJobHistoryScreen extends Component {
           JobHistory: response.data,
         });
       }
-    }
+    };
     const { navigation } = this.props;
     this.focusListener = navigation.addListener("didFocus", () => {
       getOrderHistory();

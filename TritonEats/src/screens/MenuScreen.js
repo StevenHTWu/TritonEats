@@ -22,7 +22,7 @@ class MenuScreen extends Component {
       isLoading: true,
       RestaurantMenu: [],
       errorMessage: false,
-      viewing_restaurant: CurrentCart.viewing_restaurant
+      viewing_restaurant: CurrentCart.viewing_restaurant,
     };
   }
 
@@ -81,7 +81,7 @@ class MenuScreen extends Component {
         {this.state.isLoading ? (
           <></>
         ) : (
-          <View style={ { height: "100%"}}>
+          <View style={{ height: "100%" }}>
             <Text style={styles.headerTitle}>
               {CurrentCart.viewing_restaurant}
             </Text>
@@ -91,25 +91,25 @@ class MenuScreen extends Component {
               source={require("../../assets/Pinsalmon.jpg")}
             />
             {view}
-            <View style={styles.List}> 
-            <FlatList
-              data={this.state.RestaurantMenu}
-              renderItem={({ item }) => (
-                <View>
-                  <View style={styles.borderItem}>
-                    <View
-                      style={{
-                        flexDirection: "row",
-                        justifyContent: "space-between",
-                        paddingRight: 20,
-                        paddingTop: 10,
-                      }}
-                    >
-                      <Text style={styles.bodyText}>{item.name}</Text>
+            <View style={styles.List}>
+              <FlatList
+                data={this.state.RestaurantMenu}
+                renderItem={({ item }) => (
+                  <View>
+                    <View style={styles.borderItem}>
+                      <View
+                        style={{
+                          flexDirection: "row",
+                          justifyContent: "space-between",
+                          paddingRight: 20,
+                          paddingTop: 10,
+                        }}
+                      >
+                        <Text style={styles.bodyText}>{item.name}</Text>
                         <View>
-                        <Text style={styles.priceText}>{item.price}</Text>
+                          <Text style={styles.priceText}>{item.price}</Text>
                           <TouchableOpacity
-                          style={styles.addToCartButton}
+                            style={styles.addToCartButton}
                             color="#FFD700"
                             accessibilityLabel="Add to cart"
                             onPress={() => {
@@ -117,11 +117,19 @@ class MenuScreen extends Component {
                               console.log(CurrentCart.restaurant_name);
                               console.log("VIEW NAME");
                               console.log(CurrentCart.viewing_restaurant);
-                              if (CurrentCart.viewing_restaurant === CurrentCart.restaurant_name || CurrentCart.restaurant_name === "") {
-                                CurrentCart.restaurant_name = CurrentCart.viewing_restaurant;
+                              if (
+                                CurrentCart.viewing_restaurant ===
+                                  CurrentCart.restaurant_name ||
+                                CurrentCart.restaurant_name === ""
+                              ) {
+                                CurrentCart.restaurant_name =
+                                  CurrentCart.viewing_restaurant;
                                 console.log("RESTAURANT NAME");
                                 console.log(CurrentCart.restaurant_name);
-                                var tmpArr = Object.assign([], CurrentCart.order_arr);
+                                var tmpArr = Object.assign(
+                                  [],
+                                  CurrentCart.order_arr
+                                );
                                 CurrentCart.emptyOrderArr();
                                 CurrentCart.order_arr = tmpArr;
                                 CurrentCart.addToOrderArr({
@@ -129,31 +137,28 @@ class MenuScreen extends Component {
                                   quantity: 1,
                                   value: parseFloat(item.price.substring(1)),
                                 });
-                              }
-                              else {
+                              } else {
                                 console.log("ERROR!");
-                                this.setState ({ errorMessage : true });
+                                this.setState({ errorMessage: true });
                               }
                             }}
                           >
-                            <Text style={styles.addToCartText}>Add to cart</Text>
-                        </TouchableOpacity>
+                            <Text style={styles.addToCartText}>
+                              Add to cart
+                            </Text>
+                          </TouchableOpacity>
                         </View>
+                      </View>
                     </View>
-
-                    
-                      
-            
+                    <Text></Text>
                   </View>
-                  <Text></Text>
-                </View>
-              )}
-              keyExtractor={(item) => item.Id}
-              contentContainerStyle={{
-                flexGrow: 1,
-              }}
-            />
-           </View>
+                )}
+                keyExtractor={(item) => item.Id}
+                contentContainerStyle={{
+                  flexGrow: 1,
+                }}
+              />
+            </View>
           </View>
         )}
       </SafeAreaView>
@@ -191,7 +196,7 @@ const styles = StyleSheet.create({
     color: "#FFD700",
     fontFamily: "Unica One",
     textAlign: "left",
-    width: "70%"
+    width: "70%",
   },
   priceText: {
     fontSize: 30,
@@ -212,7 +217,7 @@ const styles = StyleSheet.create({
     marginTop: 0,
     shadowOpacity: 0.8,
     shadowRadius: 2,
-    shadowOffset: { width: 0, height: 2 }
+    shadowOffset: { width: 0, height: 2 },
   },
   addToCartButton: {
     paddingLeft: 12,
@@ -225,12 +230,10 @@ const styles = StyleSheet.create({
     borderColor: "#FFD700",
     borderRadius: 10,
     width: "50%",
-
   },
 
   List: {
     flex: 1,
-
   },
   addToCartText: {
     fontSize: 20,

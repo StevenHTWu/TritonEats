@@ -13,7 +13,7 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { setUserAddress, getUserInfo } from "./SettingsScreen";
-import { navigate } from "../navigationRef"
+import { navigate } from "../navigationRef";
 const residences = [
   "Revelle Argo Hall",
   "Revelle Blake Hall",
@@ -61,23 +61,19 @@ const residences = [
   "Village East Building (1-5)",
 ];
 
-class AddressScreen extends React.Component{
+class AddressScreen extends React.Component {
   //const [response, setResponse] = useState();
   constructor() {
     super();
 
     this.state = {
-      selectedValue : ordererAddressInfo.residence,
-    alternateSelect : true,
-    apartmentValue : ordererAddressInfo.apartment,
-   addressValue : ordererAddressInfo.address
-
-  
+      selectedValue: ordererAddressInfo.residence,
+      alternateSelect: true,
+      apartmentValue: ordererAddressInfo.apartment,
+      addressValue: ordererAddressInfo.address,
+    };
   }
-}
   render() {
-    
-
     return (
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <View style={styles.container}>
@@ -99,7 +95,7 @@ class AddressScreen extends React.Component{
             <TextInput
               label="Apartment Number"
               onChangeText={(apartment) => {
-                this.setState( { apartmentValue : apartment });
+                this.setState({ apartmentValue: apartment });
               }}
               autoCapitalize="none"
               autoCorrect={false}
@@ -120,7 +116,7 @@ class AddressScreen extends React.Component{
             <TextInput
               label="Address"
               onChangeText={(address) => {
-                this.setState( { addressValue : address } );
+                this.setState({ addressValue: address });
               }}
               autoCapitalize="none"
               autoCorrect={false}
@@ -144,7 +140,7 @@ class AddressScreen extends React.Component{
               mode="dropdown"
               style={{ height: 20, width: 400, flex: 1 }}
               onValueChange={(itemValue, itemIndex) =>
-                this.setState( { selectedValue : itemValue } )
+                this.setState({ selectedValue: itemValue })
               }
             >
               {residences.map((residence) => (
@@ -158,11 +154,18 @@ class AddressScreen extends React.Component{
             <View style={styles.layer2}>
               <TouchableOpacity
                 onPress={() => {
-                  if (this.state.apartmentValue.length === 0 || this.state.addressValue.length === 0) {
+                  if (
+                    this.state.apartmentValue.length === 0 ||
+                    this.state.addressValue.length === 0
+                  ) {
                     Alert.alert("Error! Please enter valid information.");
                   } else {
                     console.log(this.state.addressValue);
-                    setUserAddress(this.state.addressValue, this.state.apartmentValue, this.state.selectedValue).then(getUserInfo());
+                    setUserAddress(
+                      this.state.addressValue,
+                      this.state.apartmentValue,
+                      this.state.selectedValue
+                    ).then(getUserInfo());
                     // make api call to save data
                     navigate("SettingsScreen");
                   }
@@ -176,8 +179,8 @@ class AddressScreen extends React.Component{
         </View>
       </TouchableWithoutFeedback>
     );
-              }
-};
+  }
+}
 AddressScreen.navigationOptions = () => {
   return {
     header: () => false,
@@ -216,7 +219,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#0a2657",
     position: "absolute",
     top: "95%",
-    zIndex: 1
+    zIndex: 1,
+    shadowOpacity: 0.5,
+    shadowRadius: 2,
   },
   AddCardBtn: {
     backgroundColor: "#FFD700",

@@ -39,12 +39,12 @@ class ProfileScreen extends Component {
     return (
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <View style={styles.container}>
-        <Text
+          <Text
             style={{
               fontSize: 30,
               fontFamily: "Unica One",
               paddingLeft: "30%",
-              color: "white"
+              color: "white",
             }}
           >
             User Profile
@@ -75,16 +75,13 @@ class ProfileScreen extends Component {
               defaultValue={this.state.name}
             />
 
-
             <View style={styles.layer2}>
               <TouchableOpacity
                 onPress={() => {
                   ordererProfileInfo.name = this.state.name;
 
-                  
                   setUserProfile(this.state.name);
                   navigate("SettingsScreen");
-
                 }}
                 style={styles.AddCardBtn}
               >
@@ -135,6 +132,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#0a2657",
     position: "absolute",
     top: 360,
+    shadowOpacity: 0.5,
+    shadowRadius: 2,
   },
   AddCardBtn: {
     backgroundColor: "#FFD700",

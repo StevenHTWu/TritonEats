@@ -100,9 +100,8 @@ class DelivererStatusScreen extends Component {
         var residence = userInfo.residence;
         var apartment = userInfo.apartment;
         console.log("Delivering to " + address);
-        
+
         const args = residence.split(" ");
-        
 
         this.setState({
           link: `https://www.google.com/maps/search/?api=1&query=${args[0]}+UCSD`,
@@ -146,14 +145,15 @@ class DelivererStatusScreen extends Component {
   };
 
   componentDidMount = () => {
-    
-    this.getOrderStatus().then(() => { //set status
-      if (this.state.text === "Picked Up" ||
-      this.state.status === "Picked Up") {
+    this.getOrderStatus().then(() => {
+      //set status
+      if (
+        this.state.text === "Picked Up" ||
+        this.state.status === "Picked Up"
+      ) {
         console.log("Generating order directions");
         this.orderer_direction();
-      }
-      else {
+      } else {
         this.map_direction();
       }
     });
@@ -169,12 +169,12 @@ class DelivererStatusScreen extends Component {
 
       var display = (
         <View style={styles.MainContainer}>
-          <View style={{ width: "100%", height: "10%"}}>
+          <View style={{ width: "100%", height: "10%" }}>
             <Text style={{ fontSize: 30, fontFamily: "Unica One" }}>
               Pick Up From {order.restaurant}
             </Text>
           </View>
-          <View style={{ width: "100%", height: "30%"}}>
+          <View style={{ width: "100%", height: "30%" }}>
             <TouchableOpacity
               onPress={() => Linking.openURL(this.state.link)}
               style={styles.directionStyle}
@@ -182,7 +182,7 @@ class DelivererStatusScreen extends Component {
               <Text style={styles.TextStyle}>Directions</Text>
             </TouchableOpacity>
           </View>
-          <View style={{ width: "100%", height: "50%"}}>
+          <View style={{ width: "100%", height: "50%" }}>
             <TouchableOpacity
               onPress={() => {
                 console.log("Picked up!");
@@ -206,25 +206,23 @@ class DelivererStatusScreen extends Component {
       console.log(this.state.link);
       var display = (
         <View style={styles.MainContainer}>
-          <View style={{ width: "100%", height: "20%"}}>
-            <Text style={{ fontSize: 30, fontFamily: "Unica One", }}>
-              Deliver To: 
+          <View style={{ width: "100%", height: "20%" }}>
+            <Text style={{ fontSize: 30, fontFamily: "Unica One" }}>
+              Deliver To:
             </Text>
-            <Text style={{ fontSize: 30, fontFamily: "Unica One", }}>
+            <Text style={{ fontSize: 30, fontFamily: "Unica One" }}>
               {this.state.apartment} {this.state.residence}{" "}
             </Text>
           </View>
-          <View style={{ width: "100%", height: "30%"}}>
+          <View style={{ width: "100%", height: "30%" }}>
             <TouchableOpacity
-              onPress={() =>
-                Linking.openURL(this.state.link)
-              }
+              onPress={() => Linking.openURL(this.state.link)}
               style={styles.directionStyle}
             >
               <Text style={styles.TextStyle}>Directions</Text>
             </TouchableOpacity>
           </View>
-          <View style={{ width: "100%", height: "50%"}}>
+          <View style={{ width: "100%", height: "50%" }}>
             <TouchableOpacity
               onPress={() => {
                 console.log("Delivered!");
@@ -233,7 +231,7 @@ class DelivererStatusScreen extends Component {
               }}
               style={styles.StatusBtn}
             >
-                <Text style={styles.ButtonText}>Delivered?</Text>
+              <Text style={styles.ButtonText}>Delivered?</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -259,13 +257,13 @@ DelivererStatusScreen.navigationOptions = () => {
 
 const styles = StyleSheet.create({
   MainContainer: {
-    flex: 1, 
-    flexDirection: 'column',
+    flex: 1,
+    flexDirection: "column",
     alignItems: "center",
     backgroundColor: "white",
     paddingTop: "10%",
     justifyContent: "center",
-    alignContent: "center"
+    alignContent: "center",
   },
   TextStyle: {
     fontSize: 23,

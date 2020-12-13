@@ -10,8 +10,7 @@ import {
   Dimensions,
   FlatList,
 } from "react-native";
-import { Context
- } from "../context/AuthContext";
+import { Context } from "../context/AuthContext";
 import { SafeAreaView } from "react-navigation";
 import { AsyncStorage } from "react-native";
 import trackerApi from "../api/tracker";
@@ -30,21 +29,21 @@ const menu = [
 global.ordererProfileInfo = {
   name: "tmp",
   email: "tmp",
-}
+};
 global.ordererPaymentMethods = [
-    {
-      card_number: "1234567812345678",
-      cvv: "456",
-      expiration_date: "5678",
-      name: "Card 1",
-    },
-    {
-      card_number: "1234567812341111",
-      cvv: "123",
-      expiration_date: "1234",
-      name: "Card 2",
-    },
-  ]
+  {
+    card_number: "1234567812345678",
+    cvv: "456",
+    expiration_date: "5678",
+    name: "Card 1",
+  },
+  {
+    card_number: "1234567812341111",
+    cvv: "123",
+    expiration_date: "1234",
+    name: "Card 2",
+  },
+];
 global.ordererAddressInfo = {
   apartment: "100",
   residence: "ERC Building 1",
@@ -53,7 +52,6 @@ global.ordererAddressInfo = {
   password1: "",
   password2: "",
 };
-
 
 export const getUserInfo = async () => {
   console.log("in getuserinfo");
@@ -100,7 +98,6 @@ export const setUserAddress = async (address, apartment, residence) => {
         "/auth/orderer/userAddressUpdate",
         {
           address,
-
         },
         {
           headers: headers,
@@ -108,24 +105,19 @@ export const setUserAddress = async (address, apartment, residence) => {
       )
       .then((res) => {
         console.log("Updated...");
-
-
       })
       .catch(function (error) {
         console.log("error");
         console.log(error);
       });
-    }
+  }
 
-
-    if (ordererAddressInfo.apartment != apartment) {
-      const responseApt = trackerApi
+  if (ordererAddressInfo.apartment != apartment) {
+    const responseApt = trackerApi
       .patch(
         "/auth/orderer/userApartmentUpdate",
         {
-
           apartment,
-
         },
         {
           headers: headers,
@@ -133,25 +125,21 @@ export const setUserAddress = async (address, apartment, residence) => {
       )
       .then((res) => {
         console.log("Updated...");
-
-
       })
       .catch(function (error) {
         console.log("error");
         console.log(error);
-
       });
-    }
+  }
 
-    console.log(ordererAddressInfo.residence);
-    console.log(residence);
-    if (ordererAddressInfo.residence != residence) {
-      console.log("Changing residence...");
-      const responseRes = trackerApi
+  console.log(ordererAddressInfo.residence);
+  console.log(residence);
+  if (ordererAddressInfo.residence != residence) {
+    console.log("Changing residence...");
+    const responseRes = trackerApi
       .patch(
         "/auth/orderer/userResidenceUpdate",
         {
-
           residence,
         },
         {
@@ -160,17 +148,13 @@ export const setUserAddress = async (address, apartment, residence) => {
       )
       .then((res) => {
         console.log("Updated...");
-
-      
       })
       .catch(function (error) {
         console.log("error");
         console.log(error);
-
       });
-    }
+  }
 };
-
 
 export const setUserProfile = async (name) => {
   console.log("in setUserProfileInfo");
@@ -184,7 +168,6 @@ export const setUserProfile = async (name) => {
       "/auth/orderer/userProfileUpdate",
       {
         name,
-        
       },
       {
         headers: headers,
@@ -201,9 +184,6 @@ export const setUserProfile = async (name) => {
       return null;
     });
 };
-
-
-
 
 class SettingsScreen extends React.Component {
   static contextType = Context;
@@ -225,7 +205,7 @@ class SettingsScreen extends React.Component {
         >
           Settings
         </Text>
-  
+
         <FlatList
           style={styles.list}
           data={menu}
@@ -240,14 +220,12 @@ class SettingsScreen extends React.Component {
             </Text>
           )}
         />
-  
+
         <Button title="Sign Out" onPress={signout} />
       </SafeAreaView>
     );
-
   }
 }
-
 
 SettingsScreen.navigationOptions = () => {
   return {

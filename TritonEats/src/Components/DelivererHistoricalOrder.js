@@ -21,10 +21,10 @@ class HistoricalOrder extends React.Component {
               justifyContent: "center",
             }}
           >
-            <View style={{ width: "73%", height: 35 }}>
+            <View style={{ width: "70%", height: 35 }}>
               <Text style={styles.title}>{this.props.restaurant}</Text>
             </View>
-            <View style={{ width: "27%", height: 35 }}>
+            <View style={{ width: "30%", height: 35 }}>
               <Text style={styles.title}>${this.props.price}</Text>
             </View>
           </View>
@@ -70,7 +70,11 @@ class HistoricalOrder extends React.Component {
                     <Text style={styles.text}>{item.key}</Text>
                   </View>
                   <View style={{ width: "30%", height: 35 }}>
-                    {item.value.toString().length > 3 ? (<Text style={styles.text}>${item.value}</Text>) : (<Text style={styles.text}>${item.value}.00</Text>)}
+                    {item.value.toString().length > 3 ? (
+                      <Text style={styles.text}>${item.value}</Text>
+                    ) : (
+                      <Text style={styles.text}>${item.value}.00</Text>
+                    )}
                   </View>
                   <View style={{ width: "30%", height: 35 }}>
                     <Text style={styles.text}>{item.quantity}</Text>
@@ -108,7 +112,6 @@ class HistoricalOrder extends React.Component {
               </Text>
             </View>
           </View>
-        
         </ScrollView>
       </View>
     );
@@ -127,7 +130,7 @@ const styles = StyleSheet.create({
     padding: 15,
     shadowOpacity: 0.8,
     shadowRadius: 2,
-    shadowOffset: { width: 0, height: 2 }
+    shadowOffset: { width: 0, height: 2 },
   },
   text: {
     fontSize: 20,

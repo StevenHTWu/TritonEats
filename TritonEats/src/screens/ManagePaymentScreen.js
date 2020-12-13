@@ -155,7 +155,6 @@ const ManagePaymentScreen = ({ navigation }) => {
               <Text style={styles.ButtonText}>Add Card</Text>
             </TouchableOpacity>
           </View>
-
         </View>
       </View>
     </TouchableWithoutFeedback>
@@ -197,6 +196,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#0a2657",
     marginTop: "5%",
     zIndex: 1,
+    shadowOpacity: 0.5,
+    shadowRadius: 2,
   },
   AddCardBtn: {
     backgroundColor: "#FFD700",

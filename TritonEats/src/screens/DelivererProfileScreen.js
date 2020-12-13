@@ -11,7 +11,10 @@ import {
   TouchableWithoutFeedback,
 } from "react-native";
 import { navigate } from "../navigationRef";
-import { setDelivererProfile, getDelivererInfo } from "./DelivererSettingsScreen";
+import {
+  setDelivererProfile,
+  getDelivererInfo,
+} from "./DelivererSettingsScreen";
 const ten = 10;
 import { withNavigationFocus } from "react-navigation";
 class DelivererProfileScreen extends Component {
@@ -44,7 +47,7 @@ class DelivererProfileScreen extends Component {
               fontSize: 30,
               fontFamily: "Unica One",
               paddingLeft: "30%",
-              color: "white"
+              color: "white",
             }}
           >
             User Profile
@@ -75,16 +78,13 @@ class DelivererProfileScreen extends Component {
               defaultValue={this.state.name}
             />
 
-
             <View style={styles.layer2}>
               <TouchableOpacity
                 onPress={() => {
                   ordererProfileInfo.name = this.state.name;
 
-                  
                   setDelivererProfile(this.state.name);
                   navigate("DelivererSettingsScreen");
-
                 }}
                 style={styles.AddCardBtn}
               >

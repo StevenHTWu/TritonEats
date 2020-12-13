@@ -17,7 +17,6 @@ router.post("/signup", async (req, res) => {
     const user = new userAuth({ first_name, email, password, is_deliverer });
     console.log(user);
     await user.save();
-   
 
     var profile = null;
     x = req.body.is_deliverer;

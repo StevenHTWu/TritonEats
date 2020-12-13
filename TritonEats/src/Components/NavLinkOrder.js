@@ -38,7 +38,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
     margin: "5%",
     fontFamily: "Unica One",
-
   },
   background: {
     borderRadius: 10,
