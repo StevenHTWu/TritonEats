@@ -19,5 +19,6 @@ Run this: Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 RUNNING:
 cd backend/src, then run: npm run dev
 From project folder run expo r -c
-Scan the QR code that pops up with camera app on your phone
+Scan the QR code that pops up with camera app on your phone.
+Now you can open app and have fun with TritonEats!
 
