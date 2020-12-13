@@ -39,7 +39,7 @@ class HistoricalOrder extends React.Component{
                                             <Text style={styles.text}>- {item.key}</Text>
                                         </View>
                                         <View style={{ width: "40%", height: 35 }}>
-                                            <Text style={styles.text}>${item.value}.00</Text>
+                                            {item.value.toString().length > 3 ? (<Text style={styles.text}>${item.value}</Text>) : (<Text style={styles.text}>${item.value}.00</Text>)}
                                         </View>
                                         <View style={{ width: "40%", height: 35 }}>
                                             <Text style={styles.text}>{item.quantity}</Text>
