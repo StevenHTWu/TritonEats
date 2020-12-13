@@ -86,7 +86,7 @@ class ShoppingCartScreen extends React.Component {
             }}
           >
             <Text style={styles.titleText}>
-              Your Order From {CurrentCart.viewing_restaurant}
+              Your Order From {CurrentCart.restaurant_name}
             </Text>
             
           </View>
@@ -208,7 +208,7 @@ class ShoppingCartScreen extends React.Component {
               return sum + current.quantity * current.value;
             }, 0)
           ).toFixed(2)}
-          resName={CurrentCart.viewing_restaurant}
+          resName={CurrentCart.restaurant_name}
         />
       </View>
     );

@@ -62,7 +62,7 @@ class MenuScreen extends Component {
             backgroundColor: "red",
             color: "white",
             fontSize: 20,
-            padding: 0,
+            padding: 10,
             margin: 0,
           }}
         >
@@ -83,10 +83,12 @@ class MenuScreen extends Component {
             <Text style={styles.headerTitle}>
               {CurrentCart.viewing_restaurant}
             </Text>
+
             <Image
               style={styles.topImage}
               source={require("../../assets/Pinsalmon.jpg")}
             />
+            {view}
             <View style={styles.List}> 
             <FlatList
               data={this.state.RestaurantMenu}
@@ -110,6 +112,11 @@ class MenuScreen extends Component {
                             accessibilityLabel="Add to cart"
                             onPress={() => {
                               if (CurrentCart.viewing_restaurant === CurrentCart.restaurant_name || CurrentCart.restaurant_name === "") {
+                                CurrentCart.restaurant_name = CurrentCart.viewing_restaurant;
+                                console.log("RESTAURANT NAME");
+                                console.log(CurrentCart.restaurant_name);
+                                console.log("VIEW NAME");
+                                console.log(CurrentCart.viewing_restaurant);
                                 var tmpArr = Object.assign([], CurrentCart.order_arr);
                                 CurrentCart.emptyOrderArr();
                                 CurrentCart.order_arr = tmpArr;
@@ -120,6 +127,7 @@ class MenuScreen extends Component {
                                 });
                               }
                               else {
+                                console.log("ERROR!");
                                 this.state.errorMessage = true;
                               }
                             }}
